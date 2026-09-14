@@ -313,6 +313,12 @@
                 ).trim(),
 
 
+            subtitle:
+                String(
+                   record.subtitle || ""
+                ).trim(),
+
+
             author:
                 String(
                     record.author || ""
@@ -544,6 +550,7 @@ description:
                 groupedBook,
                 {
                     title: book.title,
+                    subtitle: book.subtitle,
                     author: book.author,
                     category: book.category,
                     cover: book.cover,

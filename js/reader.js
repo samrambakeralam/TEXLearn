@@ -47,10 +47,13 @@
         params.get("titlePrimary") || "";
 
     let titleSecondary =
-        params.get("titleSecondary") || "";
+    params.get("titleSecondary") || "";
+
+    let subtitle =
+    params.get("subtitle") || "";
 
     let displayTitle =
-        params.get("displayTitle") || "";
+    params.get("displayTitle") || "";
 
 
     const libraryParams =
@@ -362,6 +365,13 @@
 
                 titleSecondary =
                     book.titleSecondary || "";
+
+            }
+
+            if (!subtitle) {
+
+               subtitle =
+                   book.subtitle || "";
 
             }
 
@@ -1620,8 +1630,13 @@ case "table": {
     titleParts[0]?.authorColor ||
     "#000000";
 
-            const hasSecondaryTitle =
-    titleParts.length > 1;
+            const subtitleText =
+    String(
+        subtitle || ""
+    ).trim();
+
+const hasSubtitle =
+    !!subtitleText;
 
 
         const titleHTML =
@@ -1706,6 +1721,26 @@ return `
                 .join("");
 
 
+                const subtitleHTML =
+    hasSubtitle
+        ? `
+            <div
+                class="reader-display-title-subtitle"
+                style="
+                    color: ${secondary};
+                    font-size: 16px;
+                    font-weight: 400;
+                    margin-top: 2px;
+                "
+            >
+                ${escapeHTML(
+                    subtitleText
+                )}
+            </div>
+          `
+        : "";
+
+
         const authorHTML =
     bookAuthor
         ? `
@@ -1735,6 +1770,8 @@ return `
             >
 
                 ${titleHTML}
+
+                ${subtitleHTML}
 
                 ${authorHTML}
 
