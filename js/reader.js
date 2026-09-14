@@ -1709,7 +1709,7 @@ return `
             font-family: ${fontFamily};
             letter-spacing: ${letterSpacing};
             ${fontSize ? `font-size: ${fontSize};` : ""}
-            ${hasSecondaryTitle && isPrimaryTitle ? "margin-bottom: 6px;" : ""}
+            ${hasSubtitle && isPrimaryTitle ? "margin-bottom: 6px;" : ""}
         "
     >
         ${text}
