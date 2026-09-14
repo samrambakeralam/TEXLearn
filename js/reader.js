@@ -1155,118 +1155,179 @@ case "subheading": {
 
 
             /* =================================================
-               BULLET
-            ================================================= */
+   BULLET
+================================================= */
 
-            case "bullet": {
+case "bullet": {
 
-                const data =
-                    parseStyledBlockContent(
-                        block.content
-                    );
+    const data =
+        parseStyledBlockContent(
+            block.content
+        );
 
+    let bulletText =
+        String(
+            data.text || ""
+        ).trim();
 
-                let bulletText =
-                    String(
-                        data.text || ""
-                    ).trim();
+    /*
+     * Preserve the exact bullet marker supplied
+     * by the Sheet / BOOK_CONTENT.
+     *
+     * Supports:
+     * 1. JSON marker:
+     *    {"text":"Something","marker":"🟠"}
+     *
+     * 2. Plain text marker:
+     *    🟠 Something
+     *    🔴 Something
+     *    🟡 Something
+     *    • Something
+     *
+     * The marker is removed from the text only
+     * when it is rendered separately, so it is
+     * never duplicated.
+     */
 
+    let marker =
+        String(
+            data.marker || ""
+        ).trim();
 
-                /*
-                 * Backward compatibility:
-                 *
-                 * Existing rows may contain
-                 * a leading emoji marker.
-                 *
-                 * Remove it from the text and render
-                 * a dedicated, smaller marker.
-                 */
+    /*
+     * If no explicit JSON marker exists,
+     * detect a marker at the beginning of
+     * the actual text.
+     */
+    if (!marker) {
 
-                bulletText =
-                    bulletText.replace(
-                        /^(?:[🟠🔴🟡🟢🔵🟣⚫⚪🟤]\s*)/u,
-                        ""
-                    );
+        const markerMatch =
+            bulletText.match(
+                /^(🟠|🔴|🟡|🟢|🔵|🟣|⚫|⚪|🟤|•|◦|▪|▫)\s*/u
+            );
 
+        if (markerMatch) {
 
-                const marker =
-                    escapeHTML(
-                        data.marker ||
-                        "●"
-                    );
+            marker =
+                markerMatch[1];
 
+            bulletText =
+                bulletText.slice(
+                    markerMatch[0].length
+                ).trim();
 
-                const markerColor =
-                    escapeHTML(
-                        data.markerColor ||
-                        "var(--reader-theme-secondary, #F5C518)"
-                    );
+        }
+    }
 
+    /*
+     * If JSON explicitly supplied a marker,
+     * remove the same marker from the beginning
+     * of the text if it is also present there.
+     *
+     * This prevents:
+     *
+     * 🟠 🟠 Something
+     *
+     * from appearing in the reader.
+     */
+    if (marker) {
 
-                const fontFamily =
-                    safeCssFontFamily(
-                        data.fontFamily ||
-                        "inherit"
-                    );
+        const escapedMarker =
+            marker.replace(
+                /[.*+?^${}()|[\]\\]/g,
+                "\\$&"
+            );
 
+        bulletText =
+            bulletText.replace(
+                new RegExp(
+                    "^" +
+                    escapedMarker +
+                    "\\s*",
+                    "u"
+                ),
+                ""
+            ).trim();
+    }
 
-                const weight =
-                    safeCssWeight(
-                        data.weight ||
-                        400
-                    );
+    /*
+     * Default marker only when the source
+     * contains no marker at all.
+     */
+    if (!marker) {
+        marker = "●";
+    }
 
+    const markerHTML =
+        escapeHTML(
+            marker
+        );
 
-                    const textColor =
-    escapeHTML(
-        data.color || "#000000"
-    );
+    const markerColor =
+        escapeHTML(
+            data.markerColor ||
+            "var(--reader-theme-secondary, #F5C518)"
+        );
 
+    const fontFamily =
+        safeCssFontFamily(
+            data.fontFamily ||
+            "inherit"
+        );
 
-const backgroundColor =
-    escapeHTML(
-        data.backgroundColor || "transparent"
-    );
+    const weight =
+        safeCssWeight(
+            data.weight ||
+            400
+        );
 
+    const textColor =
+        escapeHTML(
+            data.color ||
+            "#000000"
+        );
 
+    const backgroundColor =
+        escapeHTML(
+            data.backgroundColor ||
+            "transparent"
+        );
 
-                return `
-                    <div
-                        class="
-                            reader-block
-                            reader-bullet
-                        "
-                        style="
-    color: ${textColor};
-    font-family: ${fontFamily};
-    font-weight: ${weight};
-    background-color: ${backgroundColor};
-"
-                    >
+    return `
+        <div
+            class="
+                reader-block
+                reader-bullet
+            "
+            style="
+                color: ${textColor};
+                font-family: ${fontFamily};
+                font-weight: ${weight};
+                background-color: ${backgroundColor};
+            "
+        >
 
-                        <span
-                            class="reader-bullet-marker"
-                            style="
-                                color: ${markerColor};
-                            "
-                            aria-hidden="true"
-                        >
-                            ${marker}
-                        </span>
+            <span
+                class="reader-bullet-marker"
+                style="
+                    color: ${markerColor};
+                "
+                aria-hidden="true"
+            >
+                ${markerHTML}
+            </span>
 
+            <span
+                class="reader-bullet-text"
+            >
+                ${escapeHTML(
+                    bulletText
+                )}
+            </span>
 
-                        <span
-                            class="reader-bullet-text"
-                        >
-                            ${escapeHTML(
-                                bulletText
-                            )}
-                        </span>
-
-                    </div>
-                `;
-
-            }
+        </div>
+    `;
+}
 
 
             /* =================================================
