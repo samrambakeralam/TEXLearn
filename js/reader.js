@@ -1576,209 +1576,209 @@ case "table": {
 
     function renderDisplayTitle() {
 
-        if (!displayTitle) {
-            return "";
-        }
+    if (!displayTitle) {
+        return "";
+    }
 
+    let titleParts;
 
-        let titleParts;
-
-
-        try {
-
-            titleParts =
-                JSON.parse(
-                    displayTitle
-                );
-
-        } catch (error) {
-
-            console.error(
-                "Invalid DisplayTitle data:",
-                error
+    try {
+        titleParts =
+            JSON.parse(
+                displayTitle
             );
 
-            return "";
-        }
+    } catch (error) {
 
+        console.error(
+            "Invalid DisplayTitle data:",
+            error
+        );
 
-        if (
-            !Array.isArray(titleParts) ||
-            !titleParts.length
-        ) {
-
-            return "";
-
-        }
-
-
-        const background =
-            titleBackground ||
-            "#5B1A8F";
-
-
-        const primary =
-            titlePrimary ||
-            "#F5C518";
-
-
-        const secondary =
-            titleSecondary ||
-            "#FFFFFF";
-
-        const authorColor =
-    titleParts[0]?.authorColor ||
-    "#000000";
-
-            const subtitleText =
-    String(
-        subtitle || ""
-    ).trim();
-
-const hasSubtitle =
-    !!subtitleText;
-
-
-        const titleHTML =
-            titleParts
-                .map(
-                    part => {
-
-                        const text =
-                            escapeHTML(
-                                part.text || ""
-                            );
-
-
-                        const size =
-                            [
-                                "large",
-                                "medium",
-                                "small"
-                            ].includes(
-                                part.size
-                            )
-                                ? part.size
-                                : "medium";
-
-
-                        const color =
-                            part.color === "primary"
-                                ? primary
-                                : secondary;
-
-
-                        const weight =
-                            safeCssWeight(
-                                part.weight ||
-                                700
-                            );
-
-
-                        const fontFamily =
-                            safeCssFontFamily(
-                                part.fontFamily ||
-                                "inherit"
-                            );
-
-
-                        const letterSpacing =
-    safeCssLetterSpacing(
-        part.letterSpacing ||
-        "0"
-    );
-
-
-const fontSize =
-    part.fontSize
-        ? safeCssLength(part.fontSize)
-        : "";
-
-        const isPrimaryTitle =
-    titleParts.indexOf(part) === 0;
-
-return `
-    <span
-        class="
-            reader-display-title-line
-            reader-display-title-${size}
-        "
-        style="
-            color: ${color};
-            font-weight: ${weight};
-            font-family: ${fontFamily};
-            letter-spacing: ${letterSpacing};
-            ${fontSize ? `font-size: ${fontSize};` : ""}
-            ${hasSubtitle && isPrimaryTitle ? "margin-bottom: 6px;" : ""}
-        "
-    >
-        ${text}
-    </span>
-`;
-
-                    }
-                )
-                .join("");
-
-
-                const subtitleHTML =
-    hasSubtitle
-        ? `
-            <div
-                class="reader-display-title-subtitle"
-                style="
-                    color: ${secondary};
-                    font-size: 16px;
-                    font-weight: 400;
-                    margin-top: 2px;
-                "
-            >
-                ${escapeHTML(
-                    subtitleText
-                )}
-            </div>
-          `
-        : "";
-
-
-        const authorHTML =
-    bookAuthor
-        ? `
-            <div
-                class="
-                    reader-display-title-author
-                "
-                style="
-                    color: ${authorColor};
-                    font-size: 12px;
-                "
-            >
-                ${escapeHTML(
-                    bookAuthor
-                )}
-            </div>
-          `
-        : "";
-
-
-        return `
-            <div
-                class="reader-display-title"
-                style="
-                    background: ${background};
-                "
-            >
-
-                ${titleHTML}
-
-                ${subtitleHTML}
-
-                ${authorHTML}
-
-            </div>
-        `;
-
+        return "";
     }
+
+
+    if (
+        !Array.isArray(titleParts) ||
+        !titleParts.length
+    ) {
+        return "";
+    }
+
+
+    const background =
+        titleBackground ||
+        "#5B1A8F";
+
+
+    const primary =
+        titlePrimary ||
+        "#F5C518";
+
+
+    const secondary =
+        titleSecondary ||
+        "#FFFFFF";
+
+
+    const authorColor =
+        titleParts[0]?.authorColor ||
+        "#000000";
+
+
+    const subtitleText =
+        String(
+            subtitle || ""
+        ).trim();
+
+
+    const hasSubtitle =
+        subtitleText.length > 0;
+
+
+    const titleHTML =
+        titleParts
+            .map(
+                (part, index) => {
+
+                    const text =
+                        escapeHTML(
+                            part.text || ""
+                        );
+
+
+                    const size =
+                        [
+                            "large",
+                            "medium",
+                            "small"
+                        ].includes(
+                            part.size
+                        )
+                            ? part.size
+                            : "medium";
+
+
+                    const color =
+                        part.color === "primary"
+                            ? primary
+                            : secondary;
+
+
+                    const weight =
+                        safeCssWeight(
+                            part.weight ||
+                            700
+                        );
+
+
+                    const fontFamily =
+                        safeCssFontFamily(
+                            part.fontFamily ||
+                            "inherit"
+                        );
+
+
+                    const letterSpacing =
+                        safeCssLetterSpacing(
+                            part.letterSpacing ||
+                            "0"
+                        );
+
+
+                    const fontSize =
+                        part.fontSize
+                            ? safeCssLength(
+                                part.fontSize
+                            )
+                            : "";
+
+
+                    const isPrimaryTitle =
+                        index === 0;
+
+
+                    return `
+                        <span
+                            class="
+                                reader-display-title-line
+                                reader-display-title-${size}
+                            "
+                            style="
+                                color: ${color};
+                                font-weight: ${weight};
+                                font-family: ${fontFamily};
+                                letter-spacing: ${letterSpacing};
+                                ${fontSize ? `font-size: ${fontSize};` : ""}
+                                ${hasSubtitle && isPrimaryTitle ? "margin-bottom: 6px;" : ""}
+                            "
+                        >
+                            ${text}
+                        </span>
+                    `;
+                }
+            )
+            .join("");
+
+
+    const subtitleHTML =
+        hasSubtitle
+            ? `
+                <div
+                    class="reader-display-title-subtitle"
+                    style="
+                        color: ${secondary};
+                        font-size: 16px;
+                        font-weight: 400;
+                        margin-top: 2px;
+                    "
+                >
+                    ${escapeHTML(
+                        subtitleText
+                    )}
+                </div>
+              `
+            : "";
+
+
+    const authorHTML =
+        bookAuthor
+            ? `
+                <div
+                    class="
+                        reader-display-title-author
+                    "
+                    style="
+                        color: ${authorColor};
+                        font-size: 12px;
+                    "
+                >
+                    ${escapeHTML(
+                        bookAuthor
+                    )}
+                </div>
+              `
+            : "";
+
+
+    return `
+        <div
+            class="reader-display-title"
+            style="
+                background: ${background};
+            "
+        >
+
+            ${titleHTML}
+
+            ${subtitleHTML}
+
+            ${authorHTML}
+
+        </div>
+    `;
+}
 
 
     /* =========================================================
