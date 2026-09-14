@@ -1170,98 +1170,39 @@ case "bullet": {
             data.text || ""
         ).trim();
 
-    /*
-     * Preserve the exact bullet marker supplied
-     * by the Sheet / BOOK_CONTENT.
-     *
-     * Supports:
-     * 1. JSON marker:
-     *    {"text":"Something","marker":"🟠"}
-     *
-     * 2. Plain text marker:
-     *    🟠 Something
-     *    🔴 Something
-     *    🟡 Something
-     *    • Something
-     *
-     * The marker is removed from the text only
-     * when it is rendered separately, so it is
-     * never duplicated.
-     */
 
     let marker =
-        String(
-            data.marker || ""
-        ).trim();
+            String(
+        data.marker || ""
+    ).trim();
 
-    /*
-     * If no explicit JSON marker exists,
-     * detect a marker at the beginning of
-     * the actual text.
-     */
-    if (!marker) {
+if (!marker) {
 
-        const markerMatch =
-            bulletText.match(
-                /^(🟠|🔴|🟡|🟢|🔵|🟣|⚫|⚪|🟤|•|◦|▪|▫)\s*/u
-            );
+    const match =
+        bulletText.match(
+            /^(🟠|🔴|🟡|🟢|🔵|🟣|⚫|⚪|🟤|•)\s*/u
+        );
 
-        if (markerMatch) {
+    if (match) {
 
-            marker =
-                markerMatch[1];
-
-            bulletText =
-                bulletText.slice(
-                    markerMatch[0].length
-                ).trim();
-
-        }
-    }
-
-    /*
-     * If JSON explicitly supplied a marker,
-     * remove the same marker from the beginning
-     * of the text if it is also present there.
-     *
-     * This prevents:
-     *
-     * 🟠 🟠 Something
-     *
-     * from appearing in the reader.
-     */
-    if (marker) {
-
-        const escapedMarker =
-            marker.replace(
-                /[.*+?^${}()|[\]\\]/g,
-                "\\$&"
-            );
+        marker =
+            match[1];
 
         bulletText =
-            bulletText.replace(
-                new RegExp(
-                    "^" +
-                    escapedMarker +
-                    "\\s*",
-                    "u"
-                ),
-                ""
+            bulletText.slice(
+                match[0].length
             ).trim();
     }
+}
 
-    /*
-     * Default marker only when the source
-     * contains no marker at all.
-     */
-    if (!marker) {
-        marker = "●";
-    }
+if (!marker) {
+    marker = "●";
+}
 
-    const markerHTML =
-        escapeHTML(
-            marker
-        );
+const markerHTML =
+    escapeHTML(
+        marker
+    );
 
     const markerColor =
         escapeHTML(
@@ -1283,14 +1224,12 @@ case "bullet": {
 
     const textColor =
         escapeHTML(
-            data.color ||
-            "#000000"
+            data.color || "#000000"
         );
 
     const backgroundColor =
         escapeHTML(
-            data.backgroundColor ||
-            "transparent"
+            data.backgroundColor || "transparent"
         );
 
     return `
