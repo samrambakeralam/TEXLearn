@@ -1273,23 +1273,61 @@ const markerHTML =
                PARAGRAPH
             ================================================= */
 
-            case "paragraph":
+            case "paragraph": {
 
-                return `
-                    <p
-                        class="
-                            reader-block
-                            reader-paragraph
-                            ${
-                                isIntro
-                                    ? "reader-intro"
-                                    : ""
-                            }
-                        "
-                    >
-                        ${text}
-                    </p>
-                `;
+    const data =
+        parseStyledBlockContent(
+            block.content
+        );
+
+    const paragraphText =
+        escapeHTML(
+            data.text || ""
+        );
+
+    const fontStyle =
+        data.italic === true ||
+        data.fontStyle === "italic"
+            ? "italic"
+            : data.fontStyle === "normal"
+                ? "normal"
+                : "";
+
+    const fontWeight =
+        data.weight
+            ? safeCssWeight(
+                data.weight
+            )
+            : "";
+
+    const fontFamily =
+        data.fontFamily
+            ? safeCssFontFamily(
+                data.fontFamily
+            )
+            : "";
+
+    return `
+        <p
+            class="
+                reader-block
+                reader-paragraph
+                ${
+                    isIntro
+                        ? "reader-intro"
+                        : ""
+                }
+            "
+            style="
+                ${fontStyle ? `font-style: ${fontStyle};` : ""}
+                ${fontWeight ? `font-weight: ${fontWeight};` : ""}
+                ${fontFamily ? `font-family: ${fontFamily};` : ""}
+            "
+        >
+            ${paragraphText}
+        </p>
+    `;
+}
 
 
             /* =================================================
