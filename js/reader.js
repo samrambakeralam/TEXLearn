@@ -1270,10 +1270,10 @@ const markerHTML =
 
 
             /* =================================================
-               PARAGRAPH
-            ================================================= */
+   PARAGRAPH
+================================================= */
 
-            case "paragraph": {
+case "paragraph": {
 
     const data =
         parseStyledBlockContent(
@@ -1286,25 +1286,8 @@ const markerHTML =
         );
 
     const fontStyle =
-        data.italic === true ||
-        data.fontStyle === "italic"
+        data.italic === true
             ? "italic"
-            : data.fontStyle === "normal"
-                ? "normal"
-                : "";
-
-    const fontWeight =
-        data.weight
-            ? safeCssWeight(
-                data.weight
-            )
-            : "";
-
-    const fontFamily =
-        data.fontFamily
-            ? safeCssFontFamily(
-                data.fontFamily
-            )
             : "";
 
     return `
@@ -1319,9 +1302,9 @@ const markerHTML =
                 }
             "
             style="
-                ${fontStyle ? `font-style: ${fontStyle};` : ""}
-                ${fontWeight ? `font-weight: ${fontWeight};` : ""}
-                ${fontFamily ? `font-family: ${fontFamily};` : ""}
+                ${fontStyle
+                    ? `font-style: ${fontStyle};`
+                    : ""}
             "
         >
             ${paragraphText}
