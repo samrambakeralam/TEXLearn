@@ -1344,11 +1344,12 @@ function getMonthlyPopularBooks(books) {
      */
 
     if (
-        !saved ||
-        !Array.isArray(
-            saved.bookIds
-        )
-    ) {
+    !saved ||
+    !Array.isArray(
+        saved.bookIds
+    ) ||
+    saved.bookIds.length === 0
+) {
 
         /*
          * Add editorial selections first.
