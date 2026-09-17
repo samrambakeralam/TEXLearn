@@ -964,8 +964,8 @@
 #popular-books .library-book-card,
 #new-releases .library-book-card,
 #recommended .library-book-card {
-    flex: 0 0 calc((100% - 100px) / 6);
-    width: calc((100% - 100px) / 6);
+    flex: 0 0 190px;
+    width: 190px;
 }
 
 
