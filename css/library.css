@@ -2209,6 +2209,13 @@ body.library-modal-is-open {
     }
 }
 
+@media (max-width: 767px) {
+    .library-topbar *::before,
+    .library-topbar *::after {
+        display: none !important;
+    }
+}
+
 /* =========================================================
    END — LIBRARY.CSS
 ========================================================= */
