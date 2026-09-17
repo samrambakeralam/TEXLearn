@@ -347,9 +347,11 @@
     ),
 
 editorialPopular:
-    Boolean(
-        record.editorialPopular
-    ),
+    record.editorialPopular === true
+        ? true
+        : record.editorialPopular === false
+            ? false
+            : null,
 
 popularOrder:
     Number(
