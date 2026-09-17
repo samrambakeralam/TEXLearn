@@ -1714,13 +1714,21 @@ const popular =
      * isNew is preferred, otherwise recent releaseDate.
      */
     const newBooks =
-        books
-            .filter(
-                function (book) {
-                    return book.isNew === true;
-                }
-            )
-            .slice(0, 12);
+    books
+        .filter(
+            function (book) {
+                return book.isNew === true;
+            }
+        )
+        .sort(
+            function (a, b) {
+                return (
+                    new Date(b.releaseDate) -
+                    new Date(a.releaseDate)
+                );
+            }
+        )
+        .slice(0, 8);
 
     /*
      * Recommendation is intentionally conservative
