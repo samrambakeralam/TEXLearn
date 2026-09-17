@@ -1536,7 +1536,6 @@ body.library-modal-is-open {
             repeat(12, 118px);
     }
 
-}
 
 #popular-books .library-book-grid,
 #new-releases .library-book-grid,
@@ -1549,6 +1548,8 @@ body.library-modal-is-open {
 #recommended .library-book-card {
     flex-basis: calc((100% - 72px) / 5);
     width: calc((100% - 72px) / 5);
+}
+
 }
 
 
