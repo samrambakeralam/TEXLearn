@@ -2197,6 +2197,25 @@ body.library-modal-is-open {
 }
     
 
+/* PROFILE LOCATION */
+.library-sidebar-profile {
+    display: none;
+}
+
+@media (max-width: 900px) {
+    .library-topbar-actions {
+        display: none;
+    }
+
+    .library-sidebar-profile {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 14px 20px;
+        color: var(--library-white);
+    }
+}
+
 /* =========================================================
    END — LIBRARY.CSS
 ========================================================= */
