@@ -2203,6 +2203,12 @@ body.library-modal-is-open {
     }
 }
 
+@media (max-width: 767px) {
+    .library-topbar * {
+        outline: 1px solid transparent !important;
+    }
+}
+
 /* =========================================================
    END — LIBRARY.CSS
 ========================================================= */
