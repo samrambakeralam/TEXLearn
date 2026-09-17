@@ -116,7 +116,7 @@
                 "Explore 500+ books across " +
                 "Business • Wealth • Marketing • Psychology • ...",
             action: "Explore Library",
-            href: "#popular-books"
+            href: "#explore-library"
         },
         {
             id: "virtual-office",
@@ -239,6 +239,9 @@
 
     const recommendedGrid =
         document.getElementById("recommendedBooksGrid");
+
+    const exploreLibraryGrid =
+        document.getElementById("exploreLibraryGrid");
 
     const continueSection =
         document.querySelector(".library-continue-section");
@@ -1196,6 +1199,19 @@ window.location.href =
     }
 
 
+    function renderExploreLibrary() {
+
+    if (!exploreLibraryGrid) {
+        return;
+    }
+
+    renderBookGrid(
+        exploreLibraryGrid,
+        getFilteredBooks()
+    );
+}
+
+
     function renderBookSections() {
 
         const books =
@@ -1585,6 +1601,8 @@ window.location.href =
         renderCategories();
 
         renderBookSections();
+
+        renderExploreLibrary();
 
         renderContinueReading();
 
