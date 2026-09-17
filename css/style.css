@@ -2622,7 +2622,7 @@ a {
     translateX(100%);
 
 transition:
-    transform 500ms cubic-bezier(.2, .8, .2, 1);
+    transform 750ms cubic-bezier(.2, .8, .2, 1);
 
     }
 
