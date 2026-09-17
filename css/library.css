@@ -2189,6 +2189,14 @@ body.library-modal-is-open {
 }
 
 
+
+@media (max-width: 767px) {
+    .library-topbar {
+        overflow: hidden;
+    }
+}
+
+
 /* =========================================================
    END — LIBRARY.CSS
 ========================================================= */
