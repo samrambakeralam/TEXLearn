@@ -2189,54 +2189,13 @@ body.library-modal-is-open {
 }
 
 
-
-@media (max-width: 767px) {
-    .library-topbar {
-        overflow: hidden;
-    }
+.library-book-cover-wrap {
+    position: relative;
+    width: 100%;
+    min-width: 0;
+    overflow: hidden;
 }
-
-@media (max-width: 767px) {
-    .library-search input {
-        appearance: none;
-        -webkit-appearance: none;
-    }
-}
-
-@media (max-width: 767px) {
-    .library-topbar * {
-        outline: 1px solid transparent !important;
-    }
-}
-
-@media (max-width: 767px) {
-    .library-topbar *::before,
-    .library-topbar *::after {
-        display: none !important;
-
-    }
-
-    }
-
-    @media (max-width: 767px) {
-    .library-topbar {
-        width: 100%;
-        box-sizing: border-box;
-    }
-
-    .library-topbar,
-    .library-topbar * {
-        box-sizing: border-box;
-    }
-
-}
-
-@media (max-width: 767px) {
-    html,
-    body {
-        overflow-x: hidden !important;
-    }
-}
+    
 
 /* =========================================================
    END — LIBRARY.CSS
