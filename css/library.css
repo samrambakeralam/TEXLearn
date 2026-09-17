@@ -939,7 +939,7 @@
    ---------------------------------------------------------
    Only Popular, New Releases and Recommended use a
    single horizontal row.
-   ========================================================= */
+========================================================= */
 
 #popular-books .library-book-grid,
 #new-releases .library-book-grid,
@@ -1494,15 +1494,14 @@ body.library-modal-is-open {
             repeat(7, minmax(0, 1fr));
     }
 
-}
-
-
- #popular-books .library-book-card,
+    #popular-books .library-book-card,
     #new-releases .library-book-card,
     #recommended .library-book-card {
         flex-basis: 155px;
         width: 155px;
     }
+
+}
 
 
 /* =========================================================
@@ -1531,24 +1530,23 @@ body.library-modal-is-open {
         gap: 22px 18px;
     }
 
+    #popular-books .library-book-grid,
+    #new-releases .library-book-grid,
+    #recommended .library-book-grid {
+        gap: 22px 18px;
+    }
+
+    #popular-books .library-book-card,
+    #new-releases .library-book-card,
+    #recommended .library-book-card {
+        flex-basis: calc((100% - 72px) / 5);
+        width: calc((100% - 72px) / 5);
+    }
+
     .library-category-track {
         grid-template-columns:
             repeat(12, 118px);
     }
-
-
-#popular-books .library-book-grid,
-#new-releases .library-book-grid,
-#recommended .library-book-grid {
-    gap: 22px 18px;
-}
-
-#popular-books .library-book-card,
-#new-releases .library-book-card,
-#recommended .library-book-card {
-    flex-basis: calc((100% - 72px) / 5);
-    width: calc((100% - 72px) / 5);
-}
 
 }
 
@@ -1813,6 +1811,41 @@ body.library-modal-is-open {
         gap: 20px 10px;
     }
 
+    /*
+     * Home book rows:
+     * horizontal scrolling on phone.
+     * Three books visible at a time.
+     */
+    #popular-books .library-book-grid,
+    #new-releases .library-book-grid,
+    #recommended .library-book-grid {
+        display: flex;
+        flex-wrap: nowrap;
+        overflow-x: auto;
+        overflow-y: hidden;
+
+        gap: 20px 10px;
+
+        scrollbar-width: none;
+        -webkit-overflow-scrolling: touch;
+        scroll-snap-type: x mandatory;
+    }
+
+    #popular-books .library-book-grid::-webkit-scrollbar,
+    #new-releases .library-book-grid::-webkit-scrollbar,
+    #recommended .library-book-grid::-webkit-scrollbar {
+        display: none;
+    }
+
+    #popular-books .library-book-card,
+    #new-releases .library-book-card,
+    #recommended .library-book-card {
+        flex: 0 0 calc((100% - 20px) / 3);
+        width: calc((100% - 20px) / 3);
+
+        scroll-snap-align: start;
+    }
+
     .library-book-cover {
         border-radius: 7px;
     }
@@ -1929,37 +1962,6 @@ body.library-modal-is-open {
         font-size: 19px;
     }
 
-}
-
-
-#popular-books .library-book-grid,
-#new-releases .library-book-grid,
-#recommended .library-book-grid {
-    display: flex;
-    flex-wrap: nowrap;
-    overflow-x: auto;
-    overflow-y: hidden;
-
-    gap: 20px 10px;
-
-    scrollbar-width: none;
-    -webkit-overflow-scrolling: touch;
-    scroll-snap-type: x mandatory;
-}
-
-#popular-books .library-book-grid::-webkit-scrollbar,
-#new-releases .library-book-grid::-webkit-scrollbar,
-#recommended .library-book-grid::-webkit-scrollbar {
-    display: none;
-}
-
-#popular-books .library-book-card,
-#new-releases .library-book-card,
-#recommended .library-book-card {
-    flex: 0 0 calc((100% - 20px) / 3);
-    width: calc((100% - 20px) / 3);
-
-    scroll-snap-align: start;
 }
 
 
@@ -2140,20 +2142,21 @@ body.library-modal-is-open {
         font-size: 17px;
     }
 
+        #popular-books .library-book-grid,
+    #new-releases .library-book-grid,
+    #recommended .library-book-grid {
+        gap: 20px 9px;
+    }
+
+    #popular-books .library-book-card,
+    #new-releases .library-book-card,
+    #recommended .library-book-card {
+        flex-basis: calc((100% - 18px) / 3);
+        width: calc((100% - 18px) / 3);
+    }
+
 }
 
-#popular-books .library-book-grid,
-#new-releases .library-book-grid,
-#recommended .library-book-grid {
-    gap: 20px 9px;
-}
-
-#popular-books .library-book-card,
-#new-releases .library-book-card,
-#recommended .library-book-card {
-    flex-basis: calc((100% - 18px) / 3);
-    width: calc((100% - 18px) / 3);
-}
 
 
 /* =========================================================
