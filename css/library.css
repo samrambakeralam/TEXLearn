@@ -1497,12 +1497,12 @@ body.library-modal-is-open {
 }
 
 
-#popular-books .library-book-card,
-#new-releases .library-book-card,
-#recommended .library-book-card {
-    flex-basis: calc((100% - 120px) / 7);
-    width: calc((100% - 120px) / 7);
-}
+ #popular-books .library-book-card,
+    #new-releases .library-book-card,
+    #recommended .library-book-card {
+        flex-basis: 155px;
+        width: 155px;
+    }
 
 
 /* =========================================================
