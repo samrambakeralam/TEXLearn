@@ -974,15 +974,6 @@
                     )}
                 </p>
 
-                ${
-                    Number(book.pages || 0) > 0
-                        ? `
-                            <span class="library-book-pages">
-                                ${Number(book.pages)} pages
-                            </span>
-                        `
-                        : ""
-                }
             </div>
         `;
 
