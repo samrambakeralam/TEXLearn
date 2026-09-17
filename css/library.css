@@ -2196,6 +2196,12 @@ body.library-modal-is-open {
     }
 }
 
+@media (max-width: 767px) {
+    .library-search input {
+        appearance: none;
+        -webkit-appearance: none;
+    }
+}
 
 /* =========================================================
    END — LIBRARY.CSS
