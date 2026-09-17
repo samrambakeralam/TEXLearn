@@ -1214,67 +1214,73 @@ window.location.href =
 
     function renderBookSections() {
 
-        const books =
-            getFilteredBooks();
+    const books =
+        getFilteredBooks();
+
+    /*
+     * Popular:
+     * If popularity is available, use it.
+     * Otherwise preserve catalogue order.
+     */
+    const popular =
+        books
+            .slice()
+            .sort(
+                function (a, b) {
+                    return (
+                        Number(b.popularity || 0) -
+                        Number(a.popularity || 0)
+                    );
+                }
+            )
+            .slice(0, 12);
+
+    /*
+     * New releases:
+     * isNew is preferred, otherwise recent releaseDate.
+     */
+    const newBooks =
+        books
+            .filter(
+                function (book) {
+                    return book.isNew === true;
+                }
+            )
+            .slice(0, 12);
+
+    /*
+     * Recommendation is intentionally conservative
+     * until the Learning Profile exists.
+     */
+    const recommended =
+        books.slice(0, 12);
 
 
-        /*
-         * Popular:
-         * If popularity is available, use it.
-         * Otherwise preserve catalogue order.
-         */
-        const popular =
-            books
-                .slice()
-                .sort(
-                    function (a, b) {
-                        return (
-                            Number(b.popularity || 0) -
-                            Number(a.popularity || 0)
-                        );
-                    }
-                )
-                .slice(0, 12);
+    renderBookGrid(
+        popularGrid,
+        popular
+    );
 
+    renderBookGrid(
+        newGrid,
+        newBooks
+    );
 
-        /*
-         * New releases:
-         * isNew is preferred, otherwise recent releaseDate.
-         */
-        const newBooks =
-            books
-                .filter(
-                    function (book) {
-                        return book.isNew === true;
-                    }
-                )
-                .slice(0, 12);
+    renderBookGrid(
+        recommendedGrid,
+        recommended
+    );
 
+    /*
+     * Explore Library:
+     * Show the complete filtered catalogue.
+     */
+    renderBookGrid(
+        exploreLibraryGrid,
+        books
+    );
 
-        /*
-         * Recommendation is intentionally conservative
-         * until the Learning Profile exists.
-         */
-        const recommended =
-            books.slice(0, 12);
-
-
-        renderBookGrid(
-            popularGrid,
-            popular
-        );
-
-        renderBookGrid(
-            newGrid,
-            newBooks
-        );
-
-        renderBookGrid(
-            recommendedGrid,
-            recommended
-        );
-
-    }
+}
 
 
     /* =========================================================
@@ -1601,8 +1607,6 @@ window.location.href =
         renderCategories();
 
         renderBookSections();
-
-        renderExploreLibrary();
 
         renderContinueReading();
 
