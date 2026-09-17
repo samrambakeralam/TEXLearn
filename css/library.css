@@ -934,6 +934,41 @@
     gap: 24px 20px;
 }
 
+/* =========================================================
+   HOME BOOK ROWS
+   ---------------------------------------------------------
+   Only Popular, New Releases and Recommended use a
+   single horizontal row.
+   ========================================================= */
+
+#popular-books .library-book-grid,
+#new-releases .library-book-grid,
+#recommended .library-book-grid {
+    display: flex;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    overflow-y: hidden;
+
+    gap: 24px 20px;
+
+    scrollbar-width: none;
+    -webkit-overflow-scrolling: touch;
+}
+
+#popular-books .library-book-grid::-webkit-scrollbar,
+#new-releases .library-book-grid::-webkit-scrollbar,
+#recommended .library-book-grid::-webkit-scrollbar {
+    display: none;
+}
+
+#popular-books .library-book-card,
+#new-releases .library-book-card,
+#recommended .library-book-card {
+    flex: 0 0 calc((100% - 100px) / 6);
+    width: calc((100% - 100px) / 6);
+}
+
+
 .library-book-card {
     min-width: 0;
 
@@ -1462,6 +1497,14 @@ body.library-modal-is-open {
 }
 
 
+#popular-books .library-book-card,
+#new-releases .library-book-card,
+#recommended .library-book-card {
+    flex-basis: calc((100% - 120px) / 7);
+    width: calc((100% - 120px) / 7);
+}
+
+
 /* =========================================================
    22. TABLET
 ========================================================= */
@@ -1493,6 +1536,19 @@ body.library-modal-is-open {
             repeat(12, 118px);
     }
 
+}
+
+#popular-books .library-book-grid,
+#new-releases .library-book-grid,
+#recommended .library-book-grid {
+    gap: 22px 18px;
+}
+
+#popular-books .library-book-card,
+#new-releases .library-book-card,
+#recommended .library-book-card {
+    flex-basis: calc((100% - 72px) / 5);
+    width: calc((100% - 72px) / 5);
 }
 
 
@@ -1875,6 +1931,37 @@ body.library-modal-is-open {
 }
 
 
+#popular-books .library-book-grid,
+#new-releases .library-book-grid,
+#recommended .library-book-grid {
+    display: flex;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    overflow-y: hidden;
+
+    gap: 20px 10px;
+
+    scrollbar-width: none;
+    -webkit-overflow-scrolling: touch;
+    scroll-snap-type: x mandatory;
+}
+
+#popular-books .library-book-grid::-webkit-scrollbar,
+#new-releases .library-book-grid::-webkit-scrollbar,
+#recommended .library-book-grid::-webkit-scrollbar {
+    display: none;
+}
+
+#popular-books .library-book-card,
+#new-releases .library-book-card,
+#recommended .library-book-card {
+    flex: 0 0 calc((100% - 20px) / 3);
+    width: calc((100% - 20px) / 3);
+
+    scroll-snap-align: start;
+}
+
+
 /* =========================================================
    25. SMALL PHONE
 ========================================================= */
@@ -2052,6 +2139,19 @@ body.library-modal-is-open {
         font-size: 17px;
     }
 
+}
+
+#popular-books .library-book-grid,
+#new-releases .library-book-grid,
+#recommended .library-book-grid {
+    gap: 20px 9px;
+}
+
+#popular-books .library-book-card,
+#new-releases .library-book-card,
+#recommended .library-book-card {
+    flex-basis: calc((100% - 18px) / 3);
+    width: calc((100% - 18px) / 3);
 }
 
 
