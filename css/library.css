@@ -2231,6 +2231,13 @@ body.library-modal-is-open {
 
 }
 
+@media (max-width: 767px) {
+    html,
+    body {
+        overflow-x: hidden !important;
+    }
+}
+
 /* =========================================================
    END — LIBRARY.CSS
 ========================================================= */
