@@ -1218,22 +1218,495 @@ window.location.href =
         getFilteredBooks();
 
     /*
-     * Popular:
-     * If popularity is available, use it.
-     * Otherwise preserve catalogue order.
+ * Popular Books — Monthly 6 + 6 Rotation
+ *
+ * First month:
+ *     Select the top 12 books by popularity.
+ *
+ * Following months:
+ *     Keep 6 books from the previous month.
+ *     Replace the other 6 with new books based on popularity.
+ *
+ * Editorial controls can later override this selection:
+ *     editorialPopular: true  -> force include
+ *     editorialPopular: false -> force exclude
+ *     popularOrder: number     -> manual order
+ */
+
+function getMonthlyPopularBooks(books) {
+
+    const STORAGE_KEY =
+        "samramba_library_popular_rotation";
+
+    const currentDate =
+        new Date();
+
+    const currentMonth =
+        currentDate.getFullYear() +
+        "-" +
+        String(
+            currentDate.getMonth() + 1
+        ).padStart(2, "0");
+
+    let saved = null;
+
+    try {
+        saved =
+            JSON.parse(
+                localStorage.getItem(
+                    STORAGE_KEY
+                ) || "null"
+            );
+    } catch (error) {
+        saved = null;
+    }
+
+
+    /*
+     * ---------------------------------------------------------
+     * 1. ELIGIBLE BOOKS
+     *
+     * editorialPopular === false
+     * means the book must not appear.
+     * ---------------------------------------------------------
      */
-    const popular =
-        books
+
+    const eligibleBooks =
+        books.filter(
+            function (book) {
+                return (
+                    book.editorialPopular !==
+                    false
+                );
+            }
+        );
+
+
+    /*
+     * ---------------------------------------------------------
+     * 2. POPULARITY RANKING
+     *
+     * Higher popularity = higher priority.
+     * ---------------------------------------------------------
+     */
+
+    const popularityRanked =
+        eligibleBooks
             .slice()
             .sort(
                 function (a, b) {
                     return (
-                        Number(b.popularity || 0) -
-                        Number(a.popularity || 0)
+                        Number(
+                            b.popularity || 0
+                        ) -
+                        Number(
+                            a.popularity || 0
+                        )
                     );
                 }
-            )
-            .slice(0, 12);
+            );
+
+
+    /*
+     * ---------------------------------------------------------
+     * 3. EDITORIAL INCLUDE
+     *
+     * editorialPopular === true
+     * gives the book priority for the
+     * incoming six positions.
+     * ---------------------------------------------------------
+     */
+
+    const editorialBooks =
+        eligibleBooks.filter(
+            function (book) {
+                return (
+                    book.editorialPopular ===
+                    true
+                );
+            }
+        );
+
+
+    let selectedBooks = [];
+
+
+    /*
+     * =========================================================
+     * FIRST MONTH
+     * =========================================================
+     *
+     * There is no previous collection yet.
+     *
+     * Select up to 12 books:
+     *     Editorial selections first
+     *     Popularity fills the remaining positions
+     */
+
+    if (
+        !saved ||
+        !Array.isArray(
+            saved.bookIds
+        )
+    ) {
+
+        /*
+         * Add editorial selections first.
+         */
+
+        editorialBooks.forEach(
+            function (book) {
+
+                if (
+                    selectedBooks.length >= 12
+                ) {
+                    return;
+                }
+
+                if (
+                    selectedBooks.some(
+                        function (item) {
+                            return (
+                                item.id ===
+                                book.id
+                            );
+                        }
+                    )
+                ) {
+                    return;
+                }
+
+                selectedBooks.push(
+                    book
+                );
+            }
+        );
+
+
+        /*
+         * Fill remaining positions
+         * according to popularity.
+         */
+
+        popularityRanked.forEach(
+            function (book) {
+
+                if (
+                    selectedBooks.length >= 12
+                ) {
+                    return;
+                }
+
+                if (
+                    selectedBooks.some(
+                        function (item) {
+                            return (
+                                item.id ===
+                                book.id
+                            );
+                        }
+                    )
+                ) {
+                    return;
+                }
+
+                selectedBooks.push(
+                    book
+                );
+            }
+        );
+
+
+    } else {
+
+
+        /*
+         * =====================================================
+         * FOLLOWING MONTH
+         * =====================================================
+         *
+         * Previous month:
+         *     12 books
+         *
+         * Current month:
+         *     6 retained
+         *     6 incoming
+         */
+
+        const previousBooks =
+            saved.bookIds
+                .map(
+                    function (bookId) {
+                        return eligibleBooks.find(
+                            function (book) {
+                                return (
+                                    book.id ===
+                                    bookId
+                                );
+                            }
+                        );
+                    }
+                )
+                .filter(Boolean);
+
+
+        /*
+         * -----------------------------------------------------
+         * RETAIN SIX
+         * -----------------------------------------------------
+         */
+
+        const retainedBooks =
+            previousBooks.slice(
+                0,
+                6
+            );
+
+
+        selectedBooks =
+            retainedBooks.slice();
+
+
+        /*
+         * -----------------------------------------------------
+         * INCOMING SIX
+         * -----------------------------------------------------
+         *
+         * Editorially selected books get
+         * priority here.
+         */
+
+        const incomingBooks = [];
+
+
+        editorialBooks.forEach(
+            function (book) {
+
+                if (
+                    incomingBooks.length >= 6
+                ) {
+                    return;
+                }
+
+                /*
+                 * Don't duplicate a retained book.
+                 */
+
+                if (
+                    selectedBooks.some(
+                        function (item) {
+                            return (
+                                item.id ===
+                                book.id
+                            );
+                        }
+                    )
+                ) {
+                    return;
+                }
+
+                incomingBooks.push(
+                    book
+                );
+            }
+        );
+
+
+        /*
+         * -----------------------------------------------------
+         * FILL REMAINING INCOMING POSITIONS
+         * USING POPULARITY.
+         * -----------------------------------------------------
+         */
+
+        popularityRanked.forEach(
+            function (book) {
+
+                if (
+                    incomingBooks.length >= 6
+                ) {
+                    return;
+                }
+
+                /*
+                 * Never immediately bring back
+                 * a book from the previous month.
+                 */
+
+                if (
+                    saved.bookIds.includes(
+                        book.id
+                    )
+                ) {
+                    return;
+                }
+
+
+                /*
+                 * Don't duplicate retained
+                 * or incoming books.
+                 */
+
+                if (
+                    selectedBooks.some(
+                        function (item) {
+                            return (
+                                item.id ===
+                                book.id
+                            );
+                        }
+                    )
+                ) {
+                    return;
+                }
+
+                if (
+                    incomingBooks.some(
+                        function (item) {
+                            return (
+                                item.id ===
+                                book.id
+                            );
+                        }
+                    )
+                ) {
+                    return;
+                }
+
+                incomingBooks.push(
+                    book
+                );
+            }
+        );
+
+
+        /*
+         * Add the six incoming books.
+         */
+
+        selectedBooks =
+            selectedBooks.concat(
+                incomingBooks
+            );
+
+    }
+
+
+    /*
+     * ---------------------------------------------------------
+     * 4. EDITORIAL ORDER
+     *
+     * A lower popularOrder number appears first.
+     *
+     * Books without popularOrder keep
+     * their existing selection order.
+     * ---------------------------------------------------------
+     */
+
+    selectedBooks.sort(
+        function (a, b) {
+
+            const hasOrderA =
+                Number.isFinite(
+                    Number(
+                        a.popularOrder
+                    )
+                );
+
+            const hasOrderB =
+                Number.isFinite(
+                    Number(
+                        b.popularOrder
+                    )
+                );
+
+
+            if (
+                hasOrderA &&
+                hasOrderB
+            ) {
+                return (
+                    Number(
+                        a.popularOrder
+                    ) -
+                    Number(
+                        b.popularOrder
+                    )
+                );
+            }
+
+
+            if (hasOrderA) {
+                return -1;
+            }
+
+
+            if (hasOrderB) {
+                return 1;
+            }
+
+
+            return 0;
+        }
+    );
+
+
+    /*
+     * ---------------------------------------------------------
+     * 5. SAVE CURRENT MONTH
+     *
+     * Store all 12 selected book IDs.
+     * The next rotation will retain the
+     * first six from this collection.
+     * ---------------------------------------------------------
+     */
+
+    try {
+
+        localStorage.setItem(
+            STORAGE_KEY,
+            JSON.stringify({
+                month:
+                    currentMonth,
+
+                bookIds:
+                    selectedBooks
+                        .slice(0, 12)
+                        .map(
+                            function (book) {
+                                return book.id;
+                            }
+                        )
+            })
+        );
+
+    } catch (error) {
+
+        /*
+         * Local storage is optional.
+         * The Library continues normally
+         * if storage is unavailable.
+         */
+
+    }
+
+
+    /*
+     * ---------------------------------------------------------
+     * 6. FINAL RESULT
+     * ---------------------------------------------------------
+     */
+
+    return selectedBooks.slice(
+        0,
+        12
+    );
+}
+
+const popular =
+    getMonthlyPopularBooks(
+        books
+    );
 
     /*
      * New releases:

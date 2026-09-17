@@ -342,12 +342,21 @@
 
 
             popularity:
-                Number(
-                    record.popularity || 0
-                ),
+    Number(
+        record.popularity || 0
+    ),
 
+editorialPopular:
+    Boolean(
+        record.editorialPopular
+    ),
 
-            releaseDate:
+popularOrder:
+    Number(
+        record.popularOrder || 0
+    ),
+
+releaseDate:
                 String(
                     record.releaseDate || ""
                 ).trim(),
@@ -556,6 +565,8 @@ description:
                     cover: book.cover,
                     pages: book.pages,
                     popularity: book.popularity,
+                    editorialPopular: book.editorialPopular,
+                    popularOrder: book.popularOrder,
                     releaseDate: book.releaseDate,
                     isNew: book.isNew,
                     isLocked: book.isLocked,
