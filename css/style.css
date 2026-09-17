@@ -2619,10 +2619,10 @@ a {
             6000;
 
         transform:
-            translateX(100%);
+    translateX(100%);
 
-        transition:
-            transform .28s ease;
+transition:
+    transform 500ms cubic-bezier(.2, .8, .2, 1);
 
     }
 
