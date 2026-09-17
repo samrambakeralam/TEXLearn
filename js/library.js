@@ -111,10 +111,10 @@
         {
             id: "library",
             eyebrow: "YOUR ENTREPRENEURIAL LIBRARY",
-            title: "Welcome to Your Entrepreneurial Library",
+            title: "Discover what you want to learn",
             text:
-                "Explore 500+ powerful condensed books across " +
-                "12 learning categories.",
+                "Explore 500+ books across " +
+                "Business • Wealth • Marketing • Psychology • ...",
             action: "Explore Library",
             href: "#popular-books"
         },
