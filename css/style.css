@@ -11239,3 +11239,20 @@ a {
 }
 
 }
+
+/* =========================================================
+   HOME → LIBRARY PAGE TRANSITION
+========================================================= */
+
+body.home-page-transition {
+    opacity: 1;
+    transform: translateX(0);
+    transition:
+        opacity 850ms cubic-bezier(.2, .8, .2, 1),
+        transform 850ms cubic-bezier(.2, .8, .2, 1);
+}
+
+body.home-page-exit {
+    opacity: 0;
+    transform: translateX(-24px);
+}
