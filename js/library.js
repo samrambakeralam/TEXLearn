@@ -1215,7 +1215,7 @@ window.location.href =
     function renderBookSections() {
 
     const books =
-        getFilteredBooks();
+    LIBRARY_BOOKS;
 
     /*
  * Popular Books — Monthly 6 + 6 Rotation
