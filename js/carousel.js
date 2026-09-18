@@ -23,7 +23,7 @@ const CAROUSEL_DATA = [
             "Entrepreneurship • Wealth",
 
         image:
-            "assets/fastlane.jpg",
+            "assets/library/covers/book-323.webp",
 
         badge:
             "FEATURED",
