@@ -661,15 +661,15 @@ function initialiseRC2Navigation() {
 
 
     openButton.addEventListener(
-        "click",
-        openMenu
-    );
+    "click",
+    openMenu
+);
 
 
-    closeButton.addEventListener(
-        "click",
-        closeMenu
-    );
+closeButton.addEventListener(
+    "click",
+    closeMenu
+);
 
 
 menu
