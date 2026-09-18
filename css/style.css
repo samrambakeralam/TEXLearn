@@ -3100,7 +3100,7 @@ transform:translateY(0px);
 
     height: 1px;
 
-    margin-bottom: 20px;
+    margin-bottom: 45px;
 
     background:
         linear-gradient(
@@ -9260,7 +9260,7 @@ section {
         0px;
 
     margin-bottom:
-        0px;
+        -35px;
 
     position:
         relative;
@@ -9543,8 +9543,10 @@ section {
     overflow:
         hidden;
 
-    height:
-        360px;
+     height:
+    auto;
+
+aspect-ratio: 0.75;
 
 }
 
