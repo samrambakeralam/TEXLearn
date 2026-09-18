@@ -1724,5 +1724,23 @@ document.addEventListener(
 );
 </script>
 
+<script>
+/* =========================================================
+   RESTORE HOME PAGE AFTER MOBILE BROWSER BACK
+========================================================= */
+
+window.addEventListener(
+    "pageshow",
+    function () {
+
+        document.body.classList.remove(
+            "home-page-exit",
+            "home-community-exit"
+        );
+
+    }
+);
+</script>
+
 </body>
 </html>
