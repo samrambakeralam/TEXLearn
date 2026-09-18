@@ -672,23 +672,19 @@ function initialiseRC2Navigation() {
     );
 
 
-    menu
-    .querySelectorAll("a")
-    .forEach(link => {
+    link.addEventListener(
+    "click",
+    function () {
 
-        link.addEventListener(
-            "click",
-            function () {
+        console.log("RC2 MOBILE LINK CLICKED:", link.href);
 
-                closeMenu();
+        closeMenu();
 
-                window.location.href =
-                    link.href;
+        window.location.href =
+            link.href;
 
-            }
-        );
-
-    });
+    }
+);
 
 
     if (headerCTA) {
