@@ -35,7 +35,9 @@ let selectedInstitution = "";
 document.addEventListener("DOMContentLoaded", () => {
 
     // Icons
+if (window.lucide) {
     lucide.createIcons();
+}
 
     initialiseMobileMenu();
 
