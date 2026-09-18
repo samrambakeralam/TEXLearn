@@ -693,6 +693,10 @@ description:
         `SAMRAMBA Library live catalogue loaded: ${BOOKS.length} books.`
     );
 
+    window.dispatchEvent(
+    new CustomEvent("samrambaLibraryCatalogueLoaded")
+);
+
 }
 
 

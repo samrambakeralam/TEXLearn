@@ -11,141 +11,50 @@
    the carousel engine.
 ========================================================= */
 
-const CAROUSEL_DATA = [
+const FEATURED_BOOK_IDS = [
+    "book-323",
+    "book-250",
+    "book-277",
+    "book-150",
+    "book-238"
+];
 
-    {
-        id: "fastlane",
-        type: "book",
+function getFeaturedCarouselData() {
 
-        title: "The Millionaire Fastlane",
-
-        category:
-            "Entrepreneurship • Wealth",
-
-        image:
-            "assets/library/covers/book-323.webp",
-
-        badge:
-            "FEATURED",
-
-        buttonText:
-            "Explore",
-
-        link:
-            "#learning-modules",
-
-        active:
-            true
-    },
-
-
-    {
-        id: "hack",
-        type: "book",
-
-        title: "Hack The Buyer Brain",
-
-        category:
-            "Marketing • Psychology",
-
-        image:
-            "assets/hack.jpg",
-
-        badge:
-            "FEATURED",
-
-        buttonText:
-            "Explore",
-
-        link:
-            "#learning-modules",
-
-        active:
-            true
-    },
-
-
-    {
-        id: "start",
-        type: "book",
-
-        title:
-            "Start Something That Matters",
-
-        category:
-            "Purpose • Entrepreneurship",
-
-        image:
-            "assets/start.jpg",
-
-        badge:
-            "FEATURED",
-
-        buttonText:
-            "Explore",
-
-        link:
-            "#learning-modules",
-
-        active:
-            true
-    },
-
-
-    {
-        id: "startup",
-        type: "book",
-
-        title:
-            "The $100 Startup",
-
-        category:
-            "Startup • Business",
-
-        image:
-            "assets/startup.jpg",
-
-        badge:
-            "FEATURED",
-
-        buttonText:
-            "Explore",
-
-        link:
-            "#learning-modules",
-
-        active:
-            true
-    },
-
-
-    {
-        id: "millionnaire",
-        type: "book",
-
-        title:
-            "Secrets of the Millionaire Mind",
-
-        category:
-            "Money • Mindset",
-
-        image:
-            "assets/millionnaire.jpg",
-
-        badge:
-            "FEATURED",
-
-        buttonText:
-            "Explore",
-
-        link:
-            "#learning-modules",
-
-        active:
-            true
+    if (!Array.isArray(window.LIBRARY_BOOKS)) {
+        return [];
     }
 
-];
+    return FEATURED_BOOK_IDS
+        .map(function (bookId) {
+
+            const book =
+                window.LIBRARY_BOOKS.find(
+                    function (item) {
+                        return item.id === bookId;
+                    }
+                );
+
+            if (!book) {
+                return null;
+            }
+
+            return {
+                id: book.id,
+                type: "book",
+                title: book.title,
+                category: book.category,
+                image: book.cover,
+                badge: "FEATURED",
+                buttonText: "Explore",
+                link: "#learning-modules",
+                active: true
+            };
+
+        })
+        .filter(Boolean);
+
+}
 
 
 /* =========================================================
@@ -272,9 +181,9 @@ function initialiseCarousel() {
 
 
     const items =
-        CAROUSEL_DATA.filter(
-            item => item.active
-        );
+    getFeaturedCarouselData().filter(
+        item => item.active
+    );
 
 
     if (!items.length) {
@@ -959,6 +868,22 @@ function initialiseFeaturedModulesCarousel() {
 
 }
 
+function initialiseFeaturedBookCarouselWhenReady() {
+
+    if (
+        Array.isArray(window.LIBRARY_BOOKS) &&
+        window.LIBRARY_BOOKS.length
+    ) {
+        initialiseCarousel();
+        return;
+    }
+
+    window.addEventListener(
+        "samrambaLibraryCatalogueLoaded",
+        initialiseCarousel,
+        { once: true }
+    );
+}
 
 /* =========================================================
    START CAROUSEL
@@ -970,7 +895,7 @@ function initialiseFeaturedModulesCarousel() {
 
 function startAllCarousels() {
 
-    initialiseCarousel();
+    initialiseFeaturedBookCarouselWhenReady();
 
     renderFeaturedModules();
 
