@@ -502,6 +502,71 @@
 
 <script>
 /* =========================================================
+   FAQ MOBILE MENU
+========================================================= */
+
+document.addEventListener(
+    "DOMContentLoaded",
+    function () {
+
+        const menuButton =
+            document.getElementById("rc2MenuButton");
+
+        const mobileMenu =
+            document.getElementById("rc2MobileMenu");
+
+        const closeButton =
+            document.getElementById("rc2MenuClose");
+
+        if (!menuButton || !mobileMenu || !closeButton) {
+            return;
+        }
+
+        menuButton.addEventListener(
+            "click",
+            function () {
+
+                mobileMenu.classList.add("active");
+
+                mobileMenu.setAttribute(
+                    "aria-hidden",
+                    "false"
+                );
+
+                menuButton.setAttribute(
+                    "aria-expanded",
+                    "true"
+                );
+
+            }
+        );
+
+        closeButton.addEventListener(
+            "click",
+            function () {
+
+                mobileMenu.classList.remove("active");
+
+                mobileMenu.setAttribute(
+                    "aria-hidden",
+                    "true"
+                );
+
+                menuButton.setAttribute(
+                    "aria-expanded",
+                    "false"
+                );
+
+            }
+        );
+
+    }
+);
+</script>
+
+
+<script>
+/* =========================================================
    FAQ PAGE TRANSITIONS
 ========================================================= */
 
