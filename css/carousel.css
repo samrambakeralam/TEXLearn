@@ -394,7 +394,7 @@
 
     width: 100%;
 
-    aspect-ratio: 3 / 4;
+    aspect-ratio: 0.87;
 
     overflow: hidden;
 
@@ -420,6 +420,11 @@
     display: block;
 
     object-fit: cover;
+
+    border-radius: 9px;
+
+box-shadow:
+    0 8px 20px rgba(15, 23, 42, 0.12);
 
     opacity:
         0;

@@ -1991,14 +1991,14 @@ function initialiseVideoSwipe() {
 
         }
 
-        /* Desktop positioning */
+       /* Desktop positioning */
 
-        else {
+else {
 
-            videoGrid.style.transform =
-                "translateX(0)";
+    videoGrid.style.transform =
+        `translateX(-${videoCurrentIndex * 100}%)`;
 
-        }
+}
 
 
         /* Update dots */

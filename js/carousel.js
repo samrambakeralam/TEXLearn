@@ -19,6 +19,16 @@ const FEATURED_BOOK_IDS = [
     "book-238"
 ];
 
+
+const FEATURED_BOOK_CATEGORIES = {
+    "book-323": "Entrepreneurship • Wealth",
+    "book-250": "Marketing • Psychology",
+    "book-277": "Purpose • Entrepreneurship",
+    "book-150": "Startup • Business",
+    "book-238": "Money • Mindset"
+};
+
+
 function getFeaturedCarouselData() {
 
     if (!Array.isArray(window.LIBRARY_BOOKS)) {
@@ -43,7 +53,7 @@ function getFeaturedCarouselData() {
                 id: book.id,
                 type: "book",
                 title: book.title,
-                category: book.category,
+                category: FEATURED_BOOK_CATEGORIES[book.id] || book.category,
                 image: book.cover,
                 badge: "FEATURED",
                 buttonText: "Explore",
