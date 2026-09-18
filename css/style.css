@@ -11390,8 +11390,8 @@ body.about-page-transition {
     opacity: 0;
     transform: translateX(20px);
     transition:
-        opacity 750ms var(--rc2-transition),
-        transform 750ms var(--rc2-transition);
+        opacity 800ms var(--rc2-transition),
+        transform 800ms var(--rc2-transition);
 }
 
 body.about-page-ready {
