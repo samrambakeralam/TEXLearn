@@ -673,15 +673,22 @@ function initialiseRC2Navigation() {
 
 
     menu
-        .querySelectorAll("a")
-        .forEach(link => {
+    .querySelectorAll("a")
+    .forEach(link => {
 
-            link.addEventListener(
-                "click",
-                closeMenu
-            );
+        link.addEventListener(
+            "click",
+            function () {
 
-        });
+                closeMenu();
+
+                window.location.href =
+                    link.href;
+
+            }
+        );
+
+    });
 
 
     if (headerCTA) {
