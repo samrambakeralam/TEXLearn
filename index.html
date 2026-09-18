@@ -1733,9 +1733,25 @@ window.addEventListener(
     "pageshow",
     function () {
 
-        document.body.classList.remove(
-            "home-page-exit",
-            "home-community-exit"
+        document.body.classList.add(
+            "home-community-transition"
+        );
+
+        requestAnimationFrame(
+            function () {
+
+                requestAnimationFrame(
+                    function () {
+
+                        document.body.classList.remove(
+                            "home-page-exit",
+                            "home-community-exit"
+                        );
+
+                    }
+                );
+
+            }
         );
 
     }
