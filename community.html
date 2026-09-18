@@ -426,7 +426,7 @@
 
 <script>
 /* =========================================================
-   COMMUNITY → HOME PAGE TRANSITION
+   COMMUNITY PAGE TRANSITIONS
 ========================================================= */
 
 document.addEventListener(
@@ -439,7 +439,7 @@ document.addEventListener(
 
         document
             .querySelectorAll(
-                'a[href="index.html"], a[href="index.html#"]'
+                'a[href="index.html"], a[href^="index.html#"], a[href="about.html"]'
             )
             .forEach(
                 function (link) {
