@@ -11343,15 +11343,55 @@ body.home-community-exit {
 
 
 /* =========================================================
-   HOME ↔ ABOUT PAGE TRANSITION
+   HOME / COMMUNITY / ABOUT PAGE TRANSITIONS
 ========================================================= */
+
+/* -----------------------------------------
+   HOME → COMMUNITY
+----------------------------------------- */
+
+body.home-community-transition {
+    opacity: 1;
+    transform: translateX(0);
+    transition:
+        opacity 750ms var(--rc2-transition),
+        transform 750ms var(--rc2-transition);
+}
+
+body.home-community-exit {
+    opacity: 0;
+    transform: translateX(-20px);
+}
+
+
+/* -----------------------------------------
+   HOME → LIBRARY
+----------------------------------------- */
+
+body.home-page-transition {
+    opacity: 1;
+    transform: translateX(0);
+    transition:
+        opacity 750ms var(--rc2-transition),
+        transform 750ms var(--rc2-transition);
+}
+
+body.home-page-exit {
+    opacity: 0;
+    transform: translateX(-20px);
+}
+
+
+/* -----------------------------------------
+   ABOUT PAGE — ENTER
+----------------------------------------- */
 
 body.about-page-transition {
     opacity: 0;
-    transform: translateX(24px);
+    transform: translateX(20px);
     transition:
-        opacity 800ms cubic-bezier(.2, .8, .2, 1),
-        transform 800ms cubic-bezier(.2, .8, .2, 1);
+        opacity 750ms var(--rc2-transition),
+        transform 750ms var(--rc2-transition);
 }
 
 body.about-page-ready {
@@ -11359,7 +11399,12 @@ body.about-page-ready {
     transform: translateX(0);
 }
 
+
+/* -----------------------------------------
+   ABOUT PAGE — EXIT
+----------------------------------------- */
+
 body.about-page-exit {
     opacity: 0;
-    transform: translateX(-24px);
+    transform: translateX(-20px);
 }
