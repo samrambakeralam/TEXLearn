@@ -11273,3 +11273,26 @@ body.home-community-exit {
     opacity: 0;
     transform: translateX(-24px);
 }
+
+
+/* =========================================================
+   HOME ↔ ABOUT PAGE TRANSITION
+========================================================= */
+
+body.about-page-transition {
+    opacity: 0;
+    transform: translateX(24px);
+    transition:
+        opacity 800ms cubic-bezier(.2, .8, .2, 1),
+        transform 800ms cubic-bezier(.2, .8, .2, 1);
+}
+
+body.about-page-ready {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+body.about-page-exit {
+    opacity: 0;
+    transform: translateX(-24px);
+}
