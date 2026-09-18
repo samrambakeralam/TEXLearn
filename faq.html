@@ -500,6 +500,85 @@
 </script>
 
 
+<script>
+/* =========================================================
+   FAQ PAGE TRANSITIONS
+========================================================= */
+
+document.addEventListener(
+    "DOMContentLoaded",
+    function () {
+
+        document.body.classList.add(
+            "faq-page-transition"
+        );
+
+        requestAnimationFrame(
+            function () {
+                requestAnimationFrame(
+                    function () {
+
+                        document.body.classList.add(
+                            "faq-page-ready"
+                        );
+
+                    }
+                );
+            }
+        );
+
+        document
+            .querySelectorAll(
+                'a[href="index.html"], a[href^="index.html#"], a[href="community.html"], a[href="about.html"], a[href="contact.html"]'
+            )
+            .forEach(
+                function (link) {
+
+                    link.addEventListener(
+                        "click",
+                        function (event) {
+
+                            if (
+                                event.ctrlKey ||
+                                event.metaKey ||
+                                event.shiftKey ||
+                                event.altKey ||
+                                link.target === "_blank"
+                            ) {
+                                return;
+                            }
+
+                            event.preventDefault();
+
+                            document.body.classList.remove(
+                                "faq-page-ready"
+                            );
+
+                            document.body.classList.add(
+                                "faq-page-exit"
+                            );
+
+                            setTimeout(
+                                function () {
+
+                                    window.location.href =
+                                        link.href;
+
+                                },
+                                850
+                            );
+
+                        }
+                    );
+
+                }
+            );
+
+    }
+);
+</script>
+
+
 </body>
 
 </html>

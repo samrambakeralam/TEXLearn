@@ -437,6 +437,20 @@ document.addEventListener(
             "community-page-transition"
         );
 
+        requestAnimationFrame(
+            function () {
+                requestAnimationFrame(
+                    function () {
+
+                        document.body.classList.add(
+                            "community-page-ready"
+                        );
+
+                    }
+                );
+            }
+        );
+
         document
             .querySelectorAll(
                 'a[href="index.html"], a[href^="index.html#"], a[href="about.html"]'
@@ -459,6 +473,10 @@ document.addEventListener(
                             }
 
                             event.preventDefault();
+
+                            document.body.classList.remove(
+                                "community-page-ready"
+                            );
 
                             document.body.classList.add(
                                 "community-page-exit"

@@ -239,3 +239,25 @@
     }
 
 }
+
+/* =========================================================
+   FAQ PAGE TRANSITIONS
+========================================================= */
+
+body.faq-page-transition {
+    opacity: 0;
+    transform: translateX(20px);
+    transition:
+        opacity 850ms var(--rc2-transition),
+        transform 850ms var(--rc2-transition);
+}
+
+body.faq-page-ready {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+body.faq-page-exit {
+    opacity: 0;
+    transform: translateX(-20px);
+}

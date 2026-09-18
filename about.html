@@ -582,7 +582,7 @@ if (window.lucide) {
 
 <script>
 /* =========================================================
-   ABOUT PAGE TRANSITION
+   ABOUT PAGE TRANSITIONS
 ========================================================= */
 
 document.addEventListener(
@@ -607,10 +607,9 @@ document.addEventListener(
             }
         );
 
-
         document
             .querySelectorAll(
-                'a[href="index.html"], a[href^="index.html#"]'
+                'a[href="index.html"], a[href^="index.html#"], a[href="community.html"], a[href="contact.html"], a[href="faq.html"]'
             )
             .forEach(
                 function (link) {
@@ -646,7 +645,7 @@ document.addEventListener(
                                         link.href;
 
                                 },
-                                800
+                                850
                             );
 
                         }

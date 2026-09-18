@@ -11355,19 +11355,14 @@ body.about-page-transition {
     opacity: 0;
     transform: translateX(20px);
     transition:
-        opacity 800ms var(--rc2-transition),
-        transform 800ms var(--rc2-transition);
+        opacity 850ms var(--rc2-transition),
+        transform 850ms var(--rc2-transition);
 }
 
 body.about-page-ready {
     opacity: 1;
     transform: translateX(0);
 }
-
-
-/* -----------------------------------------
-   ABOUT PAGE — EXIT
------------------------------------------ */
 
 body.about-page-exit {
     opacity: 0;
