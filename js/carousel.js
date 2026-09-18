@@ -332,6 +332,42 @@ function formatCarouselTitle(title) {
 }
 
 
+function formatCarouselCategory(category) {
+
+    const raw = String(category || "")
+        .trim();
+
+    if (!raw) {
+        return "";
+    }
+
+    const categories = raw
+        .split(/[,•|]+/)
+        .map(function (item) {
+            return item
+                .trim()
+                .replace(/-/g, " ")
+                .replace(/\s+/g, " ");
+        })
+        .filter(Boolean);
+
+    const selected = categories
+        .slice(0, 2)
+        .map(function (item) {
+
+            return item
+                .toLowerCase()
+                .replace(/\b\w/g, function (letter) {
+                    return letter.toUpperCase();
+                });
+
+        });
+
+    return selected.join(" • ");
+
+}
+
+
 /* =========================================================
    RENDER CAROUSEL
 ========================================================= */
@@ -386,7 +422,7 @@ function renderCarousel(
                     </h3>
 
                     <p>
-                        ${item.category}
+                         ${formatCarouselCategory(item.category)}
                     </p>
 
                     <a
