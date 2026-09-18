@@ -1991,12 +1991,26 @@ function initialiseVideoSwipe() {
 
         }
 
-       /* Desktop positioning */
+        /* Desktop positioning */
 
 else {
 
+    const visibleVideos = 3;
+
+    const maxIndex =
+        Math.max(
+            0,
+            videoCards.length - visibleVideos
+        );
+
+    const desktopIndex =
+        Math.min(
+            videoCurrentIndex,
+            maxIndex
+        );
+
     videoGrid.style.transform =
-        `translateX(-${videoCurrentIndex * 100}%)`;
+        `translateX(-${desktopIndex * 100 / visibleVideos}%)`;
 
 }
 
