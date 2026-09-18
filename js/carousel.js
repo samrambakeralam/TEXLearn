@@ -320,6 +320,18 @@ function initialiseCarousel() {
 }
 
 
+function formatCarouselTitle(title) {
+
+    return String(title || "")
+        .trim()
+        .toLowerCase()
+        .replace(/\b\w/g, function (letter) {
+            return letter.toUpperCase();
+        });
+
+}
+
+
 /* =========================================================
    RENDER CAROUSEL
 ========================================================= */
@@ -370,7 +382,7 @@ function renderCarousel(
                 <div class="rc2-carousel-content">
 
                     <h3>
-                        ${item.title}
+                         ${formatCarouselTitle(item.title)}
                     </h3>
 
                     <p>
