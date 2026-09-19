@@ -1959,6 +1959,12 @@ function initialiseVideoSwipe() {
                 )
             );
 
+            console.log(
+    "SHOW VIDEO SLIDE:",
+    index,
+    "CURRENT INDEX:",
+    videoCurrentIndex
+);
 
 
         /* Restore videos that are no longer active */
@@ -1977,12 +1983,25 @@ function initialiseVideoSwipe() {
             }
         );
 
+        console.log(
+    "VIDEO RESTORE COMPLETE:",
+    videoCurrentIndex
+);
+
+console.log("BEFORE MOBILE CHECK");
+
 
   /* Mobile positioning */
 
 if (
     window.innerWidth <= 767
 ) {
+
+    console.log(
+        "ENTERING MOBILE POSITIONING:",
+        window.innerWidth,
+        videoCurrentIndex
+    );
 
     videoGrid.style.transform =
         `translateX(-${videoCurrentIndex * 100}%)`;
@@ -2072,20 +2091,27 @@ else {
        DOT NAVIGATION
     ----------------------------------------- */
 
-    videoDots.forEach(
-        (dot, index) => {
+ videoDots.forEach(
+    (dot, index) => {
 
-            dot.addEventListener(
-                "click",
-                function() {
+        dot.addEventListener(
+            "click",
+            function() {
 
-                    showVideoSlide(index);
+                console.log(
+                    "VIDEO DOT CLICKED:",
+                    index,
+                    "TOTAL DOTS:",
+                    videoDots.length
+                );
 
-                }
-            );
+                showVideoSlide(index);
 
-        }
-    );
+            }
+        );
+
+    }
+);
 
 
     /* -----------------------------------------
