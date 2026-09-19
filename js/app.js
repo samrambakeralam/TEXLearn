@@ -1998,9 +1998,6 @@ console.log(
 
   /* Mobile positioning */
 
-  alert("VIDEO VIEWPORT WIDTH: " + window.innerWidth);
-
-
 if (
     window.innerWidth <= 1024
 ) {
