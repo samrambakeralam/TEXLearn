@@ -112,11 +112,8 @@ function initialiseButtons() {
 }
 
 function openModal() {
-
     resetForm();
-
     modal.classList.add("active");
-
 }
 
 function closeRegistrationModal() {
