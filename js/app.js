@@ -730,32 +730,6 @@ menu
 
     });
 
-
-    if (headerCTA) {
-
-        headerCTA.addEventListener(
-            "click",
-            openModal
-        );
-
-    }
-
-
-    if (mobileCTA) {
-
-        mobileCTA.addEventListener(
-            "click",
-            () => {
-
-                closeMenu();
-
-                openModal();
-
-            }
-        );
-
-    }
-
 }
 
 // =======================================
