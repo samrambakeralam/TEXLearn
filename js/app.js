@@ -1960,20 +1960,6 @@ function initialiseVideoSwipe() {
             );
 
 
-   console.log(
-    "VIDEO SLIDE:",
-    videoCurrentIndex,
-    "TOTAL:",
-    videoCards.length,
-    "GRID:",
-    videoGrid.getBoundingClientRect().width,
-    "CARD:",
-    videoCards[0].getBoundingClientRect().width,
-    "TRANSFORM:",
-    videoGrid.style.transform
-);
-
-
 
         /* Restore videos that are no longer active */
 
@@ -2000,6 +1986,12 @@ if (
 
     videoGrid.style.transform =
         `translateX(-${videoCurrentIndex * 100}%)`;
+
+    console.log(
+        "MOBILE TRANSFORM:",
+        videoCurrentIndex,
+        videoGrid.style.transform
+    );
 
 }
 
