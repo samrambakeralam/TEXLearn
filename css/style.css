@@ -3304,7 +3304,7 @@ transform:translateY(0px);
 
     line-height: 1.65;
 
-    font-size: 15px;
+    font-size: 14px;
 
     margin: 0;
 }
@@ -3950,7 +3950,7 @@ transform:translateY(0px);
         center;
 
     font-size:
-        17px;
+        16px;
 
     line-height:
         1.35;
@@ -4250,13 +4250,24 @@ transform:translateY(0px);
     background:
         #FFFFFF;
 
-    border-bottom:
-        1px solid #E5E7EB;
-
 }
 
 
 .hub-video-inner{
+
+    
+    border-top:
+        1px solid #E5E7EB;
+
+    border-bottom:
+        1px solid #E5E7EB;
+
+    padding-top:
+        32px;
+
+    padding-bottom:
+        32px;
+
 
     width:
         100%;
@@ -5026,7 +5037,7 @@ transform:translateY(0px);
 
 .featured-modules .section-title-center h2{
 
-    font-size: 32px;
+    font-size: 30px;
 
     font-weight: 700;
 
@@ -5906,7 +5917,7 @@ transform:translateY(0px);
         sans-serif;
 
     font-size:
-        32px;
+        30px;
 
     font-weight:
         700;
@@ -6118,7 +6129,7 @@ transform:translateY(0px);
         sans-serif;
 
     font-size:
-        18px;
+        16px;
 
     font-weight:
         700;
@@ -6154,7 +6165,7 @@ transform:translateY(0px);
         0;
 
     font-size:
-        15px;
+        14px;
 
     line-height:
         1.7;
