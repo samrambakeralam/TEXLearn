@@ -394,7 +394,7 @@
 
     width: 100%;
 
-    aspect-ratio: 0.87;
+    aspect-ratio: 0.9;
 
     overflow: hidden;
 
@@ -540,7 +540,7 @@ box-shadow:
         sans-serif;
 
     font-size:
-        15px;
+        13px;
 
     line-height:
         1.15;
@@ -569,7 +569,7 @@ box-shadow:
         var(--rc2-text-soft);
 
     font-size:
-        9.5px;
+        9px;
 
     line-height:
         1.25;
@@ -610,7 +610,7 @@ box-shadow:
         none;
 
     font-size:
-        9.5px;
+        9px;
 
     font-weight:
         800;
@@ -621,10 +621,10 @@ box-shadow:
 .rc2-carousel-button svg {
 
     width:
-        13px;
+        10px;
 
     height:
-        13px;
+        10px;
 
 }
 
@@ -638,7 +638,7 @@ box-shadow:
     .rc2-carousel-card {
 
         flex-basis:
-            300px;
+            250px;
 
     }
 
