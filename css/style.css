@@ -4786,7 +4786,7 @@ transform:translateY(0px);
    VIDEO HUB — DESKTOP ARROW POSITIONING
 ========================================================= */
 
-@media (min-width: 768px){
+@media (min-width: 1025px){
 
     .hub-video-carousel{
         position: relative;
