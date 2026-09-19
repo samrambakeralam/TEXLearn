@@ -1988,13 +1988,19 @@ function initialiseVideoSwipe() {
     videoCurrentIndex
 );
 
-console.log("BEFORE MOBILE CHECK");
+console.log(
+    "BEFORE MOBILE CHECK:",
+    window.innerWidth,
+    typeof window.innerWidth,
+    window.innerWidth <= 767
+);
 
 
   /* Mobile positioning */
 
+
 if (
-    window.innerWidth <= 767
+    window.innerWidth <= 900
 ) {
 
     console.log(
