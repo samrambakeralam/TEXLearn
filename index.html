@@ -789,153 +789,75 @@
         </div>
 
 
-        <div class="hub-video-grid">
+        <!-- =================================================
+             VIDEO CAROUSEL
+        ================================================= -->
 
-            <!-- VIDEO 1 -->
+        <div class="hub-video-carousel">
 
-            <article
-                class="hub-video-card"
-                data-youtube-id="63C_jnr-mzk"
+
+            <!-- PREVIOUS VIDEO -->
+
+            <button
+                type="button"
+                class="hub-video-nav-button hub-video-prev"
+                aria-label="Previous video"
             >
 
-                <button
-                    class="hub-video-play"
-                    type="button"
-                    aria-label="Play video"
-                >
+                <i data-lucide="chevron-left"></i>
 
-                    <img
-                        src="https://img.youtube.com/vi/63C_jnr-mzk/maxresdefault.jpg"
-                        alt="Entrepreneurial Stories"
-                        class="hub-video-thumbnail"
-                    >
-
-                    <span
-                        class="hub-video-play-button"
-                        aria-hidden="true"
-                    >
-
-                        <i data-lucide="play"></i>
-
-                    </span>
-
-                </button>
-
-            </article>
+            </button>
 
 
-            <!-- VIDEO 2 — ADD LATER -->
+            <!-- VIDEO TRACK -->
 
-            <article
-    class="hub-video-card"
-    data-youtube-id="ut5yK2KYg5w"
->
+            <div class="hub-video-viewport">
 
-    <button
-        class="hub-video-play"
-        type="button"
-        aria-label="Play video"
-    >
+    <div class="hub-video-grid">
 
-        <img
-            src="https://img.youtube.com/vi/ut5yK2KYg5w/maxresdefault.jpg"
-            alt="Entrepreneurial Story"
-            class="hub-video-thumbnail"
-        >
-
-        <span
-            class="hub-video-play-button"
-            aria-hidden="true"
-        >
-
-            <i data-lucide="play"></i>
-
-        </span>
-
-    </button>
-
-</article>
-
-
-            <!-- VIDEO 3 — ADD LATER -->
-
-            <article
-    class="hub-video-card"
-    data-youtube-id="h9Jb09_j23k"
->
-
-    <button
-        class="hub-video-play"
-        type="button"
-        aria-label="Play video"
-    >
-
-        <img
-            src="https://img.youtube.com/vi/h9Jb09_j23k/maxresdefault.jpg"
-            alt="Entrepreneurial Story"
-            class="hub-video-thumbnail"
-        >
-
-        <span
-            class="hub-video-play-button"
-            aria-hidden="true"
-        >
-
-            <i data-lucide="play"></i>
-
-        </span>
-
-    </button>
-
-</article>
-
-        </div>
-
-        <!-- VIDEO NAVIGATION -->
-
-<div class="hub-video-navigation">
-
-    <button
-        type="button"
-        class="hub-video-nav-button hub-video-prev"
-        aria-label="Previous video"
-    >
-        <i data-lucide="chevron-left"></i>
-    </button>
-
-
-    <div class="hub-video-dots">
-
-        <button
-            type="button"
-            class="hub-video-dot active"
-            aria-label="Show video 1"
-        ></button>
-
-        <button
-            type="button"
-            class="hub-video-dot"
-            aria-label="Show video 2"
-        ></button>
-
-        <button
-            type="button"
-            class="hub-video-dot"
-            aria-label="Show video 3"
-        ></button>
+        <!--
+            Video cards are generated dynamically
+            by video-catalogue.js
+        -->
 
     </div>
 
-
-    <button
-        type="button"
-        class="hub-video-nav-button hub-video-next"
-        aria-label="Next video"
-    >
-        <i data-lucide="chevron-right"></i>
-    </button>
-
 </div>
+
+
+            <!-- NEXT VIDEO -->
+
+            <button
+                type="button"
+                class="hub-video-nav-button hub-video-next"
+                aria-label="Next video"
+            >
+
+                <i data-lucide="chevron-right"></i>
+
+            </button>
+
+
+        </div>
+
+
+        <!-- =================================================
+             VIDEO DOTS
+        ================================================= -->
+
+        <div class="hub-video-navigation">
+
+            <div class="hub-video-dots">
+
+                <!--
+                    Navigation dots are generated dynamically
+                    by video-catalogue.js
+                -->
+
+            </div>
+
+        </div>
+
 
     </div>
 

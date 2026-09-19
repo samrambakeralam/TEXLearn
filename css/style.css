@@ -4351,19 +4351,10 @@ transform:translateY(0px);
 ========================================================= */
 
 /* =========================================================
-   VIDEO GRID
+   VIDEO GRID — CAROUSEL TRACK
 ========================================================= */
 
-.hub-video-grid{
-
-    display:
-        grid;
-
-    grid-template-columns:
-        repeat(3, minmax(0, 1fr));
-
-    gap:
-        18px;
+.hub-video-viewport{
 
     width:
         100%;
@@ -4374,6 +4365,38 @@ transform:translateY(0px);
     margin:
         0 auto;
 
+    overflow:
+        hidden;
+
+}
+
+
+.hub-video-grid{
+
+    display:
+        flex;
+
+    flex-wrap:
+        nowrap;
+
+    gap:
+        18px;
+
+    width:
+        100%;
+
+    max-width:
+        none;
+
+    margin:
+        0;
+
+    transform:
+        translateX(0);
+
+    transition:
+        transform 0.35s ease;
+
 }
 
 
@@ -4382,8 +4405,20 @@ transform:translateY(0px);
     position:
         relative;
 
+    flex:
+        0 0 calc(
+            (100% - 36px) / 3
+        );
+
     width:
-        100%;
+        calc(
+            (100% - 36px) / 3
+        );
+
+    min-width:
+        calc(
+            (100% - 36px) / 3
+        );
 
     overflow:
         hidden;
@@ -4401,7 +4436,6 @@ transform:translateY(0px);
         0 8px 24px rgba(15,23,42,.055);
 
 }
-
 
 .hub-video-play{
 
@@ -4558,6 +4592,8 @@ transform:translateY(0px);
         0;
 
 }
+
+
 
 /* =========================================================
    VIDEO NAVIGATION — MOBILE
@@ -4746,6 +4782,34 @@ transform:translateY(0px);
 }
 
 
+/* =========================================================
+   VIDEO HUB — DESKTOP ARROW POSITIONING
+========================================================= */
+
+@media (min-width: 768px){
+
+    .hub-video-carousel{
+        position: relative;
+    }
+
+    .hub-video-nav-button{
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        z-index: 10;
+    }
+
+    .hub-video-prev{
+        left: -42px;
+    }
+
+    .hub-video-next{
+        right: -42px;
+    }
+
+}
+
+
 @media (max-width:767px){
 
     /* =========================================================
@@ -4851,11 +4915,6 @@ transform:translateY(0px);
 
     }
 
-    .hub-video-inner{
-
-        overflow: hidden;
-
-    }
 
 
 .hub-video-card{

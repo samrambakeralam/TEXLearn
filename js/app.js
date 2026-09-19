@@ -2009,8 +2009,39 @@ else {
             maxIndex
         );
 
-    videoGrid.style.transform =
-        `translateX(-${desktopIndex * 100 / visibleVideos}%)`;
+
+    const firstCard =
+        videoCards[0];
+
+
+    if (firstCard) {
+
+        const cardWidth =
+            firstCard.getBoundingClientRect().width;
+
+
+        const gridStyle =
+            window.getComputedStyle(
+                videoGrid
+            );
+
+
+        const gap =
+            parseFloat(
+                gridStyle.columnGap ||
+                gridStyle.gap ||
+                "0"
+            );
+
+
+        const moveDistance =
+            cardWidth + gap;
+
+
+        videoGrid.style.transform =
+            `translateX(-${desktopIndex * moveDistance}px)`;
+
+    }
 
 }
 
@@ -2233,8 +2264,8 @@ else {
    INITIALISE VIDEO SWIPE
 ----------------------------------------- */
 
-document.addEventListener(
-    "DOMContentLoaded",
+window.addEventListener(
+    "samrambaVideoCatalogueLoaded",
     initialiseVideoSwipe
 );
 
