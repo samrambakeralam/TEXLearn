@@ -1959,13 +1959,6 @@ function initialiseVideoSwipe() {
                 )
             );
 
-            console.log(
-    "SHOW VIDEO SLIDE:",
-    index,
-    "CURRENT INDEX:",
-    videoCurrentIndex
-);
-
 
         /* Restore videos that are no longer active */
 
@@ -1983,18 +1976,6 @@ function initialiseVideoSwipe() {
             }
         );
 
-        console.log(
-    "VIDEO RESTORE COMPLETE:",
-    videoCurrentIndex
-);
-
-console.log(
-    "BEFORE MOBILE CHECK:",
-    window.innerWidth,
-    typeof window.innerWidth,
-    window.innerWidth <= 767
-);
-
 
   /* Mobile positioning */
 
@@ -2002,20 +1983,9 @@ if (
     window.innerWidth <= 1024
 ) {
 
-    console.log(
-        "ENTERING MOBILE POSITIONING:",
-        window.innerWidth,
-        videoCurrentIndex
-    );
 
     videoGrid.style.transform =
         `translateX(-${videoCurrentIndex * 100}%)`;
-
-    console.log(
-        "MOBILE TRANSFORM:",
-        videoCurrentIndex,
-        videoGrid.style.transform
-    );
 
 }
 
@@ -2102,13 +2072,6 @@ else {
         dot.addEventListener(
             "click",
             function() {
-
-                console.log(
-                    "VIDEO DOT CLICKED:",
-                    index,
-                    "TOTAL DOTS:",
-                    videoDots.length
-                );
 
                 showVideoSlide(index);
 
