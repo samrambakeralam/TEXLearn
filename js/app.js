@@ -2275,65 +2275,68 @@ window.addEventListener(
 ========================================================= */
 
 document.addEventListener(
-    "click",
-    function(event) {
+  "click",
+  function(event) {
 
-        const playButton =
-            event.target.closest(".hub-video-play");
+    const playButton =
+      event.target.closest(".hub-video-play");
 
-        if (!playButton) return;
+    if (!playButton) return;
 
+    const card =
+      playButton.closest(".hub-video-card");
 
-        const card =
-            playButton.closest(".hub-video-card");
+    if (!card) return;
 
-        if (!card) return;
+    const platform =
+      card.dataset.platform || "";
 
+    const videoUrl =
+      card.dataset.videoUrl || "";
 
-        const youtubeId =
-            card.dataset.youtubeId;
+    if (
+      platform !== "youtube" ||
+      !videoUrl
+    ) return;
 
-        if (!youtubeId) return;
+    const youtubeMatch =
+      videoUrl.match(
+        /(?:youtube\.com\/(?:watch\?v=|embed\/|shorts\/)|youtu\.be\/)([A-Za-z0-9_-]{11})/
+      );
 
+    const youtubeId =
+      youtubeMatch
+        ? youtubeMatch[1]
+        : "";
 
-        /* Prevent loading the same video twice */
+    if (!youtubeId) return;
 
-        if (card.querySelector("iframe")) return;
+    /* Prevent loading the same video twice */
+    if (card.querySelector("iframe")) return;
 
+    /* Create YouTube player */
+    const iframe =
+      document.createElement("iframe");
 
-        /* Create YouTube player */
+    iframe.src =
+      `https://www.youtube.com/embed/${youtubeId}?autoplay=1&rel=0`;
 
-        const iframe =
-            document.createElement("iframe");
+    iframe.title =
+      "YouTube video";
 
+    iframe.frameBorder =
+      "0";
 
-        iframe.src =
-            `https://www.youtube.com/embed/${youtubeId}?autoplay=1&rel=0`;
+    iframe.allow =
+      "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share";
 
+    iframe.referrerPolicy =
+      "strict-origin-when-cross-origin";
 
-        iframe.title =
-            "YouTube video";
+    iframe.allowFullscreen =
+      true;
 
-
-        iframe.frameBorder =
-            "0";
-
-
-        iframe.allow =
-            "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share";
-
-
-        iframe.referrerPolicy =
-            "strict-origin-when-cross-origin";
-
-
-        iframe.allowFullscreen =
-            true;
-
-
-        /* Replace thumbnail with player */
-
-        playButton.replaceWith(iframe);
-
-    }
+    /* Replace thumbnail with player */
+    playButton.replaceWith(iframe);
+  }
 );
