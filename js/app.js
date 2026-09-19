@@ -1887,64 +1887,61 @@ function initialiseVideoSwipe() {
     ----------------------------------------- */
 
     function restoreVideo(card) {
+  const iframe = card.querySelector("iframe");
+  if (!iframe) return;
 
-        const iframe =
-            card.querySelector("iframe");
+  const platform =
+    card.dataset.platform || "";
 
-        if (!iframe) return;
+  const videoUrl =
+    card.dataset.videoUrl || "";
 
+  if (
+    platform !== "youtube" ||
+    !videoUrl
+  ) return;
 
-        const youtubeId =
-            card.dataset.youtubeId;
+  const youtubeMatch =
+    videoUrl.match(
+      /(?:youtube\.com\/(?:watch\?v=|embed\/|shorts\/)|youtu\.be\/)([A-Za-z0-9_-]{11})/
+    );
 
-        if (!youtubeId) return;
+  const youtubeId =
+    youtubeMatch
+      ? youtubeMatch[1]
+      : "";
 
+  if (!youtubeId) return;
 
-        const button =
-            document.createElement("button");
+  const button = document.createElement("button");
 
-        button.type =
-            "button";
+  button.type = "button";
+  button.className = "hub-video-play";
+  button.setAttribute(
+    "aria-label",
+    "Play video"
+  );
 
-        button.className =
-            "hub-video-play";
+  button.innerHTML = `
+    <img
+      src="https://img.youtube.com/vi/${youtubeId}/maxresdefault.jpg"
+      alt="Entrepreneurial Story"
+      class="hub-video-thumbnail"
+    >
+    <span
+      class="hub-video-play-button"
+      aria-hidden="true"
+    >
+      <i data-lucide="play"></i>
+    </span>
+  `;
 
-        button.setAttribute(
-            "aria-label",
-            "Play video"
-        );
+  iframe.replaceWith(button);
 
-
-        button.innerHTML = `
-
-            <img
-                src="https://img.youtube.com/vi/${youtubeId}/maxresdefault.jpg"
-                alt="Entrepreneurial Story"
-                class="hub-video-thumbnail"
-            >
-
-            <span
-                class="hub-video-play-button"
-                aria-hidden="true"
-            >
-
-                <i data-lucide="play"></i>
-
-            </span>
-
-        `;
-
-
-        iframe.replaceWith(button);
-
-
-        if (window.lucide) {
-
-            lucide.createIcons();
-
-        }
-
-    }
+  if (window.lucide) {
+    lucide.createIcons();
+  }
+}
 
 
     /* -----------------------------------------
