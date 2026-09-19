@@ -2002,7 +2002,7 @@ console.log(
 
 
 if (
-    window.innerWidth <= 900
+    window.innerWidth <= 1024
 ) {
 
     console.log(
