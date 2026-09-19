@@ -1960,6 +1960,21 @@ function initialiseVideoSwipe() {
             );
 
 
+   console.log(
+    "VIDEO SLIDE:",
+    videoCurrentIndex,
+    "TOTAL:",
+    videoCards.length,
+    "GRID:",
+    videoGrid.getBoundingClientRect().width,
+    "CARD:",
+    videoCards[0].getBoundingClientRect().width,
+    "TRANSFORM:",
+    videoGrid.style.transform
+);
+
+
+
         /* Restore videos that are no longer active */
 
         videoCards.forEach(
@@ -1977,16 +1992,18 @@ function initialiseVideoSwipe() {
         );
 
 
-        /* Mobile positioning */
+  /* Mobile positioning */
 
-        if (
-            window.innerWidth <= 767
-        ) {
+if (
+    window.innerWidth <= 767
+) {
 
-            videoGrid.style.transform =
-                `translateX(-${videoCurrentIndex * 100}%)`;
+    videoGrid.style.transform =
+        `translateX(-${videoCurrentIndex * 100}%)`;
 
-        }
+}
+
+
 
         /* Desktop positioning */
 
