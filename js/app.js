@@ -611,6 +611,41 @@ function initialiseRC2Navigation() {
     const mobileCTA =
         document.getElementById("rc2MobileCTA");
 
+
+    /* ---------------------------------------
+       CTA BUTTONS
+    --------------------------------------- */
+
+    if (headerCTA) {
+
+        headerCTA.addEventListener(
+            "click",
+            openModal
+        );
+
+    }
+
+
+    if (mobileCTA) {
+
+        mobileCTA.addEventListener(
+            "click",
+            () => {
+
+                closeMenu();
+
+                openModal();
+
+            }
+        );
+
+    }
+
+
+    /* ---------------------------------------
+       MOBILE MENU
+    --------------------------------------- */
+
     if (
         !menu ||
         !openButton ||

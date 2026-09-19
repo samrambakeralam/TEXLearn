@@ -786,6 +786,158 @@ a {
 
 }
 
+.rc2-primary-cta {
+
+    display:
+        inline-flex;
+
+    align-items:
+        center;
+
+    justify-content:
+        center;
+
+    min-height:
+        48px;
+
+    padding:
+        0 20px;
+
+    border:
+        none;
+
+    border-radius:
+        10px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #16A34A,
+            #0A8754
+        );
+
+    color:
+        #FFFFFF;
+
+    font-family:
+        "Inter",
+        sans-serif;
+
+    font-size:
+        14px;
+
+    font-weight:
+        700;
+
+    line-height:
+        1;
+
+    text-decoration:
+        none;
+
+    cursor:
+        pointer;
+
+    box-shadow:
+        0 8px 20px
+        rgba(22,163,74,.18);
+
+    transition:
+        transform .25s ease,
+        box-shadow .25s ease;
+}
+
+
+.rc2-primary-cta:hover {
+
+    transform:
+        translateY(-1px);
+
+    box-shadow:
+        0 10px 24px
+        rgba(22,163,74,.24);
+
+}
+
+
+.rc2-secondary-cta {
+
+    display:
+        inline-flex;
+
+    align-items:
+        center;
+
+    justify-content:
+        center;
+
+    gap:
+        7px;
+
+    min-height:
+        48px;
+
+    padding:
+        0 4px;
+
+    border:
+        none;
+
+    background:
+        transparent;
+
+    color:
+        var(--rc2-navy);
+
+    font-family:
+        "Inter",
+        sans-serif;
+
+    font-size:
+        14px;
+
+    font-weight:
+        700;
+
+    line-height:
+        1;
+
+    text-decoration:
+        none;
+
+    cursor:
+        pointer;
+
+    transition:
+        color .25s ease,
+        transform .25s ease;
+}
+
+
+.rc2-secondary-cta:hover {
+
+    color:
+        var(--rc2-green);
+
+    transform:
+        translateX(2px);
+
+}
+
+
+.rc2-secondary-cta svg {
+
+    width:
+        18px;
+
+    height:
+        18px;
+
+    flex:
+        0 0 auto;
+
+}
+
 
 /* =========================================================
    19. HERO TRUST LINE
@@ -4245,29 +4397,21 @@ transform:translateY(0px);
 .hub-video-section{
 
     padding:
-        30px 8% 32px;
+         40px 8% 40px;
 
     background:
         #FFFFFF;
 
-}
-
-
-.hub-video-inner{
-
-    
     border-top:
         1px solid #E5E7EB;
 
     border-bottom:
         1px solid #E5E7EB;
 
-    padding-top:
-        32px;
+}
 
-    padding-bottom:
-        32px;
 
+.hub-video-inner{
 
     width:
         100%;
