@@ -4918,19 +4918,12 @@ transform:translateY(0px);
 
 
 .hub-video-card{
-
-    flex:
-        0 0 100%;
-
-    width:
-        100%;
-
-    min-width:
-        100%;
-
-    border-radius:
-        15px;
-
+    flex:0 0 100%;
+    width:100%;
+    min-width:100%;
+    border-radius:15px;
+    box-sizing:border-box;
+    padding:0 8px;
 }
 
 
