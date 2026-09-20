@@ -2394,10 +2394,7 @@ a {
     }
 
 
-   .rc2-hero-product {
-
-    grid-area:
-        product;
+  .rc2-hero-product {
 
     grid-column:
         1;
@@ -2419,6 +2416,9 @@ a {
 
     transform:
         none;
+
+    grid-area:
+        product;
 
 }
 
@@ -2618,7 +2618,6 @@ a {
 
 }
 
-
 .rc2-trust-line {
     font-size: 8.5px;
     line-height: 1.25;
@@ -2629,6 +2628,7 @@ a {
     width: 10px;
     height: 10px;
 }
+
 
 }
 
