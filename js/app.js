@@ -1167,7 +1167,7 @@ function initialiseUnboxingReveal() {
                 );
 
 
- const isNormalPhone =
+const isNormalPhone =
     window.innerWidth >= 421 &&
     window.innerWidth <= 767;
 
@@ -1175,21 +1175,27 @@ const productX =
     isNormalPhone ? 55 : 35;
 
 const productY =
-      isNormalPhone ? 4 : 22;
+    isNormalPhone ? 2 : 22;
 
-const normalPhoneRevealX = isNormalPhone ? productX : productX;
-const normalPhoneRevealY = isNormalPhone ? productY : productY;
-const normalPhoneRevealScale = isNormalPhone ? 1 : (1 + (.022 * reveal));
+const productScale =
+    isNormalPhone
+        ? 1
+        : (1 + (.022 * reveal));
+
+const productYOffset =
+    isNormalPhone
+        ? 0
+        : (6 * reveal);
 
 product.style.transform =
     `
     translate3d(
-        ${normalPhoneRevealX}px,
-        ${normalPhoneRevealY}px,
+        ${productX}px,
+        ${productY - productYOffset}px,
         0
     )
     scale(
-        ${normalPhoneRevealScale}
+        ${productScale}
     )
     `;
 
