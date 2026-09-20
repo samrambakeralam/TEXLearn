@@ -2647,6 +2647,27 @@ a {
 
 }
 
+/* Overhead curtain */
+
+    .rc2-velvet-valance {
+
+        top:
+            -38px;
+
+        height:
+            62px;
+
+    }
+
+
+    .rc2-valance-panel {
+
+        height:
+            62px;
+
+    }
+
+
 
     .rc2-unboxing-spotlight {
 
