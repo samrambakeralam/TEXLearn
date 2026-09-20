@@ -2578,11 +2578,23 @@ a {
 
     .rc2-hero-description {
 
-        font-size:
-            14px;
+    grid-area:
+        description;
 
-        line-height:
-            1.55;
+    width:
+        100%;
+
+    max-width:
+        100%;
+
+    margin:
+        0 auto 8px;
+
+    font-size:
+            11px;
+
+    line-height:
+            1.7;
 
     }
 
@@ -2650,12 +2662,24 @@ a {
     }
 
 
-    .rc2-unboxing-product {
+   .rc2-unboxing-product {
 
-        width:
-              min(52%,210px);
+    width:
+         min(62%,250px);
 
-    }
+    margin-left:
+        auto;
+
+    margin-right:
+        auto;
+
+    transform:
+        translate3d(0,10px,0);
+
+        z-index:
+        8;
+
+}
 
 
     .rc2-product-image {
