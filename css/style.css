@@ -2570,13 +2570,17 @@ a {
 
     .rc2-hero h1 {
 
+        text-align: left;
+
         font-size:
-            clamp(28px,8.6vw,33px);
+            clamp(24px,8.6vw,24px);
 
     }
 
 
     .rc2-hero-description {
+
+    text-align: left;
 
     grid-area:
         description;
@@ -2588,7 +2592,7 @@ a {
         100%;
 
     margin:
-        0 auto 8px;
+        0 auto 12px;
 
     font-size:
             11px;
