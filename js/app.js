@@ -1286,7 +1286,7 @@ if (product) {
         } else {
 
             const startPoint =
-                viewport * 0.72;
+                viewport * 0.50;
 
             const revealDistance =
                 720;

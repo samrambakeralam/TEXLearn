@@ -2013,25 +2013,33 @@ a {
     }
 
 
-   .rc2-hero-product {
+    .rc2-hero-product {
 
-    grid-area: product;
-    grid-column: 1;
-    grid-row: auto;
+        grid-area:
+            product;
 
-    width: 100%;
+        grid-column:
+            1;
 
-    min-height: 410px;
+        grid-row:
+            auto;
 
-    margin: 0 0 17px;
+        width:
+            100%;
 
-    overflow: visible;
+        min-height:
+            410px;
 
-    transform: none !important;
+        margin:
+            0 0 17px;
 
-    position: relative;
-    left: 0 !important;
-}
+        overflow:
+            visible;
+
+        transform:
+            none;
+
+    }
 
 
     .rc2-unboxing-stage {
