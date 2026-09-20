@@ -2321,6 +2321,8 @@ a {
 
     .rc2-hero h1 {
 
+         margin-top: 6px;
+
         text-align: left;
 
         font-size:
@@ -2349,7 +2351,7 @@ a {
         0 auto 12px;
 
     font-size:
-            12px;
+            11px;
 
     line-height:
             1.7;
