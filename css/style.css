@@ -2551,6 +2551,22 @@ a {
 
 }
 
+.rc2-hero-intro {
+
+    display:
+        contents;
+
+    margin:
+        0;
+
+    padding:
+        0;
+
+    transform:
+        none;
+
+}
+
 
     .rc2-hero h1 {
 
