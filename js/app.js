@@ -1171,7 +1171,7 @@ const isPhone =
     window.innerWidth <= 767;
 
 const productX =
-    isNormalPhone ? 0 : 35;
+    isNormalPhone ? 20 : 35;
 
 const productY =
     isNormalPhone ? 2 : 22;
