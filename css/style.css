@@ -2551,6 +2551,26 @@ a {
 
 }
 
+ .rc2-hero-badge {
+
+        grid-area:
+            badge;
+
+
+        justify-self:
+            left;
+
+        margin:
+            0 0 4px;
+
+        padding:
+            6px 6px;
+
+        font-size:
+            8px;
+
+    }
+
 .rc2-hero-intro {
 
     display:
