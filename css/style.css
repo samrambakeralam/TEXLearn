@@ -1834,13 +1834,13 @@ a {
 
    .rc2-unboxing-product {
 
-      width: min(62%,250px);
+      width: min(70%,250px);
 
      margin-left: auto;
     margin-right: auto;
 
    transform:
-        translate3d(65px, 0, 0);
+        translate3d(65px, 8, 0);
 
 }
 
