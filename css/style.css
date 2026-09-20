@@ -2067,10 +2067,10 @@ a {
     .rc2-velvet-valance {
 
         top:
-            -40px;
+            -28px;
 
         height:
-            90px;
+            62px;
 
     }
 
@@ -2078,7 +2078,7 @@ a {
     .rc2-valance-panel {
 
         height:
-            90px;
+            62px;
 
     }
 
@@ -2103,7 +2103,7 @@ a {
 
    .rc2-unboxing-product {
 
-      width: min(68%, 270px);
+      width: min(62%,250px);
 
     margin:
         0 auto;
@@ -2116,7 +2116,7 @@ a {
 
    .rc2-product-image {
     width: 100%;
-    max-height: 270px;
+    max-height: 250px;
 }
 
 
