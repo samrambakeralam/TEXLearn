@@ -1834,7 +1834,7 @@ a {
 
    .rc2-unboxing-product {
 
-      width: min(70%,250px);
+      width: min(75%,250px);
 
      margin-left: auto;
     margin-right: auto;
@@ -1875,7 +1875,7 @@ a {
     .rc2-unboxing-podium {
 
         width:
-            84%;
+            80%;
 
         bottom:
             4px;
