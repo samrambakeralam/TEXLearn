@@ -1326,9 +1326,6 @@ a {
     position:
         relative;
 
-    justify-content:
-        center;
-
     width:
         min(92%, 500px);
 
@@ -2460,6 +2457,12 @@ a {
 
         z-index:
         8;
+
+        align-items:
+        center;
+
+    justify-content:
+        center;
 
 }
 
