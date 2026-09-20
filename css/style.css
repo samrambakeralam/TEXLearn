@@ -1897,6 +1897,8 @@ a {
 
     .rc2-hero-inner {
 
+        outline: 2px solid red;
+
         width:
             calc(100% - 24px);
 
