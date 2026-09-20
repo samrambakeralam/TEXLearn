@@ -2587,12 +2587,33 @@ a {
     }
 
 
-    .rc2-hero-product {
+   .rc2-hero-product {
 
-        min-height:
-            420px;
+    grid-area:
+        product;
 
-    }
+    grid-column:
+        1;
+
+    grid-row:
+        auto;
+
+    width:
+        100%;
+
+    min-height:
+        0;
+
+    margin:
+        0 0 17px;
+
+    overflow:
+        visible;
+
+    transform:
+        none;
+
+}
 
 
     .rc2-unboxing-stage {
