@@ -1839,8 +1839,8 @@ a {
      margin-left: auto;
     margin-right: auto;
 
-    transform:
-        translate3d(40px, 10px, 0);
+   transform:
+        translate3d(55px, 10px, 0);
 
 }
 
@@ -2453,7 +2453,7 @@ a {
         auto;
 
     transform:
-        translate3d(40px, 10px, 0);
+        translate3d(55px, 10px, 0);
 
         z-index:
         8;
