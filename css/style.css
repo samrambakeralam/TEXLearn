@@ -946,18 +946,31 @@ a {
 
 }
 
+.rc2-secondary-cta:active {
+
+    color:
+        var(--rc2-green);
+
+    transform:
+        translateX(2px);
+
+}
 
 .rc2-secondary-cta svg {
+    width: 19px;
+    height: 19px;
+    flex: 0 0 auto;
+    stroke-width: 1.7;
+    transition: transform .25s ease, stroke-width .25s ease;
+}
 
-    width:
-        18px;
+.rc2-secondary-cta:hover svg {
+    transform: translateX(3px);
+    stroke-width: 1.9;
+}
 
-    height:
-        18px;
-
-    flex:
-        0 0 auto;
-
+.rc2-secondary-cta:active svg {
+    transform: translateX(3px);
 }
 
 
@@ -2611,8 +2624,14 @@ a {
 }
 
 .rc2-trust-line {
-    grid-area:
-        trust;
+    font-size: 8.5px;
+    line-height: 1.25;
+    gap: 4px;
+}
+
+.rc2-trust-line svg {
+    width: 10px;
+    height: 10px;
 }
 
 }
