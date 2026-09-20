@@ -2103,13 +2103,17 @@ a {
 
    .rc2-unboxing-product {
 
-      width: min(62%,250px);
+    width: min(62%,250px);
 
-     margin-left: auto;
-    margin-right: auto;
+    position: absolute;
 
-   transform:
-    none;
+    left: 50%;
+
+    margin-left: 0;
+    margin-right: 0;
+
+    transform:
+        translate3d(-50%,10px,0);
 
 }
 
