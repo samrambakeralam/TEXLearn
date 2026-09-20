@@ -2104,7 +2104,7 @@ a {
    .rc2-unboxing-product {
 
     width:
-        min(94%,390px);
+        min(68%,300px);
 
     margin:
         0 auto;
@@ -2121,7 +2121,7 @@ a {
             100%;
 
         max-height:
-            405px;
+            300px;
 
     }
 
