@@ -1175,7 +1175,7 @@ const productX =
     isNormalPhone ? 55 : 35;
 
 const productY =
-    isNormalPhone ? 40 : 22;
+    isNormalPhone ? 35 : 22;
 
 product.style.transform =
     `
