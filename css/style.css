@@ -2523,12 +2523,33 @@ a {
     }
 
 
-    .rc2-hero-inner {
+   .rc2-hero-inner {
 
-        width:
-            calc(100% - 24px);
+    width:
+        calc(100% - 24px);
 
-    }
+    display:
+        grid;
+
+    grid-template-columns:
+        1fr;
+
+    grid-template-areas:
+        "badge"
+        "heading"
+        "description"
+        "product"
+        "values"
+        "actions"
+        "trust";
+
+    gap:
+        0;
+
+    text-align:
+        center;
+
+}
 
 
     .rc2-hero h1 {
