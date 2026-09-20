@@ -1172,7 +1172,7 @@ function initialiseUnboxingReveal() {
     window.innerWidth <= 767;
 
 const productX =
-    isNormalPhone ? 65 : 35;
+    isNormalPhone ? 55 : 35;
 
 product.style.transform =
     `
