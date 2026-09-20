@@ -1169,9 +1169,9 @@ function initialiseUnboxingReveal() {
 
 const isPhone =
     window.innerWidth <= 767;
-    
+
 const productX =
-    isNormalPhone ? 55 : 35;
+    isNormalPhone ?125 : 35;
 
 const productY =
     isNormalPhone ? 2 : 22;
