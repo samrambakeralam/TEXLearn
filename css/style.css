@@ -1326,6 +1326,9 @@ a {
     position:
         relative;
 
+    justify-content:
+        center;
+
     width:
         min(92%, 500px);
 
