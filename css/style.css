@@ -684,7 +684,7 @@ a {
         var(--rc2-text-soft);
 
     font-size:
-        15px;
+        14px;
 
     line-height:
         1.65;
@@ -2098,15 +2098,18 @@ a {
 
     /* Product */
 
-    .rc2-unboxing-product {
+   .rc2-unboxing-product {
 
-        width:
-            min(94%,390px);
+    width:
+        min(94%,390px);
 
-        transform:
-            translate3d(0,10px,0);
+    margin:
+        0 auto;
 
-    }
+    transform:
+        translate3d(0,10px,0);
+
+}
 
 
     .rc2-product-image {
@@ -9879,29 +9882,6 @@ aspect-ratio: 0.75;
 }
 
 
-.rc2-product-image {
-
-    position: relative;
-
-    width: min(
-        100%,
-        500px
-    );
-
-    max-height: 520px;
-
-    object-fit: contain;
-
-    filter:
-        drop-shadow(
-            0 25px 35px
-            rgba(15,23,42,.18)
-        );
-
-    z-index: 2;
-
-}
-
 /* =========================================================
    RC2.3 — FEATURED CAROUSEL
    NORMAL PHONES
@@ -10147,119 +10127,6 @@ a {
     --rc2-fabric-3: #173a56;
     --rc2-fabric-shadow: rgba(0,0,0,.36);
     --rc2-transition: cubic-bezier(.22,.61,.36,1);
-}
-
-/* ---------------------------------------------------------
-   HERO — clean, premium foundation
---------------------------------------------------------- */
-
-.rc2-hero {
-    position: relative;
-    overflow: hidden;
-    background:
-        radial-gradient(circle at 78% 18%, rgba(22,163,74,.045), transparent 27%),
-        linear-gradient(180deg,#fff 0%,#f8fafc 100%);
-}
-
-.rc2-hero-inner {
-    position: relative;
-    z-index: 1;
-}
-
-/* ---------------------------------------------------------
-   HERO POSITIONING — DESKTOP
---------------------------------------------------------- */
-
-@media (min-width: 768px) {
-
-    .rc2-hero-inner {
-
-        display: grid;
-
-        grid-template-columns:
-            1.05fr .95fr;
-
-        column-gap:
-            60px;
-
-        align-items:
-            center;
-
-    }
-
-
-    /* LEFT CONTENT */
-
-    .rc2-hero-intro {
-
-        grid-column:
-            1;
-
-        grid-row:
-            1;
-
-        display:
-            block;
-
-        transform:
-            none;
-
-    }
-
-
-    /* PRODUCT */
-
-    .rc2-hero-product {
-
-        grid-column:
-            2;
-
-        grid-row:
-            1;
-
-        transform:
-            none;
-
-    }
-
-
-    /* REMOVE OLD POSITIONING */
-
-    .rc2-value-points,
-    .rc2-hero-actions,
-    .rc2-trust-line {
-
-        transform:
-            none;
-
-    }
-
-}
-
-
-.rc2-hero-product {
-
-    position:
-        relative;
-
-    min-height:
-        400px;
-
-    display:
-        flex;
-
-    align-items:
-        center;
-
-    justify-content:
-        center;
-
-    isolation:
-        isolate;
-
-    overflow:
-        visible;
-
 }
 
 

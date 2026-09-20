@@ -1167,17 +1167,17 @@ function initialiseUnboxingReveal() {
                 );
 
 
-            product.style.transform =
-                `
-                translate3d(
-                    0,
-                    ${35 - (6 * reveal)}px,
-                    0
-                )
-                scale(
-                    ${1 + (.022 * reveal)}
-                )
-                `;
+  product.style.transform =
+    `
+    translate3d(
+        35px,
+        ${22 - (6 * reveal)}px,
+        0
+    )
+    scale(
+        ${1 + (.022 * reveal)}
+    )
+    `;
 
         }
 
