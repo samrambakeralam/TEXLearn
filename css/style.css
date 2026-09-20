@@ -1341,8 +1341,7 @@ a {
     z-index:
         4;
 
-    transform:
-    translateY(0);
+   transform: translate(25px, 25px);
 
     transform-origin:
         center bottom;
@@ -1839,8 +1838,8 @@ a {
      margin-left: auto;
     margin-right: auto;
 
-    transform:
-        translate3d(0,10px,0);
+   transform:
+    translate3d(25px,10px,0);
 
 }
 
@@ -2452,8 +2451,8 @@ a {
     margin-right:
         auto;
 
-    transform:
-        translate3d(0,10px,0);
+   transform:
+    translate3d(25px,10px,0);
 
         z-index:
         8;
