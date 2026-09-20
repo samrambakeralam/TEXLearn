@@ -842,7 +842,8 @@ a {
         0 8px 20px
         rgba(22,163,74,.18);
 
-    transition:
+      transition:
+        background .25s ease,
         transform .25s ease,
         box-shadow .25s ease;
 }
@@ -850,12 +851,33 @@ a {
 
 .rc2-primary-cta:hover {
 
+       background:
+        linear-gradient(
+            135deg,
+            #0A8754,
+            #06703F
+        );
+
     transform:
         translateY(-1px);
 
     box-shadow:
         0 10px 24px
         rgba(22,163,74,.24);
+
+}
+
+.rc2-primary-cta:active {
+
+    background:
+        linear-gradient(
+            135deg,
+            #06703F,
+            #055A33
+        );
+
+    transform:
+        translateY(1px);
 
 }
 
