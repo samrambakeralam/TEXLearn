@@ -117,9 +117,7 @@ function openModal() {
 }
 
 function closeRegistrationModal() {
-
     modal.classList.remove("active");
-
 }
 
 // =======================================
