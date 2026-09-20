@@ -1174,11 +1174,14 @@ function initialiseUnboxingReveal() {
 const productX =
     isNormalPhone ? 55 : 35;
 
+const productY =
+    isNormalPhone ? 40 : 22;
+
 product.style.transform =
     `
     translate3d(
         ${productX}px,
-        ${22 - (6 * reveal)}px,
+        ${productY - (6 * reveal)}px,
         0
     )
     scale(
