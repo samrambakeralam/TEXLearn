@@ -1177,9 +1177,7 @@ const productY =
     isPhone ? 2 : 22;
 
 const productScale =
-    isPhone
-        ? 1
-        : (1 + (.022 * reveal));
+    1;
 
 const productYOffset =
     isPhone
