@@ -1177,15 +1177,19 @@ const productX =
 const productY =
       isNormalPhone ? 4 : 22;
 
+const normalPhoneRevealX = isNormalPhone ? productX : productX;
+const normalPhoneRevealY = isNormalPhone ? productY : productY;
+const normalPhoneRevealScale = isNormalPhone ? 1 : (1 + (.022 * reveal));
+
 product.style.transform =
     `
     translate3d(
-        ${productX}px,
-        ${productY - (6 * reveal)}px,
+        ${normalPhoneRevealX}px,
+        ${normalPhoneRevealY}px,
         0
     )
     scale(
-        ${1 + (.022 * reveal)}
+        ${normalPhoneRevealScale}
     )
     `;
 
