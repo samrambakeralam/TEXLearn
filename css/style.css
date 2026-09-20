@@ -2412,7 +2412,7 @@ a {
     .rc2-velvet-valance {
 
         top:
-            -28px;
+            -30px;
 
         height:
             62px;
@@ -2504,9 +2504,83 @@ a {
 
     }
 
-    .rc2-value-points {
+/* Value points */
+
+.rc2-value-points {
+
     grid-area:
         values;
+
+    width:
+        100%;
+
+    display:
+        grid;
+
+    grid-template-columns:
+        repeat(3, minmax(0, 1fr));
+
+    gap:
+        5px;
+
+    margin:
+        0;
+
+    transform:
+        none;
+
+}
+
+
+.rc2-value-points div {
+
+    min-width:
+        0;
+
+    min-height:
+        34px;
+
+    padding:
+        5px 3px;
+
+    box-sizing:
+        border-box;
+
+    display:
+        inline-flex;
+
+    align-items:
+        center;
+
+    justify-content:
+        center;
+
+    gap:
+        3px;
+
+    white-space:
+        nowrap;
+
+    font-size:
+        8.5px;
+
+    font-weight:
+        600;
+
+}
+
+
+.rc2-value-points svg {
+
+    width:
+        12px;
+
+    height:
+        12px;
+
+    flex:
+        0 0 auto;
+
 }
 
 .rc2-hero-actions {
