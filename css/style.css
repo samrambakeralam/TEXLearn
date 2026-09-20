@@ -2654,6 +2654,21 @@ a {
 
     }
 
+    .rc2-value-points {
+    grid-area:
+        values;
+}
+
+.rc2-hero-actions {
+    grid-area:
+        actions;
+}
+
+.rc2-trust-line {
+    grid-area:
+        trust;
+}
+
 }
 
 
