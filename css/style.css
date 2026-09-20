@@ -1839,8 +1839,8 @@ a {
      margin-left: auto;
     margin-right: auto;
 
-   transform:
-        translate3d(55px, 10px, 0);
+    transform:
+        translate3d(65px, 10px, 0);
 
 }
 
@@ -2446,19 +2446,25 @@ a {
     width:
          min(62%,250px);
 
+    display:
+        flex;
+
     margin-left:
         auto;
 
     margin-right:
         auto;
 
-    transform:
-        translate(25px, 25px);
+        position:
+        relative;
 
-        z-index:
+    transform:
+        translate3d(65px, 10px, 0);
+
+    z-index:
         8;
 
-        align-items:
+    align-items:
         center;
 
     justify-content:
