@@ -1171,18 +1171,18 @@ const isPhone =
     window.innerWidth <= 767;
 
 const productX =
-    isNormalPhone ? 55 : 0;
+    isPhone ? 55 : 0;
 
 const productY =
-    isNormalPhone ? 2 : 22;
+    isPhone ? 2 : 22;
 
 const productScale =
-    isNormalPhone
+    isPhone
         ? 1
         : (1 + (.022 * reveal));
 
 const productYOffset =
-    isNormalPhone
+    isPhone
         ? 0
         : (6 * reveal);
 
