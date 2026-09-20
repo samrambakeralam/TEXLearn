@@ -2281,8 +2281,8 @@ a {
 
     .rc2-hero {
 
-        padding-top:
-            20px;
+        padding:
+            20px 0 20px;
 
     }
 
@@ -3242,6 +3242,1224 @@ transform:translateY(0px);
 
 }
 
+
+/* =========================================================
+   OPPORTUNITIES & UPDATES HUB
+   DESKTOP / BASE
+========================================================= */
+
+
+/* =========================================================
+   SECTION
+========================================================= */
+
+.opportunities-hub {
+
+    padding:
+        22px 8% 20px;
+
+    background:
+        #FFFFFF;
+
+    border-top:
+        1px solid #E5E7EB;
+
+    border-bottom:
+        1px solid #E5E7EB;
+
+}
+
+
+/* =========================================================
+   HUB INNER
+========================================================= */
+
+.opportunities-hub-inner {
+
+    width:
+        100%;
+
+    max-width:
+        1200px;
+
+    margin:
+        0 auto;
+
+    display:
+        grid;
+
+    grid-template-columns:
+        220px minmax(0, 1fr);
+
+    gap:
+        30px;
+
+    align-items:
+        center;
+
+}
+
+
+/* =========================================================
+   SECTION LABEL
+========================================================= */
+
+.opportunities-hub-label {
+
+    display:
+        flex;
+
+    flex-direction:
+        column;
+
+    justify-content:
+        center;
+
+}
+
+
+.hub-label-eyebrow {
+
+    display:
+        inline-block;
+
+    margin-bottom:
+        5px;
+
+    color:
+        #16A34A;
+
+    font-family:
+        "Poppins",
+        sans-serif;
+
+    font-size:
+        10px;
+
+    font-weight:
+        800;
+
+    letter-spacing:
+        1.2px;
+
+    text-transform:
+        uppercase;
+
+}
+
+
+.opportunities-hub-label h2 {
+
+    margin:
+        0 0 5px;
+
+    color:
+        #0B1F3A;
+
+    font-family:
+        "Poppins",
+        sans-serif;
+
+    font-size:
+        22px;
+
+    font-weight:
+        700;
+
+    line-height:
+        1.2;
+
+}
+
+
+.opportunities-hub-label p {
+
+    max-width:
+        190px;
+
+    margin:
+        0;
+
+    color:
+        #64748B;
+
+    font-size:
+        11px;
+
+    line-height:
+        1.5;
+
+}
+
+
+/* =========================================================
+   CAROUSEL CONTAINER
+========================================================= */
+
+.opportunities-hub-banner {
+
+    position:
+        relative;
+
+    width:
+        100%;
+
+    min-width:
+        0;
+
+    overflow:
+        visible;
+
+    background:
+        #F8FAFC;
+
+    border:
+        1px solid #E2E8F0;
+
+    border-radius:
+        18px;
+
+    box-shadow:
+        0 10px 30px rgba(15,23,42,.055);
+
+}
+
+
+/* =========================================================
+   VIEWPORT
+========================================================= */
+
+.hub-viewport {
+
+    width:
+        100%;
+
+    overflow:
+        hidden;
+
+    border-radius:
+        18px;
+
+}
+
+
+/* =========================================================
+   TRACK
+========================================================= */
+
+.hub-track {
+
+    width:
+        100%;
+
+    display:
+        flex;
+
+    transition:
+        transform .55s ease;
+
+}
+
+
+/* =========================================================
+   STANDARD SLIDE
+   TEXT LEFT / IMAGE RIGHT
+========================================================= */
+
+.hub-slide {
+
+    flex:
+        0 0 100%;
+
+    width:
+        100%;
+
+    min-width:
+        100%;
+
+    height:
+        240px;
+
+    min-height:
+        240px;
+
+    max-height:
+        240px;
+
+    display:
+        grid;
+
+    grid-template-columns:
+        minmax(0, 1fr)
+        500px;
+
+    align-items:
+        stretch;
+
+    overflow:
+        hidden;
+
+}
+
+
+/* =========================================================
+   SLIDE IMAGE
+========================================================= */
+
+.hub-slide-image {
+
+    width:
+        500px;
+
+    min-width:
+        500px;
+
+    height:
+        240px;
+
+    min-height:
+        240px;
+
+    max-height:
+        240px;
+
+    grid-column:
+        2;
+
+    grid-row:
+        1;
+
+    display:
+        flex;
+
+    align-items:
+        center;
+
+    justify-content:
+        center;
+
+    overflow:
+        hidden;
+
+    background:
+        #FFFFFF;
+
+}
+
+
+.hub-slide-image img {
+
+    display:
+        block;
+
+    width:
+        100%;
+
+    height:
+        100%;
+
+    object-position:
+        center;
+
+}
+
+.hub-image-contain {
+
+    object-fit:
+        contain;
+
+}
+
+.hub-image-cover {
+
+    object-fit:
+        cover;
+
+}
+
+/* =========================================================
+   IMAGE PLACEHOLDER
+========================================================= */
+
+.hub-image-placeholder {
+
+    width:
+        58px;
+
+    height:
+        58px;
+
+    display:
+        flex;
+
+    align-items:
+        center;
+
+    justify-content:
+        center;
+
+    border-radius:
+        16px;
+
+    background:
+        #ECFDF5;
+
+    color:
+        #16A34A;
+
+}
+
+
+.hub-image-placeholder svg {
+
+    width:
+        28px;
+
+    height:
+        28px;
+
+}
+
+
+/* =========================================================
+   SLIDE CONTENT
+========================================================= */
+
+.hub-slide-content {
+
+    min-width:
+        0;
+
+    grid-column:
+        1;
+
+    grid-row:
+        1;
+
+    display:
+        flex;
+
+    flex-direction:
+        column;
+
+    justify-content:
+        center;
+
+    padding:
+        16px 52px 16px 24px;
+
+}
+
+
+/* =========================================================
+   SLIDE LABEL
+========================================================= */
+
+.hub-slide-label {
+
+    display:
+        inline-block;
+
+    margin-bottom:
+        5px;
+
+    color:
+        #16A34A;
+
+    font-size:
+        9px;
+
+    font-weight:
+        800;
+
+    letter-spacing:
+        1px;
+
+}
+
+
+/* =========================================================
+   SLIDE TITLE
+========================================================= */
+
+.hub-slide-content h3 {
+
+    margin:
+        0 0 5px;
+
+    color:
+        #0B1F3A;
+
+    font-family:
+        "Poppins",
+        sans-serif;
+
+    font-size:
+        19px;
+
+    font-weight:
+        700;
+
+    line-height:
+        1.25;
+
+}
+
+
+/* =========================================================
+   SLIDE DESCRIPTION
+========================================================= */
+
+.hub-slide-content p {
+
+    max-width:
+        650px;
+
+    margin:
+        0 0 9px;
+
+    color:
+        #64748B;
+
+    font-size:
+        12px;
+
+    line-height:
+        1.5;
+
+}
+
+
+/* =========================================================
+   CTA
+========================================================= */
+
+.hub-slide-button {
+
+    display:
+        inline-flex;
+
+    align-items:
+        center;
+
+    gap:
+        5px;
+
+    width:
+        fit-content;
+
+    color:
+        #15803D;
+
+    text-decoration:
+        none;
+
+    font-size:
+        10.5px;
+
+    font-weight:
+        700;
+
+}
+
+
+.hub-slide-button svg {
+
+    width:
+        13px;
+
+    height:
+        13px;
+
+    transition:
+        transform .2s ease;
+
+}
+
+
+.hub-slide-button:hover svg {
+
+    transform:
+        translateX(3px);
+
+}
+
+
+/* =========================================================
+   DESKTOP CAROUSEL ARROWS
+========================================================= */
+
+.hub-arrow {
+
+    position:
+        absolute;
+
+    top:
+        50%;
+
+    transform:
+        translateY(-50%);
+
+    z-index:
+        5;
+
+    width:
+        30px;
+
+    height:
+        30px;
+
+    display:
+        flex;
+
+    align-items:
+        center;
+
+    justify-content:
+        center;
+
+    padding:
+        0;
+
+    border:
+        1px solid #E2E8F0;
+
+    border-radius:
+        50%;
+
+    background:
+        rgba(255,255,255,.96);
+
+    color:
+        #0B1F3A;
+
+    cursor:
+        pointer;
+
+    box-shadow:
+        0 4px 12px rgba(15,23,42,.08);
+
+}
+
+
+.hub-arrow svg {
+
+    width:
+        14px;
+
+    height:
+        14px;
+
+}
+
+
+.hub-prev {
+
+    left:
+        -42px;
+
+}
+
+
+.hub-next {
+
+    right:
+        -42px;
+
+}
+
+
+/* =========================================================
+   DESKTOP CAROUSEL DOTS
+========================================================= */
+
+.hub-dots {
+
+    display:
+        flex;
+
+    align-items:
+        center;
+
+    justify-content:
+        center;
+
+    flex-direction:
+        row;
+
+    gap:
+        5px;
+
+    margin:
+        8px 0 0;
+
+}
+
+
+.hub-dot {
+
+    flex:
+        0 0 auto;
+
+    width:
+        5px;
+
+    height:
+        5px;
+
+    min-width:
+        5px;
+
+    min-height:
+        5px;
+
+    padding:
+        0;
+
+    margin:
+        0;
+
+    border:
+        0;
+
+    border-radius:
+        50%;
+
+    background:
+        #CBD5E1;
+
+}
+
+
+.hub-dot.active {
+
+    width:
+        16px;
+
+    min-width:
+        16px;
+
+    height:
+        5px;
+
+    min-height:
+        5px;
+
+    border-radius:
+        999px;
+
+    background:
+        #16A34A;
+
+}
+
+
+/* =========================================================
+   OPPORTUNITIES & UPDATES HUB
+   NORMAL PHONE
+========================================================= */
+
+@media (max-width: 767px) {
+
+
+    /* -----------------------------------------
+       SECTION
+    ----------------------------------------- */
+
+    .opportunities-hub {
+
+        padding:
+            22px 18px 28px;
+
+    position:
+        relative;
+
+    z-index:
+        1;
+
+    }
+
+
+    /* -----------------------------------------
+       HUB INNER
+    ----------------------------------------- */
+
+    .opportunities-hub-inner {
+
+        display:
+            block;
+
+    }
+
+
+    /* -----------------------------------------
+       SECTION LABEL
+    ----------------------------------------- */
+
+    .opportunities-hub-label {
+
+        margin-bottom:
+            14px;
+
+    }
+
+
+    .hub-label-eyebrow {
+
+        margin-bottom:
+            4px;
+
+        font-size:
+            9px;
+
+        line-height:
+            1.3;
+
+    }
+
+
+    .opportunities-hub-label h2 {
+
+        margin:
+            0 0 5px;
+
+        font-size:
+            20px;
+
+        line-height:
+            1.2;
+
+    }
+
+
+    .opportunities-hub-label p {
+
+        max-width:
+            100%;
+
+        margin:
+            0;
+
+        font-size:
+            11px;
+
+        line-height:
+            1.45;
+
+    }
+
+
+    /* -----------------------------------------
+       CAROUSEL CONTAINER
+    ----------------------------------------- */
+
+    .opportunities-hub-banner {
+
+        width:
+            100%;
+
+        border-radius:
+            15px;
+
+        overflow:
+            hidden;
+
+    }
+
+
+    /* -----------------------------------------
+       VIEWPORT
+    ----------------------------------------- */
+
+    .hub-viewport {
+
+    width:
+        100%;
+
+    height:
+        auto;
+
+    overflow:
+        hidden;
+
+    border-radius:
+        15px;
+
+    touch-action:
+        pan-y;
+
+}
+
+
+    /* -----------------------------------------
+       TRACK
+    ----------------------------------------- */
+
+    .hub-track {
+
+        display:
+            flex;
+
+        width:
+            100%;
+
+        transition:
+            transform .45s ease;
+
+        will-change:
+            transform;
+
+    }
+
+
+    /* -----------------------------------------
+       SLIDE
+       IMAGE ABOVE / TEXT BELOW
+    ----------------------------------------- */
+
+    .hub-slide{
+
+    flex:
+        0 0 100%;
+
+    width:
+        100%;
+
+    min-width:
+        100%;
+
+    height:
+        auto;
+
+    min-height:
+        0;
+
+    max-height:
+        none;
+
+    display:
+        grid;
+
+    grid-template-columns:
+        1fr;
+
+    grid-template-rows:
+        auto auto;
+
+    align-items:
+        stretch;
+
+}
+
+
+    /* -----------------------------------------
+       IMAGE
+       FULL WIDTH
+    ----------------------------------------- */
+
+    .hub-slide-image{
+
+    width:
+        100%;
+
+    min-width:
+        0;
+
+    height:
+        176px;
+
+    min-height:
+        176px;
+
+    grid-column:
+        1;
+
+    grid-row:
+        1;
+
+    display:
+        flex;
+
+    align-items:
+        center;
+
+    justify-content:
+        center;
+
+    overflow:
+        hidden;
+
+    background:
+        #FFFFFF;
+
+}
+
+
+
+    .hub-slide-image img {
+
+    display:
+        block;
+
+    width:
+        100%;
+
+    height:
+        100%;
+
+    max-width:
+        100%;
+
+    object-fit:
+        contain;
+
+    object-position:
+        center;
+
+}
+
+
+    /* -----------------------------------------
+       SLIDE CONTENT
+    ----------------------------------------- */
+
+    .hub-slide-content {
+
+    min-width:
+        0;
+
+    grid-column:
+        1;
+
+    grid-row:
+        2;
+
+    display:
+        flex;
+
+    flex-direction:
+        column;
+
+    justify-content:
+        center;
+
+    padding:
+        15px 17px 17px;
+
+}
+
+
+    /* -----------------------------------------
+       SLIDE LABEL
+    ----------------------------------------- */
+
+    .hub-slide-label {
+
+        margin-bottom:
+            4px;
+
+        font-size:
+            9px;
+
+        line-height:
+            1.3;
+
+    }
+
+
+    /* -----------------------------------------
+       SLIDE TITLE
+    ----------------------------------------- */
+
+    .hub-slide-content h3 {
+
+        margin:
+            0 0 5px;
+
+        font-size:
+            16px;
+
+        line-height:
+            1.3;
+
+    }
+
+
+    /* -----------------------------------------
+       SLIDE DESCRIPTION
+    ----------------------------------------- */
+
+    .hub-slide-content p {
+
+        max-width:
+            100%;
+
+        margin:
+            0 0 8px;
+
+        font-size:
+            11px;
+
+        line-height:
+            1.45;
+
+    }
+
+
+    /* -----------------------------------------
+       CTA
+    ----------------------------------------- */
+
+    .hub-slide-button {
+
+        width:
+            fit-content;
+
+        font-size:
+            10px;
+
+        line-height:
+            1.3;
+
+    }
+
+
+    .hub-slide-button svg {
+
+        width:
+            14px;
+
+        height:
+            14px;
+
+    }
+
+
+    /* -----------------------------------------
+       ARROWS
+       HIDDEN ON MOBILE
+    ----------------------------------------- */
+
+    .hub-arrow {
+
+        display:
+            none;
+
+    }
+
+
+    /* -----------------------------------------
+       DOTS
+    ----------------------------------------- */
+
+    .hub-dots {
+
+        display:
+            flex;
+
+        width:
+            100%;
+
+        height:
+            10px;
+
+        min-height:
+            10px;
+
+        align-items:
+            center;
+
+        justify-content:
+            center;
+
+        flex-direction:
+            row;
+
+        gap:
+            6px;
+
+        margin:
+            10px 0 0;
+
+        position:
+        relative;
+
+        z-index: 2;
+
+    }
+
+
+    /* -----------------------------------------
+       DOT
+    ----------------------------------------- */
+
+    .hub-dot {
+
+        flex:
+            0 0 auto;
+
+        width:
+            6px;
+
+        height:
+            6px;
+
+        min-width:
+            6px;
+
+        min-height:
+            6px;
+
+        padding:
+            0;
+
+        margin:
+            0;
+
+        border:
+            0;
+
+        border-radius:
+            50%;
+
+    }
+
+
+    /* -----------------------------------------
+       ACTIVE DOT
+    ----------------------------------------- */
+
+    .hub-dot.active {
+
+        width:
+            18px;
+
+        height:
+            6px;
+
+        min-width:
+            18px;
+
+        min-height:
+            6px;
+
+        border-radius:
+            999px;
+
+    }
+
+    }
+
+/* -----------------------------------------
+   SPACE BEFORE FEATURED CAROUSEL
+----------------------------------------- */
+
+#featured-carousel{
+
+    margin-top:
+        0px;
+
+}
 
 /* =====================================================
    WHY CHOOSE SK LEARNING MODULES
@@ -10181,1223 +11399,6 @@ a {
 
 }
 
-/* =========================================================
-   OPPORTUNITIES & UPDATES HUB
-   DESKTOP / BASE
-========================================================= */
-
-
-/* =========================================================
-   SECTION
-========================================================= */
-
-.opportunities-hub {
-
-    padding:
-        22px 8% 20px;
-
-    background:
-        #FFFFFF;
-
-    border-top:
-        1px solid #E5E7EB;
-
-    border-bottom:
-        1px solid #E5E7EB;
-
-}
-
-
-/* =========================================================
-   HUB INNER
-========================================================= */
-
-.opportunities-hub-inner {
-
-    width:
-        100%;
-
-    max-width:
-        1200px;
-
-    margin:
-        0 auto;
-
-    display:
-        grid;
-
-    grid-template-columns:
-        220px minmax(0, 1fr);
-
-    gap:
-        30px;
-
-    align-items:
-        center;
-
-}
-
-
-/* =========================================================
-   SECTION LABEL
-========================================================= */
-
-.opportunities-hub-label {
-
-    display:
-        flex;
-
-    flex-direction:
-        column;
-
-    justify-content:
-        center;
-
-}
-
-
-.hub-label-eyebrow {
-
-    display:
-        inline-block;
-
-    margin-bottom:
-        5px;
-
-    color:
-        #16A34A;
-
-    font-family:
-        "Poppins",
-        sans-serif;
-
-    font-size:
-        10px;
-
-    font-weight:
-        800;
-
-    letter-spacing:
-        1.2px;
-
-    text-transform:
-        uppercase;
-
-}
-
-
-.opportunities-hub-label h2 {
-
-    margin:
-        0 0 5px;
-
-    color:
-        #0B1F3A;
-
-    font-family:
-        "Poppins",
-        sans-serif;
-
-    font-size:
-        22px;
-
-    font-weight:
-        700;
-
-    line-height:
-        1.2;
-
-}
-
-
-.opportunities-hub-label p {
-
-    max-width:
-        190px;
-
-    margin:
-        0;
-
-    color:
-        #64748B;
-
-    font-size:
-        11px;
-
-    line-height:
-        1.5;
-
-}
-
-
-/* =========================================================
-   CAROUSEL CONTAINER
-========================================================= */
-
-.opportunities-hub-banner {
-
-    position:
-        relative;
-
-    width:
-        100%;
-
-    min-width:
-        0;
-
-    overflow:
-        visible;
-
-    background:
-        #F8FAFC;
-
-    border:
-        1px solid #E2E8F0;
-
-    border-radius:
-        18px;
-
-    box-shadow:
-        0 10px 30px rgba(15,23,42,.055);
-
-}
-
-
-/* =========================================================
-   VIEWPORT
-========================================================= */
-
-.hub-viewport {
-
-    width:
-        100%;
-
-    overflow:
-        hidden;
-
-    border-radius:
-        18px;
-
-}
-
-
-/* =========================================================
-   TRACK
-========================================================= */
-
-.hub-track {
-
-    width:
-        100%;
-
-    display:
-        flex;
-
-    transition:
-        transform .55s ease;
-
-}
-
-
-/* =========================================================
-   STANDARD SLIDE
-   TEXT LEFT / IMAGE RIGHT
-========================================================= */
-
-.hub-slide {
-
-    flex:
-        0 0 100%;
-
-    width:
-        100%;
-
-    min-width:
-        100%;
-
-    height:
-        240px;
-
-    min-height:
-        240px;
-
-    max-height:
-        240px;
-
-    display:
-        grid;
-
-    grid-template-columns:
-        minmax(0, 1fr)
-        500px;
-
-    align-items:
-        stretch;
-
-    overflow:
-        hidden;
-
-}
-
-
-/* =========================================================
-   SLIDE IMAGE
-========================================================= */
-
-.hub-slide-image {
-
-    width:
-        500px;
-
-    min-width:
-        500px;
-
-    height:
-        240px;
-
-    min-height:
-        240px;
-
-    max-height:
-        240px;
-
-    grid-column:
-        2;
-
-    grid-row:
-        1;
-
-    display:
-        flex;
-
-    align-items:
-        center;
-
-    justify-content:
-        center;
-
-    overflow:
-        hidden;
-
-    background:
-        #FFFFFF;
-
-}
-
-
-.hub-slide-image img {
-
-    display:
-        block;
-
-    width:
-        100%;
-
-    height:
-        100%;
-
-    object-position:
-        center;
-
-}
-
-.hub-image-contain {
-
-    object-fit:
-        contain;
-
-}
-
-.hub-image-cover {
-
-    object-fit:
-        cover;
-
-}
-
-/* =========================================================
-   IMAGE PLACEHOLDER
-========================================================= */
-
-.hub-image-placeholder {
-
-    width:
-        58px;
-
-    height:
-        58px;
-
-    display:
-        flex;
-
-    align-items:
-        center;
-
-    justify-content:
-        center;
-
-    border-radius:
-        16px;
-
-    background:
-        #ECFDF5;
-
-    color:
-        #16A34A;
-
-}
-
-
-.hub-image-placeholder svg {
-
-    width:
-        28px;
-
-    height:
-        28px;
-
-}
-
-
-/* =========================================================
-   SLIDE CONTENT
-========================================================= */
-
-.hub-slide-content {
-
-    min-width:
-        0;
-
-    grid-column:
-        1;
-
-    grid-row:
-        1;
-
-    display:
-        flex;
-
-    flex-direction:
-        column;
-
-    justify-content:
-        center;
-
-    padding:
-        16px 52px 16px 24px;
-
-}
-
-
-/* =========================================================
-   SLIDE LABEL
-========================================================= */
-
-.hub-slide-label {
-
-    display:
-        inline-block;
-
-    margin-bottom:
-        5px;
-
-    color:
-        #16A34A;
-
-    font-size:
-        9px;
-
-    font-weight:
-        800;
-
-    letter-spacing:
-        1px;
-
-}
-
-
-/* =========================================================
-   SLIDE TITLE
-========================================================= */
-
-.hub-slide-content h3 {
-
-    margin:
-        0 0 5px;
-
-    color:
-        #0B1F3A;
-
-    font-family:
-        "Poppins",
-        sans-serif;
-
-    font-size:
-        19px;
-
-    font-weight:
-        700;
-
-    line-height:
-        1.25;
-
-}
-
-
-/* =========================================================
-   SLIDE DESCRIPTION
-========================================================= */
-
-.hub-slide-content p {
-
-    max-width:
-        650px;
-
-    margin:
-        0 0 9px;
-
-    color:
-        #64748B;
-
-    font-size:
-        12px;
-
-    line-height:
-        1.5;
-
-}
-
-
-/* =========================================================
-   CTA
-========================================================= */
-
-.hub-slide-button {
-
-    display:
-        inline-flex;
-
-    align-items:
-        center;
-
-    gap:
-        5px;
-
-    width:
-        fit-content;
-
-    color:
-        #15803D;
-
-    text-decoration:
-        none;
-
-    font-size:
-        10.5px;
-
-    font-weight:
-        700;
-
-}
-
-
-.hub-slide-button svg {
-
-    width:
-        13px;
-
-    height:
-        13px;
-
-    transition:
-        transform .2s ease;
-
-}
-
-
-.hub-slide-button:hover svg {
-
-    transform:
-        translateX(3px);
-
-}
-
-
-/* =========================================================
-   DESKTOP CAROUSEL ARROWS
-========================================================= */
-
-.hub-arrow {
-
-    position:
-        absolute;
-
-    top:
-        50%;
-
-    transform:
-        translateY(-50%);
-
-    z-index:
-        5;
-
-    width:
-        30px;
-
-    height:
-        30px;
-
-    display:
-        flex;
-
-    align-items:
-        center;
-
-    justify-content:
-        center;
-
-    padding:
-        0;
-
-    border:
-        1px solid #E2E8F0;
-
-    border-radius:
-        50%;
-
-    background:
-        rgba(255,255,255,.96);
-
-    color:
-        #0B1F3A;
-
-    cursor:
-        pointer;
-
-    box-shadow:
-        0 4px 12px rgba(15,23,42,.08);
-
-}
-
-
-.hub-arrow svg {
-
-    width:
-        14px;
-
-    height:
-        14px;
-
-}
-
-
-.hub-prev {
-
-    left:
-        -42px;
-
-}
-
-
-.hub-next {
-
-    right:
-        -42px;
-
-}
-
-
-/* =========================================================
-   DESKTOP CAROUSEL DOTS
-========================================================= */
-
-.hub-dots {
-
-    display:
-        flex;
-
-    align-items:
-        center;
-
-    justify-content:
-        center;
-
-    flex-direction:
-        row;
-
-    gap:
-        5px;
-
-    margin:
-        8px 0 0;
-
-}
-
-
-.hub-dot {
-
-    flex:
-        0 0 auto;
-
-    width:
-        5px;
-
-    height:
-        5px;
-
-    min-width:
-        5px;
-
-    min-height:
-        5px;
-
-    padding:
-        0;
-
-    margin:
-        0;
-
-    border:
-        0;
-
-    border-radius:
-        50%;
-
-    background:
-        #CBD5E1;
-
-}
-
-
-.hub-dot.active {
-
-    width:
-        16px;
-
-    min-width:
-        16px;
-
-    height:
-        5px;
-
-    min-height:
-        5px;
-
-    border-radius:
-        999px;
-
-    background:
-        #16A34A;
-
-}
-
-
-/* =========================================================
-   OPPORTUNITIES & UPDATES HUB
-   NORMAL PHONE
-========================================================= */
-
-@media (max-width: 767px) {
-
-
-    /* -----------------------------------------
-       SECTION
-    ----------------------------------------- */
-
-    .opportunities-hub {
-
-        padding:
-            22px 18px 28px;
-
-    position:
-        relative;
-
-    z-index:
-        1;
-
-    }
-
-
-    /* -----------------------------------------
-       HUB INNER
-    ----------------------------------------- */
-
-    .opportunities-hub-inner {
-
-        display:
-            block;
-
-    }
-
-
-    /* -----------------------------------------
-       SECTION LABEL
-    ----------------------------------------- */
-
-    .opportunities-hub-label {
-
-        margin-bottom:
-            14px;
-
-    }
-
-
-    .hub-label-eyebrow {
-
-        margin-bottom:
-            4px;
-
-        font-size:
-            9px;
-
-        line-height:
-            1.3;
-
-    }
-
-
-    .opportunities-hub-label h2 {
-
-        margin:
-            0 0 5px;
-
-        font-size:
-            20px;
-
-        line-height:
-            1.2;
-
-    }
-
-
-    .opportunities-hub-label p {
-
-        max-width:
-            100%;
-
-        margin:
-            0;
-
-        font-size:
-            11px;
-
-        line-height:
-            1.45;
-
-    }
-
-
-    /* -----------------------------------------
-       CAROUSEL CONTAINER
-    ----------------------------------------- */
-
-    .opportunities-hub-banner {
-
-        width:
-            100%;
-
-        border-radius:
-            15px;
-
-        overflow:
-            hidden;
-
-    }
-
-
-    /* -----------------------------------------
-       VIEWPORT
-    ----------------------------------------- */
-
-    .hub-viewport {
-
-    width:
-        100%;
-
-    height:
-        auto;
-
-    overflow:
-        hidden;
-
-    border-radius:
-        15px;
-
-    touch-action:
-        pan-y;
-
-}
-
-
-    /* -----------------------------------------
-       TRACK
-    ----------------------------------------- */
-
-    .hub-track {
-
-        display:
-            flex;
-
-        width:
-            100%;
-
-        transition:
-            transform .45s ease;
-
-        will-change:
-            transform;
-
-    }
-
-
-    /* -----------------------------------------
-       SLIDE
-       IMAGE ABOVE / TEXT BELOW
-    ----------------------------------------- */
-
-    .hub-slide{
-
-    flex:
-        0 0 100%;
-
-    width:
-        100%;
-
-    min-width:
-        100%;
-
-    height:
-        auto;
-
-    min-height:
-        0;
-
-    max-height:
-        none;
-
-    display:
-        grid;
-
-    grid-template-columns:
-        1fr;
-
-    grid-template-rows:
-        auto auto;
-
-    align-items:
-        stretch;
-
-}
-
-
-    /* -----------------------------------------
-       IMAGE
-       FULL WIDTH
-    ----------------------------------------- */
-
-    .hub-slide-image{
-
-    width:
-        100%;
-
-    min-width:
-        0;
-
-    height:
-        176px;
-
-    min-height:
-        176px;
-
-    grid-column:
-        1;
-
-    grid-row:
-        1;
-
-    display:
-        flex;
-
-    align-items:
-        center;
-
-    justify-content:
-        center;
-
-    overflow:
-        hidden;
-
-    background:
-        #FFFFFF;
-
-}
-
-
-
-    .hub-slide-image img {
-
-    display:
-        block;
-
-    width:
-        100%;
-
-    height:
-        100%;
-
-    max-width:
-        100%;
-
-    object-fit:
-        contain;
-
-    object-position:
-        center;
-
-}
-
-
-    /* -----------------------------------------
-       SLIDE CONTENT
-    ----------------------------------------- */
-
-    .hub-slide-content {
-
-    min-width:
-        0;
-
-    grid-column:
-        1;
-
-    grid-row:
-        2;
-
-    display:
-        flex;
-
-    flex-direction:
-        column;
-
-    justify-content:
-        center;
-
-    padding:
-        15px 17px 17px;
-
-}
-
-
-    /* -----------------------------------------
-       SLIDE LABEL
-    ----------------------------------------- */
-
-    .hub-slide-label {
-
-        margin-bottom:
-            4px;
-
-        font-size:
-            9px;
-
-        line-height:
-            1.3;
-
-    }
-
-
-    /* -----------------------------------------
-       SLIDE TITLE
-    ----------------------------------------- */
-
-    .hub-slide-content h3 {
-
-        margin:
-            0 0 5px;
-
-        font-size:
-            16px;
-
-        line-height:
-            1.3;
-
-    }
-
-
-    /* -----------------------------------------
-       SLIDE DESCRIPTION
-    ----------------------------------------- */
-
-    .hub-slide-content p {
-
-        max-width:
-            100%;
-
-        margin:
-            0 0 8px;
-
-        font-size:
-            11px;
-
-        line-height:
-            1.45;
-
-    }
-
-
-    /* -----------------------------------------
-       CTA
-    ----------------------------------------- */
-
-    .hub-slide-button {
-
-        width:
-            fit-content;
-
-        font-size:
-            10px;
-
-        line-height:
-            1.3;
-
-    }
-
-
-    .hub-slide-button svg {
-
-        width:
-            14px;
-
-        height:
-            14px;
-
-    }
-
-
-    /* -----------------------------------------
-       ARROWS
-       HIDDEN ON MOBILE
-    ----------------------------------------- */
-
-    .hub-arrow {
-
-        display:
-            none;
-
-    }
-
-
-    /* -----------------------------------------
-       DOTS
-    ----------------------------------------- */
-
-    .hub-dots {
-
-        display:
-            flex;
-
-        width:
-            100%;
-
-        height:
-            10px;
-
-        min-height:
-            10px;
-
-        align-items:
-            center;
-
-        justify-content:
-            center;
-
-        flex-direction:
-            row;
-
-        gap:
-            6px;
-
-        margin:
-            10px 0 0;
-
-        position:
-        relative;
-
-        z-index: 2;
-
-    }
-
-
-    /* -----------------------------------------
-       DOT
-    ----------------------------------------- */
-
-    .hub-dot {
-
-        flex:
-            0 0 auto;
-
-        width:
-            6px;
-
-        height:
-            6px;
-
-        min-width:
-            6px;
-
-        min-height:
-            6px;
-
-        padding:
-            0;
-
-        margin:
-            0;
-
-        border:
-            0;
-
-        border-radius:
-            50%;
-
-    }
-
-
-    /* -----------------------------------------
-       ACTIVE DOT
-    ----------------------------------------- */
-
-    .hub-dot.active {
-
-        width:
-            18px;
-
-        height:
-            6px;
-
-        min-width:
-            18px;
-
-        min-height:
-            6px;
-
-        border-radius:
-            999px;
-
-    }
-
-    /* -----------------------------------------
-   SPACE BEFORE FEATURED CAROUSEL
------------------------------------------ */
-
-#featured-carousel{
-
-    margin-top:
-        0px;
-
-}
-
-}
 
 /* =========================================================
    HOME / COMMUNITY / ABOUT PAGE TRANSITIONS
