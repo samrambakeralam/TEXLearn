@@ -1154,49 +1154,26 @@ function initialiseUnboxingReveal() {
         /* =================================================
            PRODUCT
         ================================================= */
+if (product) {
 
-        if (product) {
+    const isNormalPhone =
+        window.innerWidth <= 767;
 
-            const reveal =
-                easeOutCubic(
-                    section(
-                        progress,
-                        0.18,
-                        0.78
-                    )
-                );
+    const productX =
+        isNormalPhone ? 55 : 0;
 
+    const productY =
+        isNormalPhone ? 2 : 22;
 
-const isPhone =
-    window.innerWidth <= 767;
-
-const productX =
-    isPhone ? 55 : 0;
-
-const productY =
-    isPhone ? 2 : 22;
-
-const productScale =
-    1;
-
-const productYOffset =
-    isPhone
-        ? 0
-        : (6 * reveal);
-
-product.style.transform =
-    `
-    translate3d(
-        ${productX}px,
-        ${productY - productYOffset}px,
-        0
-    )
-    scale(
-        ${productScale}
-    )
-    `;
-
-        }
+    product.style.transform =
+        `
+        translate3d(
+            ${productX}px,
+            ${productY}px,
+            0
+        )
+        `;
+}
 
 
         /* =================================================
