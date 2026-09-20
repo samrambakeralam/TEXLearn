@@ -465,7 +465,7 @@ a {
         );
 
     padding:
-        70px 0 0;
+        70px 0 60px;
 
 }
 
@@ -1011,11 +1011,14 @@ a {
 
 .rc2-hero-product {
 
-    position:
-        relative;
+    grid-column:
+        2;
+
+    grid-row:
+        1;
 
     min-height:
-        0;
+        520px;
 
     display:
         flex;
@@ -1026,14 +1029,8 @@ a {
     justify-content:
         center;
 
-    isolation:
-        isolate;
-
-    overflow:
-        visible;
-
     transform:
-        translateY(0);
+        translateY(40px);
 
 }
 
@@ -1051,7 +1048,7 @@ a {
         min(100%, 560px);
 
     min-height:
-        420px;
+        520px;
 
     display:
         flex;
@@ -1097,7 +1094,7 @@ a {
         rgba(15,23,42,.16);
 
     transform:
-        translate3d(0,-35px,0);
+    translate3d(0,-25px,0);
 
 }
 
@@ -1279,13 +1276,13 @@ a {
         50%;
 
     bottom:
-        40px;
+        28px;
 
     width:
-        92%;
+        88%;
 
     max-width:
-        520px;
+        500px;
 
     height:
         auto;
@@ -1345,7 +1342,7 @@ a {
         4;
 
     transform:
-        translate3d(0,28px,0);
+    translateY(0);
 
     transform-origin:
         center bottom;
@@ -1366,13 +1363,13 @@ a {
         block;
 
     width:
-        96%;
+        auto;
 
     max-width:
         480px;
 
     max-height:
-        520px;
+        500px;
 
     object-fit:
         contain;
@@ -1571,273 +1568,7 @@ a {
 }
 
 /* =========================================================
-   DESKTOP HERO
-   901px and above
-========================================================= */
-
-@media (min-width: 901px) {
-
-    /* -----------------------------------------
-       HERO
-    ----------------------------------------- */
-
-    .rc2-hero {
-
-        padding:
-            70px 0 60px;
-
-    }
-
-
-    /* -----------------------------------------
-       HERO GRID
-    ----------------------------------------- */
-
-    .rc2-hero-inner {
-
-        grid-template-columns:
-            1.05fr .95fr;
-
-        align-items:
-            center;
-
-        gap:
-            60px;
-
-    }
-
-
-    /* -----------------------------------------
-       HERO INTRO
-    ----------------------------------------- */
-
-    .rc2-hero-intro {
-
-        grid-column:
-            1;
-
-        grid-row:
-            1;
-
-        transform:
-            translateY(0);
-
-    }
-
-
-    /* -----------------------------------------
-       PRODUCT COLUMN
-    ----------------------------------------- */
-
-    .rc2-hero-product {
-
-        grid-column:
-            2;
-
-        grid-row:
-            1;
-
-        min-height:
-            520px;
-
-        display:
-            flex;
-
-        align-items:
-            center;
-
-        justify-content:
-            center;
-
-        transform:
-            translateY(0);
-
-    }
-
-
-    /* -----------------------------------------
-       EXHIBITION STAGE
-    ----------------------------------------- */
-
-    .rc2-unboxing-stage {
-
-        width:
-            min(100%, 560px);
-
-        min-height:
-            520px;
-
-        display:
-            flex;
-
-        align-items:
-            center;
-
-        justify-content:
-            center;
-
-        border-radius:
-            30px;
-
-        transform:
-            translate3d(0,0,0);
-
-    }
-
-
-    /* -----------------------------------------
-       PRODUCT
-    ----------------------------------------- */
-
-    .rc2-unboxing-product {
-
-        position:
-            relative;
-
-        transform:
-            translateY(-18px);
-
-        z-index:
-            5;
-
-    }
-
-
-    /* -----------------------------------------
-       PRODUCT IMAGE
-    ----------------------------------------- */
-
-    .rc2-product-image {
-
-        display:
-            block;
-
-        max-height:
-            500px;
-
-        width:
-            auto;
-
-        object-fit:
-            contain;
-
-    }
-
-
-    /* -----------------------------------------
-       PODIUM
-    ----------------------------------------- */
-
-    .rc2-unboxing-podium {
-
-        position:
-            absolute;
-
-        left:
-            50%;
-
-        bottom:
-            28px;
-
-        width:
-            88%;
-
-        max-width:
-            500px;
-
-        height:
-            auto;
-
-        transform:
-            translateX(-50%);
-
-        z-index:
-            4;
-
-        pointer-events:
-            none;
-
-    }
-
-
-    /* -----------------------------------------
-       OVERHEAD CURTAIN
-    ----------------------------------------- */
-
-    .rc2-unboxing-cloth {
-
-        z-index:
-            7;
-
-    }
-
-}
-
-/* =========================================================
-   22. DESKTOP POSITIONING
-========================================================= */
-
-@media (min-width: 768px) {
-
-    .rc2-hero-inner {
-
-        grid-template-columns:
-            1.05fr .95fr;
-
-        column-gap:
-            60px;
-
-        align-items:
-            center;
-
-    }
-
-
-    .rc2-hero-intro {
-
-        grid-column:
-            1;
-
-        grid-row:
-            1;
-
-        display:
-            block;
-
-        transform:
-            none;
-
-    }
-
-
-    .rc2-hero-product {
-
-        grid-column:
-            2;
-
-        grid-row:
-            1;
-
-        transform:
-            none;
-
-    }
-
-
-    .rc2-value-points,
-    .rc2-hero-actions,
-    .rc2-trust-line {
-
-        transform:
-            none;
-
-    }
-
-}
-
-
-/* =========================================================
-   23. TABLET
+   22. TABLET
    768px–900px
 ========================================================= */
 
@@ -1881,7 +1612,7 @@ a {
 
 
 /* =========================================================
-   24. NORMAL PHONE
+   23. NORMAL PHONE
    421px–767px
 ========================================================= */
 
@@ -2509,7 +2240,7 @@ a {
 
 
 /* =========================================================
-   25. SMALL PHONE
+   24. SMALL PHONE
    420px AND BELOW
 ========================================================= */
 
@@ -2775,7 +2506,7 @@ a {
 
 
 /* =========================================================
-   26. MOBILE HEADER + MOBILE MENU
+   25. MOBILE HEADER + MOBILE MENU
 ========================================================= */
 
 @media (max-width: 900px) {
