@@ -1034,10 +1034,13 @@ const hubItems = [
             "Fresh learning resources are now available in the collection.",
 
         action:
-            "Explore Collection",
+              "Unlock Now",
 
         link:
-            "#featured-modules",
+            "#",
+
+        actionType:
+            "registration",    
 
         image:
             "assets/book1.png",
@@ -1221,8 +1224,39 @@ if (item.type === "banner") {
         track.appendChild(slide);
 
 
-        const dot =
-            document.createElement("button");
+/* -----------------------------------------
+   REGISTRATION CTA
+----------------------------------------- */
+
+if (
+    item.actionType === "registration"
+) {
+
+    const unlockButton =
+        slide.querySelector(
+            ".hub-slide-button"
+        );
+
+    if (unlockButton) {
+
+        unlockButton.addEventListener(
+            "click",
+            function (event) {
+
+                event.preventDefault();
+
+                openModal();
+
+            }
+        );
+
+    }
+
+}
+
+
+const dot =
+    document.createElement("button");
 
         dot.type =
             "button";
