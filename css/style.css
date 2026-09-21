@@ -2386,6 +2386,9 @@ a {
     font-size:
             11px;
 
+    font-weight:
+            400;
+
     line-height:
             1.7;
 
@@ -5269,9 +5272,6 @@ transform:translateY(0px);
 
         font-size:
             11px;
-
-            font-weight:
-            400;
 
         line-height:
             1.6;
@@ -11361,10 +11361,10 @@ aspect-ratio: 0.75;
 .rc2-carousel-button svg {
 
     width:
-        13px;
+        10px;
 
     height:
-        13px;
+        10px;
 
 }
 
@@ -11465,36 +11465,6 @@ aspect-ratio: 0.75;
     }
 
     }
-
-
-@media (max-width: 420px) {
-
-
-.rc2-carousel-eyebrow {
-
-    font-size:
-        8px;
-
-}
-
-.rc2-carousel-heading h2 {
-
-    font-size:
-        12px;
-
-}
-
-.rc2-carousel-heading p {
-
-    font-size:
-        10px;
-
-    line-height:
-        1.45;
-
-}
-
-}
 
 
 /* ==========================================

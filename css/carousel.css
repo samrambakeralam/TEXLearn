@@ -704,7 +704,7 @@ box-shadow:
     .rc2-carousel-heading h2 {
 
         font-size:
-            16px;
+            19px;
 
     }
 
@@ -790,6 +790,77 @@ box-shadow:
 
         font-size:
             9.5px;
+
+        gap:
+        5px;
+
+        min-height:
+        30px;
+
+
+    }
+
+}
+
+@media (max-width: 420px) {
+
+
+.rc2-carousel-eyebrow {
+
+    font-size:
+        8px;
+
+}
+
+.rc2-carousel-heading h2 {
+
+    font-size:
+        16px;
+
+}
+
+.rc2-carousel-heading p {
+
+    font-size:
+        11px;
+
+    line-height:
+        1.45;
+
+}
+
+   .rc2-carousel-content h3 {
+
+        font-size:
+            12px;
+
+    }
+
+
+    .rc2-carousel-content p {
+
+        font-size:
+            9px;
+
+    }
+
+
+    .rc2-carousel-button {
+
+        min-height:
+            42px;
+
+        padding:
+            0 14px;
+
+        font-size:
+            9px;
+        
+        gap:
+            5px;
+
+        min-height:
+            30px;
 
     }
 
