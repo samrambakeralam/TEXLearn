@@ -373,7 +373,7 @@
         auto;
 
     background:
-        #E2E8F0;
+    white;
 
     isolation: isolate;
 
@@ -398,10 +398,11 @@
 
     object-fit: cover;
 
-    border-radius: 9px;
+    border-radius:
+    0;
 
 box-shadow:
-    0 8px 20px rgba(15, 23, 42, 0.12);
+    none;
 
     opacity:
         0;
@@ -441,7 +442,7 @@ box-shadow:
 .rc2-image-original {
 
     background:
-        #E2E8F0;
+        white;
 
 }
 
