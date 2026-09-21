@@ -11340,3 +11340,201 @@ body.about-page-exit {
     transform: translateX(-20px);
 }
 
+
+
+/* =========================================================
+   SAMRAMBA KERALAM 2030
+   FINAL MOBILE HORIZONTAL SPACE SYSTEM
+   ---------------------------------------------------------
+   Purpose:
+   - Remove duplicate mobile horizontal restrictions
+   - Give content more usable mobile width
+   - Preserve intentional carousel/card spacing
+   - Preserve desktop/tablet behavior
+   - Keep existing global .container intact
+========================================================= */
+
+
+/* =========================================================
+   1. HERO
+   ---------------------------------------------------------
+   Remove unintended horizontal product displacement.
+========================================================= */
+
+@media (max-width: 767px) {
+
+    .rc2-hero-product {
+        transform: translate3d(0, 0, 0);
+    }
+
+    .rc2-trust-line {
+        width: 100%;
+        max-width: none;
+
+        flex-wrap: wrap;
+
+        justify-content: flex-start;
+
+        column-gap: 10px;
+        row-gap: 6px;
+    }
+
+}
+
+
+/* =========================================================
+   2. LEARNING TRACKS
+   ---------------------------------------------------------
+   Current normal mobile spacing is 24px.
+   Reduce to 16px so the two-column grid gets more usable width.
+========================================================= */
+
+@media (max-width: 767px) {
+
+    .learning-tracks {
+        padding-left: 16px;
+        padding-right: 16px;
+    }
+
+}
+
+
+/* =========================================================
+   3. TOPICS
+   ---------------------------------------------------------
+   Topics already owns horizontal section padding.
+   Its child .container was adding another mobile width
+   restriction through the global container system.
+========================================================= */
+
+@media (max-width: 767px) {
+
+    .topics-section {
+        padding-left: 16px;
+        padding-right: 16px;
+    }
+
+    .topics-section > .container {
+        width: 100%;
+        max-width: none;
+    }
+
+}
+
+
+/* =========================================================
+   4. MISSION / VISION / PROMISE
+   ---------------------------------------------------------
+   The Mission section already owns horizontal spacing.
+   Neutralize the global .container width restriction here.
+   
+   Cover-flow card widths remain untouched because those
+   are intentional carousel mechanics.
+========================================================= */
+
+@media (max-width: 767px) {
+
+    .mission-section {
+        padding-left: 16px;
+        padding-right: 16px;
+    }
+
+    .mission-section > .container {
+        width: 100%;
+        max-width: 1200px;
+    }
+
+}
+
+
+/* =========================================================
+   5. PRICING
+   ---------------------------------------------------------
+   Keep the global .container as the section's horizontal
+   boundary.
+   
+   Only remove the extra 12px restriction applied to the
+   pricing card on very small phones.
+========================================================= */
+
+@media (max-width: 420px) {
+
+    .pricing-card {
+        max-width: 100%;
+    }
+
+}
+
+
+/* =========================================================
+   6. FINAL CTA
+   ---------------------------------------------------------
+   Final CTA already owns horizontal padding.
+   Prevent the global .container from adding another
+   mobile width reduction.
+========================================================= */
+
+@media (max-width: 767px) {
+
+    .final-cta > .container {
+        width: 100%;
+        max-width: 1200px;
+    }
+
+}
+
+
+/* =========================================================
+   7. MOBILE SAFETY
+   ---------------------------------------------------------
+   Prevent width calculations from creating accidental
+   horizontal overflow when sections contain grids,
+   flex layouts, or full-width children.
+========================================================= */
+
+@media (max-width: 767px) {
+
+    .learning-tracks,
+    .topics-section,
+    .mission-section,
+    .pricing-section,
+    .final-cta,
+    .site-footer {
+        box-sizing: border-box;
+        max-width: 100%;
+    }
+
+    .learning-tracks-grid,
+    .topics-content,
+    .mission-content,
+    .pricing-wrapper,
+    .final-cta-content,
+    .footer-grid {
+        min-width: 0;
+        box-sizing: border-box;
+    }
+
+}
+
+
+/* =========================================================
+   8. SMALL PHONE
+   ---------------------------------------------------------
+   Keep the intentional compact edge system.
+   Do NOT alter Featured Modules typography or card rules.
+========================================================= */
+
+@media (max-width: 420px) {
+
+    .topics-section,
+    .mission-section {
+        padding-left: 16px;
+        padding-right: 16px;
+    }
+
+}
+
+
+/* =========================================================
+   END — FINAL MOBILE HORIZONTAL SPACE SYSTEM
+========================================================= */
