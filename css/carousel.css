@@ -258,15 +258,10 @@
         rgba(15,23,42,.06);
 
     transition:
-        transform .25s ease,
-        box-shadow .25s ease;
-
-}
-
-.rc2-carousel-card {
-    transition:
         transform .45s ease,
+        box-shadow .25s ease,
         opacity .45s ease;
+
 }
 
 /* =========================================================
@@ -370,36 +365,17 @@
     width: 100%;
 
     aspect-ratio:
-        3 / 4;
+        0.9;
 
     overflow: hidden;
+
+    height:
+        auto;
 
     background:
         #E2E8F0;
 
     isolation: isolate;
-}
-
-/* =========================================
-   DYNAMIC COVER THEME BACKGROUND
-========================================= */
-
-/* =========================================
-   CAROUSEL IMAGE DISPLAY
-========================================= */
-
-.rc2-carousel-image-wrap {
-
-    position: relative;
-
-    width: 100%;
-
-    aspect-ratio: 0.9;
-
-    overflow: hidden;
-
-    background:
-        #E2E8F0;
 
     border-radius:
         18px 18px 0 0;
@@ -409,6 +385,7 @@
     align-items: center;
 
     justify-content: center;
+
 }
 
 
@@ -692,6 +669,20 @@ box-shadow:
 
     }
 
+    .rc2-carousel-card {
+
+    flex:
+        0 0 250px;
+
+   }
+
+    .rc2-carousel-image-wrap {
+
+    aspect-ratio:
+        0.75;
+
+    }
+
 
     .rc2-carousel-eyebrow {
 
@@ -792,17 +783,27 @@ box-shadow:
             9.5px;
 
         gap:
-        5px;
-
-        min-height:
-        30px;
-
+            5px;
 
     }
 
 }
 
 @media (max-width: 420px) {
+
+.rc2-carousel-card {
+
+    flex:
+        0 0 220px;
+
+}
+
+.rc2-carousel-image-wrap {
+
+    aspect-ratio:
+        0.75;
+
+}    
 
 
 .rc2-carousel-eyebrow {
@@ -855,12 +856,9 @@ box-shadow:
 
         font-size:
             9px;
-        
+
         gap:
             5px;
-
-        min-height:
-            30px;
 
     }
 
