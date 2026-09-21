@@ -7164,7 +7164,7 @@ transform:translateY(0px);
 
 
     .featured-grid .module-card p{
-        font-size:13px !important;
+        font-size:11px;
         line-height:1.45;
         margin-bottom:12px;
     }
