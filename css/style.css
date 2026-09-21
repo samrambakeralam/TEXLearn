@@ -5019,10 +5019,10 @@ transform:translateY(0px);
 
     .why-bundle {
 
-        padding:
-            35px 18px 65px;
+    padding:
+        35px 18px 30px;
 
-    }
+}
 
 
     .why-bundle .container {
@@ -5236,10 +5236,10 @@ transform:translateY(0px);
 
     .why-bundle {
 
-        padding:
-            20px 16px 60px;
+    padding:
+        20px 16px 25px;
 
-    }
+}
 
 
     .why-bundle .section-title {
@@ -5338,7 +5338,7 @@ transform:translateY(0px);
             12px;
 
         font-weight:
-            700;
+            400;
 
         margin-bottom:
             6px;
@@ -5684,10 +5684,10 @@ transform:translateY(0px);
 
     .topics-section {
 
-        padding:
-            70px 12px 75px;
+    padding:
+        35px 12px 75px;
 
-    }
+}
 
 
     .topics-content {
@@ -5814,10 +5814,10 @@ transform:translateY(0px);
 
     .topics-section {
 
-        padding:
-            60px 16px 65px;
+    padding:
+        30px 16px 65px;
 
-    }
+}
 
     .section-badge {
         font-size:
