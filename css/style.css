@@ -1662,7 +1662,7 @@ a {
     .rc2-hero-inner {
 
         width:
-            calc(100% - 24px);
+        calc(100% - 16px);
 
         display:
             grid;
@@ -2290,7 +2290,7 @@ a {
    .rc2-hero-inner {
 
     width:
-        calc(100% - 24px);
+        calc(100% - 16px);
 
     display:
         grid;
