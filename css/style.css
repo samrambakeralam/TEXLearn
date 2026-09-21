@@ -5015,7 +5015,7 @@ transform:translateY(0px);
    MOBILE — COMPACT 2-COLUMN UI
 ===================================================== */
 
-@media (max-width: 768px) {
+@media (max-width: 767px) {
 
     .why-bundle {
 
@@ -5674,7 +5674,7 @@ transform:translateY(0px);
    COMPACT 2-COLUMN UI
 ========================================== */
 
-@media (max-width: 768px) {
+@media (max-width: 767px) {
     
     .section-badge {
         font-size:
@@ -7215,7 +7215,7 @@ transform:translateY(0px);
    MOBILE CAROUSEL
 ========================================== */
 
-@media(max-width:768px){
+@media(max-width:767px){
 
     .featured-carousel{
 
@@ -7885,7 +7885,7 @@ transform:translateY(0px);
    577px — 992px
 ========================================================= */
 
-@media (min-width: 577px) and (max-width: 992px) {
+@media (min-width: 768px) and (max-width: 900px) {
 
     .learning-tracks {
 
@@ -7999,7 +7999,7 @@ transform:translateY(0px);
    421px — 576px
 ========================================================= */
 
-@media (min-width: 421px) and (max-width: 576px) {
+@media (min-width: 421px) and (max-width: 767px) {
 
     .learning-tracks {
 
@@ -8798,7 +8798,7 @@ transform:translateY(0px);
    421px – 576px
 ===================================================== */
 
-@media (min-width: 421px) and (max-width: 576px) {
+@media (min-width:421px) and (max-width:767px) {
 
     .mission-section {
         padding: 32px 6% 90px;
@@ -9427,22 +9427,12 @@ transform:translateY(0px);
    577px – 992px
 ========================================== */
 
-@media (min-width: 577px) and (max-width: 992px) {
-
-    .pricing-wrapper {
-        grid-template-columns: 1fr;
-        gap: 50px;
-    }
-
-}
-
-
 /* ==========================================
    NORMAL MOBILE
    421px – 576px
 ========================================== */
 
-@media (min-width: 421px) and (max-width: 576px) {
+@media (min-width:421px) and (max-width:767px) {
 
     .pricing-section {
         padding: 50px 0 90px;
@@ -9791,7 +9781,7 @@ transform:translateY(0px);
    FINAL CTA — MOBILE
 ========================================== */
 
-@media (max-width: 600px) {
+@media (min-width:421px) and (max-width:767px) {
 
     .final-cta {
         padding: 65px 20px;
@@ -9832,7 +9822,7 @@ transform:translateY(0px);
    Compact two-line version
 ========================================== */
 
-@media (max-width:480px){
+@media (max-width:420px){
 
     .final-cta{
         padding:38px 18px;
@@ -10163,7 +10153,7 @@ transform:translateY(0px);
    max-width:768px
 ========================================== */
 
-@media (max-width:768px){
+@media (max-width:767px){
 
     .site-footer{
 
@@ -10353,10 +10343,10 @@ transform:translateY(0px);
 
 /* ==========================================
    FOOTER — SMALL PHONE
-   max-width:480px
+   max-width:420px
 ========================================== */
 
-@media (max-width:480px){
+@media (max-width:420px){
 
     .site-footer{
 
@@ -11480,15 +11470,17 @@ aspect-ratio: 0.75;
    FEATURED MODULES — SMALL PHONE
 ========================================== */
 
-.module-card p{
+@media (max-width:420px){
 
-    font-size:13px;
+    .module-card p{
 
-    line-height:1.5;
+        font-size:13px;
 
-}
+        line-height:1.5;
 
-.featured-footer{
+    }
+
+    .featured-footer{
 
         font-size:12px;
 
@@ -11496,28 +11488,7 @@ aspect-ratio: 0.75;
 
     }
 
-    .mission-section{
-
-    padding:18px 6% 70px;
-
 }
-
-/* ==========================================
-   MISSION • VISION • PROMISE
-   SMALL PHONE
-========================================== */
-
-    .mission-values .value-card{
-
-        width:72%;
-
-        height:300px;
-
-        box-sizing:border-box;
-
-        padding:22px 18px;
-
-    }
 
 
 
