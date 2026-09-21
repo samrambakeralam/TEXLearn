@@ -674,6 +674,12 @@ box-shadow:
     flex:
         0 0 250px;
 
+    max-width:
+        290px;
+
+    border-radius:
+        18px;    
+
    }
 
     .rc2-carousel-image-wrap {
@@ -731,19 +737,6 @@ box-shadow:
 
     scroll-padding-left:
         2px;
-
-}
-
-
-    .rc2-carousel-card {
-
-    flex: 0 0 72vw;
-
-    max-width:
-        290px;
-
-    border-radius:
-        18px;
 
 }
 
