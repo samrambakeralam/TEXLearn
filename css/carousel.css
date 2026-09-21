@@ -785,6 +785,13 @@ box-shadow:
 
 @media (max-width: 420px) {
 
+.rc2-carousel-section {
+
+    padding:
+        55px 0 10px;
+
+}
+
 .rc2-carousel-card {
 
     flex:
