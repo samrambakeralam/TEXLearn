@@ -4243,8 +4243,8 @@ transform:translateY(0px);
     justify-content:
         center;
 
-    padding:
-        15px 17px 17px;
+     padding:
+        11px 17px 12px;
 
 }
 
@@ -4256,7 +4256,7 @@ transform:translateY(0px);
     .hub-slide-label {
 
         margin-bottom:
-            4px;
+            3px;
 
         font-size:
             9px;
@@ -4274,7 +4274,7 @@ transform:translateY(0px);
     .hub-slide-content h3 {
 
         margin:
-            0 0 5px;
+            0 0 4px;
 
         font-size:
             15px;
@@ -4295,13 +4295,13 @@ transform:translateY(0px);
             100%;
 
         margin:
-            0 0 8px;
+            0 0 5px;
 
         font-size:
-            11px;
+            10.5px;
 
         line-height:
-            1.45;
+            1.35;
 
     }
 
