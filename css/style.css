@@ -5254,7 +5254,7 @@ transform:translateY(0px);
             sans-serif;
 
         font-size:
-            18px;
+            16px;
 
         font-weight:
             700;
@@ -5268,7 +5268,7 @@ transform:translateY(0px);
     .why-bundle .section-title p {
 
         font-size:
-            12px;
+            10px;
 
         line-height:
             1.6;
@@ -5816,7 +5816,7 @@ transform:translateY(0px);
 
     .topics-left h2 {
 
-        font-size: 18px;
+        font-size: 16px;
 
     }
 
@@ -11466,7 +11466,37 @@ aspect-ratio: 0.75;
     }
 
 
-    /* ==========================================
+@media (max-width: 420px) {
+
+
+.rc2-carousel-eyebrow {
+
+    font-size:
+        8px;
+
+}
+
+.rc2-carousel-heading h2 {
+
+    font-size:
+        16px;
+
+}
+
+.rc2-carousel-heading p {
+
+    font-size:
+        10px;
+
+    line-height:
+        1.45;
+
+}
+
+}
+
+
+/* ==========================================
    FEATURED MODULES — SMALL PHONE
 ========================================== */
 
