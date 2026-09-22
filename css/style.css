@@ -9556,6 +9556,14 @@ transform:translateY(0px);
         90px;
 }
 
+
+.pricing-section .section-label{
+    font-size:clamp(9px,2.6vw,10px);
+    letter-spacing:clamp(1px,.3vw,1.2px);
+    margin-bottom:clamp(7px,2vw,9px);
+}
+
+
     .pricing-section .section-header h2 {
     font-family:'Poppins', sans-serif;
     font-size:clamp(15px,4.2vw,16px);
