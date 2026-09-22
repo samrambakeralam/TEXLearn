@@ -7285,11 +7285,11 @@ transform:translateY(0px);
 
 @media (max-width:767px){
 
-    .featured-modules{
-         padding:
-        clamp(42px, 11vw, 52px)
-        18px
-        70px;
+        .featured-modules{
+        padding:
+            clamp(42px, 10vw, 52px)
+            18px
+            clamp(42px, 10vw, 52px);
         background:#FFFFFF;
     }
 
@@ -7565,6 +7565,17 @@ transform:translateY(0px);
         border-radius:
             clamp(9px,2.8vw,10px);
     }
+
+    .featured-footer{
+    margin-top:clamp(24px,7vw,30px);
+}
+
+.featured-footer p{
+    font-size:clamp(10px,2.9vw,11px);
+    line-height:1.5;
+    margin:0 auto;
+    max-width:clamp(290px,86vw,340px);
+}
 
 }
 
