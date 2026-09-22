@@ -6683,10 +6683,10 @@ transform:translateY(0px);
 .hub-video-play-button{
 
     width:
-        52px;
+        clamp(38px, 10vw, 46px);
 
     height:
-        52px;
+        clamp(38px, 10vw, 46px);
 
 }
 
@@ -6694,10 +6694,10 @@ transform:translateY(0px);
 .hub-video-play-button svg{
 
     width:
-        23px;
+        clamp(17px, 4.5vw, 21px);
 
     height:
-        23px;
+        clamp(17px, 4.5vw, 21px);
 
 }
 
