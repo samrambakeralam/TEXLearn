@@ -684,6 +684,24 @@ box-shadow:
 
    }
 
+       .rc2-carousel-badge {
+
+        top:
+            clamp(9px, 2.5vw, 12px);
+
+        left:
+            clamp(9px, 2.5vw, 12px);
+
+        padding:
+            clamp(4px, 1.2vw, 6px)
+            clamp(7px, 2vw, 9px);
+
+        font-size:
+            clamp(8px, 2.1vw, 9px);
+
+    }
+
+
     .rc2-carousel-image-wrap {
 
         aspect-ratio:
@@ -799,6 +817,24 @@ box-shadow:
             0 0 clamp(200px, 58vw, 240px);
 
 }
+
+  .rc2-carousel-badge {
+
+     top:
+         clamp(7px, 2.2vw, 9px);
+
+     left:
+         clamp(7px, 2.2vw, 9px);
+
+     padding:
+          clamp(3px, 1vw, 4px)
+         clamp(6px, 1.8vw, 7px);
+
+    font-size:
+         clamp(7px, 2vw, 8px);
+
+}
+
 
 .rc2-carousel-image-wrap {
 
