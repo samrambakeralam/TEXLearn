@@ -7293,12 +7293,13 @@ transform:translateY(0px);
         background:#FFFFFF;
     }
 
-    .featured-modules .section-title-center h2{
-        font-size:19px;
-        font-weight:700;
-        line-height:1.2;
-        font-family:"Poppins", sans-serif;
-    }
+   .featured-modules .section-title-center h2{
+    font-size:19px;
+    font-weight:700;
+    line-height:1.2;
+    font-family:"Poppins", sans-serif;
+    margin-bottom:clamp(6px,2vw,9px);
+}
 
     .featured-modules .section-title-center p{
         font-family:"Inter", sans-serif;
