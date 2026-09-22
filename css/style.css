@@ -6807,25 +6807,25 @@ transform:translateY(0px);
 .hub-video-dot {
 
     flex:
-        0 0 clamp(6px, 1.8vw, 7px);
+        0 0 clamp(5px, 1.4vw, 6px);
 
     width:
-        clamp(6px, 1.8vw, 7px);
+        clamp(5px, 1.4vw, 6px);
 
     min-width:
-        clamp(6px, 1.8vw, 7px);
+        clamp(5px, 1.4vw, 6px);
 
     max-width:
-        clamp(6px, 1.8vw, 7px);
+        clamp(5px, 1.4vw, 6px);
 
     height:
-        clamp(6px, 1.8vw, 7px);
+        clamp(5px, 1.4vw, 6px);
 
     min-height:
-        clamp(6px, 1.8vw, 7px);
+        clamp(5px, 1.4vw, 6px);
 
     max-height:
-        clamp(6px, 1.8vw, 7px);
+        clamp(5px, 1.4vw, 6px);
 
 }
 
@@ -6833,25 +6833,25 @@ transform:translateY(0px);
 .hub-video-dot.active {
 
     flex:
-        0 0 clamp(17px, 5vw, 20px);
+        0 0 clamp(14px, 4vw, 17px);
 
     width:
-        clamp(17px, 5vw, 20px);
+        clamp(14px, 4vw, 17px);
 
     min-width:
-        clamp(17px, 5vw, 20px);
+        clamp(14px, 4vw, 17px);
 
     max-width:
-        clamp(17px, 5vw, 20px);
+        clamp(14px, 4vw, 17px);
 
     height:
-        clamp(6px, 1.8vw, 7px);
+        clamp(5px, 1.4vw, 6px);
 
     min-height:
-        clamp(6px, 1.8vw, 7px);
+        clamp(5px, 1.4vw, 6px);
 
     max-height:
-        clamp(6px, 1.8vw, 7px);
+        clamp(5px, 1.4vw, 6px);
 
 }
 
