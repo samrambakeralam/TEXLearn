@@ -2672,7 +2672,30 @@ a {
 }
 
 
+    .rc2-mobile-menu-top{
+        min-height:clamp(54px,14vw,58px);
+        height:clamp(54px,14vw,58px);
+    }
+
+    .rc2-mobile-nav{
+        padding:
+            clamp(7px,2.2vw,9px)
+            clamp(14px,4.5vw,18px);
+    }
+
+    .rc2-mobile-nav a{
+        min-height:clamp(44px,12vw,48px);
+
+        padding:
+            clamp(11px,3.2vw,13px)
+            4px;
+
+        font-size:clamp(14px,3.7vw,15px);
+        line-height:1.2;
+    }
+
 }
+
 
 
 /* =========================================================
