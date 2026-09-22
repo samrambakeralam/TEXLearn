@@ -1731,18 +1731,21 @@ body.library-modal-is-open {
     padding-bottom: 52px;
 }
 
-    .library-banner {
-        min-height: 225px;
+   .library-banner {
+    width: calc(100% + 20px);
+    margin-left: -10px;
 
-        border-radius: 16px;
-    }
+    min-height: 225px;
 
-    .library-banner-content {
-        width: 100%;
+    border-radius: 16px;
+}
 
-        padding:
-            25px 20px 30px;
-    }
+   .library-banner-content {
+    width: 100%;
+
+    padding:
+        25px 18px 30px;
+}
 
     .library-banner-eyebrow {
         font-size: 8px;
