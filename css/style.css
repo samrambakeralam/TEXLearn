@@ -6733,17 +6733,17 @@ transform:translateY(0px);
     top:
         calc(100% + clamp(13px, 3.5vw, 16px));
 
-    width:
-        clamp(20px, 5.5vw, 24px);
+      width:
+        clamp(17px, 4.5vw, 20px);
 
     height:
-        clamp(20px, 5.5vw, 24px);
+        clamp(17px, 4.5vw, 20px);
 
     min-width:
-        clamp(20px, 5.5vw, 24px);
+        clamp(17px, 4.5vw, 20px);
 
     min-height:
-        clamp(20px, 5.5vw, 24px);
+        clamp(17px, 4.5vw, 20px);
 
     max-width:
         none;
@@ -6774,10 +6774,10 @@ transform:translateY(0px);
 .hub-video-nav-button svg {
 
     width:
-        clamp(9px, 2.8vw, 11px);
+        clamp(8px, 2.2vw, 9px);
 
     height:
-        clamp(9px, 2.8vw, 11px);
+        clamp(8px, 2.2vw, 9px);
 
 }
 
