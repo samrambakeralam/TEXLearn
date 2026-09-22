@@ -3141,6 +3141,39 @@ a {
         line-height:1.2;
     }
 
+    .rc2-mobile-nav button{
+    margin-top:
+        clamp(14px,4vw,18px);
+
+    min-height:
+        clamp(46px,12vw,50px);
+
+    padding:
+        0 clamp(12px,4vw,16px);
+
+    border-radius:
+        clamp(11px,3vw,14px);
+
+    font-size:
+        clamp(13px,3.6vw,15px);
+
+    line-height:
+        1.2;
+}
+
+.rc2-mobile-menu-top button{
+    width:clamp(38px,11vw,42px);
+    min-width:clamp(38px,11vw,42px);
+    max-width:clamp(38px,11vw,42px);
+    height:clamp(38px,11vw,42px);
+
+    border-radius:clamp(10px,2.8vw,12px);
+}
+
+.rc2-mobile-menu-top button::before{
+    font-size:clamp(30px,8.5vw,34px);
+}
+
 }
 
 
