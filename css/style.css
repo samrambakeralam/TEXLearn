@@ -9710,11 +9710,11 @@ transform:translateY(0px);
         margin-bottom: 9px;
     }
 
-    .pricing-features li {
-        padding: 4px 0;
-        font-size: 12.5px;
-        line-height: 1.2;
-    }
+   .pricing-features li {
+    padding: 4px 0;
+    font-size: clamp(10.5px, 2.9vw, 11.5px);
+    line-height: 1.25;
+}
 
     #pricingButton {
         padding: 12px 12px;
