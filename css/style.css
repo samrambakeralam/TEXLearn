@@ -6549,6 +6549,11 @@ transform:translateY(0px);
        VIDEO SECTION — MOBILE
        ========================================================= */
 
+.hub-video-carousel {
+    position: relative;
+}
+       
+
 .hub-video-section {
 
       padding:
@@ -6696,7 +6701,6 @@ transform:translateY(0px);
 
 }
 
-}
 
 .hub-video-navigation {
 
@@ -6866,6 +6870,9 @@ transform:translateY(0px);
         0;
 
 }
+
+}
+
 
 /* =========================================================
    FEATURED LEARNING MODULES — BASE / DESKTOP
