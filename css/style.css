@@ -7370,7 +7370,7 @@ transform:translateY(0px);
     .module-card p{
         font-size:12px;
         line-height:1.6;
-        margin-bottom:18px;
+        margin-bottom:clamp(14px,3.5vw,18px);
     }
 
     .featured-grid .module-footer{
@@ -7530,8 +7530,7 @@ transform:translateY(0px);
             clamp(10px,2.9vw,11px);
 
         line-height:1.45;
-        margin-bottom:
-            clamp(10px,3vw,12px);
+        margin-bottom:clamp(12px,3.5vw,15px);
     }
 
 
