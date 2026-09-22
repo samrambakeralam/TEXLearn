@@ -9667,12 +9667,12 @@ transform:translateY(0px);
     line-height:1.2;
 }
 
-    .pricing-card h3 {
-        margin-top: 4px;
-        margin-bottom: 4px;
-        font-size: 1.3rem;
-        line-height: 1.22;
-    }
+    .pricing-card h3{
+    margin-top:clamp(2px,0.8vw,4px);
+    margin-bottom:clamp(3px,1vw,5px);
+    font-size:clamp(1.05rem,4.5vw,1.3rem);
+    line-height:1.2;
+}
 
     .price{
     margin:
@@ -9716,44 +9716,53 @@ transform:translateY(0px);
     line-height: 1.25;
 }
 
-    #pricingButton {
-        padding: 12px 12px;
-        font-size: .95rem;
-        border-radius: 11px;
-    }
+   #pricingButton{
+    padding:
+        clamp(10px,3vw,12px)
+        clamp(10px,3vw,12px);
 
-    .secure-payment {
-        margin-top: 6px;
-        margin-bottom: 0;
-        font-size: .68rem;
-    }
+    font-size:
+        clamp(.85rem,3.5vw,.95rem);
 
-    .pricing-card .trust-grid {
-        display: grid;
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-        gap: 6px;
-        margin-top: 8px;
-    }
+    line-height:1.2;
 
-    .pricing-card .trust-item {
-        gap: 4px;
-        padding: 5px 6px;
-        border-radius: 7px;
-        width: 100%;
-        min-width: 0;
-        box-sizing: border-box;
-    }
+    border-radius:
+        clamp(9px,2.8vw,11px);
+}
 
-    .trust-icon {
-        width: 22px;
-        height: 22px;
-        font-size: 10px;
-    }
+    .secure-payment{
+    margin-top:clamp(4px,1.5vw,6px);
+    margin-bottom:0;
+    font-size:clamp(.58rem,2.2vw,.68rem);
+    line-height:1.25;
+}
 
-    .trust-item span {
-        font-size: .61rem;
-        line-height: 1.15;
-    }
+    .pricing-card .trust-grid{
+    display:grid;
+    grid-template-columns:repeat(2,minmax(0,1fr));
+    gap:clamp(4px,1.5vw,6px);
+    margin-top:clamp(6px,2vw,8px);
+}
+
+.pricing-card .trust-item{
+    gap:clamp(3px,1.2vw,4px);
+    padding:5px 6px;
+    border-radius:clamp(6px,2vw,7px);
+    width:100%;
+    min-width:0;
+    box-sizing:border-box;
+}
+
+.trust-icon{
+    width:clamp(19px,5.5vw,22px);
+    height:clamp(19px,5.5vw,22px);
+    font-size:clamp(9px,2.5vw,10px);
+}
+
+.trust-item span{
+    font-size:clamp(.55rem,2vw,.61rem);
+    line-height:1.15;
+}
 
 }
 
