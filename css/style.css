@@ -7260,7 +7260,10 @@ transform:translateY(0px);
 @media (max-width:767px){
 
     .featured-modules{
-        padding:75px 18px 70px;
+         padding:
+        clamp(42px, 10vw, 52px)
+        18px
+        70px;
         background:#FFFFFF;
     }
 
