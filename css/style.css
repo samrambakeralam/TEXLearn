@@ -5175,31 +5175,31 @@ transform:translateY(0px);
 
     .feature-card {
 
-        width:
-            100%;
+    width:
+        100%;
 
-        min-width:
-            0;
+    min-width:
+        0;
 
-        min-height:
-            0;
+    min-height:
+        0;
 
-        height:
-            195px;
+    height:
+        auto;
 
-        box-sizing:
-            border-box;
+    box-sizing:
+        border-box;
 
-        padding:
-            20px 14px;
+    padding:
+        16px 12px;
 
-        border-radius:
-            16px;
+    border-radius:
+        16px;
 
-        justify-content:
-            flex-start;
+    justify-content:
+        flex-start;
 
-    }
+}
 
 
     /* ---------------------------------------------
@@ -5241,18 +5241,18 @@ transform:translateY(0px);
        TITLE
     --------------------------------------------- */
 
-    .feature-card h3 {
+   .feature-card h3 {
 
-        font-size:
-            13px;
+    font-size:
+        clamp(12px, 3.2vw, 13px);
 
-        line-height:
-            1.25;
+    line-height:
+        1.25;
 
-        margin:
-            0 0 8px;
+    margin:
+        0 0 7px;
 
-    }
+}
 
 
     /* ---------------------------------------------
@@ -5261,16 +5261,16 @@ transform:translateY(0px);
 
     .feature-card p {
 
-        font-size:
-            12px;
+    font-size:
+        clamp(10.5px, 2.9vw, 12px);
 
-        line-height:
-            1.45;
+    line-height:
+        1.4;
 
-        margin:
-            0;
+    margin:
+        0;
 
-    }
+}
 
 }
 
@@ -5334,18 +5334,18 @@ transform:translateY(0px);
     }
 
 
-    .feature-card {
+   .feature-card {
 
-        height:
-            195px;
+    height:
+        auto;
 
-        padding:
-            18px 12px;
+    padding:
+        14px 10px;
 
-        border-radius:
-            15px;
+    border-radius:
+        15px;
 
-    }
+}
 
 
     .feature-icon {
@@ -5379,29 +5379,32 @@ transform:translateY(0px);
     }
 
 
-    .feature-card h3 {
+  .feature-card h3 {
 
-        font-size:
-            12px;
+    font-size:
+        clamp(11px, 3.1vw, 12px);
 
-        font-weight:
-            400;
+    font-weight:
+        700;
 
-        margin-bottom:
-            6px;
+    line-height:
+        1.25;
 
-    }
+    margin-bottom:
+        6px;
+
+}
 
 
-    .feature-card p {
+  .feature-card p {
 
-        font-size:
-            11px;
+    font-size:
+        clamp(10px, 2.8vw, 11px);
 
-        line-height:
-            1.4;
+    line-height:
+        1.4;
 
-    }
+}
 
 }
 
