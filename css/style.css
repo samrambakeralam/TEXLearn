@@ -7373,7 +7373,7 @@ transform:translateY(0px);
     }
 
     .featured-grid .module-footer{
-        margin-top:20px;
+        margin-top:auto;
     }
 
     .module-meta{
@@ -7533,8 +7533,8 @@ transform:translateY(0px);
 
 
     .featured-grid .module-footer{
-        margin-top:
-            clamp(6px,2vw,8px) !important;
+        margin-top:auto;
+            
     }
 
 
