@@ -655,8 +655,9 @@ box-shadow:
 
     .rc2-carousel-container {
 
-        width:
-            calc(100% - 28px);
+        
+    width:
+        calc(100% - clamp(24px, 7vw, 32px));
 
     }
 
@@ -673,7 +674,7 @@ box-shadow:
     .rc2-carousel-card {
 
     flex:
-        0 0 250px;
+        0 0 clamp(220px, 72vw, 290px);
 
     max-width:
         290px;
@@ -794,8 +795,8 @@ box-shadow:
 
 .rc2-carousel-card {
 
-    flex:
-        0 0 220px;
+     flex:
+            0 0 clamp(200px, 58vw, 240px);
 
 }
 
