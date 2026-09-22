@@ -7287,7 +7287,7 @@ transform:translateY(0px);
 
     .featured-modules{
          padding:
-        clamp(42px, 10vw, 52px)
+        clamp(42px, 11vw, 52px)
         18px
         70px;
         background:#FFFFFF;
@@ -7408,124 +7408,162 @@ transform:translateY(0px);
 @media (max-width:420px){
 
     .featured-grid{
-        gap:
-            clamp(8px, 2.5vw, 10px);
-
-        padding-left:
-            2px;
-
-        padding-right:
-            2px;
+        gap:clamp(8px,2.5vw,10px);
+        padding-left:2px;
+        padding-right:2px;
     }
 
-    .featured-grid .module-card{
-        flex:
-            0 0 clamp(84%, 86vw, 86%) !important;
 
-        min-height:
-            0 !important;
+    /* -----------------------------------------------------
+       SECTION BADGE
+    ----------------------------------------------------- */
 
-        height:
-            auto !important;
-
+    .featured-modules .section-badge{
         padding:
-            14px !important;
+            clamp(6px,1.8vw,7px)
+            clamp(14px,3.8vw,17px);
 
-        border-radius:
-            clamp(15px, 4vw, 16px);
-    }
+        font-size:
+            clamp(8.5px,2.5vw,10px);
 
-    .featured-grid .module-cover{
-        height:
-            clamp(90px, 24vw, 95px) !important;
-
-        padding:
-            clamp(10px, 3vw, 12px) !important;
+        letter-spacing:
+            clamp(.8px,.25vw,1px);
 
         margin-bottom:
-            clamp(12px, 3.5vw, 14px) !important;
+            clamp(12px,3.5vw,15px);
 
-        border-radius:
-            clamp(12px, 3.5vw, 13px);
+        line-height:1.2;
     }
+
+
+    /* -----------------------------------------------------
+       SECTION TITLE
+    ----------------------------------------------------- */
+
+    .featured-modules .section-title-center h2{
+        font-size:16px;
+        line-height:1.2;
+        margin-bottom:
+            clamp(5px,1.8vw,7px);
+    }
+
+
+    /* -----------------------------------------------------
+       SECTION DESCRIPTION
+    ----------------------------------------------------- */
+
+    .featured-modules .section-title-center p{
+        font-size:
+            clamp(10px,2.9vw,11px);
+
+        line-height:1.5;
+        margin-top:0;
+    }
+
+
+    /* -----------------------------------------------------
+       MODULE CARD
+    ----------------------------------------------------- */
+
+    .featured-grid .module-card{
+        flex:0 0 86% !important;
+        min-height:0 !important;
+        height:auto !important;
+        padding:14px !important;
+        border-radius:clamp(15px,4vw,16px);
+    }
+
+
+    .featured-grid .module-cover{
+        height:clamp(90px,24vw,95px) !important;
+        padding:12px !important;
+        margin-bottom:clamp(12px,3.5vw,14px) !important;
+        border-radius:clamp(12px,3.5vw,13px);
+    }
+
 
     .featured-grid .module-cover-text{
-        gap:
-            clamp(4px, 1.5vw, 5px);
+        gap:clamp(4px,1.5vw,5px);
     }
+
 
     .featured-grid .module-cover-text h4{
         font-size:
-            clamp(12px, 3.4vw, 13px) !important;
+            clamp(12px,3.4vw,13px) !important;
 
-        line-height:
-            1.2;
+        line-height:1.2;
     }
+
 
     .featured-grid .module-cover .module-number{
         font-size:
-            clamp(8px, 2.4vw, 9px) !important;
+            clamp(8px,2.4vw,9px) !important;
     }
+
 
     .featured-grid .module-cover .preview-badge{
-        padding:
-            clamp(3px, 1vw, 4px)
-            clamp(6px, 1.8vw, 7px);
-
+        padding:4px 7px;
         font-size:
-            clamp(7px, 2vw, 8px);
+            clamp(7px,2vw,8px);
     }
+
+
+    /* -----------------------------------------------------
+       MODULE CONTENT
+    ----------------------------------------------------- */
+
+    .featured-grid .module-card h3{
+        font-size:
+            clamp(12px,3.4vw,13px) !important;
+
+        line-height:1.2;
+        margin-bottom:
+            clamp(7px,2vw,8px);
+    }
+
 
     .featured-grid .module-card p{
         font-size:
-            clamp(10px, 2.9vw, 11px);
+            clamp(10px,2.9vw,11px);
 
-        line-height:
-            1.45;
-
+        line-height:1.45;
         margin-bottom:
-            clamp(10px, 3vw, 12px);
+            clamp(10px,3vw,12px);
     }
+
 
     .featured-grid .module-footer{
         margin-top:
-            clamp(6px, 2vw, 8px) !important;
+            clamp(6px,2vw,8px) !important;
     }
+
 
     .featured-grid .module-meta{
         gap:
-            clamp(6px, 2vw, 7px);
+            clamp(6px,2vw,7px);
 
         margin-bottom:
-            clamp(8px, 2.8vw, 10px);
+            clamp(8px,2.8vw,10px);
 
         font-size:
-            clamp(9px, 2.7vw, 11px);
+            clamp(9px,2.7vw,11px);
     }
+
+
+    /* -----------------------------------------------------
+       READ PREVIEW BUTTON
+    ----------------------------------------------------- */
 
     .featured-grid .module-button{
         padding:
-            clamp(10px, 3vw, 11px);
+            clamp(9px,2.8vw,11px);
 
         font-size:
-            clamp(9px, 2.7vw, 10px);
+            clamp(9px,2.7vw,10px);
 
+        line-height:1.2;
         border-radius:
-            clamp(9px, 2.8vw, 10px);
-    }
-
-}
-
-
-/* =========================================================
-   FEATURED LEARNING MODULES — EXTRA SMALL PHONE
-   ≤ 360px
-========================================================= */
-
-@media (max-width:360px){
-
-    .featured-grid .module-button{
-        font-size:14px;
+            clamp(9px,2.8vw,10px);
     }
 
 }
