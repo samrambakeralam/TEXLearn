@@ -5735,9 +5735,11 @@ transform:translateY(0px);
     .topics-section {
 
     padding:
-        35px 12px 75px;
+        35px 12px clamp(28px, 6vw, 42px);
 
 }
+
+
 
 
     .topics-content {
@@ -5869,18 +5871,16 @@ transform:translateY(0px);
 
 @media (max-width: 420px) {
 
-    .topics-section {
+  .topics-section {
 
     padding:
-        30px 16px 65px;
+        30px 16px clamp(24px, 6vw, 32px);
 
 }
-
     .section-badge {
-        font-size:
-        9px;
+        font-size: 9px;
 
-       }
+    }
 
 
     .topics-left h2 {
