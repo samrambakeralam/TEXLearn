@@ -9716,52 +9716,53 @@ transform:translateY(0px);
     line-height: 1.25;
 }
 
-   #pricingButton{
+ #pricingButton{
     padding:
-        clamp(10px,3vw,12px)
+        clamp(9px,2.7vw,11px)
         clamp(10px,3vw,12px);
 
     font-size:
-        clamp(.85rem,3.5vw,.95rem);
+        clamp(.82rem,3.3vw,.92rem);
 
     line-height:1.2;
 
     border-radius:
-        clamp(9px,2.8vw,11px);
+        clamp(9px,2.6vw,11px);
 }
 
-    .secure-payment{
-    margin-top:clamp(4px,1.5vw,6px);
+.secure-payment{
+    margin-top:clamp(4px,1.3vw,6px);
     margin-bottom:0;
-    font-size:clamp(.58rem,2.2vw,.68rem);
-    line-height:1.25;
+    font-size:clamp(.52rem,1.8vw,.60rem);
+    line-height:1.2;
+    opacity:.8;
 }
 
-    .pricing-card .trust-grid{
+   .pricing-card .trust-grid{
     display:grid;
     grid-template-columns:repeat(2,minmax(0,1fr));
-    gap:clamp(4px,1.5vw,6px);
-    margin-top:clamp(6px,2vw,8px);
+    gap:clamp(3px,1.2vw,5px);
+    margin-top:clamp(5px,1.7vw,7px);
 }
 
 .pricing-card .trust-item{
-    gap:clamp(3px,1.2vw,4px);
-    padding:5px 6px;
-    border-radius:clamp(6px,2vw,7px);
+    gap:clamp(2px,1vw,3px);
+    padding:4px 5px;
+    border-radius:clamp(5px,1.7vw,6px);
     width:100%;
     min-width:0;
     box-sizing:border-box;
 }
 
 .trust-icon{
-    width:clamp(19px,5.5vw,22px);
-    height:clamp(19px,5.5vw,22px);
-    font-size:clamp(9px,2.5vw,10px);
+    width:clamp(18px,5vw,21px);
+    height:clamp(18px,5vw,21px);
+    font-size:clamp(8px,2.3vw,9px);
 }
 
 .trust-item span{
-    font-size:clamp(.55rem,2vw,.61rem);
-    line-height:1.15;
+    font-size:clamp(.50rem,1.8vw,.58rem);
+    line-height:1.1;
 }
 
 }
