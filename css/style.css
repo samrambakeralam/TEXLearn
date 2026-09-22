@@ -9548,13 +9548,14 @@ transform:translateY(0px);
 ========================================== */
 
 @media (max-width: 420px) {
+    
 
-    .pricing-section {
-    padding:
-        clamp(24px, 6vw, 28px)
-        0
-        90px;
-}
+     .pricing-section {
+        padding:
+            clamp(20px, 5vw, 24px)
+            0
+            clamp(38px, 10vw, 46px);
+    }
 
 
 .pricing-section .section-label{
