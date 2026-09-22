@@ -1948,10 +1948,11 @@ a {
     .rc2-value-points div {
 
         min-height:
-            40px;
+            38px;
 
         padding:
-            7px 5px;
+            6px
+            clamp(4px, 1vw, 6px);
 
         box-sizing:
             border-box;
@@ -1965,14 +1966,14 @@ a {
         justify-content:
             center;
 
-        gap:
-            4px;
+         gap:
+            clamp(3px, 0.8vw, 5px);
 
         white-space:
             nowrap;
 
-        font-size:
-            9px;
+         font-size:
+            clamp(8.5px, 2.2vw, 10px);
 
         font-weight:
             600;
@@ -1982,11 +1983,12 @@ a {
 
     .rc2-value-points svg {
 
-        width:
-            14px;
+         width:
+            clamp(13px, 3.3vw, 15px);
 
+        
         height:
-            14px;
+            clamp(13px, 3.3vw, 15px);
 
         flex:
             0 0 auto;
