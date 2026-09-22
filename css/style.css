@@ -2034,10 +2034,10 @@ a {
             0;
 
         height:
-            46px;
+            clamp(46px, 11.8vw, 50px);
 
         min-height:
-            46px;
+            clamp(46px, 11.8vw, 50px);
 
         margin:
             0;
@@ -2066,10 +2066,10 @@ a {
     }
 
 
-    .rc2-primary-cta {
+       .rc2-primary-cta {
 
         font-size:
-            13px;
+            clamp(13px, 3.6vw, 15px);
 
         font-weight:
             700;
@@ -2080,13 +2080,13 @@ a {
     .rc2-secondary-cta {
 
         font-size:
-            11.5px;
+            clamp(11px, 3.1vw, 13px);
 
         font-weight:
             700;
 
-        gap:
-            4px;
+         gap:
+            clamp(3px, 0.8vw, 5px);
 
     }
 
@@ -2094,10 +2094,10 @@ a {
     .rc2-secondary-cta svg {
 
         width:
-            14px;
+            clamp(13px, 3.3vw, 15px);
 
         height:
-            14px;
+            clamp(13px, 3.3vw, 15px);
 
     }
 
@@ -2621,6 +2621,49 @@ a {
         0 0 auto;
 
 }
+
+.rc2-primary-cta,
+    .rc2-secondary-cta {
+
+        height:
+            clamp(44px, 11.8vw, 48px);
+
+        min-height:
+            clamp(44px, 11.8vw, 48px);
+
+    }
+
+
+    .rc2-primary-cta {
+
+        font-size:
+            clamp(12px, 3.6vw, 14px);
+
+    }
+
+
+    .rc2-secondary-cta {
+
+        font-size:
+            clamp(10.5px, 3vw, 12px);
+
+        gap:
+            clamp(2px, 0.8vw, 4px);
+
+    }
+
+
+    .rc2-secondary-cta svg {
+
+        width:
+            clamp(12px, 3.1vw, 14px);
+
+        height:
+            clamp(12px, 3.1vw, 14px);
+
+    }
+
+
 
 .rc2-trust-line {
     font-size: 8.5px;
