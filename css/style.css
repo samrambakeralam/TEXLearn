@@ -6587,7 +6587,7 @@ transform:translateY(0px);
         0 0 clamp(3px, 1vw, 5px);
 
     font-size:
-        clamp(17px, 4.8vw, 21px);
+        clamp(17px, 4.8vw, 19px);
 
     line-height:
         1.18;
@@ -6865,6 +6865,50 @@ transform:translateY(0px);
     right:
         calc(50% - 72px);
 }
+
+}
+
+
+/* =========================================================
+   VIDEO HUB — SMALL PHONE TEXT
+========================================================= */
+
+@media (max-width:420px){
+
+    .hub-video-label {
+        margin-bottom:
+            clamp(8px, 2.5vw, 10px);
+    }
+
+    .hub-video-eyebrow {
+        margin-bottom:
+            clamp(2px, 0.7vw, 3px);
+
+        font-size:
+            clamp(7.5px, 2.2vw, 9px);
+
+        letter-spacing:
+            clamp(0.8px, 0.25vw, 1px);
+    }
+
+    .hub-video-label h2 {
+        margin:
+            0 0 clamp(3px, 0.9vw, 4px);
+
+        font-size:
+            clamp(16px, 4.5vw, 19px);
+
+        line-height:
+            1.18;
+    }
+
+    .hub-video-label p {
+        font-size:
+            clamp(9px, 2.6vw, 11px);
+
+        line-height:
+            1.4;
+    }
 
 }
 
