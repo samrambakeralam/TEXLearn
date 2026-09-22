@@ -7442,7 +7442,7 @@ transform:translateY(0px);
     ----------------------------------------------------- */
 
     .featured-modules .section-title-center h2{
-        
+
     font-size:
         clamp(15px,4.2vw,16px);
     line-height:1.2;
@@ -7492,7 +7492,7 @@ transform:translateY(0px);
 
     .featured-grid .module-cover-text h4{
         font-size:
-            clamp(12px,3.4vw,13px) !important;
+            clamp(10px, 2.9vw, 11px);
 
         line-height:1.2;
     }
