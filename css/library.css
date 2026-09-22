@@ -1752,7 +1752,7 @@ body.library-modal-is-open {
     }
 
     .library-banner h1 {
-        max-width: 310px;
+        max-width: 330px;
 
         margin-bottom: 8px;
 
@@ -1803,8 +1803,8 @@ body.library-modal-is-open {
     }
 
     .library-section-heading h2 {
-        font-size: 18px;
-    }
+    font-size: clamp(17px, 4.6vw, 20px);
+}
 
     .library-view-all {
         font-size: 10px;
@@ -1882,15 +1882,15 @@ body.library-modal-is-open {
     }
 
     .library-book-title {
-        margin-bottom: 3px;
+    margin-bottom: 3px;
 
-        font-size: 10px;
-        line-height: 1.3;
-    }
+    font-size: clamp(9px, 2.56vw, 11px);
+    line-height: 1.3;
+}
 
     .library-book-author {
-        font-size: 8.5px;
-    }
+    font-size: clamp(8px, 2.18vw, 9.5px);
+}
 
     /*
      * Three category cards visible at a time.
@@ -2051,9 +2051,9 @@ body.library-modal-is-open {
         margin-top: 30px;
     }
 
-    .library-section-heading h2 {
-        font-size: 17px;
-    }
+   .library-section-heading h2 {
+    font-size: clamp(17px, 4.6vw, 20px);
+}
 
     .library-section-eyebrow {
         font-size: 6.5px;
@@ -2067,13 +2067,13 @@ body.library-modal-is-open {
         gap: 20px 9px;
     }
 
-    .library-book-title {
-        font-size: 9px;
-    }
+   .library-book-title {
+    font-size: clamp(9px, 2.56vw, 11px);
+}
 
-    .library-book-author {
-        font-size: 8px;
-    }
+.library-book-author {
+    font-size: clamp(8px, 2.18vw, 9.5px);
+}
 
     /*
      * Exactly three category cards remain visible.
