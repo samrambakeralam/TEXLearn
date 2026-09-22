@@ -1786,7 +1786,7 @@ a {
         border-box;
 
     overflow:
-        clip;
+        hidden;
 
     background:
         rgba(255,255,255,.98);
@@ -11868,6 +11868,15 @@ a {
         opacity 850ms var(--rc2-transition),
         transform 850ms var(--rc2-transition);
 }
+
+#pageContent.home-community-transition:has(.rc2-mobile-menu.active),
+#pageContent.home-page-transition:has(.rc2-mobile-menu.active) {
+
+    transform:
+        none;
+
+}
+
 
 #pageContent.home-page-exit {
     opacity: 0;

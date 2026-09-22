@@ -1725,11 +1725,11 @@ body.library-modal-is-open {
     }
 
     .library-content {
-        width: calc(100% - 28px);
+    width: calc(100% - 20px);
 
-        padding-top: 18px;
-        padding-bottom: 52px;
-    }
+    padding-top: 18px;
+    padding-bottom: 52px;
+}
 
     .library-banner {
         min-height: 225px;
@@ -2003,11 +2003,11 @@ body.library-modal-is-open {
         height: 36px;
     }
 
-    .library-content {
-        width: calc(100% - 22px);
+   .library-content {
+    width: calc(100% - 18px);
 
-        padding-top: 14px;
-    }
+    padding-top: 14px;
+}
 
     .library-banner {
         min-height: 210px;

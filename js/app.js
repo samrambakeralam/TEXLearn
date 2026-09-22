@@ -604,6 +604,8 @@ function initialiseRC2Navigation() {
     const mobileCTA =
         document.getElementById("rc2MobileCTA");
 
+        let rc2ScrollPosition = 0;
+
 
     /* ---------------------------------------
        CTA BUTTONS
@@ -650,42 +652,68 @@ function initialiseRC2Navigation() {
 
     function openMenu() {
 
-        menu.classList.add("active");
+    rc2ScrollPosition =
+        window.scrollY;
 
-        menu.setAttribute(
-            "aria-hidden",
-            "false"
-        );
+    menu.classList.add("active");
 
-        openButton.setAttribute(
-            "aria-expanded",
-            "true"
-        );
+    menu.setAttribute(
+        "aria-hidden",
+        "false"
+    );
 
-        document.body.style.overflow =
-            "hidden";
+    openButton.setAttribute(
+        "aria-expanded",
+        "true"
+    );
 
-    }
+    document.body.style.position =
+        "fixed";
+
+    document.body.style.top =
+        `-${rc2ScrollPosition}px`;
+
+    document.body.style.width =
+        "100%";
+
+    document.body.style.overflow =
+        "hidden";
+
+}
 
 
     function closeMenu() {
 
-        menu.classList.remove("active");
+    menu.classList.remove("active");
 
-        menu.setAttribute(
-            "aria-hidden",
-            "true"
-        );
+    menu.setAttribute(
+        "aria-hidden",
+        "true"
+    );
 
-        openButton.setAttribute(
-            "aria-expanded",
-            "false"
-        );
+    openButton.setAttribute(
+        "aria-expanded",
+        "false"
+    );
 
-        document.body.style.overflow =
-            "";
+    document.body.style.position =
+        "";
 
-    }
+    document.body.style.top =
+        "";
+
+    document.body.style.width =
+        "";
+
+    document.body.style.overflow =
+        "";
+
+    window.scrollTo(
+        0,
+        rc2ScrollPosition
+    );
+
+}
 
 
     openButton.addEventListener(
