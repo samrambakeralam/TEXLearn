@@ -5965,7 +5965,7 @@ transform:translateY(0px);
    ENTREPRENEURIAL VIDEO SECTION
 ========================================================= */
 
-.hub-video-section{
+.hub-video-section {
 
     padding:
          40px 8% 40px;
@@ -6519,11 +6519,17 @@ transform:translateY(0px);
     }
 
     .hub-video-nav-button{
+
         position: absolute;
+
         top: 50%;
-        transform: translateY(-50%);
-        z-index: 10;
-        display: flex;
+
+        transform:
+            translateY(-50%);
+
+        z-index:
+            10;
+
     }
 
     .hub-video-prev{
@@ -6543,51 +6549,51 @@ transform:translateY(0px);
        VIDEO SECTION — MOBILE
        ========================================================= */
 
-.hub-video-section{
+.hub-video-section {
 
-    padding:
-        24px 18px 28px;
-
-}
-
-
-.hub-video-label{
-
-    margin-bottom:
-        12px;
+      padding:
+        24px clamp(10px, 2.8vw, 18px) 28px;
 
 }
 
 
-.hub-video-eyebrow{
+.hub-video-label {
 
     margin-bottom:
-        3px;
+        clamp(8px, 2.5vw, 12px);
+
+}
+
+
+.hub-video-eyebrow {
+
+    margin-bottom:
+        clamp(2px, 0.8vw, 3px);
 
     font-size:
-        9px;
+        clamp(8px, 2.4vw, 10px);
 
 }
 
 
-.hub-video-label h2{
+.hub-video-label h2 {
 
     margin:
-        0 0 4px;
+        0 0 clamp(3px, 1vw, 5px);
 
     font-size:
-        19px;
+        clamp(17px, 4.8vw, 21px);
 
     line-height:
-        1.2;
+        1.18;
 
 }
 
 
-.hub-video-label p{
+.hub-video-label p {
 
     font-size:
-        11px;
+        clamp(10px, 2.8vw, 12px);
 
     line-height:
         1.45;
@@ -6692,35 +6698,172 @@ transform:translateY(0px);
 
 }
 
-.hub-video-navigation{
+.hub-video-navigation {
 
-    margin-top:
-        12px;
+    margin:
+        clamp(10px, 2.8vw, 13px) auto 0;
 
     gap:
-        14px;
+        clamp(10px, 3vw, 14px);
+
+    min-height:
+        clamp(26px, 7.5vw, 30px);
+
+    display:
+        flex;
+
+    align-items:
+        center;
+
+    justify-content:
+        center;
 
 }
 
 
-.hub-video-nav-button{
+.hub-video-nav-button {
+
+    position:
+        absolute;
+
+    top:
+        calc(100% + 1px);
 
     width:
-        28px;
+        clamp(26px, 7.5vw, 30px);
 
     height:
-        28px;
+        clamp(26px, 7.5vw, 30px);
+
+    min-width:
+        clamp(26px, 7.5vw, 30px);
+
+    min-height:
+        clamp(26px, 7.5vw, 30px);
+
+    max-width:
+        none;
+
+    max-height:
+        none;
+
+    padding:
+        0;
+
+    display:
+        flex;
+
+    align-items:
+        center;
+
+    justify-content:
+        center;
+
+    box-sizing:
+        border-box;
+
+    z-index:
+        5;
 
 }
 
 
-.hub-video-nav-button svg{
+.hub-video-nav-button svg {
 
     width:
-        15px;
+        clamp(12px, 3.5vw, 15px);
 
     height:
-        15px;
+        clamp(12px, 3.5vw, 15px);
+
+}
+
+.hub-video-dots {
+
+    display:
+        flex;
+
+    align-items:
+        center;
+
+    justify-content:
+        center;
+
+    gap:
+        clamp(4px, 1.5vw, 6px);
+
+    width:
+        auto;
+
+    height:
+        clamp(6px, 1.8vw, 7px);
+
+}
+
+
+.hub-video-dot {
+
+    flex:
+        0 0 clamp(6px, 1.8vw, 7px);
+
+    width:
+        clamp(6px, 1.8vw, 7px);
+
+    min-width:
+        clamp(6px, 1.8vw, 7px);
+
+    max-width:
+        clamp(6px, 1.8vw, 7px);
+
+    height:
+        clamp(6px, 1.8vw, 7px);
+
+    min-height:
+        clamp(6px, 1.8vw, 7px);
+
+    max-height:
+        clamp(6px, 1.8vw, 7px);
+
+}
+
+
+.hub-video-dot.active {
+
+    flex:
+        0 0 clamp(17px, 5vw, 20px);
+
+    width:
+        clamp(17px, 5vw, 20px);
+
+    min-width:
+        clamp(17px, 5vw, 20px);
+
+    max-width:
+        clamp(17px, 5vw, 20px);
+
+    height:
+        clamp(6px, 1.8vw, 7px);
+
+    min-height:
+        clamp(6px, 1.8vw, 7px);
+
+    max-height:
+        clamp(6px, 1.8vw, 7px);
+
+}
+
+
+.hub-video-prev {
+
+    left:
+        0;
+
+}
+
+.hub-video-next {
+
+    right:
+        0;
 
 }
 
