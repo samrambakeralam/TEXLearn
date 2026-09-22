@@ -1786,7 +1786,7 @@ a {
         border-box;
 
     overflow:
-        hidden;
+        clip;
 
     background:
         rgba(255,255,255,.98);
