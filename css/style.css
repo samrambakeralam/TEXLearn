@@ -8491,7 +8491,7 @@ transform:translateY(0px);
         sans-serif;
 
     font-size:
-        40px;
+        30px;
 
     font-weight:
         800;
@@ -9069,7 +9069,7 @@ transform:translateY(0px);
 
     font-family:'Poppins', sans-serif;
 
-     font-size:32px;
+     font-size:30px;
 
     line-height:1.18;
 
@@ -9099,7 +9099,7 @@ transform:translateY(0px);
 
     font-family:'Poppins', sans-serif;
 
-    font-size:12px;
+    font-size:13px;
 
     font-weight:700;
 
@@ -9510,7 +9510,7 @@ transform:translateY(0px);
 
 /* ==========================================
    NORMAL MOBILE
-   421px – 576px
+   421px – 767px
 ========================================== */
 
 @media (min-width:421px) and (max-width:767px) {
@@ -9524,7 +9524,7 @@ transform:translateY(0px);
 
     .pricing-section .section-header h2 {
         font-family: 'Poppins', sans-serif;
-        font-size: 20px;
+        font-size: 19px;
     }
 
     .pricing-section .section-header p {
@@ -9557,13 +9557,16 @@ transform:translateY(0px);
 }
 
     .pricing-section .section-header h2 {
-        font-family: 'Poppins', sans-serif;
-        font-size: 20px;
-    }
+    font-family:'Poppins', sans-serif;
+    font-size:clamp(15px,4.2vw,16px);
+    line-height:1.2;
+    margin-bottom:clamp(7px,2vw,9px);
+}
 
-    .pricing-section .section-header p {
-        font-size: 12px;
-    }
+.pricing-section .section-header p {
+    font-size:clamp(11px,3vw,12px);
+    line-height:1.6;
+}
 
     .pricing-card {
         max-width: calc(100% - 12px);
