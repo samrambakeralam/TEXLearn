@@ -9548,7 +9548,7 @@ transform:translateY(0px);
 ========================================== */
 
 @media (max-width: 420px) {
-    
+
 
      .pricing-section {
         padding:
@@ -10027,65 +10027,83 @@ transform:translateY(0px);
 
 @media (max-width:420px){
 
-    .final-cta{
-        padding:38px 18px;
-    }
+   .final-cta{
+    padding:
+        clamp(30px,8vw,38px)
+        18px;
+}
 
 
     .final-cta-eyebrow{
-        margin-bottom:9px;
+    margin-bottom:clamp(7px,2vw,9px);
 
-        font-size:0.62rem;
+    font-size:clamp(0.56rem,2.2vw,0.62rem);
 
-        letter-spacing:1.3px;
-    }
+    letter-spacing:clamp(1px,0.35vw,1.3px);
+
+    line-height:1.2;
+}
 
 
     .final-cta h2{
-        margin:0 auto;
+    margin:0 auto;
+    width:100%;
+    max-width:none;
 
-        width:100%;
-        max-width:none;
+    font-size:clamp(1.55rem,7vw,1.75rem);
+    line-height:1.08;
+    letter-spacing:clamp(-.8px,-.18vw,-.7px);
 
-        font-size:1.75rem;
-
-        line-height:1.08;
-
-        letter-spacing:-.7px;
-
-        white-space:normal;
-    }
+    white-space:normal;
+}
 
 
     .final-cta p{
-        max-width:340px;
+    max-width:clamp(290px,86vw,340px);
 
-        margin:18px auto 18px;
+    margin:
+        clamp(14px,4vw,18px)
+        auto
+        clamp(14px,4vw,18px);
 
-        font-size: 0.88rem;
+    font-size:clamp(0.78rem,3.1vw,0.88rem);
 
-        line-height:1.5;
-    }
+    line-height:1.5;
+}
 
 
-    #finalCTAButton{
-        width:100%;
+   #finalCTAButton{
+    width:100%;
+    max-width:clamp(260px,80vw,300px);
 
-        max-width:300px;
+    padding:
+        clamp(9px,2.8vw,11px)
+        clamp(14px,4.5vw,18px);
 
-        padding:11px 18px;
+    font-size:clamp(.82rem,3.2vw,.9rem);
 
-        font-size:.9rem;
+    line-height:1.2;
 
-        border-radius:11px;
-    }
+    border-radius:clamp(9px,2.8vw,11px);
+}
+
+
+#finalCTAButton span{
+    font-size:clamp(1rem,4.2vw,1.2rem);
+    line-height:1;
+}
 
 
     .final-cta-note{
-        margin-top:9px;
+    margin-top:clamp(6px,2vw,9px);
 
-         font-size:0.65rem;
-    }
+    font-size:clamp(0.52rem,2vw,0.62rem);
+
+    line-height:1.2;
+    font-weight:500;
+
+    color:rgba(255,255,255,0.48);
+}
 
 }
 
@@ -10551,22 +10569,20 @@ transform:translateY(0px);
 
 @media (max-width:420px){
 
-    .site-footer{
-
-        padding-top:40px;
-
-    }
+   .site-footer{
+    padding-top:clamp(30px,8vw,40px);
+}
 
 
     /* ==========================================
        FOOTER GRID
     ========================================== */
 
-    .footer-grid{
-
-        gap:22px 16px;
-
-    }
+   .footer-grid{
+    gap:
+        clamp(16px,5vw,22px)
+        clamp(12px,4vw,16px);
+}
 
 
     /* ==========================================
@@ -10574,32 +10590,27 @@ transform:translateY(0px);
     ========================================== */
 
     .footer-column:first-child h3{
+    font-size:clamp(.92rem,3.8vw,1rem);
+    line-height:1.2;
+    margin-bottom:clamp(8px,2.5vw,11px);
+}
 
-        font-size:1rem;
-
-    }
-
-
-    .footer-column:first-child p{
-
-        font-size:.82rem;
-
-        line-height:1.55;
-
-    }
+.footer-column:first-child p{
+    font-size:clamp(.74rem,3vw,.82rem);
+    line-height:1.5;
+    margin-bottom:4px;
+}
 
 
     /* ==========================================
        FOOTER HEADINGS
     ========================================== */
 
-    .footer-column h4{
-
-        font-size:.9rem;
-
-        margin-bottom:11px;
-
-    }
+   .footer-column h4{
+    font-size:clamp(.82rem,3.2vw,.9rem);
+    line-height:1.2;
+    margin-bottom:clamp(8px,2.5vw,11px);
+}
 
 
     /* ==========================================
@@ -10607,76 +10618,56 @@ transform:translateY(0px);
     ========================================== */
 
     .footer-column li{
+    margin-bottom:clamp(4px,1.5vw,6px);
+}
 
-        margin-bottom:6px;
-
-    }
-
-    .footer-column a{
-
-        font-size:.84rem;
-
-    }
+.footer-column a{
+    font-size:clamp(.76rem,2.9vw,.84rem);
+    line-height:1.3;
+}
 
 
     /* ==========================================
        CONTACT — CENTERED
     ========================================== */
 
-    .footer-column:last-child{
+   .footer-column:last-child{
+    display:block;
+    grid-column:1 / -1;
+    width:100%;
+    text-align:center;
+    margin-top:clamp(0px,.8vw,2px);
+}
 
-        display:block;
+.footer-column:last-child h4{
+    text-align:center;
+    margin-bottom:clamp(7px,2.2vw,10px);
+}
 
-        grid-column:1 / -1;
-
-        width:100%;
-
-        text-align:center;
-
-    }
-
-    .footer-column:last-child h4{
-
-        text-align:center;
-
-        margin-bottom:10px;
-
-    }
-
-    .footer-column:last-child p{
-
-        width:100%;
-
-        margin:0;
-
-        text-align:center;
-
-        font-size:.82rem;
-
-        line-height:1.5;
-
-    }
+.footer-column:last-child p{
+    width:100%;
+    margin:0;
+    text-align:center;
+    font-size:clamp(.74rem,2.9vw,.82rem);
+    line-height:1.45;
+}
 
 
     /* ==========================================
        FOOTER BOTTOM
     ========================================== */
 
-    .footer-bottom{
+   .footer-bottom{
+    margin-top:clamp(18px,5vw,26px);
+    padding:
+        clamp(12px,3.5vw,16px)
+        15px;
+}
 
-        margin-top:26px;
-
-        padding:16px 15px;
-
-    }
-
-    .footer-bottom p{
-
-        font-size:.68rem;
-
-        line-height:1.45;
-
-    }
+.footer-bottom p{
+    font-size:clamp(.60rem,2.4vw,.68rem);
+    line-height:1.4;
+}
 
 }
 
