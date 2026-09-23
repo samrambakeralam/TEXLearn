@@ -1800,6 +1800,13 @@ if (newGrid) {
         recommended
     );
 
+    if (recommendedGrid) {
+    recommendedGrid.classList.toggle(
+        "is-view-all",
+        LIBRARY_STATE.viewAllSection === "recommended"
+    );
+}
+
     /*
      * Explore Library:
      * Show the complete filtered catalogue.
@@ -1908,9 +1915,10 @@ function initialiseSectionViewAll() {
                             "data-library-view"
                         );
 
-                    if (
+ if (
     section !== "popular" &&
-    section !== "new"
+    section !== "new" &&
+    section !== "recommended"
 ) {
     return;
 }

@@ -1879,6 +1879,16 @@ body.library-modal-is-open {
     scroll-snap-type: none;
 }
 
+#recommended .library-book-grid.is-view-all {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    flex-wrap: unset;
+    overflow-x: visible;
+    overflow-y: visible;
+    gap: 20px 10px;
+    scroll-snap-type: none;
+}
+
     #popular-books .library-book-grid::-webkit-scrollbar,
     #new-releases .library-book-grid::-webkit-scrollbar,
     #recommended .library-book-grid::-webkit-scrollbar {
@@ -1902,6 +1912,12 @@ body.library-modal-is-open {
 }
 
 #new-releases .library-book-grid.is-view-all .library-book-card {
+    flex: 0 0 auto;
+    width: auto;
+    scroll-snap-align: none;
+}
+
+#recommended .library-book-grid.is-view-all .library-book-card {
     flex: 0 0 auto;
     width: auto;
     scroll-snap-align: none;
