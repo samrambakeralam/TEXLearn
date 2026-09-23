@@ -1735,7 +1735,7 @@ body.library-modal-is-open {
     width: calc(100% - 20px);
 
     padding-top: 18px;
-    padding-bottom: 20px;
+    padding-bottom: 12px;
 }
 
  .library-banner {
