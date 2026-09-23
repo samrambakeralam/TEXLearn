@@ -152,40 +152,339 @@
 
     function normalizeCategory(categoryName) {
 
-        const value =
-            String(categoryName || "")
-                .trim()
-                .toLowerCase();
+    const value =
+        String(categoryName || "")
+            .trim()
+            .toLowerCase();
 
-
-        const category =
-            CATEGORIES.find(
-                function (item) {
-
-                    return (
-                        item.name.toLowerCase() === value ||
-                        item.id === value
-                    );
-
+    const categoryIds =
+        new Set(
+            CATEGORIES.map(
+                function (category) {
+                    return category.id;
                 }
-            );
+            )
+        );
 
-
-        if (category) {
-            return category.id;
-        }
-
-
-        /*
-         * Fallback normalization in case a new category
-         * is temporarily added to the spreadsheet.
-         */
-
-        return value
-            .replace(/&/g, "and")
-            .replace(/\s+/g, "-");
-
+    /*
+     * Already using one of the final
+     * Library category IDs.
+     */
+    if (categoryIds.has(value)) {
+        return value;
     }
+
+    /*
+     * Direct and semantic mappings for
+     * legacy catalogue categories.
+     */
+    const directMap = {
+
+        "entrepreneurship":
+            "entrepreneurship",
+
+        "sales":
+            "sales",
+
+        "investing":
+            "investing",
+
+        "marketing":
+            "marketing",
+
+        "business":
+            "business",
+
+        "money":
+            "money",
+
+        "mindset & motivation":
+            "mindset-motivation",
+
+        "self-help":
+            "self-help",
+
+        "psychology":
+            "psychology",
+
+        "discipline":
+            "discipline",
+
+        "health":
+            "health",
+
+        "wisdom":
+            "wisdom",
+
+        "wealth":
+            "money",
+
+        "finance":
+            "money",
+
+        "personal finance":
+            "money",
+
+        "motivation":
+            "mindset-motivation",
+
+        "mindset":
+            "mindset-motivation",
+
+        "personal development":
+            "self-help",
+
+        "self-development":
+            "self-help",
+
+        "relationships":
+            "self-help",
+
+        "communication":
+            "sales",
+
+        "negotiation":
+            "sales",
+
+        "leadership":
+            "business",
+
+        "management":
+            "business",
+
+        "productivity":
+            "self-help",
+
+        "career":
+            "self-help",
+
+        "education":
+            "self-help",
+
+        "creativity":
+            "mindset-motivation",
+
+        "technology":
+            "business",
+
+        "cybersecurity":
+            "business",
+
+        "economics":
+            "investing",
+
+        "governance":
+            "business",
+
+        "spirituality":
+            "wisdom",
+
+        "biography":
+            "wisdom",
+
+        "writing":
+            "self-help",
+
+        "history":
+            "wisdom",
+
+        "safety":
+            "health",
+
+        "success":
+            "mindset-motivation",
+
+        "mindfulness":
+            "self-help",
+
+        "innovation":
+            "entrepreneurship",
+
+        "trust":
+            "business",
+
+        "power":
+            "business",
+
+        "strategy":
+            "business",
+
+        "influence":
+            "sales",
+
+        "market research":
+            "marketing",
+
+        "service management":
+            "business",
+
+        "professional growth":
+            "self-help",
+
+        "quality management":
+            "business",
+
+        "professional services":
+            "business",
+
+        "freelancing":
+            "entrepreneurship",
+
+        "women’s leadership":
+            "business",
+
+        "execution":
+            "self-help",
+
+        "skepticism":
+            "psychology",
+
+        "personal branding":
+            "marketing",
+
+        "habits":
+            "self-help",
+
+        "evolution":
+            "psychology",
+
+        "wealth building":
+            "investing",
+
+        "trading":
+            "investing",
+
+        "thinking":
+            "mindset-motivation",
+
+        "regret":
+            "psychology",
+
+        "cognitive psychology":
+            "psychology",
+
+        "biology":
+            "psychology",
+
+        "trauma":
+            "health",
+
+        "self-awareness":
+            "psychology",
+
+        "pitching":
+            "sales",
+
+        "presentation":
+            "sales",
+
+        "stoicism":
+            "wisdom",
+
+        "decision-making":
+            "psychology",
+
+        "vulnerability":
+            "psychology",
+
+        "self-discipline":
+            "discipline",
+
+        "customer service":
+            "business",
+
+        "content creation":
+            "marketing",
+
+        "media":
+            "marketing",
+
+        "focus":
+            "self-help",
+
+        "consciousness":
+            "wisdom",
+
+        "neuroscience":
+            "psychology",
+
+        "self-acceptance":
+            "self-help",
+
+        "persuasion":
+            "sales",
+
+        "social networks":
+            "business",
+
+        "fiction":
+            "wisdom",
+
+        "resilience":
+            "self-help",
+
+        "body language":
+            "psychology",
+
+        "mental health":
+            "health",
+
+        "manifestation":
+            "mindset-motivation",
+
+        "politics":
+            "wisdom",
+
+        "political science":
+            "wisdom",
+
+        "ai":
+            "entrepreneurship",
+
+        "beauty":
+            "health",
+
+        "wellness":
+            "health"
+
+    };
+
+    if (directMap[value]) {
+        return directMap[value];
+    }
+
+    /*
+     * For compound categories, use the
+     * leading subject first.
+     */
+    const primary =
+        value
+            .split(",")[0]
+            .trim();
+
+    if (directMap[primary]) {
+        return directMap[primary];
+    }
+
+    /*
+     * Handle compound categories joined
+     * with "&".
+     */
+    const firstPart =
+        primary
+            .split(" & ")[0]
+            .trim();
+
+    if (directMap[firstPart]) {
+        return directMap[firstPart];
+    }
+
+    /*
+     * Unknown categories remain invalid so
+     * catalogue validation can still detect them.
+     */
+    return "";
+}
 
 
     /* =========================================================
