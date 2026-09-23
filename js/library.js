@@ -1730,7 +1730,7 @@ const popular =
                     )
                 );
             }
-        )
+        ).slice(0, 15)
         : popularSelection;
 
     /*
@@ -1766,6 +1766,13 @@ const popular =
         popularGrid,
         popular
     );
+
+    if (popularGrid) {
+    popularGrid.classList.toggle(
+        "is-view-all",
+        LIBRARY_STATE.viewAllSection === "popular"
+    );
+}
 
     renderBookGrid(
         newGrid,
