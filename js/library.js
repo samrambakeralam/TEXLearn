@@ -1915,18 +1915,27 @@ function initialiseSectionViewAll() {
                             "data-library-view"
                         );
 
- if (
-    section !== "popular" &&
-    section !== "new" &&
-    section !== "recommended"
-) {
-    return;
-}
+                    if (
+                        section !== "popular" &&
+                        section !== "new" &&
+                        section !== "recommended"
+                    ) {
+                        return;
+                    }
 
                     event.preventDefault();
 
                     LIBRARY_STATE.viewAllSection =
                         section;
+
+                    history.pushState(
+                        {
+                            libraryViewAll:
+                                section
+                        },
+                        "",
+                        "#library-" + section
+                    );
 
                     renderBookSections();
 
