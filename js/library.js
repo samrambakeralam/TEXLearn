@@ -1948,6 +1948,28 @@ function initialiseSectionViewAll() {
 }
 
 
+function initialiseSectionViewAllHistory() {
+
+    window.addEventListener(
+        "popstate",
+        function () {
+
+            if (
+                LIBRARY_STATE.viewAllSection !== null
+            ) {
+
+                LIBRARY_STATE.viewAllSection =
+                    null;
+
+                renderBookSections();
+
+            }
+
+        }
+    );
+
+}
+
 
     /* =========================================================
        10. BOOK MODAL
@@ -2206,6 +2228,8 @@ function initialiseSectionViewAll() {
         initialiseSearch();
 
         initialiseSectionViewAll();
+
+        initialiseSectionViewAllHistory();
 
         initialiseBookModal();
 
