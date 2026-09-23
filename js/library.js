@@ -1737,7 +1737,7 @@ const popular =
      * New releases:
      * isNew is preferred, otherwise recent releaseDate.
      */
-    const newBooks =
+   const newBooksBase =
     books
         .filter(
             function (book) {
@@ -1751,8 +1751,12 @@ const popular =
                     new Date(a.releaseDate)
                 );
             }
-        )
-        .slice(0, 8);
+        );
+
+const newBooks =
+    LIBRARY_STATE.viewAllSection === "new"
+        ? newBooksBase.slice(0, 12)
+        : newBooksBase.slice(0, 8);
 
     /*
      * Recommendation is intentionally conservative
@@ -1775,9 +1779,16 @@ const popular =
 }
 
     renderBookGrid(
-        newGrid,
-        newBooks
+    newGrid,
+    newBooks
+);
+
+if (newGrid) {
+    newGrid.classList.toggle(
+        "is-view-all",
+        LIBRARY_STATE.viewAllSection === "new"
     );
+}
 
     renderBookGrid(
         recommendedGrid,
@@ -1893,10 +1904,11 @@ function initialiseSectionViewAll() {
                         );
 
                     if (
-                        section !== "popular"
-                    ) {
-                        return;
-                    }
+    section !== "popular" &&
+    section !== "new"
+) {
+    return;
+}
 
                     event.preventDefault();
 

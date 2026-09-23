@@ -1840,20 +1840,20 @@ body.library-modal-is-open {
      * horizontal scrolling on phone.
      * Three books visible at a time.
      */
-    #popular-books .library-book-grid:not(.is-view-all),
-    #new-releases .library-book-grid,
-    #recommended .library-book-grid {
-        display: flex;
-        flex-wrap: nowrap;
-        overflow-x: auto;
-        overflow-y: hidden;
+   #popular-books .library-book-grid:not(.is-view-all),
+#new-releases .library-book-grid:not(.is-view-all),
+#recommended .library-book-grid:not(.is-view-all) {
+    display: flex;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    overflow-y: hidden;
 
-        gap: 20px 10px;
+    gap: 20px 10px;
 
-        scrollbar-width: none;
-        -webkit-overflow-scrolling: touch;
-        scroll-snap-type: x mandatory;
-    }
+    scrollbar-width: none;
+    -webkit-overflow-scrolling: touch;
+    scroll-snap-type: x mandatory;
+}
 
     #popular-books .library-book-grid.is-view-all {
     display: grid;
@@ -1866,6 +1866,16 @@ body.library-modal-is-open {
 
     gap: 20px 10px;
 
+    scroll-snap-type: none;
+}
+
+#new-releases .library-book-grid.is-view-all {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    flex-wrap: unset;
+    overflow-x: visible;
+    overflow-y: visible;
+    gap: 20px 10px;
     scroll-snap-type: none;
 }
 
@@ -1888,6 +1898,12 @@ body.library-modal-is-open {
     flex: 0 0 auto;
     width: auto;
 
+    scroll-snap-align: none;
+}
+
+#new-releases .library-book-grid.is-view-all .library-book-card {
+    flex: 0 0 auto;
+    width: auto;
     scroll-snap-align: none;
 }
 
