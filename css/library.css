@@ -1799,8 +1799,12 @@ body.library-modal-is-open {
     }
 
     .library-section {
-        margin-top: 34px;
-    }
+    margin-top: 34px;
+   }
+
+   #explore-library {
+    margin-top: 24px;
+   }
 
     .library-section-heading {
         align-items: center;
