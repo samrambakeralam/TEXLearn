@@ -2062,7 +2062,8 @@ body.library-modal-is-open {
     }
 
 .library-section-heading h2 {
-    font-size: clamp(15px, 4vw, 18px);
+    font-size:
+        clamp(14px, 3.7vw, 16px);             
 }
 
     .library-section-eyebrow {
