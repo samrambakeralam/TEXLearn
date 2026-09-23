@@ -194,12 +194,13 @@
      * Later it can be replaced by authenticated user data.
      */
     const LIBRARY_STATE = {
-        currentBanner: 0,
-        bannerTimer: null,
-        searchTerm: "",
-        selectedCategory: null,
-        dndMode: false
-    };
+    currentBanner: 0,
+    bannerTimer: null,
+    searchTerm: "",
+    selectedCategory: null,
+    dndMode: false,
+    viewAllSection: null
+};
 
 
     /* =========================================================
@@ -1704,10 +1705,33 @@ function getMonthlyPopularBooks(books) {
     );
 }
 
-const popular =
+const popularSelection =
     getMonthlyPopularBooks(
         books
     );
+
+const popular =
+    LIBRARY_STATE.viewAllSection === "popular"
+        ? books.filter(
+            function (book) {
+                return (
+                    book.editorialPopular !==
+                    false
+                );
+            }
+        ).sort(
+            function (a, b) {
+                return (
+                    Number(
+                        b.popularity || 0
+                    ) -
+                    Number(
+                        a.popularity || 0
+                    )
+                );
+            }
+        )
+        : popularSelection;
 
     /*
      * New releases:
@@ -1836,6 +1860,52 @@ const popular =
         );
 
     }
+
+
+    /* =========================================================
+   09B. SECTION VIEW ALL
+========================================================= */
+
+function initialiseSectionViewAll() {
+
+    const viewAllLinks =
+        document.querySelectorAll(
+            ".library-view-all[data-library-view]"
+        );
+
+    viewAllLinks.forEach(
+        function (link) {
+
+            link.addEventListener(
+                "click",
+                function (event) {
+
+                    const section =
+                        link.getAttribute(
+                            "data-library-view"
+                        );
+
+                    if (
+                        section !== "popular"
+                    ) {
+                        return;
+                    }
+
+                    event.preventDefault();
+
+                    LIBRARY_STATE.viewAllSection =
+                        section;
+
+                    renderBookSections();
+
+                }
+            );
+
+        }
+    );
+
+}
+
 
 
     /* =========================================================
@@ -2093,6 +2163,8 @@ const popular =
         renderContinueReading();
 
         initialiseSearch();
+
+        initialiseSectionViewAll();
 
         initialiseBookModal();
 
