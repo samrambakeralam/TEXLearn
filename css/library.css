@@ -60,6 +60,13 @@
    02. LIBRARY FOUNDATION
 ========================================================= */
 
+html,
+body {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+}
+
 .library-app,
 .library-app * {
     box-sizing: border-box;
@@ -1656,7 +1663,7 @@ body.library-modal-is-open {
         min-height: 60px;
 
         padding:
-            9px 14px;
+            9px clamp(8px, 3.6vw, 14px);
     }
 
     .library-menu-button {
@@ -1731,12 +1738,15 @@ body.library-modal-is-open {
     padding-bottom: 52px;
 }
 
-   .library-banner {
-    width: calc(100% + 20px);
-    margin-left: -10px;
+ .library-banner {
+    width: calc(100% + clamp(8px, 2.05vw, 16px));
+
+    margin-left:
+        calc(
+            -1 * clamp(4px, 1.025vw, 8px)
+        );
 
     min-height: 225px;
-
     border-radius: 16px;
 }
 
@@ -1986,11 +1996,11 @@ body.library-modal-is-open {
 @media (max-width: 420px) {
 
     .library-topbar {
-        gap: 8px;
+    gap: clamp(6px, 2vw, 8px);
 
-        padding-left: 11px;
-        padding-right: 11px;
-    }
+    padding-left: clamp(8px, 3.6vw, 14px);
+    padding-right: clamp(8px, 3.6vw, 14px);
+}
 
     .library-menu-button {
         width: 38px;
