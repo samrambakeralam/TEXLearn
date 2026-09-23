@@ -1738,6 +1738,12 @@ body.library-modal-is-open {
     padding-bottom: 12px;
 }
 
+#explore-library {
+    width: calc(100% - 20px);
+    margin-left: auto;
+    margin-right: auto;
+}
+
  .library-banner {
     width: calc(100% + clamp(8px, 2.05vw, 16px));
 
