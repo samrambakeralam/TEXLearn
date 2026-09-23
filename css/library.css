@@ -2061,19 +2061,19 @@ body.library-modal-is-open {
         margin-top: 30px;
     }
 
-.library-section-heading h2 {
-    font-size:
-        clamp(14px, 3.7vw, 16px);             
-}
-
-    .library-section-eyebrow {
+     .library-section-eyebrow {
         font-size: 6.5px;
+    }
+
+    .library-section-heading h2 {
+        font-size: clamp(13px, 3.4vw, 15px);
     }
 
     /*
      * Keep exactly three book cards across even on
      * compact phones.
      */
+     
     .library-book-grid {
         gap: 20px 9px;
     }
