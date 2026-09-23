@@ -2303,7 +2303,7 @@ body.library-page-transition {
 
 body.library-page-ready {
     opacity: 1;
-    transform: translateX(0);
+    transform: none;
 }
 
 /* =========================================================
