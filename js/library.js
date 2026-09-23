@@ -1762,8 +1762,13 @@ const newBooks =
      * Recommendation is intentionally conservative
      * until the Learning Profile exists.
      */
-    const recommended =
-        books.slice(0, 12);
+    const recommendedBase =
+    books.slice();
+
+const recommended =
+    LIBRARY_STATE.viewAllSection === "recommended"
+        ? recommendedBase.slice(0, 12)
+        : recommendedBase.slice(0, 8);
 
 
     renderBookGrid(
