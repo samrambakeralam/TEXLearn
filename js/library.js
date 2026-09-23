@@ -347,6 +347,10 @@
     function openSidebar() {
         app.classList.add("sidebar-open");
 
+            if (sidebar) {
+        sidebar.scrollTop = 0;
+    }
+
         document.body.classList.add(
             "library-sidebar-is-open"
         );
