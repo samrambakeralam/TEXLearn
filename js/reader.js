@@ -686,20 +686,6 @@ const response =
 console.timeEnd("BOOK CONTENT FETCH");
 
 
-            if (!response.ok) {
-
-                throw new Error(
-                    "Unable to connect to the Library."
-                );
-
-            }
-
-
-            console.time("BOOK CONTENT JSON");
-
-const data =
-    await response.json();
-
 console.timeEnd("BOOK CONTENT JSON");
 
 
@@ -781,41 +767,124 @@ console.timeEnd("READER TOTAL LOAD");
         }
 
 
+            try {
+
+        /*
+         * Try browser catalogue cache first.
+         */
+
+        let data = null;
+
         try {
 
-            const url =
-                LIBRARY_API_URL +
-                "?action=librarycatalogue";
-
-
-            const response =
-                await fetch(url);
-
-
-            if (!response.ok) {
-
-                throw new Error(
-                    "Unable to load the Library catalogue."
+            const cachedCatalogue =
+                localStorage.getItem(
+                    "samramba_library_catalogue"
                 );
+
+            if (cachedCatalogue) {
+
+                const parsed =
+                    JSON.parse(
+                        cachedCatalogue
+                    );
+
+                if (
+                    parsed &&
+                    Array.isArray(parsed.books)
+                ) {
+
+                    data = parsed;
+
+                }
 
             }
 
+        } catch (error) {
 
-            const data =
-                await response.json();
+            console.warn(
+                "Unable to read cached library catalogue.",
+                error
+            );
+
+        }
 
 
-            if (
-                !data.success ||
-                !Array.isArray(data.books)
-            ) {
+        /*
+         * If no valid browser cache exists,
+         * fetch the catalogue once.
+         */
 
-                console.warn(
-                    "Library catalogue did not return books."
-                );
+            if (!data) {
 
-                return;
+    const url =
+        LIBRARY_API_URL +
+        "?action=librarycatalogue";
+
+    const response =
+        await fetch(url);
+
+    if (!response.ok) {
+
+        throw new Error(
+            "Unable to load the Library catalogue."
+        );
+
+    }
+
+    data =
+        await response.json();
+
+        console.log(
+    "CATALOGUE FETCHED:",
+    data.success,
+    data.books ? data.books.length : 0
+);
+
+
+    /*
+     * Save the catalogue for future
+     * Reader loads.
+     */
+
+    if (
+        data &&
+        data.success &&
+        Array.isArray(data.books)
+    ) {
+
+        try {
+
+            localStorage.setItem(
+                "samramba_library_catalogue",
+                JSON.stringify(data)
+            );
+
+                } catch (error) {
+
+                    console.warn(
+                        "Unable to cache library catalogue.",
+                        error
+                    );
+
+                }
+
             }
+
+        }
+
+
+        if (
+            !data.success ||
+            !Array.isArray(data.books)
+        ) {
+
+            console.warn(
+                "Library catalogue did not return books."
+            );
+
+            return;
+        }
 
 
             const book =
