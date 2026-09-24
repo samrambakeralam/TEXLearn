@@ -284,25 +284,29 @@ document.addEventListener(
             (rect.width / 2) -
             (toolbarWidth / 2);
 
-        let top =
-            rect.top -
-            readerSelectionToolbar.offsetHeight -
-            10;
+     let top =
+    rect.bottom + 12;
 
-        left = Math.max(
-            8,
-            Math.min(
-                left,
-                window.innerWidth -
-                    toolbarWidth -
-                    8
-            )
-        );
+left = Math.max(
+    8,
+    Math.min(
+        left,
+        window.innerWidth -
+            toolbarWidth -
+            8
+    )
+);
 
-        if (top < 8) {
-            top =
-                rect.bottom + 10;
-        }
+if (
+    top +
+        readerSelectionToolbar.offsetHeight >
+    window.innerHeight - 8
+) {
+    top =
+        rect.top -
+        readerSelectionToolbar.offsetHeight -
+        12;
+}
 
         readerSelectionToolbar.style.left =
             `${left}px`;
