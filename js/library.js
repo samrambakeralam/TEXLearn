@@ -2466,10 +2466,12 @@ function initialiseSectionViewAllHistory() {
     }
 
     if (libraryPersonalView) {
-        libraryPersonalView.classList.remove(
-            "is-active"
-        );
-    }
+    libraryPersonalView.classList.remove(
+        "is-active"
+    );
+
+    libraryPersonalView.style.display = "none";
+}
 
     if (libraryNotesView) {
         libraryNotesView.classList.remove(
@@ -2538,10 +2540,16 @@ function renderPersonalView(view) {
     }
 
     if (libraryPersonalView) {
-        libraryPersonalView.classList.add(
-            "is-active"
-        );
-    }
+    libraryPersonalView.style.display = "";
+}
+
+if (libraryNotesView) {
+    libraryNotesView.classList.remove(
+        "is-active"
+    );
+
+    libraryNotesView.style.display = "none";
+}
 
 
     if (libraryPersonalTitle) {
