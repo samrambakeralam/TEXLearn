@@ -643,6 +643,8 @@ if (
 
     async function loadBook() {
 
+        console.time("READER TOTAL LOAD");
+
         if (
             !customerID ||
             !token ||
@@ -676,8 +678,12 @@ if (
     loadBookTitleStyle();
 
 
-            const response =
-                await fetch(url);
+            console.time("BOOK CONTENT FETCH");
+
+const response =
+    await fetch(url);
+
+console.timeEnd("BOOK CONTENT FETCH");
 
 
             if (!response.ok) {
@@ -689,8 +695,12 @@ if (
             }
 
 
-            const data =
-                await response.json();
+            console.time("BOOK CONTENT JSON");
+
+const data =
+    await response.json();
+
+console.timeEnd("BOOK CONTENT JSON");
 
 
             if (!data.success) {
@@ -723,6 +733,8 @@ if (
             await titleStylePromise;
 
             renderPage();
+
+            console.timeEnd("READER TOTAL LOAD");
 
         } catch (error) {
 
