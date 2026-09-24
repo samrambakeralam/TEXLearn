@@ -258,7 +258,7 @@ function ensureSelectionToolbar() {
                 "none";
         }
     );
-    
+
 
     Object.assign(
         readerSelectionToolbar.style,
@@ -649,6 +649,122 @@ if (
     }
 
 
+    function applySavedHighlights() {
+    if (!content) {
+        return;
+    }
+
+    let highlights = [];
+
+    try {
+        highlights =
+            JSON.parse(
+                localStorage.getItem(
+                    "samramba_library_highlights"
+                ) || "[]"
+            );
+
+        if (!Array.isArray(highlights)) {
+            highlights = [];
+        }
+    } catch (error) {
+        highlights = [];
+    }
+
+    const currentPage =
+        pages[currentPageIndex]
+            ? pages[currentPageIndex].page
+            : currentPageIndex + 1;
+
+    const pageHighlights =
+        highlights.filter(
+            function (item) {
+                return (
+                    item.bookId === bookID &&
+                    item.versionId === versionID &&
+                    String(item.page) ===
+                        String(currentPage)
+                );
+            }
+        );
+
+    if (!pageHighlights.length) {
+        return;
+    }
+
+    const walker =
+        document.createTreeWalker(
+            content,
+            NodeFilter.SHOW_TEXT
+        );
+
+    const textNodes = [];
+
+    while (walker.nextNode()) {
+        textNodes.push(
+            walker.currentNode
+        );
+    }
+
+    pageHighlights.forEach(
+        function (highlight) {
+            if (!highlight.text) {
+                return;
+            }
+
+            const target =
+                highlight.text.trim();
+
+            for (
+                let i = 0;
+                i < textNodes.length;
+                i++
+            ) {
+                const node =
+                    textNodes[i];
+
+                const nodeText =
+                    node.textContent;
+
+                const start =
+                    nodeText.indexOf(target);
+
+                if (start === -1) {
+                    continue;
+                }
+
+                const range =
+                    document.createRange();
+
+                range.setStart(
+                    node,
+                    start
+                );
+
+                range.setEnd(
+                    node,
+                    start + target.length
+                );
+
+                const mark =
+                    document.createElement(
+                        "mark"
+                    );
+
+                mark.className =
+                    "reader-saved-highlight";
+
+                range.surroundContents(
+                    mark
+                );
+
+                break;
+            }
+        }
+    );
+}
+
+
     /* =========================================================
        RENDER PAGE
     ========================================================= */
@@ -717,6 +833,8 @@ if (
 
         content.innerHTML =
             pageHTML;
+
+        applySavedHighlights();
 
 
         pageIndicator.textContent =

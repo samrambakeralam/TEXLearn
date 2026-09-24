@@ -387,6 +387,13 @@ body {
     letter-spacing: 0;
 }
 
+.reader-saved-highlight {
+    background: #fff19a;
+    color: inherit;
+    padding: 0 2px;
+    border-radius: 3px;
+}
+
 /* =========================================================
    BOLD TEXT
    Same normal block spacing as paragraph,
