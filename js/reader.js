@@ -161,6 +161,9 @@
 
     let readerSelectionToolbar = null;
 
+    let readerSavedRange = null;
+    let readerSavedSelectedText = "";
+
 function ensureSelectionToolbar() {
     if (readerSelectionToolbar) {
         return;
@@ -189,96 +192,274 @@ function ensureSelectionToolbar() {
     `;
 
 
+        /* =========================================================
+       HIGHLIGHT
+    ========================================================= */
+
     readerSelectionToolbar
-    .querySelector(
-        '[data-reader-action="highlight"]'
-    )
-    .addEventListener(
-        "click",
-        function () {
-            const selection =
-                window.getSelection();
+        .querySelector(
+            '[data-reader-action="highlight"]'
+        )
+        .addEventListener(
+            "click",
+            function () {
 
-            const selectedText =
-                selection
-                    ? selection.toString().trim()
-                    : "";
+                if (
+                    !readerSavedRange ||
+                    !readerSavedSelectedText
+                ) {
+                    return;
+                }
 
-            if (!selectedText) {
-                return;
-            }
+                const selectedText =
+                    readerSavedSelectedText;
 
-            let highlights = [];
+                let highlights = [];
 
-            try {
-                highlights =
-                    JSON.parse(
-                        localStorage.getItem(
-                            "samramba_library_highlights"
-                        ) || "[]"
+                try {
+
+                    highlights =
+                        JSON.parse(
+                            localStorage.getItem(
+                                "samramba_library_highlights"
+                            ) || "[]"
+                        );
+
+                    if (!Array.isArray(highlights)) {
+                        highlights = [];
+                    }
+
+                } catch (error) {
+
+                    highlights = [];
+
+                }
+
+
+                const currentPage =
+                    pages[currentPageIndex]
+                        ? pages[currentPageIndex].page
+                        : currentPageIndex + 1;
+
+
+                highlights.push({
+
+                    text: selectedText,
+
+                    bookId: bookID,
+
+                    versionId: versionID,
+
+                    page: currentPage,
+
+                    createdAt:
+                        new Date().toISOString()
+
+                });
+
+
+                try {
+
+                    localStorage.setItem(
+                        "samramba_library_highlights",
+                        JSON.stringify(
+                            highlights
+                        )
                     );
 
-                if (!Array.isArray(highlights)) {
-                    highlights = [];
+                } catch (error) {
+
+                    console.warn(
+                        "Unable to save highlight.",
+                        error
+                    );
+
                 }
-            } catch (error) {
-                highlights = [];
-            }
 
-            highlights.push({
-                text: selectedText,
-                bookId: bookID,
-                versionId: versionID,
-                page: pages[
-                    currentPageIndex
-                ]
-                    ? pages[currentPageIndex].page
-                    : currentPageIndex + 1,
-                createdAt:
-                    new Date().toISOString()
-            });
 
-            try {
-                localStorage.setItem(
-                    "samramba_library_highlights",
-                    JSON.stringify(
-                        highlights
-                    )
+                /*
+                 * Restore the saved selection range
+                 * before creating the visual highlight.
+                 */
+
+                const selection =
+                    window.getSelection();
+
+                selection.removeAllRanges();
+
+                selection.addRange(
+                    readerSavedRange
                 );
-            } catch (error) {
-                console.warn(
-                    "Unable to save highlight.",
-                    error
+
+
+                const range =
+                    selection.getRangeAt(0);
+
+
+                const mark =
+                    document.createElement(
+                        "mark"
+                    );
+
+
+                mark.className =
+                    "reader-saved-highlight";
+
+
+                mark.appendChild(
+                    range.extractContents()
                 );
+
+
+                range.insertNode(
+                    mark
+                );
+
+
+                selection.removeAllRanges();
+
+
+                readerSavedRange = null;
+
+                readerSavedSelectedText = "";
+
+
+                readerSelectionToolbar.style.display =
+                    "none";
+
             }
+        );
 
-            const range =
-    selection.getRangeAt(0);
 
-const mark =
-    document.createElement(
-        "mark"
-    );
+    /* =========================================================
+       ADD NOTE
+    ========================================================= */
 
-mark.className =
-    "reader-saved-highlight";
+    readerSelectionToolbar
+        .querySelector(
+            '[data-reader-action="note"]'
+        )
+        .addEventListener(
+            "click",
+            function () {
 
-mark.appendChild(
-    range.extractContents()
-);
+                if (
+                    !readerSavedRange ||
+                    !readerSavedSelectedText
+                ) {
+                    return;
+                }
 
-range.insertNode(
-    mark
-);
 
-selection.removeAllRanges();
+                const selectedText =
+                    readerSavedSelectedText;
 
-readerSelectionToolbar.style.display =
-    "none";
 
-        }
-        
-    );
+                const noteText =
+                    window.prompt(
+                        "Add a note for this selection:"
+                    );
+
+
+                if (
+                    noteText === null
+                ) {
+                    return;
+                }
+
+
+                const cleanedNote =
+                    String(
+                        noteText
+                    ).trim();
+
+
+                if (!cleanedNote) {
+                    return;
+                }
+
+
+                let notes = [];
+
+
+                try {
+
+                    notes =
+                        JSON.parse(
+                            localStorage.getItem(
+                                "samramba_library_notes"
+                            ) || "[]"
+                        );
+
+
+                    if (!Array.isArray(notes)) {
+                        notes = [];
+                    }
+
+                } catch (error) {
+
+                    notes = [];
+
+                }
+
+
+                const currentPage =
+                    pages[currentPageIndex]
+                        ? pages[currentPageIndex].page
+                        : currentPageIndex + 1;
+
+
+                notes.push({
+
+                    text: selectedText,
+
+                    note: cleanedNote,
+
+                    bookId: bookID,
+
+                    versionId: versionID,
+
+                    page: currentPage,
+
+                    createdAt:
+                        new Date().toISOString()
+
+                });
+
+
+                try {
+
+                    localStorage.setItem(
+                        "samramba_library_notes",
+                        JSON.stringify(
+                            notes
+                        )
+                    );
+
+                } catch (error) {
+
+                    console.warn(
+                        "Unable to save note.",
+                        error
+                    );
+
+                }
+
+
+                readerSavedRange = null;
+
+                readerSavedSelectedText = "";
+
+
+                window.getSelection()
+                    .removeAllRanges();
+
+
+                readerSelectionToolbar.style.display =
+                    "none";
+
+            }
+        );
 
 
     Object.assign(
@@ -335,15 +516,38 @@ document.addEventListener(
         }
 
         const selectedText =
-            selection.toString().trim();
+    selection.toString().trim();
 
-        if (!selectedText) {
-            if (readerSelectionToolbar) {
-                readerSelectionToolbar.style.display =
-                    "none";
-            }
-            return;
-        }
+
+if (
+    !selectedText ||
+    selection.rangeCount === 0
+) {
+    readerSavedRange = null;
+    readerSavedSelectedText = "";
+
+    if (readerSelectionToolbar) {
+        readerSelectionToolbar.style.display =
+            "none";
+    }
+
+    return;
+}
+
+
+/*
+ * Save the current selection because the browser's
+ * native selection/copy toolbar may clear it before
+ * our custom toolbar button is clicked.
+ */
+
+readerSavedRange =
+    selection
+        .getRangeAt(0)
+        .cloneRange();
+
+readerSavedSelectedText =
+    selectedText;
 
         const range =
             selection.getRangeAt(0);
