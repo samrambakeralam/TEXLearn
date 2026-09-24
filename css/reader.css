@@ -2533,3 +2533,59 @@ body {
     }
 
 }
+
+
+/* =========================================================
+   NOTES & HIGHLIGHTS BUTTON
+========================================================= */
+
+.reader-header-actions {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+
+.reader-notes-button {
+    border: 1px solid rgba(0, 0, 0, 0.10);
+    background: #ffffff;
+    color: #222222;
+
+    min-height: 36px;
+    padding: 0 12px;
+
+    border-radius: 9px;
+
+    font-family:
+        Inter,
+        Poppins,
+        Arial,
+        sans-serif;
+
+    font-size: 12px;
+    font-weight: 600;
+
+    cursor: pointer;
+
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    transition:
+        background 0.2s ease,
+        transform 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+
+.reader-notes-button:hover {
+    background: #f7f7f7;
+
+    box-shadow:
+        0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+
+.reader-notes-button:active {
+    transform: translateY(1px);
+}
