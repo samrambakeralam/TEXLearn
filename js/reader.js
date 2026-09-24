@@ -252,11 +252,32 @@ function ensureSelectionToolbar() {
                 );
             }
 
-            selection.removeAllRanges();
+            const range =
+    selection.getRangeAt(0);
 
-            readerSelectionToolbar.style.display =
-                "none";
+const mark =
+    document.createElement(
+        "mark"
+    );
+
+mark.className =
+    "reader-saved-highlight";
+
+mark.appendChild(
+    range.extractContents()
+);
+
+range.insertNode(
+    mark
+);
+
+selection.removeAllRanges();
+
+readerSelectionToolbar.style.display =
+    "none";
+
         }
+        
     );
 
 
