@@ -340,6 +340,36 @@ function isBookSaved(
     const exploreLibraryGrid =
         document.getElementById("exploreLibraryGrid");
 
+    const libraryHome =
+    document.getElementById(
+        "libraryHome"
+    );
+
+const exploreLibrarySection =
+    document.getElementById(
+        "explore-library"
+    );
+
+const libraryPersonalView =
+    document.getElementById(
+        "libraryPersonalView"
+    );
+
+const libraryPersonalGrid =
+    document.getElementById(
+        "libraryPersonalGrid"
+    );
+
+const libraryPersonalTitle =
+    document.getElementById(
+        "libraryPersonalTitle"
+    );
+
+const libraryPersonalCount =
+    document.getElementById(
+        "libraryPersonalCount"
+    );    
+
     const continueSection =
         document.querySelector(".library-continue-section");
 
@@ -1000,445 +1030,455 @@ function isBookSaved(
 
     function createBookCard(book) {
 
-        const article =
-            document.createElement("article");
+    const article =
+        document.createElement("article");
 
-        article.className =
-            "library-book-card";
+    article.className =
+        "library-book-card";
 
-        article.setAttribute(
-            "tabindex",
-            "0"
-        );
+    article.setAttribute(
+        "tabindex",
+        "0"
+    );
 
-        article.setAttribute(
-            "role",
-            "button"
-        );
+    article.setAttribute(
+        "role",
+        "button"
+    );
 
-        article.setAttribute(
-            "aria-label",
-            "Open " +
-            (book.title || "book")
-        );
+    article.setAttribute(
+        "aria-label",
+        "Open " +
+        (book.title || "book")
+    );
 
 
-        const coverHTML =
-            book.cover
-                ? `
-                    <img
-                        class="library-book-cover"
-                        src="${escapeHTML(book.cover)}"
-                        alt="${escapeHTML(
-                            book.title || "Book cover"
-                        )}"
-                        loading="lazy"
-                    >
-                `
-                : `
-                    <div class="library-book-cover-placeholder">
-                        <span>
-                            ${escapeHTML(
-                                book.title || "Book"
-                            )}
+    const coverHTML =
+        book.cover
+            ? `
+                <img
+                    class="library-book-cover"
+                    src="${escapeHTML(book.cover)}"
+                    alt="${escapeHTML(
+                        book.title || "Book cover"
+                    )}"
+                    loading="lazy"
+                >
+            `
+            : `
+                <div class="library-book-cover-placeholder">
+                    <span>
+                        ${escapeHTML(
+                            book.title || "Book"
+                        )}
+                    </span>
+                </div>
+            `;
+
+
+    article.innerHTML = `
+        <div class="library-book-cover-wrap">
+
+            ${coverHTML}
+
+            ${
+                book.isLocked
+                    ? `
+                        <span class="library-book-lock">
+                            <i data-lucide="lock"></i>
                         </span>
-                    </div>
-                `;
-
-
-       article.innerHTML = `
-    <div class="library-book-cover-wrap">
-        ${coverHTML}
-
-        <div class="library-book-actions">
-
-            <button
-                type="button"
-                class="library-book-action library-favourite-button ${
-                    isBookSaved(
-                        FAVOURITES_STORAGE_KEY,
-                        book.id
-                    )
-                        ? "is-active"
-                        : ""
-                }"
-                data-book-action="favourite"
-                aria-label="Add to favourites"
-                aria-pressed="${
-                    isBookSaved(
-                        FAVOURITES_STORAGE_KEY,
-                        book.id
-                    )
-                }"
-            >
-                <i data-lucide="heart"></i>
-            </button>
-
-            <button
-                type="button"
-                class="library-book-action library-bookmark-button ${
-                    isBookSaved(
-                        BOOKMARKS_STORAGE_KEY,
-                        book.id
-                    )
-                        ? "is-active"
-                        : ""
-                }"
-                data-book-action="bookmark"
-                aria-label="Add bookmark"
-                aria-pressed="${
-                    isBookSaved(
-                        BOOKMARKS_STORAGE_KEY,
-                        book.id
-                    )
-                }"
-            >
-                <i data-lucide="bookmark"></i>
-            </button>
+                    `
+                    : ""
+            }
 
         </div>
 
-        ${
-            book.isLocked
-                ? `
-                    <span class="library-book-lock">
-                        <i data-lucide="lock"></i>
-                    </span>
-                `
-                : ""
+
+        <div class="library-book-info">
+
+            <h3 class="library-book-title">
+                ${escapeHTML(
+                    book.title || "Untitled Book"
+                )}
+            </h3>
+
+            <p class="library-book-author">
+                ${escapeHTML(
+                    book.author || "Unknown Author"
+                )}
+            </p>
+
+
+            <div class="library-book-actions">
+
+                <button
+                    type="button"
+                    class="library-book-action library-favourite-button ${
+                        isBookSaved(
+                            FAVOURITES_STORAGE_KEY,
+                            book.id
+                        )
+                            ? "is-active"
+                            : ""
+                    }"
+                    data-book-action="favourite"
+                    aria-label="Add to favourites"
+                    aria-pressed="${
+                        isBookSaved(
+                            FAVOURITES_STORAGE_KEY,
+                            book.id
+                        )
+                    }"
+                >
+                    <i data-lucide="heart"></i>
+                </button>
+
+
+                <button
+                    type="button"
+                    class="library-book-action library-bookmark-button ${
+                        isBookSaved(
+                            BOOKMARKS_STORAGE_KEY,
+                            book.id
+                        )
+                            ? "is-active"
+                            : ""
+                    }"
+                    data-book-action="bookmark"
+                    aria-label="Add bookmark"
+                    aria-pressed="${
+                        isBookSaved(
+                            BOOKMARKS_STORAGE_KEY,
+                            book.id
+                        )
+                    }"
+                >
+                    <i data-lucide="bookmark"></i>
+                </button>
+
+            </div>
+
+        </div>
+    `;
+
+
+    const favouriteButton =
+        article.querySelector(
+            ".library-favourite-button"
+        );
+
+    const bookmarkButton =
+        article.querySelector(
+            ".library-bookmark-button"
+        );
+
+
+    function updateSavedButton(
+        button,
+        active
+    ) {
+
+        if (!button) {
+            return;
         }
-    </div>
 
-const favouriteButton =
-    article.querySelector(
-        ".library-favourite-button"
+        button.classList.toggle(
+            "is-active",
+            active
+        );
+
+        button.setAttribute(
+            "aria-pressed",
+            String(active)
+        );
+
+    }
+
+
+    if (favouriteButton) {
+
+        favouriteButton.addEventListener(
+            "click",
+            function (event) {
+
+                event.preventDefault();
+                event.stopPropagation();
+
+                const active =
+                    toggleSavedBook(
+                        FAVOURITES_STORAGE_KEY,
+                        book.id
+                    );
+
+                updateSavedButton(
+                    favouriteButton,
+                    active
+                );
+
+            }
+        );
+
+    }
+
+
+    if (bookmarkButton) {
+
+        bookmarkButton.addEventListener(
+            "click",
+            function (event) {
+
+                event.preventDefault();
+                event.stopPropagation();
+
+                const active =
+                    toggleSavedBook(
+                        BOOKMARKS_STORAGE_KEY,
+                        book.id
+                    );
+
+                updateSavedButton(
+                    bookmarkButton,
+                    active
+                );
+
+            }
+        );
+
+    }
+
+
+    function activateCard() {
+
+        const version =
+            Array.isArray(book.versions) &&
+            book.versions.length
+                ? book.versions[0]
+                : null;
+
+
+        if (!version) {
+
+            console.warn(
+                "No readable version found for:",
+                book.id
+            );
+
+            return;
+
+        }
+
+
+        /*
+         * Preserve the authenticated
+         * Library session information.
+         */
+        const currentParams =
+            new URLSearchParams(
+                window.location.search
+            );
+
+
+        const customerID =
+            currentParams.get("cid");
+
+        const token =
+            currentParams.get("t");
+
+
+        /*
+         * Build Reader URL.
+         */
+        const params =
+            new URLSearchParams();
+
+
+        if (customerID) {
+
+            params.set(
+                "cid",
+                customerID
+            );
+
+        }
+
+
+        if (token) {
+
+            params.set(
+                "t",
+                token
+            );
+
+        }
+
+
+        params.set(
+            "bookId",
+            book.id
+        );
+
+
+        params.set(
+            "versionId",
+            version.id
+        );
+
+
+        /*
+         * Pass the book-specific theme
+         * to the Reader.
+         */
+        if (book.themePrimary) {
+
+            params.set(
+                "themePrimary",
+                book.themePrimary
+            );
+
+        }
+
+
+        if (book.themeSecondary) {
+
+            params.set(
+                "themeSecondary",
+                book.themeSecondary
+            );
+
+        }
+
+
+        /*
+         * Pass the book-specific
+         * title styling to the Reader.
+         */
+        if (book.titleBackground) {
+
+            params.set(
+                "titleBackground",
+                book.titleBackground
+            );
+
+        }
+
+
+        if (book.titlePrimary) {
+
+            params.set(
+                "titlePrimary",
+                book.titlePrimary
+            );
+
+        }
+
+
+        if (book.titleSecondary) {
+
+            params.set(
+                "titleSecondary",
+                book.titleSecondary
+            );
+
+        }
+
+
+        if (book.displayTitle) {
+
+            params.set(
+                "displayTitle",
+                book.displayTitle
+            );
+
+        }
+
+
+        window.location.href =
+            "reader.html?" +
+            params.toString();
+
+    }
+
+
+    article.addEventListener(
+        "click",
+        activateCard
     );
 
-const bookmarkButton =
-    article.querySelector(
-        ".library-bookmark-button"
+
+    article.addEventListener(
+        "keydown",
+        function (event) {
+
+            if (
+                event.key === "Enter" ||
+                event.key === " "
+            ) {
+
+                event.preventDefault();
+
+                activateCard();
+
+            }
+
+        }
     );
 
 
-function updateSavedButton(
-    button,
-    active
+    return article;
+
+}
+
+function renderBookGrid(
+    container,
+    books
 ) {
 
-    if (!button) {
+    if (!container) {
         return;
     }
 
-    button.classList.toggle(
-        "is-active",
-        active
-    );
 
-    button.setAttribute(
-        "aria-pressed",
-        String(active)
-    );
-
-}
+    container.innerHTML = "";
 
 
-if (favouriteButton) {
+    if (!books.length) {
 
-    favouriteButton.addEventListener(
-        "click",
-        function (event) {
+        container.innerHTML = `
+            <div class="library-empty-state">
 
-            event.preventDefault();
-            event.stopPropagation();
+                <i data-lucide="book-open"></i>
 
-            const active =
-                toggleSavedBook(
-                    FAVOURITES_STORAGE_KEY,
-                    book.id
-                );
-
-            updateSavedButton(
-                favouriteButton,
-                active
-            );
-
-        }
-    );
-
-}
-
-
-if (bookmarkButton) {
-
-    bookmarkButton.addEventListener(
-        "click",
-        function (event) {
-
-            event.preventDefault();
-            event.stopPropagation();
-
-            const active =
-                toggleSavedBook(
-                    BOOKMARKS_STORAGE_KEY,
-                    book.id
-                );
-
-            updateSavedButton(
-                bookmarkButton,
-                active
-            );
-
-        }
-    );
-
-}
-
-
-            <div class="library-book-info">
-                <h3 class="library-book-title">
-                    ${escapeHTML(
-                        book.title || "Untitled Book"
-                    )}
-                </h3>
-
-                <p class="library-book-author">
-                    ${escapeHTML(
-                        book.author || "Unknown Author"
-                    )}
+                <p>
+                    ${
+                        LIBRARY_BOOKS.length
+                            ? "No books found for this selection."
+                            : "Your Library catalogue will appear here."
+                    }
                 </p>
 
             </div>
         `;
 
-
-        function activateCard() {
-
-    const version =
-        Array.isArray(book.versions) &&
-        book.versions.length
-            ? book.versions[0]
-            : null;
-
-
-    if (!version) {
-
-        console.warn(
-            "No readable version found for:",
-            book.id
-        );
-
-        return;
-    }
-
-
-    /*
-     * Preserve the authenticated
-     * Library session information.
-     */
-    const currentParams =
-        new URLSearchParams(
-            window.location.search
-        );
-
-
-    const customerID =
-        currentParams.get("cid");
-
-    const token =
-        currentParams.get("t");
-
-
-    /*
-     * Build Reader URL.
-     */
-    const params =
-        new URLSearchParams();
-
-
-    if (customerID) {
-
-        params.set(
-            "cid",
-            customerID
-        );
-
-    }
-
-
-    if (token) {
-
-        params.set(
-            "t",
-            token
-        );
-
-    }
-
-
-    params.set(
-    "bookId",
-    book.id
-);
-
-
-params.set(
-    "versionId",
-    version.id
-);
-
-
-/*
- * Pass the book-specific theme
- * to the Reader.
- */
-if (book.themePrimary) {
-
-    params.set(
-        "themePrimary",
-        book.themePrimary
-    );
-
-}
-
-
-if (book.themeSecondary) {
-    params.set(
-        "themeSecondary",
-        book.themeSecondary
-    );
-}
-
-
-/*
- * Pass the book-specific
- * title styling to the Reader.
- */
-
-if (book.titleBackground) {
-    params.set(
-        "titleBackground",
-        book.titleBackground
-    );
-}
-
-if (book.titlePrimary) {
-    params.set(
-        "titlePrimary",
-        book.titlePrimary
-    );
-}
-
-if (book.titleSecondary) {
-    params.set(
-        "titleSecondary",
-        book.titleSecondary
-    );
-}
-
-if (book.displayTitle) {
-    params.set(
-        "displayTitle",
-        book.displayTitle
-    );
-}
-
-window.location.href =
-    "reader.html?" +
-    params.toString();
-
-}
-
-
-        article.addEventListener(
-            "click",
-            activateCard
-        );
-
-
-        article.addEventListener(
-            "keydown",
-            function (event) {
-
-                if (
-                    event.key === "Enter" ||
-                    event.key === " "
-                ) {
-
-                    event.preventDefault();
-
-                    activateCard();
-
-                }
-
-            }
-        );
-
-
-        return article;
-
-    }
-
-
-    function renderBookGrid(
-        container,
-        books
-    ) {
-
-        if (!container) {
-            return;
-        }
-
-
-        container.innerHTML = "";
-
-
-        if (!books.length) {
-
-            container.innerHTML = `
-                <div class="library-empty-state">
-                    <i data-lucide="book-open"></i>
-                    <p>
-                        ${
-                            LIBRARY_BOOKS.length
-                                ? "No books found for this selection."
-                                : "Your Library catalogue will appear here."
-                        }
-                    </p>
-                </div>
-            `;
-
-            refreshIcons();
-            return;
-
-        }
-
-
-        books.forEach(
-            function (book) {
-
-                container.appendChild(
-                    createBookCard(book)
-                );
-
-            }
-        );
-
-
         refreshIcons();
 
-    }
-
-
-    function renderExploreLibrary() {
-
-    if (!exploreLibraryGrid) {
         return;
+
     }
 
-    renderBookGrid(
-        exploreLibraryGrid,
-        getFilteredBooks()
+
+    books.forEach(
+        function (book) {
+
+            container.appendChild(
+                createBookCard(book)
+            );
+
+        }
     );
+
+
+    refreshIcons();
+
 }
 
 
@@ -2023,7 +2063,17 @@ window.location.href =
                 LIBRARY_STATE.searchTerm =
                     searchInput.value;
 
-                renderBookSections();
+                if (LIBRARY_STATE.personalView) {
+
+    renderPersonalView(
+        LIBRARY_STATE.personalView
+    );
+
+} else {
+
+    renderBookSections();
+
+}
 
             }
         );
@@ -2040,7 +2090,17 @@ window.location.href =
                     LIBRARY_STATE.searchTerm =
                         "";
 
-                    renderBookSections();
+                    if (LIBRARY_STATE.personalView) {
+
+    renderPersonalView(
+        LIBRARY_STATE.personalView
+    );
+
+} else {
+
+    renderBookSections();
+
+}
 
                     searchInput.blur();
 
@@ -2326,6 +2386,160 @@ function initialiseSectionViewAllHistory() {
 
     }
 
+    function showLibraryHome() {
+
+    LIBRARY_STATE.personalView = null;
+
+    if (libraryHome) {
+        libraryHome.style.display = "";
+    }
+
+    if (exploreLibrarySection) {
+        exploreLibrarySection.style.display = "";
+    }
+
+    if (libraryPersonalView) {
+        libraryPersonalView.classList.remove(
+            "is-active"
+        );
+    }
+
+    renderBookSections();
+
+}
+
+
+function renderPersonalView(view) {
+
+    const storageKey =
+        view === "favourites"
+            ? FAVOURITES_STORAGE_KEY
+            : BOOKMARKS_STORAGE_KEY;
+
+
+    const title =
+        view === "favourites"
+            ? "Favourites"
+            : "Bookmarks";
+
+
+    const eyebrow =
+        view === "favourites"
+            ? "YOUR FAVOURITES"
+            : "YOUR BOOKMARKS";
+
+
+    const emptyMessage =
+        view === "favourites"
+            ? "Books you favourite will appear here."
+            : "Books you bookmark will appear here.";
+
+
+    const ids =
+        getSavedBookIds(
+            storageKey
+        );
+
+
+    const books =
+        LIBRARY_BOOKS.filter(
+            function (book) {
+
+                return ids.has(
+                    book.id
+                );
+
+            }
+        );
+
+
+    LIBRARY_STATE.personalView =
+        view;
+
+
+    if (libraryHome) {
+        libraryHome.style.display = "none";
+    }
+
+    if (exploreLibrarySection) {
+        exploreLibrarySection.style.display = "none";
+    }
+
+    if (libraryPersonalView) {
+        libraryPersonalView.classList.add(
+            "is-active"
+        );
+    }
+
+
+    if (libraryPersonalTitle) {
+        libraryPersonalTitle.textContent =
+            title;
+    }
+
+
+    const eyebrowElement =
+        document.getElementById(
+            "libraryPersonalEyebrow"
+        );
+
+
+    if (eyebrowElement) {
+        eyebrowElement.textContent =
+            eyebrow;
+    }
+
+
+    if (libraryPersonalCount) {
+
+        libraryPersonalCount.textContent =
+            books.length
+                ? `${books.length} book${
+                    books.length === 1
+                        ? ""
+                        : "s"
+                }`
+                : "";
+
+    }
+
+
+    if (!libraryPersonalGrid) {
+        return;
+    }
+
+
+    if (!books.length) {
+
+        libraryPersonalGrid.innerHTML = `
+            <div class="library-empty-state">
+
+                <i data-lucide="${
+                    view === "favourites"
+                        ? "heart"
+                        : "bookmark"
+                }"></i>
+
+                <p>
+                    ${emptyMessage}
+                </p>
+
+            </div>
+        `;
+
+        refreshIcons();
+
+        return;
+
+    }
+
+
+    renderBookGrid(
+        libraryPersonalGrid,
+        books
+    );
+
+}
 
     /* =========================================================
        12. NAVIGATION STATE
@@ -2333,18 +2547,32 @@ function initialiseSectionViewAllHistory() {
 
     function initialiseNavigation() {
 
-        const navItems =
-            document.querySelectorAll(
-                ".library-nav-item[data-library-view]"
-            );
+    const navItems =
+        document.querySelectorAll(
+            ".library-nav-item[data-library-view]"
+        );
 
 
-        navItems.forEach(
-            function (item) {
+    navItems.forEach(
+        function (item) {
 
-                item.addEventListener(
-                    "click",
-                    function () {
+            item.addEventListener(
+                "click",
+                function (event) {
+
+                    const view =
+                        item.getAttribute(
+                            "data-library-view"
+                        );
+
+
+                    if (
+                        view === "favourites" ||
+                        view === "bookmarks"
+                    ) {
+
+                        event.preventDefault();
+
 
                         navItems.forEach(
                             function (navItem) {
@@ -2356,17 +2584,43 @@ function initialiseSectionViewAllHistory() {
                             }
                         );
 
+
                         item.classList.add(
                             "is-active"
                         );
 
+
+                        renderPersonalView(
+                            view
+                        );
+
+                        return;
+
                     }
-                );
 
-            }
-        );
 
-    }
+                    navItems.forEach(
+                        function (navItem) {
+
+                            navItem.classList.remove(
+                                "is-active"
+                            );
+
+                        }
+                    );
+
+
+                    item.classList.add(
+                        "is-active"
+                    );
+
+                }
+            );
+
+        }
+    );
+
+}
 
 
     /* =========================================================

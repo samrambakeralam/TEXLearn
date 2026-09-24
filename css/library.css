@@ -1097,6 +1097,63 @@ body {
     text-overflow: ellipsis;
 }
 
+.library-book-info .library-book-author {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.library-book-info .library-book-actions {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    margin-left: auto;
+}
+
+.library-book-info .library-book-action {
+    width: 20px;
+    height: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    color: var(--library-navy);
+    cursor: pointer;
+}
+
+.library-book-info .library-book-action svg {
+    width: 13px;
+    height: 13px;
+}
+
+.library-book-info .library-book-action.is-active {
+    color: var(--library-navy);
+}
+
+.library-book-info .library-book-action.is-active svg {
+    fill: currentColor;
+}
+
+@media (max-width: 767px) {
+
+    .library-book-info .library-book-author {
+        gap: 4px;
+    }
+
+    .library-book-info .library-book-action {
+        width: 18px;
+        height: 18px;
+    }
+
+    .library-book-info .library-book-action svg {
+        width: 11px;
+        height: 11px;
+    }
+
+}
+
 
 /* =========================================================
    16. CONTINUE READING
