@@ -188,6 +188,78 @@ function ensureSelectionToolbar() {
         </button>
     `;
 
+
+    readerSelectionToolbar
+    .querySelector(
+        '[data-reader-action="highlight"]'
+    )
+    .addEventListener(
+        "click",
+        function () {
+            const selection =
+                window.getSelection();
+
+            const selectedText =
+                selection
+                    ? selection.toString().trim()
+                    : "";
+
+            if (!selectedText) {
+                return;
+            }
+
+            let highlights = [];
+
+            try {
+                highlights =
+                    JSON.parse(
+                        localStorage.getItem(
+                            "samramba_library_highlights"
+                        ) || "[]"
+                    );
+
+                if (!Array.isArray(highlights)) {
+                    highlights = [];
+                }
+            } catch (error) {
+                highlights = [];
+            }
+
+            highlights.push({
+                text: selectedText,
+                bookId: bookID,
+                versionId: versionID,
+                page: pages[
+                    currentPageIndex
+                ]
+                    ? pages[currentPageIndex].page
+                    : currentPageIndex + 1,
+                createdAt:
+                    new Date().toISOString()
+            });
+
+            try {
+                localStorage.setItem(
+                    "samramba_library_highlights",
+                    JSON.stringify(
+                        highlights
+                    )
+                );
+            } catch (error) {
+                console.warn(
+                    "Unable to save highlight.",
+                    error
+                );
+            }
+
+            selection.removeAllRanges();
+
+            readerSelectionToolbar.style.display =
+                "none";
+        }
+    );
+    
+
     Object.assign(
         readerSelectionToolbar.style,
         {
