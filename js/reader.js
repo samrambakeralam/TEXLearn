@@ -730,11 +730,17 @@ console.timeEnd("BOOK CONTENT JSON");
             }
 
 
-            await titleStylePromise;
-
             renderPage();
 
-            console.timeEnd("READER TOTAL LOAD");
+titleStylePromise.then(
+    function () {
+
+        renderPage();
+
+    }
+);
+
+console.timeEnd("READER TOTAL LOAD");
 
         } catch (error) {
 
