@@ -2932,25 +2932,32 @@ function ensureNotesHighlightsPanel() {
 
 
             <section
-                class="reader-notes-section"
-            >
+    class="reader-notes-section"
+>
 
-                <div
-                    class="reader-notes-section-title"
-                >
-                    Highlights
-                </div>
+    <div
+        class="reader-notes-section-title"
+    >
+        Highlights
+    </div>
 
-                <div
-                    class="reader-highlights-list"
-                    data-highlights-list
-                ></div>
+    <button
+        type="button"
+        class="reader-clear-highlights-button"
+        data-clear-highlights
+    >
+        Clear All Highlights
+    </button>
 
-            </section>
+    <div
+        class="reader-highlights-list"
+        data-highlights-list
+    ></div>
 
-        </div>
+</section>
 
-    `;
+</div>
+`;
 
 
     Object.assign(
@@ -3221,6 +3228,61 @@ renderNotesHighlightsPanel();
 
         }
     );
+
+    const clearHighlightsButton =
+    panel.querySelector(
+        "[data-clear-highlights]"
+    );
+
+if (clearHighlightsButton) {
+
+    clearHighlightsButton.addEventListener(
+        "click",
+        function () {
+
+            const confirmed =
+                window.confirm(
+                    "Clear all highlights from this book?\n\nThis will remove all saved highlights from the current book."
+                );
+
+            if (!confirmed) {
+                return;
+            }
+
+            const storedHighlights =
+                JSON.parse(
+                    localStorage.getItem(
+                        "samramba_library_highlights"
+                    ) || "[]"
+                );
+
+            const remainingHighlights =
+                storedHighlights.filter(
+                    function (highlight) {
+
+                        return !(
+                            highlight.bookId === bookID &&
+                            highlight.versionId === versionID
+                        );
+
+                    }
+                );
+
+            localStorage.setItem(
+                "samramba_library_highlights",
+                JSON.stringify(
+                    remainingHighlights
+                )
+            );
+
+            renderNotesHighlightsPanel();
+
+            renderPage();
+
+        }
+    );
+
+}
 
 
     const panelContent =
