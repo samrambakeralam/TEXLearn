@@ -2589,3 +2589,83 @@ body {
 .reader-notes-button:active {
     transform: translateY(1px);
 }
+
+/* =========================================================
+   CLEAR ALL HIGHLIGHTS CONFIRMATION
+========================================================= */
+
+.reader-clear-highlights-confirmation {
+    position: fixed;
+    inset: 0;
+    z-index: 99999;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    padding: 20px;
+    box-sizing: border-box;
+
+    background: rgba(0, 0, 0, 0.45);
+}
+
+.reader-clear-highlights-dialog {
+    width: min(420px, 100%);
+
+    padding: 24px;
+
+    box-sizing: border-box;
+
+    background: #ffffff;
+
+    border-radius: 16px;
+
+    box-shadow:
+        0 20px 60px rgba(0, 0, 0, 0.20);
+}
+
+.reader-clear-highlights-title {
+    font-size: 18px;
+    font-weight: 700;
+
+    margin-bottom: 10px;
+}
+
+.reader-clear-highlights-message {
+    font-size: 14px;
+    line-height: 1.6;
+
+    margin-bottom: 22px;
+}
+
+.reader-clear-highlights-actions {
+    display: flex;
+
+    justify-content: flex-end;
+
+    gap: 10px;
+}
+
+.reader-clear-highlights-cancel,
+.reader-clear-highlights-confirm {
+    min-height: 40px;
+
+    padding: 0 16px;
+
+    border: none;
+    border-radius: 9px;
+
+    font-size: 14px;
+    font-weight: 600;
+
+    cursor: pointer;
+}
+
+.reader-clear-highlights-cancel {
+    background: #eeeeee;
+}
+
+.reader-clear-highlights-confirm {
+    background: #dc2626;
+    color: #ffffff;
+}
