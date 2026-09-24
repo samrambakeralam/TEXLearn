@@ -3240,14 +3240,107 @@ if (clearHighlightsButton) {
         "click",
         function () {
 
-            const confirmed =
-                window.confirm(
-                    "Clear all highlights from this book?\n\nThis will remove all saved highlights from the current book."
-                );
+          const confirmation =
+    document.createElement("div");
 
-            if (!confirmed) {
-                return;
-            }
+confirmation.className =
+    "reader-clear-highlights-confirmation";
+
+confirmation.innerHTML = `
+    <div class="reader-clear-highlights-dialog">
+
+        <div class="reader-clear-highlights-title">
+            Clear All Highlights?
+        </div>
+
+        <div class="reader-clear-highlights-message">
+            This will remove all saved highlights from this book.
+        </div>
+
+        <div class="reader-clear-highlights-actions">
+
+            <button
+                type="button"
+                class="reader-clear-highlights-cancel"
+            >
+                Cancel
+            </button>
+
+            <button
+                type="button"
+                class="reader-clear-highlights-confirm"
+            >
+                Clear All
+            </button>
+
+        </div>
+
+    </div>
+`;
+
+document.body.appendChild(
+    confirmation
+);
+
+const cancelButton =
+    confirmation.querySelector(
+        ".reader-clear-highlights-cancel"
+    );
+
+const confirmButton =
+    confirmation.querySelector(
+        ".reader-clear-highlights-confirm"
+    );
+
+cancelButton.addEventListener(
+    "click",
+    function () {
+
+        confirmation.remove();
+
+    }
+);
+
+confirmButton.addEventListener(
+    "click",
+    function () {
+
+        confirmation.remove();
+
+        const storedHighlights =
+            JSON.parse(
+                localStorage.getItem(
+                    "samramba_library_highlights"
+                ) || "[]"
+            );
+
+        const remainingHighlights =
+            storedHighlights.filter(
+                function (highlight) {
+
+                    return !(
+                        highlight.bookId === bookID &&
+                        highlight.versionId === versionID
+                    );
+
+                }
+            );
+
+        localStorage.setItem(
+            "samramba_library_highlights",
+            JSON.stringify(
+                remainingHighlights
+            )
+        );
+
+        renderNotesHighlightsPanel();
+
+        renderPage();
+
+    }
+);
+
+return;
 
             const storedHighlights =
                 JSON.parse(
