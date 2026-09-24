@@ -1159,6 +1159,14 @@ body {
    NOTES & HIGHLIGHTS
 ========================================================= */
 
+.library-personal-view {
+    display: none;
+}
+
+.library-personal-view.is-active {
+    display: block;
+}
+
 .library-notes-view {
     display: none;
 }

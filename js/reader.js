@@ -159,6 +159,159 @@
             .replace(/'/g, "&#039;");
     }
 
+    let readerSelectionToolbar = null;
+
+function ensureSelectionToolbar() {
+    if (readerSelectionToolbar) {
+        return;
+    }
+
+    readerSelectionToolbar =
+        document.createElement("div");
+
+    readerSelectionToolbar.className =
+        "reader-selection-toolbar";
+
+    readerSelectionToolbar.innerHTML = `
+        <button
+            type="button"
+            data-reader-action="highlight"
+        >
+            Highlight
+        </button>
+
+        <button
+            type="button"
+            data-reader-action="note"
+        >
+            Add Note
+        </button>
+    `;
+
+    Object.assign(
+        readerSelectionToolbar.style,
+        {
+            position: "fixed",
+            zIndex: "9999",
+            display: "none",
+            alignItems: "center",
+            gap: "6px",
+            padding: "6px",
+            borderRadius: "10px",
+            background: "#ffffff",
+            border: "1px solid rgba(0,0,0,.10)",
+            boxShadow: "0 8px 24px rgba(0,0,0,.14)"
+        }
+    );
+
+    readerSelectionToolbar
+        .querySelectorAll("button")
+        .forEach(function (button) {
+            Object.assign(
+                button.style,
+                {
+                    border: "0",
+                    borderRadius: "7px",
+                    padding: "7px 10px",
+                    background: "transparent",
+                    cursor: "pointer",
+                    fontSize: "12px",
+                    fontWeight: "600"
+                }
+            );
+        });
+
+    document.body.appendChild(
+        readerSelectionToolbar
+    );
+}
+
+
+document.addEventListener(
+    "selectionchange",
+    function () {
+        const selection =
+            window.getSelection();
+
+        if (!selection || selection.isCollapsed) {
+            if (readerSelectionToolbar) {
+                readerSelectionToolbar.style.display =
+                    "none";
+            }
+            return;
+        }
+
+        const selectedText =
+            selection.toString().trim();
+
+        if (!selectedText) {
+            if (readerSelectionToolbar) {
+                readerSelectionToolbar.style.display =
+                    "none";
+            }
+            return;
+        }
+
+        const range =
+            selection.getRangeAt(0);
+
+        if (
+            !content ||
+            !content.contains(
+                range.commonAncestorContainer
+            )
+        ) {
+            if (readerSelectionToolbar) {
+                readerSelectionToolbar.style.display =
+                    "none";
+            }
+            return;
+        }
+
+        ensureSelectionToolbar();
+
+        const rect =
+            range.getBoundingClientRect();
+
+        readerSelectionToolbar.style.display =
+            "flex";
+
+        const toolbarWidth =
+            readerSelectionToolbar.offsetWidth;
+
+        let left =
+            rect.left +
+            (rect.width / 2) -
+            (toolbarWidth / 2);
+
+        let top =
+            rect.top -
+            readerSelectionToolbar.offsetHeight -
+            10;
+
+        left = Math.max(
+            8,
+            Math.min(
+                left,
+                window.innerWidth -
+                    toolbarWidth -
+                    8
+            )
+        );
+
+        if (top < 8) {
+            top =
+                rect.bottom + 10;
+        }
+
+        readerSelectionToolbar.style.left =
+            `${left}px`;
+
+        readerSelectionToolbar.style.top =
+            `${top}px`;
+    }
+);
+
 
     /* =========================================================
        LOAD BOOK

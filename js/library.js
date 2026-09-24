@@ -2465,12 +2465,10 @@ function initialiseSectionViewAllHistory() {
         exploreLibrarySection.style.display = "";
     }
 
-    if (libraryPersonalView) {
+  if (libraryPersonalView) {
     libraryPersonalView.classList.remove(
         "is-active"
     );
-
-    libraryPersonalView.style.display = "none";
 }
 
     if (libraryNotesView) {
@@ -2478,6 +2476,12 @@ function initialiseSectionViewAllHistory() {
             "is-active"
         );
     }
+
+    if (libraryPersonalView) {
+    libraryPersonalView.classList.add(
+        "is-active"
+    );
+}
 
     renderBookSections();
 }
@@ -2539,16 +2543,16 @@ function renderPersonalView(view) {
         exploreLibrarySection.style.display = "none";
     }
 
-    if (libraryPersonalView) {
-    libraryPersonalView.style.display = "";
-}
-
 if (libraryNotesView) {
     libraryNotesView.classList.remove(
         "is-active"
     );
+}
 
-    libraryNotesView.style.display = "none";
+if (libraryPersonalView) {
+    libraryPersonalView.classList.add(
+        "is-active"
+    );
 }
 
 
