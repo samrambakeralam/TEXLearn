@@ -2590,6 +2590,16 @@ function renderPersonalView(view) {
                         );
 
 
+                        history.pushState(
+                            {
+                                libraryPersonalView:
+                                    view
+                            },
+                            "",
+                            "#" + view
+                        );
+
+
                         renderPersonalView(
                             view
                         );
@@ -2614,8 +2624,77 @@ function renderPersonalView(view) {
                         "is-active"
                     );
 
+
+                    if (
+                        LIBRARY_STATE.personalView
+                    ) {
+
+                        showLibraryHome();
+
+                    }
+
                 }
             );
+
+        }
+    );
+
+
+    window.addEventListener(
+        "popstate",
+        function (event) {
+
+            const personalView =
+                event.state &&
+                event.state.libraryPersonalView;
+
+
+            if (
+                personalView === "favourites" ||
+                personalView === "bookmarks"
+            ) {
+
+                navItems.forEach(
+                    function (navItem) {
+
+                        navItem.classList.toggle(
+                            "is-active",
+                            navItem.getAttribute(
+                                "data-library-view"
+                            ) === personalView
+                        );
+
+                    }
+                );
+
+
+                renderPersonalView(
+                    personalView
+                );
+
+                return;
+
+            }
+
+
+            if (
+                LIBRARY_STATE.personalView
+            ) {
+
+                navItems.forEach(
+                    function (navItem) {
+
+                        navItem.classList.remove(
+                            "is-active"
+                        );
+
+                    }
+                );
+
+
+                showLibraryHome();
+
+            }
 
         }
     );
