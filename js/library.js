@@ -193,14 +193,15 @@
      * This is intentionally local for the prototype.
      * Later it can be replaced by authenticated user data.
      */
-   const LIBRARY_STATE = {
+const LIBRARY_STATE = {
     currentBanner: 0,
     bannerTimer: null,
     searchTerm: "",
     selectedCategory: null,
     dndMode: false,
     viewAllSection: null,
-    personalView: null
+    personalView: null,
+    personalNotesView: false
 };
 
 const FAVOURITES_STORAGE_KEY =
@@ -208,6 +209,12 @@ const FAVOURITES_STORAGE_KEY =
 
 const BOOKMARKS_STORAGE_KEY =
     "samramba_library_bookmarks";
+
+    const NOTES_STORAGE_KEY =
+    "samramba_library_notes";
+
+const HIGHLIGHTS_STORAGE_KEY =
+    "samramba_library_highlights";
 
     function getSavedBookIds(storageKey) {
 
@@ -298,6 +305,55 @@ function isBookSaved(
 
 }
 
+function getStoredLibraryData(
+    storageKey
+) {
+
+    try {
+
+        const saved =
+            JSON.parse(
+                localStorage.getItem(
+                    storageKey
+                ) || "[]"
+            );
+
+        return Array.isArray(saved)
+            ? saved
+            : [];
+
+    } catch (error) {
+
+        return [];
+
+    }
+
+}
+
+
+function saveStoredLibraryData(
+    storageKey,
+    data
+) {
+
+    try {
+
+        localStorage.setItem(
+            storageKey,
+            JSON.stringify(data)
+        );
+
+    } catch (error) {
+
+        console.warn(
+            "Unable to save Library data.",
+            error
+        );
+
+    }
+
+}
+
 
     /* =========================================================
        02. DOM REFERENCES
@@ -368,7 +424,17 @@ const libraryPersonalTitle =
 const libraryPersonalCount =
     document.getElementById(
         "libraryPersonalCount"
-    );    
+    ); 
+    
+    const libraryNotesView =
+    document.getElementById(
+        "libraryNotesView"
+    );
+
+const libraryNotesGrid =
+    document.getElementById(
+        "libraryNotesGrid"
+    );
 
     const continueSection =
         document.querySelector(".library-continue-section");
@@ -2386,9 +2452,10 @@ function initialiseSectionViewAllHistory() {
 
     }
 
-    function showLibraryHome() {
+  function showLibraryHome() {
 
     LIBRARY_STATE.personalView = null;
+    LIBRARY_STATE.personalNotesView = false;
 
     if (libraryHome) {
         libraryHome.style.display = "";
@@ -2404,8 +2471,13 @@ function initialiseSectionViewAllHistory() {
         );
     }
 
-    renderBookSections();
+    if (libraryNotesView) {
+        libraryNotesView.classList.remove(
+            "is-active"
+        );
+    }
 
+    renderBookSections();
 }
 
 
@@ -2541,6 +2613,151 @@ function renderPersonalView(view) {
 
 }
 
+function renderNotesView() {
+
+    const notes =
+        getStoredLibraryData(
+            NOTES_STORAGE_KEY
+        );
+
+    const highlights =
+        getStoredLibraryData(
+            HIGHLIGHTS_STORAGE_KEY
+        );
+
+    LIBRARY_STATE.personalView = null;
+    LIBRARY_STATE.personalNotesView = true;
+
+    if (libraryHome) {
+        libraryHome.style.display = "none";
+    }
+
+    if (exploreLibrarySection) {
+        exploreLibrarySection.style.display = "none";
+    }
+
+    if (libraryPersonalView) {
+        libraryPersonalView.classList.remove(
+            "is-active"
+        );
+    }
+
+    if (libraryNotesView) {
+        libraryNotesView.classList.add(
+            "is-active"
+        );
+    }
+
+    const eyebrowElement =
+        document.getElementById(
+            "libraryNotesEyebrow"
+        );
+
+    if (eyebrowElement) {
+        eyebrowElement.textContent =
+            "NOTES & HIGHLIGHTS";
+    }
+
+    const titleElement =
+        document.getElementById(
+            "libraryNotesTitle"
+        );
+
+    if (titleElement) {
+        titleElement.textContent =
+            "Notes & Highlights";
+    }
+
+    const countElement =
+        document.getElementById(
+            "libraryNotesCount"
+        );
+
+    if (countElement) {
+        const total =
+            notes.length +
+            highlights.length;
+
+        countElement.textContent =
+            total
+                ? `${total} item${
+                    total === 1
+                        ? ""
+                        : "s"
+                }`
+                : "";
+    }
+
+    if (!libraryNotesGrid) {
+        return;
+    }
+
+    const items = [
+        ...highlights.map(
+            function (item) {
+                return {
+                    ...item,
+                    type: "highlight"
+                };
+            }
+        ),
+        ...notes.map(
+            function (item) {
+                return {
+                    ...item,
+                    type: "note"
+                };
+            }
+        )
+    ];
+
+    if (!items.length) {
+
+        libraryNotesGrid.innerHTML = `
+            <div class="library-empty-state">
+                <i data-lucide="notebook-pen"></i>
+                <p>
+                    Your notes and highlights will appear here.
+                </p>
+            </div>
+        `;
+
+        refreshIcons();
+        return;
+    }
+
+    libraryNotesGrid.innerHTML = items
+        .map(
+            function (item) {
+
+                return `
+                    <article class="library-note-card">
+
+                        <div class="library-note-card-type">
+                            ${
+                                item.type === "highlight"
+                                    ? "HIGHLIGHT"
+                                    : "NOTE"
+                            }
+                        </div>
+
+                        <div class="library-note-card-content">
+                            ${escapeHTML(
+                                item.text || ""
+                            )}
+                        </div>
+
+                    </article>
+                `;
+
+            }
+        )
+        .join("");
+
+    refreshIcons();
+}
+
+
     /* =========================================================
        12. NAVIGATION STATE
     ========================================================= */
@@ -2566,10 +2783,11 @@ function renderPersonalView(view) {
                         );
 
 
-                    if (
-                        view === "favourites" ||
-                        view === "bookmarks"
-                    ) {
+                   if (
+    view === "favourites" ||
+    view === "bookmarks" ||
+    view === "notes"
+) {
 
                         event.preventDefault();
 
@@ -2583,30 +2801,43 @@ function renderPersonalView(view) {
 
                             }
                         );
-
+                    }
 
                         item.classList.add(
                             "is-active"
                         );
 
 
-                        history.pushState(
-                            {
-                                libraryPersonalView:
-                                    view
-                            },
-                            "",
-                            "#" + view
-                        );
+                      if (view === "notes") {
 
+    history.pushState(
+        {
+            libraryNotesView: true
+        },
+        "",
+        "#notes"
+    );
 
-                        renderPersonalView(
-                            view
-                        );
+    renderNotesView();
 
-                        return;
+} else {
 
-                    }
+    history.pushState(
+        {
+            libraryPersonalView:
+                view
+        },
+        "",
+        "#" + view
+    );
+
+    renderPersonalView(
+        view
+    );
+
+}
+
+return;
 
 
                     navItems.forEach(
@@ -2640,6 +2871,7 @@ function renderPersonalView(view) {
     );
 
 
+
     window.addEventListener(
         "popstate",
         function (event) {
@@ -2648,11 +2880,35 @@ function renderPersonalView(view) {
                 event.state &&
                 event.state.libraryPersonalView;
 
+                const notesView =
+    event.state &&
+    event.state.libraryNotesView;
+
 
             if (
                 personalView === "favourites" ||
                 personalView === "bookmarks"
             ) {
+
+                if (notesView) {
+
+    navItems.forEach(
+        function (navItem) {
+
+            navItem.classList.toggle(
+                "is-active",
+                navItem.getAttribute(
+                    "data-library-view"
+                ) === "notes"
+            );
+
+        }
+    );
+
+    renderNotesView();
+
+    return;
+}
 
                 navItems.forEach(
                     function (navItem) {
