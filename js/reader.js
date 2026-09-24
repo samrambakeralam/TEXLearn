@@ -2786,6 +2786,575 @@ case "table": {
 
 
     /* =========================================================
+   NOTES & HIGHLIGHTS PANEL
+========================================================= */
+
+function ensureNotesHighlightsPanel() {
+
+    if (
+        document.getElementById(
+            "readerNotesHighlightsPanel"
+        )
+    ) {
+        return;
+    }
+
+
+    const panel =
+        document.createElement("aside");
+
+
+    panel.id =
+        "readerNotesHighlightsPanel";
+
+
+    panel.innerHTML = `
+
+        <div
+            class="reader-notes-panel-header"
+        >
+
+            <div>
+                <div
+                    class="reader-notes-panel-title"
+                >
+                    Notes & Highlights
+                </div>
+
+                <div
+                    class="reader-notes-panel-subtitle"
+                >
+                    Your saved reading items
+                </div>
+            </div>
+
+
+            <button
+                type="button"
+                class="reader-notes-panel-close"
+                aria-label="Close Notes & Highlights"
+            >
+                ×
+            </button>
+
+        </div>
+
+
+        <div
+            class="reader-notes-panel-content"
+        >
+
+            <section
+                class="reader-notes-section"
+            >
+
+                <div
+                    class="reader-notes-section-title"
+                >
+                    Notes
+                </div>
+
+                <div
+                    class="reader-notes-list"
+                    data-notes-list
+                ></div>
+
+            </section>
+
+
+            <section
+                class="reader-notes-section"
+            >
+
+                <div
+                    class="reader-notes-section-title"
+                >
+                    Highlights
+                </div>
+
+                <div
+                    class="reader-highlights-list"
+                    data-highlights-list
+                ></div>
+
+            </section>
+
+        </div>
+
+    `;
+
+
+    Object.assign(
+        panel.style,
+        {
+            position: "fixed",
+            top: "0",
+            right: "0",
+            width: "360px",
+            maxWidth: "90vw",
+            height: "100vh",
+            background: "#ffffff",
+            zIndex: "10000",
+            boxShadow:
+                "-8px 0 30px rgba(0,0,0,.16)",
+            display: "none",
+            flexDirection: "column",
+            overflow: "hidden",
+            fontFamily:
+                "Inter, Poppins, Arial, sans-serif"
+        }
+    );
+
+
+    document.body.appendChild(panel);
+
+
+    const header =
+        panel.querySelector(
+            ".reader-notes-panel-header"
+        );
+
+
+    Object.assign(
+        header.style,
+        {
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-between",
+            gap: "12px",
+            padding: "18px 18px 14px",
+            borderBottom:
+                "1px solid rgba(0,0,0,.08)"
+        }
+    );
+
+
+    Object.assign(
+        panel.querySelector(
+            ".reader-notes-panel-title"
+        ).style,
+        {
+            fontSize: "17px",
+            fontWeight: "700",
+            color: "#111111"
+        }
+    );
+
+
+    Object.assign(
+        panel.querySelector(
+            ".reader-notes-panel-subtitle"
+        ).style,
+        {
+            marginTop: "3px",
+            fontSize: "11px",
+            color: "#777777"
+        }
+    );
+
+
+    const closeButton =
+        panel.querySelector(
+            ".reader-notes-panel-close"
+        );
+
+
+    Object.assign(
+        closeButton.style,
+        {
+            width: "32px",
+            height: "32px",
+            border: "0",
+            borderRadius: "8px",
+            background: "#f3f3f3",
+            color: "#333333",
+            fontSize: "22px",
+            lineHeight: "1",
+            cursor: "pointer"
+        }
+    );
+
+
+    closeButton.addEventListener(
+        "click",
+        function () {
+
+            panel.style.display =
+                "none";
+
+        }
+    );
+
+
+    const panelContent =
+        panel.querySelector(
+            ".reader-notes-panel-content"
+        );
+
+
+    Object.assign(
+        panelContent.style,
+        {
+            flex: "1",
+            overflowY: "auto",
+            padding: "16px"
+        }
+    );
+
+
+    panel.querySelectorAll(
+        ".reader-notes-section"
+    ).forEach(
+        function (section) {
+
+            Object.assign(
+                section.style,
+                {
+                    marginBottom: "24px"
+                }
+            );
+
+        }
+    );
+
+
+    panel.querySelectorAll(
+        ".reader-notes-section-title"
+    ).forEach(
+        function (title) {
+
+            Object.assign(
+                title.style,
+                {
+                    fontSize: "12px",
+                    fontWeight: "700",
+                    textTransform:
+                        "uppercase",
+                    letterSpacing:
+                        ".08em",
+                    color: "#666666",
+                    marginBottom: "10px"
+                }
+            );
+
+        }
+    );
+
+
+    renderNotesHighlightsPanel();
+
+}
+
+
+/* =========================================================
+   READ SAVED NOTES & HIGHLIGHTS
+========================================================= */
+
+function renderNotesHighlightsPanel() {
+
+    const panel =
+        document.getElementById(
+            "readerNotesHighlightsPanel"
+        );
+
+
+    if (!panel) {
+        return;
+    }
+
+
+    let notes = [];
+
+    let highlights = [];
+
+
+    try {
+
+        notes =
+            JSON.parse(
+                localStorage.getItem(
+                    "samramba_library_notes"
+                ) || "[]"
+            );
+
+        if (!Array.isArray(notes)) {
+            notes = [];
+        }
+
+    } catch (error) {
+
+        notes = [];
+
+    }
+
+
+    try {
+
+        highlights =
+            JSON.parse(
+                localStorage.getItem(
+                    "samramba_library_highlights"
+                ) || "[]"
+            );
+
+        if (!Array.isArray(highlights)) {
+            highlights = [];
+        }
+
+    } catch (error) {
+
+        highlights = [];
+
+    }
+
+
+    /*
+     * Only show items belonging to this book/version.
+     */
+
+    notes =
+        notes.filter(
+            function (item) {
+
+                return (
+                    String(item.bookId) ===
+                        String(bookID) &&
+                    String(item.versionId) ===
+                        String(versionID)
+                );
+
+            }
+        );
+
+
+    highlights =
+        highlights.filter(
+            function (item) {
+
+                return (
+                    String(item.bookId) ===
+                        String(bookID) &&
+                    String(item.versionId) ===
+                        String(versionID)
+                );
+
+            }
+        );
+
+
+    const notesList =
+        panel.querySelector(
+            "[data-notes-list]"
+        );
+
+
+    const highlightsList =
+        panel.querySelector(
+            "[data-highlights-list]"
+        );
+
+
+    /*
+     * NOTES
+     */
+
+    if (!notes.length) {
+
+        notesList.innerHTML = `
+            <div
+                style="
+                    padding:12px;
+                    border-radius:10px;
+                    background:#f7f7f7;
+                    color:#888;
+                    font-size:12px;
+                "
+            >
+                No notes yet.
+            </div>
+        `;
+
+    } else {
+
+        notesList.innerHTML =
+            notes.map(
+                function (item) {
+
+                    return `
+
+                        <div
+                            style="
+                                padding:12px;
+                                margin-bottom:8px;
+                                border:1px solid
+                                    rgba(0,0,0,.08);
+                                border-radius:10px;
+                                background:#ffffff;
+                            "
+                        >
+
+                            <div
+                                style="
+                                    font-size:13px;
+                                    font-weight:600;
+                                    color:#222;
+                                    margin-bottom:7px;
+                                "
+                            >
+                                ${escapeHTML(
+                                    item.text || ""
+                                )}
+                            </div>
+
+                            <div
+                                style="
+                                    font-size:12px;
+                                    line-height:1.5;
+                                    color:#555;
+                                "
+                            >
+                                ${escapeHTML(
+                                    item.note || ""
+                                )}
+                            </div>
+
+                            <div
+                                style="
+                                    margin-top:8px;
+                                    font-size:10px;
+                                    color:#999;
+                                "
+                            >
+                                Page ${escapeHTML(
+                                    String(
+                                        item.page || ""
+                                    )
+                                )}
+                            </div>
+
+                        </div>
+
+                    `;
+
+                }
+            ).join("");
+
+    }
+
+
+    /*
+     * HIGHLIGHTS
+     */
+
+    if (!highlights.length) {
+
+        highlightsList.innerHTML = `
+            <div
+                style="
+                    padding:12px;
+                    border-radius:10px;
+                    background:#f7f7f7;
+                    color:#888;
+                    font-size:12px;
+                "
+            >
+                No highlights yet.
+            </div>
+        `;
+
+    } else {
+
+        highlightsList.innerHTML =
+            highlights.map(
+                function (item) {
+
+                    return `
+
+                        <div
+                            style="
+                                padding:12px;
+                                margin-bottom:8px;
+                                border:1px solid
+                                    rgba(0,0,0,.08);
+                                border-radius:10px;
+                                background:#fffde7;
+                            "
+                        >
+
+                            <div
+                                style="
+                                    font-size:13px;
+                                    line-height:1.5;
+                                    color:#222;
+                                "
+                            >
+                                ${escapeHTML(
+                                    item.text || ""
+                                )}
+                            </div>
+
+                            <div
+                                style="
+                                    margin-top:8px;
+                                    font-size:10px;
+                                    color:#999;
+                                "
+                            >
+                                Page ${escapeHTML(
+                                    String(
+                                        item.page || ""
+                                    )
+                                )}
+                            </div>
+
+                        </div>
+
+                    `;
+
+                }
+            ).join("");
+
+    }
+
+}
+
+
+/* =========================================================
+   OPEN NOTES & HIGHLIGHTS PANEL
+========================================================= */
+
+function openNotesHighlightsPanel() {
+
+    ensureNotesHighlightsPanel();
+
+    renderNotesHighlightsPanel();
+
+
+    const panel =
+        document.getElementById(
+            "readerNotesHighlightsPanel"
+        );
+
+
+    if (panel) {
+
+        panel.style.display =
+            "flex";
+
+    }
+
+}
+
+
+/* =========================================================
+   OPTIONAL GLOBAL ACCESS
+========================================================= */
+
+window.openNotesHighlightsPanel =
+    openNotesHighlightsPanel;
+    
+
+    /* =========================================================
        START
     ========================================================= */
 
