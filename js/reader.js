@@ -672,6 +672,9 @@ if (
                 "&versionId=" +
                 encodeURIComponent(versionID);
 
+            const titleStylePromise =
+    loadBookTitleStyle();
+
 
             const response =
                 await fetch(url);
@@ -717,7 +720,7 @@ if (
             }
 
 
-            await loadBookTitleStyle();
+            await titleStylePromise;
 
             renderPage();
 
