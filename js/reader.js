@@ -2849,15 +2849,61 @@ function ensureNotesHighlightsPanel() {
             >
 
                 <div
-                    class="reader-notes-section-title"
-                >
-                    Notes
-                </div>
+    class="reader-notes-section-title"
+>
+    Notes
+</div>
 
-                <div
-                    class="reader-notes-list"
-                    data-notes-list
-                ></div>
+
+<button
+    type="button"
+    class="reader-add-note-button"
+    data-add-page-note
+>
+    + Add Note
+</button>
+
+
+<div
+    class="reader-note-editor"
+    data-note-editor
+    style="display:none;"
+>
+
+    <textarea
+        data-note-input
+        placeholder="Write your note..."
+        rows="4"
+    ></textarea>
+
+
+    <div
+        class="reader-note-editor-actions"
+    >
+
+        <button
+            type="button"
+            data-save-note
+        >
+            Save Note
+        </button>
+
+        <button
+            type="button"
+            data-cancel-note
+        >
+            Cancel
+        </button>
+
+    </div>
+
+</div>
+
+
+<div
+    class="reader-notes-list"
+    data-notes-list
+></div>
 
             </section>
 
@@ -2907,6 +2953,164 @@ function ensureNotesHighlightsPanel() {
 
 
     document.body.appendChild(panel);
+
+    const addPageNoteButton =
+    panel.querySelector(
+        "[data-add-page-note]"
+    );
+
+const noteEditor =
+    panel.querySelector(
+        "[data-note-editor]"
+    );
+
+const noteInput =
+    panel.querySelector(
+        "[data-note-input]"
+    );
+
+const saveNoteButton =
+    panel.querySelector(
+        "[data-save-note]"
+    );
+
+const cancelNoteButton =
+    panel.querySelector(
+        "[data-cancel-note]"
+    );
+
+
+let noteEditorSelectedText = "";
+
+
+addPageNoteButton.addEventListener(
+    "click",
+    function () {
+
+        noteEditorSelectedText = "";
+
+        noteInput.value = "";
+
+        noteEditor.style.display =
+            "block";
+
+        noteInput.focus();
+
+    }
+);
+
+
+cancelNoteButton.addEventListener(
+    "click",
+    function () {
+
+        noteEditor.style.display =
+            "none";
+
+        noteInput.value = "";
+
+        noteEditorSelectedText = "";
+
+    }
+);
+
+
+saveNoteButton.addEventListener(
+    "click",
+    function () {
+
+        const noteText =
+            noteInput.value.trim();
+
+
+        if (!noteText) {
+            noteInput.focus();
+            return;
+        }
+
+
+        let notes = [];
+
+
+        try {
+
+            notes =
+                JSON.parse(
+                    localStorage.getItem(
+                        "samramba_library_notes"
+                    ) || "[]"
+                );
+
+
+            if (!Array.isArray(notes)) {
+                notes = [];
+            }
+
+        } catch (error) {
+
+            notes = [];
+
+        }
+
+
+        const currentPage =
+            pages[currentPageIndex]
+                ? pages[currentPageIndex].page
+                : currentPageIndex + 1;
+
+
+        notes.push({
+
+            text:
+                noteEditorSelectedText,
+
+            note:
+                noteText,
+
+            bookId:
+                bookID,
+
+            versionId:
+                versionID,
+
+            page:
+                currentPage,
+
+            createdAt:
+                new Date().toISOString()
+
+        });
+
+
+        try {
+
+            localStorage.setItem(
+                "samramba_library_notes",
+                JSON.stringify(notes)
+            );
+
+        } catch (error) {
+
+            console.warn(
+                "Unable to save note.",
+                error
+            );
+
+        }
+
+
+        noteEditor.style.display =
+            "none";
+
+        noteInput.value = "";
+
+        noteEditorSelectedText = "";
+
+
+        renderNotesHighlightsPanel();
+
+    }
+);
 
 
     const header =
