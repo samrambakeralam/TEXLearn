@@ -331,135 +331,158 @@ function ensureSelectionToolbar() {
         );
 
 
-    /* =========================================================
-       ADD NOTE
-    ========================================================= */
+   /* =========================================================
+   ADD NOTE FROM SELECTED TEXT
+========================================================= */
 
-    readerSelectionToolbar
-        .querySelector(
-            '[data-reader-action="note"]'
-        )
-        .addEventListener(
-            "click",
-            function () {
+readerSelectionToolbar
+    .querySelector(
+        '[data-reader-action="note"]'
+    )
+    .addEventListener(
+        "click",
+        function () {
 
-                if (
-                    !readerSavedRange ||
-                    !readerSavedSelectedText
-                ) {
-                    return;
-                }
-
-
-                const selectedText =
-                    readerSavedSelectedText;
+            if (
+                !readerSavedRange ||
+                !readerSavedSelectedText
+            ) {
+                return;
+            }
 
 
-                const noteText =
-                    window.prompt(
-                        "Add a note for this selection:"
-                    );
+            const selectedText =
+                readerSavedSelectedText;
 
 
-                if (
-                    noteText === null
-                ) {
-                    return;
-                }
+            /*
+             * Open the Notes panel.
+             */
+
+            ensureNotesHighlightsPanel();
 
 
-                const cleanedNote =
-                    String(
-                        noteText
-                    ).trim();
+            renderNotesHighlightsPanel();
 
 
-                if (!cleanedNote) {
-                    return;
-                }
+            const panel =
+                document.getElementById(
+                    "readerNotesHighlightsPanel"
+                );
 
 
-                let notes = [];
+            if (!panel) {
+                return;
+            }
 
 
-                try {
+            /*
+             * Get the same editor used for
+             * normal page notes.
+             */
 
-                    notes =
-                        JSON.parse(
-                            localStorage.getItem(
-                                "samramba_library_notes"
-                            ) || "[]"
-                        );
-
-
-                    if (!Array.isArray(notes)) {
-                        notes = [];
-                    }
-
-                } catch (error) {
-
-                    notes = [];
-
-                }
+            const noteEditor =
+                panel.querySelector(
+                    "[data-note-editor]"
+                );
 
 
-                const currentPage =
-                    pages[currentPageIndex]
-                        ? pages[currentPageIndex].page
-                        : currentPageIndex + 1;
+            const noteInput =
+                panel.querySelector(
+                    "[data-note-input]"
+                );
 
 
-                notes.push({
-
-                    text: selectedText,
-
-                    note: cleanedNote,
-
-                    bookId: bookID,
-
-                    versionId: versionID,
-
-                    page: currentPage,
-
-                    createdAt:
-                        new Date().toISOString()
-
-                });
+            const addPageNoteButton =
+                panel.querySelector(
+                    "[data-add-page-note]"
+                );
 
 
-                try {
-
-                    localStorage.setItem(
-                        "samramba_library_notes",
-                        JSON.stringify(
-                            notes
-                        )
-                    );
-
-                } catch (error) {
-
-                    console.warn(
-                        "Unable to save note.",
-                        error
-                    );
-
-                }
+            if (
+                !noteEditor ||
+                !noteInput
+            ) {
+                return;
+            }
 
 
-                readerSavedRange = null;
+            /*
+             * Store the selected text on
+             * the editor.
+             */
 
-                readerSavedSelectedText = "";
+            panel.dataset.noteSelectedText =
+                selectedText;
 
 
-                window.getSelection()
-                    .removeAllRanges();
+            /*
+             * Show the panel.
+             */
+
+            panel.style.display =
+                "flex";
 
 
-                readerSelectionToolbar.style.display =
+            /*
+             * Show the editor.
+             */
+
+            noteEditor.style.display =
+                "block";
+
+
+            /*
+             * Clear the previous note.
+             */
+
+            noteInput.value = "";
+
+
+            /*
+             * Change the button state while
+             * editing a selected-text note.
+             */
+
+            if (addPageNoteButton) {
+
+                addPageNoteButton.style.display =
                     "none";
 
             }
-        );
+
+
+            /*
+             * Focus the note field.
+             */
+
+            noteInput.focus();
+
+
+            /*
+             * The browser selection can now
+             * safely be cleared.
+             */
+
+            const selection =
+                window.getSelection();
+
+
+            if (selection) {
+                selection.removeAllRanges();
+            }
+
+
+            readerSavedRange = null;
+
+            readerSavedSelectedText = "";
+
+
+            readerSelectionToolbar.style.display =
+                "none";
+
+        }
+    );
 
 
     Object.assign(
@@ -3062,7 +3085,7 @@ saveNoteButton.addEventListener(
         notes.push({
 
             text:
-                noteEditorSelectedText,
+    panel.dataset.noteSelectedText || "",
 
             note:
                 noteText,
@@ -3100,14 +3123,24 @@ saveNoteButton.addEventListener(
 
 
         noteEditor.style.display =
-            "none";
+    "none";
 
-        noteInput.value = "";
+noteInput.value = "";
 
-        noteEditorSelectedText = "";
+panel.dataset.noteSelectedText = "";
+
+noteEditorSelectedText = "";
 
 
-        renderNotesHighlightsPanel();
+if (addPageNoteButton) {
+
+    addPageNoteButton.style.display =
+        "inline-flex";
+
+}
+
+
+renderNotesHighlightsPanel();
 
     }
 );
