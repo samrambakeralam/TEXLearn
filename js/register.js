@@ -158,31 +158,28 @@ async function registerCustomer(e){
 
     try{
 
-        const response = await fetch(CONFIG.WEB_APP_URL,{
+       const response = await fetch(
+    CONFIG.WEB_APP_URL,
+    {
 
-            method:"POST",
+        method:"POST",
 
-            headers:{
-                "Content-Type":"application/json"
-            },
+        headers:{
+            "Content-Type":
+                "application/x-www-form-urlencoded"
+        },
 
-            body:JSON.stringify({
+        body:
+            "action=REGISTER_CUSTOMER" +
+            "&name=" +
+            encodeURIComponent(name) +
+            "&email=" +
+            encodeURIComponent(email) +
+            "&institution=" +
+            encodeURIComponent(institution)
 
-                action:"REGISTER_CUSTOMER",
-
-                data:{
-
-                    name:name,
-
-                    email:email,
-
-                    institution:institution
-
-                }
-
-            })
-
-        });
+    }
+);
 
         const result = await response.json();
 
