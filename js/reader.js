@@ -686,10 +686,15 @@ const response =
 console.timeEnd("BOOK CONTENT FETCH");
 
 
+console.time("BOOK CONTENT JSON");
+
+const data =
+    await response.json();
+
 console.timeEnd("BOOK CONTENT JSON");
 
 
-            if (!data.success) {
+if (!data.success) {
 
                 showError(
                     data.message ||
