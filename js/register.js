@@ -8,6 +8,100 @@ const button = document.getElementById("continueButton");
 
 form.addEventListener("submit", registerCustomer);
 
+loadInstitutions();
+
+
+// ==========================================
+// Load Institutions
+// ==========================================
+
+async function loadInstitutions(){
+
+    const institutionSelect =
+        document.getElementById("institution");
+
+    try{
+
+        const response =
+            await fetch(
+                CONFIG.WEB_APP_URL +
+                "?action=institutions"
+            );
+
+        const result =
+            await response.json();
+
+        if(
+            !result.success ||
+            !Array.isArray(result.institutions)
+        ){
+
+            throw new Error(
+                "Unable to load institutions."
+            );
+
+        }
+
+        institutionSelect.innerHTML = "";
+
+        const defaultOption =
+            document.createElement("option");
+
+        defaultOption.value = "";
+
+        defaultOption.textContent =
+            "Choose Your Institution";
+
+        institutionSelect.appendChild(
+            defaultOption
+        );
+
+        result.institutions.forEach(
+            function(institution){
+
+                const option =
+                    document.createElement("option");
+
+                option.value =
+                    institution.id;
+
+                option.textContent =
+                    institution.name;
+
+                institutionSelect.appendChild(
+                    option
+                );
+
+            }
+        );
+
+    }
+    catch(error){
+
+        console.error(
+            "Institution loading failed:",
+            error
+        );
+
+        institutionSelect.innerHTML = "";
+
+        const errorOption =
+            document.createElement("option");
+
+        errorOption.value = "";
+
+        errorOption.textContent =
+            "Unable to load institutions";
+
+        institutionSelect.appendChild(
+            errorOption
+        );
+
+    }
+
+}
+
+
 async function registerCustomer(e){
 
     e.preventDefault();
