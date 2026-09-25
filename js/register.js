@@ -159,7 +159,7 @@ async function registerCustomer(e){
     try{
 
        const response = await fetch(
-    CONFIG.WEB_APP_URL,
+    CONFIG.API_URL + "/register",
     {
 
         method:"POST",
