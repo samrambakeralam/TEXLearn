@@ -399,25 +399,27 @@ async function verifyPayment(
         //--------------------------------------
 
         const apiResponse =
-            await fetch(
-                CONFIG.WEB_APP_URL,
-                {
+    await fetch(
+        CONFIG.API_URL + "/verify-payment",
+        {
 
-                    method:
-                        "POST",
+            method:
+                "POST",
 
-                    headers: {
+            headers: {
 
-                        "Content-Type":
-                            "application/json"
+                "Content-Type":
+                    "application/json"
 
-                    },
+            },
 
-                    body:
-                        JSON.stringify(request)
+            body:
+                JSON.stringify(
+                    request.paymentData
+                )
 
-                }
-            );
+        }
+    );
 
 
         //--------------------------------------
