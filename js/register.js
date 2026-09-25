@@ -158,7 +158,7 @@ async function registerCustomer(e){
 
     try{
 
-       const response = await fetch(
+   const response = await fetch(
     CONFIG.API_URL + "/register",
     {
 
@@ -166,17 +166,16 @@ async function registerCustomer(e){
 
         headers:{
             "Content-Type":
-                "application/x-www-form-urlencoded"
+                "application/json"
         },
 
-        body:
-            "action=REGISTER_CUSTOMER" +
-            "&name=" +
-            encodeURIComponent(name) +
-            "&email=" +
-            encodeURIComponent(email) +
-            "&institution=" +
-            encodeURIComponent(institution)
+        body:JSON.stringify({
+
+            name:name,
+            email:email,
+            institution:institution
+
+        })
 
     }
 );
