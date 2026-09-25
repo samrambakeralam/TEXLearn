@@ -2,13 +2,22 @@
 // Registration
 // ==========================================
 
+console.log("REGISTER.JS LOADED");
+
 const form = document.getElementById("registrationForm");
 
 const button = document.getElementById("continueButton");
 
 form.addEventListener("submit", registerCustomer);
 
-loadInstitutions();
+document.addEventListener(
+    "DOMContentLoaded",
+    function(){
+
+        loadInstitutions();
+
+    }
+);
 
 
 // ==========================================
