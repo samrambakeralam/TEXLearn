@@ -68,6 +68,11 @@ async function loadInstitutions(){
         result.institutions.forEach(
             function(institution){
 
+                console.log(
+    "INSTITUTION RECEIVED:",
+    institution
+);
+
                 const option =
                     document.createElement("option");
 
