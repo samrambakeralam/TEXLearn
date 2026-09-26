@@ -645,7 +645,7 @@ if (
 
         console.time("READER TOTAL LOAD");
 
-        if (
+if (
     !customerID ||
     !bookID ||
     !versionID
