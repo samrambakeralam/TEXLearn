@@ -1420,6 +1420,30 @@ if (!session) {
         "Unable to create Library session."
     );
 
+    const params =
+        new URLSearchParams();
+
+    if (customerID) {
+        params.set(
+            "cid",
+            customerID
+        );
+    }
+
+    params.set(
+        "bookId",
+        book.id
+    );
+
+    params.set(
+        "versionId",
+        version.id
+    );
+
+    window.location.href =
+        "reader.html?" +
+        params.toString();
+
     return;
 }
 
