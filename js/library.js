@@ -1366,7 +1366,7 @@ async function createLibrarySession(customerID) {
     }
 
 
-    function activateCard() {
+    async function activateCard() {
 
         const version =
             Array.isArray(book.versions) &&
@@ -1398,10 +1398,33 @@ async function createLibrarySession(customerID) {
 
 
         const customerID =
-            currentParams.get("cid");
+    currentParams.get("cid");
 
-        const token =
-            currentParams.get("t");
+if (!customerID) {
+
+    console.warn(
+        "No Customer ID found in Library URL."
+    );
+
+    return;
+}
+
+const session =
+    await createLibrarySession(
+        customerID
+    );
+
+if (!session) {
+
+    console.warn(
+        "Unable to create Library session."
+    );
+
+    return;
+}
+
+const token =
+    session.token;
 
 
         /*
