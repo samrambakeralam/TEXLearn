@@ -1366,203 +1366,183 @@ async function createLibrarySession(customerID) {
     }
 
 
-    async function activateCard() {
+  async function activateCard() {
 
-        const version =
-            Array.isArray(book.versions) &&
-            book.versions.length
-                ? book.versions[0]
-                : null;
+    const version =
+        Array.isArray(book.versions) &&
+        book.versions.length
+            ? book.versions[0]
+            : null;
 
 
-        if (!version) {
+    if (!version) {
 
-            console.warn(
-                "No readable version found for:",
-                book.id
+        console.warn(
+            "No readable version found for:",
+            book.id
+        );
+
+        return;
+
+    }
+
+
+    const currentParams =
+        new URLSearchParams(
+            window.location.search
+        );
+
+
+    const customerID =
+        currentParams.get("cid");
+
+
+    /*
+     * If a customer ID exists,
+     * create a fresh Library session.
+     */
+    let token = null;
+
+
+    if (customerID) {
+
+        const session =
+            await createLibrarySession(
+                customerID
             );
 
-            return;
+
+        if (session) {
+
+            token =
+                session.token;
 
         }
 
-
-        /*
-         * Preserve the authenticated
-         * Library session information.
-         */
-        const currentParams =
-            new URLSearchParams(
-                window.location.search
-            );
+    }
 
 
-        const customerID =
-    currentParams.get("cid");
-
-if (!customerID) {
-
-    console.warn(
-        "No Customer ID found in Library URL."
-    );
-
-    return;
-}
-
-const session =
-    await createLibrarySession(
-        customerID
-    );
-
-if (!session) {
-
-    console.warn(
-        "Unable to create Library session."
-    );
-
+    /*
+     * Build Reader URL.
+     *
+     * Paid customer:
+     *     cid + fresh token
+     *
+     * Unpaid / unauthorized:
+     *     cid only
+     *
+     * Reader will then show
+     * the existing access error.
+     */
     const params =
         new URLSearchParams();
 
+
     if (customerID) {
+
         params.set(
             "cid",
             customerID
         );
+
     }
+
+
+    if (token) {
+
+        params.set(
+            "t",
+            token
+        );
+
+    }
+
 
     params.set(
         "bookId",
         book.id
     );
 
+
     params.set(
         "versionId",
         version.id
     );
 
+
+    /*
+     * Pass the book-specific theme
+     * to the Reader.
+     */
+    if (book.themePrimary) {
+
+        params.set(
+            "themePrimary",
+            book.themePrimary
+        );
+
+    }
+
+
+    if (book.themeSecondary) {
+
+        params.set(
+            "themeSecondary",
+            book.themeSecondary
+        );
+
+    }
+
+
+    /*
+     * Pass the book-specific
+     * title styling to the Reader.
+     */
+    if (book.titleBackground) {
+
+        params.set(
+            "titleBackground",
+            book.titleBackground
+        );
+
+    }
+
+
+    if (book.titlePrimary) {
+
+        params.set(
+            "titlePrimary",
+            book.titlePrimary
+        );
+
+    }
+
+
+    if (book.titleSecondary) {
+
+        params.set(
+            "titleSecondary",
+            book.titleSecondary
+        );
+
+    }
+
+
+    if (book.displayTitle) {
+
+        params.set(
+            "displayTitle",
+            book.displayTitle
+        );
+
+    }
+
+
     window.location.href =
         "reader.html?" +
         params.toString();
 
-    return;
 }
-
-const token =
-    session.token;
-
-
-        /*
-         * Build Reader URL.
-         */
-        const params =
-            new URLSearchParams();
-
-
-        if (customerID) {
-
-            params.set(
-                "cid",
-                customerID
-            );
-
-        }
-
-
-        if (token) {
-
-            params.set(
-                "t",
-                token
-            );
-
-        }
-
-
-        params.set(
-            "bookId",
-            book.id
-        );
-
-
-        params.set(
-            "versionId",
-            version.id
-        );
-
-
-        /*
-         * Pass the book-specific theme
-         * to the Reader.
-         */
-        if (book.themePrimary) {
-
-            params.set(
-                "themePrimary",
-                book.themePrimary
-            );
-
-        }
-
-
-        if (book.themeSecondary) {
-
-            params.set(
-                "themeSecondary",
-                book.themeSecondary
-            );
-
-        }
-
-
-        /*
-         * Pass the book-specific
-         * title styling to the Reader.
-         */
-        if (book.titleBackground) {
-
-            params.set(
-                "titleBackground",
-                book.titleBackground
-            );
-
-        }
-
-
-        if (book.titlePrimary) {
-
-            params.set(
-                "titlePrimary",
-                book.titlePrimary
-            );
-
-        }
-
-
-        if (book.titleSecondary) {
-
-            params.set(
-                "titleSecondary",
-                book.titleSecondary
-            );
-
-        }
-
-
-        if (book.displayTitle) {
-
-            params.set(
-                "displayTitle",
-                book.displayTitle
-            );
-
-        }
-
-
-        window.location.href =
-            "reader.html?" +
-            params.toString();
-
-    }
 
 
     article.addEventListener(
