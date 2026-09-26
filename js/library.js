@@ -1172,18 +1172,18 @@ async function createLibrarySession(customerID) {
     );
 
 
-    const coverHTML =
-        book.cover
-            ? `
-                <img
-                    class="library-book-cover"
-                    src="${escapeHTML(book.cover)}"
-                    alt="${escapeHTML(
-                        book.title || "Book cover"
-                    )}"
-                    loading="lazy"
-                >
-            `
+  const coverHTML =
+    book.cover
+        ? `
+            <img
+                class="library-book-cover"
+                data-src="${escapeHTML(book.cover)}"
+                alt="${escapeHTML(
+                    book.title || "Book cover"
+                )}"
+                loading="lazy"
+            >
+        `
             : `
                 <div class="library-book-cover-placeholder">
                     <span>
