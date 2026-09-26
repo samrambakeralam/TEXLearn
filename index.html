@@ -1384,6 +1384,32 @@
 <script src="js/video-catalogue.js"></script>
 <script src="js/carousel.js"></script>
 
+
+<script>
+/* =========================================================
+   RESTORE TEXLearn CUSTOMER SESSION
+========================================================= */
+
+(function () {
+
+    const params = new URLSearchParams(window.location.search);
+    const customerID = params.get("cid");
+
+    if (customerID) {
+        sessionStorage.setItem(
+            "texlearn_customer_id",
+            customerID
+        );
+
+        console.log(
+            "TEXLearn customer session stored:",
+            customerID
+        );
+    }
+
+})();
+</script>
+
 <script>
 /* =========================================================
    HOME → COMMUNITY PAGE TRANSITION
