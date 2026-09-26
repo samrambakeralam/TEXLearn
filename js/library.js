@@ -1575,6 +1575,93 @@ async function createLibrarySession(customerID) {
 
 }
 
+function initialiseLazyBookCovers() {
+
+    const images =
+        document.querySelectorAll(
+            ".library-book-cover[data-src]"
+        );
+
+    if (!images.length) {
+        return;
+    }
+
+    if (
+        !("IntersectionObserver" in window)
+    ) {
+
+        images.forEach(
+            function (image) {
+
+                image.src =
+                    image.dataset.src;
+
+                image.removeAttribute(
+                    "data-src"
+                );
+
+            }
+        );
+
+        return;
+    }
+
+    const observer =
+        new IntersectionObserver(
+            function (entries, observer) {
+
+                entries.forEach(
+                    function (entry) {
+
+                        if (
+                            !entry.isIntersecting
+                        ) {
+                            return;
+                        }
+
+                        const image =
+                            entry.target;
+
+                        const source =
+                            image.dataset.src;
+
+                        if (source) {
+
+                            image.src =
+                                source;
+
+                            image.removeAttribute(
+                                "data-src"
+                            );
+
+                        }
+
+                        observer.unobserve(
+                            image
+                        );
+
+                    }
+                );
+
+            },
+            {
+                rootMargin: "300px 0px"
+            }
+        );
+
+    images.forEach(
+        function (image) {
+
+            observer.observe(
+                image
+            );
+
+        }
+    );
+
+}
+
+
 function renderBookGrid(
     container,
     books
@@ -1614,17 +1701,20 @@ function renderBookGrid(
 
 
     books.forEach(
-        function (book) {
+    function (book) {
 
-            container.appendChild(
-                createBookCard(book)
-            );
+        container.appendChild(
+            createBookCard(book)
+        );
 
-        }
-    );
+    }
+);
 
 
-    refreshIcons();
+initialiseLazyBookCovers();
+
+
+refreshIcons();
 
 }
 
