@@ -23,6 +23,11 @@
 (function () {
     "use strict";
 
+    const LIBRARY_API_URL =
+        "https://script.google.com/macros/s/" +
+        "AKfycbzQFLeWMQAX7gbedsu859N8nEZnGoAFinj4dn1JgpX0La7GSy-2xGHK38MdjcHM2ckk/" +
+        "exec";
+
 
     /* =========================================================
        01. LIBRARY DATA
