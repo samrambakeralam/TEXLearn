@@ -578,6 +578,54 @@ const libraryNotesGrid =
     }
 
 
+async function createLibrarySession(customerID) {
+
+    if (!customerID) {
+        return null;
+    }
+
+    try {
+
+        const response =
+            await fetch(
+                LIBRARY_API_URL +
+                "?action=librarysession" +
+                "&cid=" +
+                encodeURIComponent(customerID)
+            );
+
+        const data =
+            await response.json();
+
+        if (
+            !data ||
+            data.success !== true ||
+            !data.token
+        ) {
+            console.warn(
+                "Library session could not be created.",
+                data
+            );
+
+            return null;
+        }
+
+        return data;
+
+    } catch (error) {
+
+        console.error(
+            "Library session request failed.",
+            error
+        );
+
+        return null;
+    }
+
+}
+
+
+
     /* =========================================================
        04. MOBILE SIDEBAR
     ========================================================= */
