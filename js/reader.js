@@ -646,18 +646,17 @@ if (
         console.time("READER TOTAL LOAD");
 
         if (
-            !customerID ||
-            !token ||
-            !bookID ||
-            !versionID
-        ) {
+    !customerID ||
+    !bookID ||
+    !versionID
+) {
 
-            showError(
-                "This reading session is missing required access information."
-            );
+    showError(
+        "This reading session is missing required access information."
+    );
 
-            return;
-        }
+    return;
+}
 
 
         try {
