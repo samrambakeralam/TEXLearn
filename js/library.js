@@ -1369,10 +1369,19 @@ async function createLibrarySession(customerID) {
   async function activateCard() {
 
     const version =
-        Array.isArray(book.versions) &&
-        book.versions.length
-            ? book.versions[0]
-            : null;
+    Array.isArray(book.versions)
+        ? (
+            book.versions.find(
+                function (item) {
+                    return String(item.id || "")
+                        .toLowerCase()
+                        .endsWith("-v1");
+                }
+            ) ||
+            book.versions[0] ||
+            null
+        )
+        : null;
 
 
     if (!version) {
