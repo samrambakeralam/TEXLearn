@@ -1374,30 +1374,120 @@ async function loadCustomerFavourites(customerID) {
     }
 
 
-    if (favouriteButton) {
+   if (favouriteButton) {
 
-        favouriteButton.addEventListener(
-            "click",
-            function (event) {
+    favouriteButton.addEventListener(
+        "click",
+        async function (event) {
 
-                event.preventDefault();
-                event.stopPropagation();
+            event.preventDefault();
+            event.stopPropagation();
 
-                const active =
-                    toggleSavedBook(
-                        FAVOURITES_STORAGE_KEY,
-                        book.id
+            const active =
+                toggleSavedBook(
+                    FAVOURITES_STORAGE_KEY,
+                    book.id
+                );
+
+            updateSavedButton(
+                favouriteButton,
+                active
+            );
+
+
+            const customerID =
+                new URLSearchParams(
+                    window.location.search
+                ).get("cid") ||
+                sessionStorage.getItem(
+                    "texlearn_customer_id"
+                ) ||
+                "";
+
+
+            if (!customerID) {
+
+                console.warn(
+                    "Favourite not synced: Customer ID not available."
+                );
+
+                return;
+
+            }
+
+
+            try {
+
+                const response =
+                    await fetch(
+                        LIBRARY_API_URL,
+                        {
+                            method: "POST",
+
+                            headers: {
+                                "Content-Type":
+                                    "text/plain;charset=utf-8"
+                            },
+
+                            body: JSON.stringify({
+
+                                action:
+                                    "LIBRARY_FAVOURITE",
+
+                                customerID:
+                                    customerID,
+
+                                bookID:
+                                    book.id,
+
+                                active:
+                                    active
+
+                            })
+                        }
                     );
 
-                updateSavedButton(
-                    favouriteButton,
-                    active
+
+                const data =
+                    await response.json();
+
+
+                if (
+                    !data ||
+                    data.success !== true
+                ) {
+
+                    console.warn(
+                        "Favourite could not be synced.",
+                        data
+                    );
+
+                }
+                else {
+
+                    console.log(
+                        "Favourite synced:",
+                        customerID,
+                        book.id,
+                        active
+                    );
+
+                }
+
+            }
+            catch (error) {
+
+                console.error(
+                    "Favourite sync failed.",
+                    error
                 );
 
             }
-        );
 
-    }
+        }
+    );
+
+}
 
 
     if (bookmarkButton) {
