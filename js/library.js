@@ -625,6 +625,66 @@ async function createLibrarySession(customerID) {
 }
 
 
+async function loadCustomerFavourites(customerID) {
+
+    if (!customerID) {
+        return;
+    }
+
+    try {
+
+        const response =
+            await fetch(
+                LIBRARY_API_URL +
+                "?action=libraryfavourites" +
+                "&cid=" +
+                encodeURIComponent(customerID)
+            );
+
+        const data =
+            await response.json();
+
+        if (
+            !data ||
+            data.success !== true ||
+            !Array.isArray(data.favourites)
+        ) {
+            console.warn(
+                "Customer favourites could not be loaded.",
+                data
+            );
+
+            return;
+        }
+
+        const favourites =
+            new Set(
+                data.favourites
+            );
+
+        saveBookIds(
+            FAVOURITES_STORAGE_KEY,
+            favourites
+        );
+
+        console.log(
+            "Customer favourites loaded:",
+            data.favourites
+        );
+
+    } catch (error) {
+
+        console.error(
+            "Customer favourites request failed.",
+            error
+        );
+
+    }
+
+}
+
+
+
 
     /* =========================================================
        04. MOBILE SIDEBAR
