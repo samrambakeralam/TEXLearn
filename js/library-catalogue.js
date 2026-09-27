@@ -968,15 +968,22 @@ description:
      * Refresh it after the live catalogue arrives.
      */
 
-    if (
-        window.SamrambaLibrary &&
-        typeof window.SamrambaLibrary.refresh ===
-            "function"
-    ) {
+   if (
+    window.SamrambaLibrary &&
+    typeof window.SamrambaLibrary.refresh ===
+        "function"
+) {
 
-        window.SamrambaLibrary.refresh();
+    console.time(
+        "LIBRARY CATALOGUE RENDER"
+    );
 
-    }
+    window.SamrambaLibrary.refresh();
+
+    console.timeEnd(
+        "LIBRARY CATALOGUE RENDER"
+    );
+}
 
 
     /*
