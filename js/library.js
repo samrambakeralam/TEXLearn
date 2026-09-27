@@ -1395,7 +1395,7 @@ async function createLibrarySession(customerID) {
 
    const customerID =
     currentParams.get("cid") ||
-    localStorage.getItem("texlearn_customer_id");
+     sessionStorage.getItem("texlearn_customer_id");
 
 
     /*
