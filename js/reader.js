@@ -23,16 +23,60 @@
 
 
     const customerID =
-        params.get("cid") || "";
+    params.get("cid") ||
+    sessionStorage.getItem(
+        "texlearn_reader_customer_id"
+    ) ||
+    "";
 
-    const token =
-        params.get("t") || "";
+const token =
+    params.get("t") ||
+    sessionStorage.getItem(
+        "texlearn_reader_token"
+    ) ||
+    "";
 
-    const bookID =
-        params.get("bookId") || "";
+const bookID =
+    params.get("bookId") ||
+    sessionStorage.getItem(
+        "texlearn_reader_book_id"
+    ) ||
+    "";
 
-    const versionID =
-        params.get("versionId") || "";
+const versionID =
+    params.get("versionId") ||
+    sessionStorage.getItem(
+        "texlearn_reader_version_id"
+    ) ||
+    "";
+
+if (customerID) {
+    sessionStorage.setItem(
+        "texlearn_reader_customer_id",
+        customerID
+    );
+}
+
+if (token) {
+    sessionStorage.setItem(
+        "texlearn_reader_token",
+        token
+    );
+}
+
+if (bookID) {
+    sessionStorage.setItem(
+        "texlearn_reader_book_id",
+        bookID
+    );
+}
+
+if (versionID) {
+    sessionStorage.setItem(
+        "texlearn_reader_version_id",
+        versionID
+    );
+}
 
     const themePrimary =
         params.get("themePrimary") || "";
