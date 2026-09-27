@@ -27,11 +27,17 @@
     sessionStorage.getItem(
         "texlearn_reader_customer_id"
     ) ||
+    localStorage.getItem(
+        "texlearn_reader_customer_id"
+    ) ||
     "";
 
 const token =
     params.get("t") ||
     sessionStorage.getItem(
+        "texlearn_reader_token"
+    ) ||
+    localStorage.getItem(
         "texlearn_reader_token"
     ) ||
     "";
@@ -41,6 +47,9 @@ const bookID =
     sessionStorage.getItem(
         "texlearn_reader_book_id"
     ) ||
+    localStorage.getItem(
+        "texlearn_reader_book_id"
+    ) ||
     "";
 
 const versionID =
@@ -48,10 +57,18 @@ const versionID =
     sessionStorage.getItem(
         "texlearn_reader_version_id"
     ) ||
+    localStorage.getItem(
+        "texlearn_reader_version_id"
+    ) ||
     "";
 
 if (customerID) {
     sessionStorage.setItem(
+        "texlearn_reader_customer_id",
+        customerID
+    );
+
+    localStorage.setItem(
         "texlearn_reader_customer_id",
         customerID
     );
@@ -62,6 +79,11 @@ if (token) {
         "texlearn_reader_token",
         token
     );
+
+    localStorage.setItem(
+        "texlearn_reader_token",
+        token
+    );
 }
 
 if (bookID) {
@@ -69,10 +91,20 @@ if (bookID) {
         "texlearn_reader_book_id",
         bookID
     );
+
+    localStorage.setItem(
+        "texlearn_reader_book_id",
+        bookID
+    );
 }
 
 if (versionID) {
     sessionStorage.setItem(
+        "texlearn_reader_version_id",
+        versionID
+    );
+
+    localStorage.setItem(
         "texlearn_reader_version_id",
         versionID
     );
