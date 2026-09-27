@@ -129,10 +129,7 @@
      * it with another array.
      */
 
-    const BOOKS =
-    Array.isArray(window.LIBRARY_BOOKS)
-        ? window.LIBRARY_BOOKS
-        : [];
+    const BOOKS = [];
 
 
     /* =========================================================
@@ -1028,13 +1025,19 @@ description:
          */
 
         window[callbackName] =
-            function (response) {
+    function (response) {
 
-                try {
+        console.log(
+            "LIBRARY CATALOGUE RESPONSE RECEIVED:",
+            new Date().toISOString(),
+            response
+        );
 
-                    receiveLibraryCatalogue(
-                        response
-                    );
+        try {
+
+            receiveLibraryCatalogue(
+                response
+            );
 
                 }
 
@@ -1083,15 +1086,23 @@ description:
          * Build the Apps Script URL.
          */
 
-        script.src =
-            LIBRARY_API_URL +
-            "?action=librarycatalogue" +
-            "&callback=" +
-            encodeURIComponent(
-                callbackName
-            ) +
-            "&_=" +
-            Date.now();
+      console.log(
+    "LIBRARY CATALOGUE REQUEST START:",
+    new Date().toISOString()
+);
+
+script.src =
+    LIBRARY_API_URL +
+    "?action=librarycatalogue" +
+    "&callback=" +
+    encodeURIComponent(callbackName) +
+    "&_=" +
+    Date.now();
+
+console.log(
+    "LIBRARY CATALOGUE REQUEST URL:",
+    script.src
+);
 
 
         script.async = true;
