@@ -129,7 +129,10 @@
      * it with another array.
      */
 
-    const BOOKS = [];
+    const BOOKS =
+    Array.isArray(window.LIBRARY_BOOKS)
+        ? window.LIBRARY_BOOKS
+        : [];
 
 
     /* =========================================================
