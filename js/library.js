@@ -3710,33 +3710,35 @@ return;
        13. INITIALISE
     ========================================================= */
 
-    function initialiseLibrary() {
+ async function initialiseLibrary() {
 
-        initialiseSidebar();
+    initialiseSidebar();
+    initialiseBanner();
+    renderCategories();
 
-        initialiseBanner();
+    const customerID =
+        new URLSearchParams(
+            window.location.search
+        ).get("cid") ||
+        sessionStorage.getItem(
+            "texlearn_customer_id"
+        ) ||
+        "";
 
-        renderCategories();
+    await loadCustomerFavourites(
+        customerID
+    );
 
-        renderBookSections();
-
-        renderContinueReading();
-
-        initialiseSearch();
-
-        initialiseSectionViewAll();
-
-        initialiseSectionViewAllHistory();
-
-        initialiseBookModal();
-
-        initialiseDndMode();
-
-        initialiseNavigation();
-
-        refreshIcons();
-
-    }
+    renderBookSections();
+    renderContinueReading();
+    initialiseSearch();
+    initialiseSectionViewAll();
+    initialiseSectionViewAllHistory();
+    initialiseBookModal();
+    initialiseDndMode();
+    initialiseNavigation();
+    refreshIcons();
+}
 
 
     /*
