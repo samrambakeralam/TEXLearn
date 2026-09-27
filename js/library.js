@@ -1368,20 +1368,57 @@ async function createLibrarySession(customerID) {
 
   async function activateCard() {
 
-    const version =
-    Array.isArray(book.versions)
-        ? (
+   let version = null;
+
+if (
+    Array.isArray(book.versions) &&
+    book.versions.length > 1
+) {
+
+    const choice =
+        window.prompt(
+            "Choose the version you want to read:\n\n" +
+            "1. Version 1\n" +
+            "2. Version 2"
+        );
+
+    if (choice === "1") {
+
+        version =
             book.versions.find(
                 function (item) {
                     return String(item.id || "")
                         .toLowerCase()
                         .endsWith("-v1");
                 }
-            ) ||
-            book.versions[0] ||
-            null
-        )
-        : null;
+            ) || null;
+
+    } else if (choice === "2") {
+
+        version =
+            book.versions.find(
+                function (item) {
+                    return String(item.id || "")
+                        .toLowerCase()
+                        .endsWith("-v2");
+                }
+            ) || null;
+
+    } else {
+
+        return;
+
+    }
+
+} else {
+
+    version =
+        Array.isArray(book.versions) &&
+        book.versions.length
+            ? book.versions[0]
+            : null;
+
+}
 
 
     if (!version) {
