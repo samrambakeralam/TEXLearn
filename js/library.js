@@ -1368,60 +1368,182 @@ async function createLibrarySession(customerID) {
 
   async function activateCard() {
 
-   let version = null;
+    async function openSelectedVersion(version) {
 
-if (
-    Array.isArray(book.versions) &&
-    book.versions.length > 1
-) {
+        if (!version) {
 
-    const choice =
-        window.prompt(
-            "Choose the version you want to read:\n\n" +
-            "1. Version 1\n" +
-            "2. Version 2"
+            console.warn(
+                "No readable version found for:",
+                book.id
+            );
+
+            return;
+
+        }
+
+
+        const currentParams =
+            new URLSearchParams(
+                window.location.search
+            );
+
+
+        const customerID =
+            currentParams.get("cid") ||
+            sessionStorage.getItem(
+                "texlearn_customer_id"
+            );
+
+
+        /*
+         * If a customer ID exists,
+         * create a fresh Library session.
+         */
+        let token = null;
+
+
+        if (customerID) {
+
+            const session =
+                await createLibrarySession(
+                    customerID
+                );
+
+
+            if (session) {
+
+                token =
+                    session.token;
+
+            }
+
+        }
+
+
+        /*
+         * Build Reader URL.
+         */
+        const params =
+            new URLSearchParams();
+
+
+        if (customerID) {
+
+            params.set(
+                "cid",
+                customerID
+            );
+
+        }
+
+
+        if (token) {
+
+            params.set(
+                "t",
+                token
+            );
+
+        }
+
+
+        params.set(
+            "bookId",
+            book.id
         );
 
-    if (choice === "1") {
 
-        version =
-            book.versions.find(
-                function (item) {
-                    return String(item.id || "")
-                        .toLowerCase()
-                        .endsWith("-v1");
-                }
-            ) || null;
+        params.set(
+            "versionId",
+            version.id
+        );
 
-    } else if (choice === "2") {
 
-        version =
-            book.versions.find(
-                function (item) {
-                    return String(item.id || "")
-                        .toLowerCase()
-                        .endsWith("-v2");
-                }
-            ) || null;
+        /*
+         * Pass the book-specific theme
+         * to the Reader.
+         */
+        if (book.themePrimary) {
 
-    } else {
+            params.set(
+                "themePrimary",
+                book.themePrimary
+            );
 
-        return;
+        }
+
+
+        if (book.themeSecondary) {
+
+            params.set(
+                "themeSecondary",
+                book.themeSecondary
+            );
+
+        }
+
+
+        /*
+         * Pass the book-specific
+         * title styling to the Reader.
+         */
+        if (book.titleBackground) {
+
+            params.set(
+                "titleBackground",
+                book.titleBackground
+            );
+
+        }
+
+
+        if (book.titlePrimary) {
+
+            params.set(
+                "titlePrimary",
+                book.titlePrimary
+            );
+
+        }
+
+
+        if (book.titleSecondary) {
+
+            params.set(
+                "titleSecondary",
+                book.titleSecondary
+            );
+
+        }
+
+
+        if (book.displayTitle) {
+
+            params.set(
+                "displayTitle",
+                book.displayTitle
+            );
+
+        }
+
+
+        window.location.href =
+            "reader.html?" +
+            params.toString();
 
     }
 
-} else {
 
-    version =
-        Array.isArray(book.versions) &&
-        book.versions.length
-            ? book.versions[0]
-            : null;
+    /*
+     * Get available versions.
+     */
+    const versions =
+        Array.isArray(book.versions)
+            ? book.versions
+            : [];
 
-}
 
-
-    if (!version) {
+    if (!versions.length) {
 
         console.warn(
             "No readable version found for:",
@@ -1433,161 +1555,498 @@ if (
     }
 
 
-    const currentParams =
-        new URLSearchParams(
-            window.location.search
+    /*
+     * Only one version:
+     * open it directly.
+     */
+    if (versions.length === 1) {
+
+        await openSelectedVersion(
+            versions[0]
         );
 
+        return;
 
-   const customerID =
-    currentParams.get("cid") ||
-     sessionStorage.getItem("texlearn_customer_id");
+    }
 
 
     /*
-     * If a customer ID exists,
-     * create a fresh Library session.
+     * Multiple versions:
+     * show version selector.
      */
-    let token = null;
+    const overlay =
+        document.createElement("div");
+
+    overlay.style.position =
+        "fixed";
+
+    overlay.style.inset =
+        "0";
+
+    overlay.style.zIndex =
+        "99999";
+
+    overlay.style.background =
+        "rgba(8, 20, 35, 0.58)";
+
+    overlay.style.backdropFilter =
+        "blur(5px)";
+
+    overlay.style.webkitBackdropFilter =
+        "blur(5px)";
+
+    overlay.style.display =
+        "flex";
+
+    overlay.style.alignItems =
+        "center";
+
+    overlay.style.justifyContent =
+        "center";
+
+    overlay.style.padding =
+        "20px";
+
+    overlay.style.boxSizing =
+        "border-box";
 
 
-    if (customerID) {
+    const dialog =
+        document.createElement("div");
 
-        const session =
-            await createLibrarySession(
-                customerID
+    dialog.style.width =
+        "100%";
+
+    dialog.style.maxWidth =
+        "390px";
+
+    dialog.style.background =
+        "#ffffff";
+
+    dialog.style.borderRadius =
+        "22px";
+
+    dialog.style.padding =
+        "26px";
+
+    dialog.style.boxSizing =
+        "border-box";
+
+    dialog.style.boxShadow =
+        "0 24px 70px rgba(0,0,0,0.28)";
+
+    dialog.style.fontFamily =
+        "Inter, Poppins, Arial, sans-serif";
+
+
+    /*
+     * Header
+     */
+    const header =
+        document.createElement("div");
+
+    header.style.display =
+        "flex";
+
+    header.style.alignItems =
+        "flex-start";
+
+    header.style.justifyContent =
+        "space-between";
+
+    header.style.gap =
+        "14px";
+
+
+    const headingArea =
+        document.createElement("div");
+
+    const eyebrow =
+        document.createElement("div");
+
+    eyebrow.textContent =
+        "YOUR LEARNING LIBRARY";
+
+    eyebrow.style.fontSize =
+        "10px";
+
+    eyebrow.style.fontWeight =
+        "700";
+
+    eyebrow.style.letterSpacing =
+        "1.4px";
+
+    eyebrow.style.color =
+        "#16a34a";
+
+    eyebrow.style.marginBottom =
+        "7px";
+
+
+    const title =
+        document.createElement("div");
+
+    title.textContent =
+        "Choose a Version";
+
+    title.style.fontSize =
+        "22px";
+
+    title.style.fontWeight =
+        "700";
+
+    title.style.lineHeight =
+        "1.2";
+
+    title.style.color =
+        "#0f172a";
+
+
+    headingArea.appendChild(
+        eyebrow
+    );
+
+    headingArea.appendChild(
+        title
+    );
+
+
+    const closeButton =
+        document.createElement("button");
+
+    closeButton.type =
+        "button";
+
+    closeButton.textContent =
+        "×";
+
+    closeButton.setAttribute(
+        "aria-label",
+        "Close"
+    );
+
+    closeButton.style.width =
+        "34px";
+
+    closeButton.style.height =
+        "34px";
+
+    closeButton.style.flex =
+        "0 0 34px";
+
+    closeButton.style.border =
+        "0";
+
+    closeButton.style.borderRadius =
+        "50%";
+
+    closeButton.style.background =
+        "#f1f5f9";
+
+    closeButton.style.color =
+        "#475569";
+
+    closeButton.style.fontSize =
+        "24px";
+
+    closeButton.style.lineHeight =
+        "1";
+
+    closeButton.style.cursor =
+        "pointer";
+
+
+    header.appendChild(
+        headingArea
+    );
+
+    header.appendChild(
+        closeButton
+    );
+
+
+    /*
+     * Book title
+     */
+    const bookTitle =
+        document.createElement("div");
+
+    bookTitle.textContent =
+        book.title ||
+        "Select the version you want to read.";
+
+    bookTitle.style.marginTop =
+        "8px";
+
+    bookTitle.style.marginBottom =
+        "20px";
+
+    bookTitle.style.fontSize =
+        "14px";
+
+    bookTitle.style.lineHeight =
+        "1.45";
+
+    bookTitle.style.color =
+        "#64748b";
+
+
+    /*
+     * Version buttons
+     */
+    const options =
+        document.createElement("div");
+
+    options.style.display =
+        "flex";
+
+    options.style.flexDirection =
+        "column";
+
+    options.style.gap =
+        "11px";
+
+
+    versions.forEach(
+        function (item) {
+
+            const versionButton =
+                document.createElement(
+                    "button"
+                );
+
+            versionButton.type =
+                "button";
+
+            const isV2 =
+                String(item.id || "")
+                    .toLowerCase()
+                    .endsWith("-v2");
+
+            const versionNumber =
+                isV2
+                    ? "Version 2"
+                    : "Version 1";
+
+
+            const versionDescription =
+                isV2
+                    ? "Updated learning edition"
+                    : "Original learning edition";
+
+
+            versionButton.innerHTML =
+                `
+                    <span
+                        style="
+                            display:block;
+                            font-size:16px;
+                            font-weight:700;
+                            color:#0f172a;
+                            margin-bottom:4px;
+                        "
+                    >
+                        ${versionNumber}
+                    </span>
+
+                    <span
+                        style="
+                            display:block;
+                            font-size:12px;
+                            font-weight:400;
+                            color:#64748b;
+                        "
+                    >
+                        ${versionDescription}
+                    </span>
+                `;
+
+
+            versionButton.style.width =
+                "100%";
+
+            versionButton.style.minHeight =
+                "70px";
+
+            versionButton.style.padding =
+                "13px 16px";
+
+            versionButton.style.border =
+                "1px solid #dbe3ea";
+
+            versionButton.style.borderRadius =
+                "14px";
+
+            versionButton.style.background =
+                "#ffffff";
+
+            versionButton.style.textAlign =
+                "left";
+
+            versionButton.style.cursor =
+                "pointer";
+
+            versionButton.style.boxSizing =
+                "border-box";
+
+            versionButton.style.transition =
+                "all 160ms ease";
+
+
+            versionButton.addEventListener(
+                "mouseenter",
+                function () {
+
+                    versionButton.style.borderColor =
+                        "#16a34a";
+
+                    versionButton.style.background =
+                        "#f0fdf4";
+
+                }
             );
 
 
-        if (session) {
+            versionButton.addEventListener(
+                "mouseleave",
+                function () {
 
-            token =
-                session.token;
+                    versionButton.style.borderColor =
+                        "#dbe3ea";
+
+                    versionButton.style.background =
+                        "#ffffff";
+
+                }
+            );
+
+
+            versionButton.addEventListener(
+                "click",
+                async function () {
+
+                    overlay.remove();
+
+                    await openSelectedVersion(
+                        item
+                    );
+
+                }
+            );
+
+
+            options.appendChild(
+                versionButton
+            );
 
         }
-
-    }
-
-
-    /*
-     * Build Reader URL.
-     *
-     * Paid customer:
-     *     cid + fresh token
-     *
-     * Unpaid / unauthorized:
-     *     cid only
-     *
-     * Reader will then show
-     * the existing access error.
-     */
-    const params =
-        new URLSearchParams();
-
-
-    if (customerID) {
-
-        params.set(
-            "cid",
-            customerID
-        );
-
-    }
-
-
-    if (token) {
-
-        params.set(
-            "t",
-            token
-        );
-
-    }
-
-
-    params.set(
-        "bookId",
-        book.id
-    );
-
-
-    params.set(
-        "versionId",
-        version.id
     );
 
 
     /*
-     * Pass the book-specific theme
-     * to the Reader.
+     * Cancel
      */
-    if (book.themePrimary) {
+    const cancelButton =
+        document.createElement("button");
 
-        params.set(
-            "themePrimary",
-            book.themePrimary
-        );
+    cancelButton.type =
+        "button";
 
-    }
+    cancelButton.textContent =
+        "Cancel";
 
+    cancelButton.style.width =
+        "100%";
 
-    if (book.themeSecondary) {
+    cancelButton.style.height =
+        "46px";
 
-        params.set(
-            "themeSecondary",
-            book.themeSecondary
-        );
+    cancelButton.style.marginTop =
+        "14px";
 
-    }
+    cancelButton.style.border =
+        "0";
+
+    cancelButton.style.borderRadius =
+        "12px";
+
+    cancelButton.style.background =
+        "#f1f5f9";
+
+    cancelButton.style.color =
+        "#475569";
+
+    cancelButton.style.fontSize =
+        "15px";
+
+    cancelButton.style.fontWeight =
+        "600";
+
+    cancelButton.style.cursor =
+        "pointer";
 
 
     /*
-     * Pass the book-specific
-     * title styling to the Reader.
+     * Close selector.
      */
-    if (book.titleBackground) {
+    function closeSelector() {
 
-        params.set(
-            "titleBackground",
-            book.titleBackground
-        );
+        overlay.remove();
 
     }
 
 
-    if (book.titlePrimary) {
-
-        params.set(
-            "titlePrimary",
-            book.titlePrimary
-        );
-
-    }
+    closeButton.addEventListener(
+        "click",
+        closeSelector
+    );
 
 
-    if (book.titleSecondary) {
-
-        params.set(
-            "titleSecondary",
-            book.titleSecondary
-        );
-
-    }
+    cancelButton.addEventListener(
+        "click",
+        closeSelector
+    );
 
 
-    if (book.displayTitle) {
+    overlay.addEventListener(
+        "click",
+        function (event) {
 
-        params.set(
-            "displayTitle",
-            book.displayTitle
-        );
+            if (
+                event.target === overlay
+            ) {
 
-    }
+                closeSelector();
+
+            }
+
+        }
+    );
 
 
-    window.location.href =
-        "reader.html?" +
-        params.toString();
+    dialog.appendChild(
+        header
+    );
+
+    dialog.appendChild(
+        bookTitle
+    );
+
+    dialog.appendChild(
+        options
+    );
+
+    dialog.appendChild(
+        cancelButton
+    );
+
+    overlay.appendChild(
+        dialog
+    );
+
+    document.body.appendChild(
+        overlay
+    );
 
 }
 
