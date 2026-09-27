@@ -1511,8 +1511,26 @@ document.addEventListener(
 
                             setTimeout(
                                 function () {
-                                    window.location.href =
-                                        link.href;
+                                    const customerID =
+    new URLSearchParams(
+        window.location.search
+    ).get("cid");
+
+if (customerID) {
+
+    window.location.href =
+        link.href +
+        "?cid=" +
+        encodeURIComponent(
+            customerID
+        );
+
+} else {
+
+    window.location.href =
+        link.href;
+
+}
                                 },
                                 850
                             );
