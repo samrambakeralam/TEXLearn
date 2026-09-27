@@ -1374,116 +1374,30 @@ async function loadCustomerFavourites(customerID) {
     }
 
 
-   if (favouriteButton) {
-    favouriteButton.addEventListener(
-        "click",
-        async function (event) {
+    if (favouriteButton) {
 
-            event.preventDefault();
-            event.stopPropagation();
+        favouriteButton.addEventListener(
+            "click",
+            function (event) {
 
-            const customerID =
-                new URLSearchParams(
-                    window.location.search
-                ).get("cid") ||
-                sessionStorage.getItem(
-                    "texlearn_customer_id"
-                ) ||
-                "";
+                event.preventDefault();
+                event.stopPropagation();
 
-            if (!customerID) {
-                console.warn(
-                    "Customer ID not available for favourite."
-                );
-                return;
-            }
-
-            const currentActive =
-                isBookSaved(
-                    FAVOURITES_STORAGE_KEY,
-                    book.id
-                );
-
-            const active =
-                !currentActive;
-
-            try {
-
-                const response =
-                    await fetch(
-                        LIBRARY_API_URL,
-                        {
-                            method: "POST",
-                            headers: {
-                                "Content-Type":
-                                    "text/plain;charset=utf-8"
-                            },
-                            body: JSON.stringify({
-                                action:
-                                    "LIBRARY_FAVOURITE",
-                                customerID:
-                                    customerID,
-                                bookID:
-                                    book.id,
-                                active:
-                                    active
-                            })
-                        }
+                const active =
+                    toggleSavedBook(
+                        FAVOURITES_STORAGE_KEY,
+                        book.id
                     );
-
-                const data =
-                    await response.json();
-
-                if (
-                    !data ||
-                    data.success !== true
-                ) {
-                    console.warn(
-                        "Customer favourite could not be saved.",
-                        data
-                    );
-                    return;
-                }
-
-                const ids =
-                    getSavedBookIds(
-                        FAVOURITES_STORAGE_KEY
-                    );
-
-                if (active) {
-                    ids.add(book.id);
-                } else {
-                    ids.delete(book.id);
-                }
-
-                saveBookIds(
-                    FAVOURITES_STORAGE_KEY,
-                    ids
-                );
 
                 updateSavedButton(
                     favouriteButton,
                     active
                 );
 
-                console.log(
-                    "Customer favourite saved:",
-                    customerID,
-                    book.id,
-                    active
-                );
-
-            } catch (error) {
-
-                console.error(
-                    "Customer favourite request failed.",
-                    error
-                );
-
             }
-        }
-    );
-}
+        );
+
+    }
 
 
     if (bookmarkButton) {
