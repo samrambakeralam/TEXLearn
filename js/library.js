@@ -748,6 +748,62 @@ async function loadCustomerBookmarks(customerID) {
 }
 
 
+async function loadCustomerNotes(customerID) {
+
+    if (!customerID) {
+        return;
+    }
+
+    try {
+
+        const response =
+            await fetch(
+                LIBRARY_API_URL +
+                "?action=librarynotes" +
+                "&cid=" +
+                encodeURIComponent(customerID)
+            );
+
+        const data =
+            await response.json();
+
+        if (
+            !data ||
+            data.success !== true ||
+            !Array.isArray(data.notes)
+        ) {
+
+            console.warn(
+                "Customer notes could not be loaded.",
+                data
+            );
+
+            return;
+        }
+
+        saveStoredLibraryData(
+            NOTES_STORAGE_KEY,
+            data.notes
+        );
+
+        console.log(
+            "Customer notes loaded:",
+            data.notes
+        );
+
+    }
+    catch (error) {
+
+        console.error(
+            "Customer notes request failed.",
+            error
+        );
+
+    }
+
+}
+
+
     /* =========================================================
        04. MOBILE SIDEBAR
     ========================================================= */
@@ -3972,6 +4028,10 @@ return;
 );
 
 await loadCustomerBookmarks(
+    customerID
+);
+
+await loadCustomerNotes(
     customerID
 );
 
