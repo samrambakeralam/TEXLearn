@@ -877,10 +877,20 @@ async function loadCustomerNotes(customerID) {
             return;
         }
 
-        saveStoredLibraryData(
-            NOTES_STORAGE_KEY,
-            data.notes
-        );
+       const convertedNotes =
+    convertBackendNotesToLibraryNotes(
+        data.notes
+    );
+
+saveStoredLibraryData(
+    NOTES_STORAGE_KEY,
+    convertedNotes
+);
+
+console.log(
+    "Customer notes loaded:",
+    convertedNotes
+);
 
         console.log(
             "Customer notes loaded:",
