@@ -3219,7 +3219,7 @@ cancelNoteButton.addEventListener(
 
 saveNoteButton.addEventListener(
     "click",
-    function () {
+    async function () {
 
         const noteText =
             noteInput.value.trim();
@@ -3284,14 +3284,8 @@ saveNoteButton.addEventListener(
         });
 
 
-const customerID =
-    sessionStorage.getItem(
-        "texlearn_customer_id"
-    ) ||
-    localStorage.getItem(
-        "texlearn_customer_id"
-    ) ||
-    "";
+const noteCustomerID =
+    customerID || "";
 
 const noteID =
     "note-" +
@@ -3313,6 +3307,89 @@ const noteID =
             );
 
         }
+
+
+        if (noteCustomerID) {
+
+    try {
+
+        const response =
+            await fetch(
+                LIBRARY_API_URL,
+                {
+                    method: "POST",
+
+                    headers: {
+                        "Content-Type":
+                            "text/plain;charset=utf-8"
+                    },
+
+                    body:
+                        JSON.stringify({
+
+                            action:
+                                "LIBRARY_NOTE",
+
+                            customerID:
+                                noteCustomerID,
+
+                            bookID:
+                                bookID,
+
+                            noteID:
+                                noteID,
+
+                            note:
+                                noteText
+
+                        })
+                }
+            );
+
+        const data =
+            await response.json();
+
+        if (
+            !data ||
+            data.success !== true
+        ) {
+
+            console.warn(
+                "Note could not be synced.",
+                data
+            );
+
+        }
+        else {
+
+            console.log(
+                "Note synced:",
+                noteCustomerID,
+                bookID,
+                noteID
+            );
+
+        }
+
+    }
+    catch (error) {
+
+        console.error(
+            "Note sync failed.",
+            error
+        );
+
+    }
+
+}
+else {
+
+    console.warn(
+        "Note not synced: Customer ID not available."
+    );
+
+}
+
 
 
         noteEditor.style.display =
