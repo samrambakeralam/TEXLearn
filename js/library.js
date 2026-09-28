@@ -4141,6 +4141,10 @@ await loadCustomerBookmarks(
     customerID
 );
 
+await loadCustomerNotes(
+    customerID
+);
+
 renderBookSections();
     renderContinueReading();
     initialiseSearch();
