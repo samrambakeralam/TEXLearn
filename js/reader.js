@@ -3282,6 +3282,20 @@ saveNoteButton.addEventListener(
         });
 
 
+const customerID =
+    sessionStorage.getItem(
+        "texlearn_customer_id"
+    ) ||
+    localStorage.getItem(
+        "texlearn_customer_id"
+    ) ||
+    "";
+
+const noteID =
+    "note-" +
+    Date.now();
+
+
         try {
 
             localStorage.setItem(
