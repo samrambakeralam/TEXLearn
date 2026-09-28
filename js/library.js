@@ -1490,30 +1490,120 @@ async function loadCustomerFavourites(customerID) {
 }
 
 
-    if (bookmarkButton) {
+if (bookmarkButton) {
 
-        bookmarkButton.addEventListener(
-            "click",
-            function (event) {
+    bookmarkButton.addEventListener(
+        "click",
+        async function (event) {
 
-                event.preventDefault();
-                event.stopPropagation();
+            event.preventDefault();
+            event.stopPropagation();
 
-                const active =
-                    toggleSavedBook(
-                        BOOKMARKS_STORAGE_KEY,
-                        book.id
+            const active =
+                toggleSavedBook(
+                    BOOKMARKS_STORAGE_KEY,
+                    book.id
+                );
+
+            updateSavedButton(
+                bookmarkButton,
+                active
+            );
+
+
+            const customerID =
+                new URLSearchParams(
+                    window.location.search
+                ).get("cid") ||
+                sessionStorage.getItem(
+                    "texlearn_customer_id"
+                ) ||
+                "";
+
+
+            if (!customerID) {
+
+                console.warn(
+                    "Bookmark not synced: Customer ID not available."
+                );
+
+                return;
+
+            }
+
+
+            try {
+
+                const response =
+                    await fetch(
+                        LIBRARY_API_URL,
+                        {
+                            method: "POST",
+
+                            headers: {
+                                "Content-Type":
+                                    "text/plain;charset=utf-8"
+                            },
+
+                            body: JSON.stringify({
+
+                                action:
+                                    "LIBRARY_BOOKMARK",
+
+                                customerID:
+                                    customerID,
+
+                                bookID:
+                                    book.id,
+
+                                active:
+                                    active
+
+                            })
+                        }
                     );
 
-                updateSavedButton(
-                    bookmarkButton,
-                    active
+
+                const data =
+                    await response.json();
+
+
+                if (
+                    !data ||
+                    data.success !== true
+                ) {
+
+                    console.warn(
+                        "Bookmark could not be synced.",
+                        data
+                    );
+
+                }
+                else {
+
+                    console.log(
+                        "Bookmark synced:",
+                        customerID,
+                        book.id,
+                        active
+                    );
+
+                }
+
+            }
+            catch (error) {
+
+                console.error(
+                    "Bookmark sync failed.",
+                    error
                 );
 
             }
-        );
 
-    }
+        }
+    );
+
+}
 
 
   async function activateCard() {
