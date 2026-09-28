@@ -2298,7 +2298,7 @@ body {
    VERY SMALL PHONES
 ========================================================= */
 
-@media (max-width: 380px) {
+@media (max-width: 420px) {
 
     .reader-header {
 
@@ -2405,10 +2405,11 @@ body {
     }
 
 
+    .reader-paragraph,
     .reader-list-item {
 
         font-size:
-            14px;
+            clamp(14px, 1.2vw + 9px, 15px);
 
         line-height:
             1.64;
