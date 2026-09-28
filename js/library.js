@@ -360,6 +360,41 @@ function saveStoredLibraryData(
 }
 
 
+function convertBackendNotesToLibraryNotes(notes) {
+
+    if (!Array.isArray(notes)) {
+        return [];
+    }
+
+    return notes.map(function (item) {
+
+        return {
+            text:
+                item.note || "",
+
+            note:
+                item.note || "",
+
+            bookId:
+                item.bookID || "",
+
+            noteId:
+                item.noteID || "",
+
+            versionId:
+                "",
+
+            page:
+                "",
+
+            createdAt:
+                ""
+        };
+
+    });
+}
+
+
     /* =========================================================
        02. DOM REFERENCES
     ========================================================= */
