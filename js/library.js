@@ -4200,12 +4200,15 @@ renderBookSections();
         openBookModal:
             openBookModal,
 
-        closeBookModal:
-            closeBookModal,
+     closeBookModal:
+    closeBookModal,
 
-        refresh:
-            renderBookSections
+refresh:
+    renderBookSections,
 
-    };
+loadCustomerNotes:
+    loadCustomerNotes
+
+};
 
 })();
