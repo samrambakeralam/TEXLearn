@@ -684,6 +684,68 @@ async function loadCustomerFavourites(customerID) {
 }
 
 
+async function loadCustomerBookmarks(customerID) {
+
+    if (!customerID) {
+        return;
+    }
+
+    try {
+
+        const response =
+            await fetch(
+                LIBRARY_API_URL +
+                "?action=librarybookmarks" +
+                "&cid=" +
+                encodeURIComponent(customerID)
+            );
+
+        const data =
+            await response.json();
+
+        if (
+            !data ||
+            data.success !== true ||
+            !Array.isArray(data.bookmarks)
+        ) {
+
+            console.warn(
+                "Customer bookmarks could not be loaded.",
+                data
+            );
+
+            return;
+        }
+
+
+        const bookmarks =
+            new Set(
+                data.bookmarks
+            );
+
+
+        saveBookIds(
+            BOOKMARKS_STORAGE_KEY,
+            bookmarks
+        );
+
+
+        console.log(
+            "Customer bookmarks loaded:",
+            data.bookmarks
+        );
+
+    }
+    catch (error) {
+
+        console.error(
+            "Customer bookmarks request failed.",
+            error
+        );
+
+    }
+
+}
 
 
     /* =========================================================
@@ -3906,10 +3968,14 @@ return;
         "";
 
     await loadCustomerFavourites(
-        customerID
-    );
+    customerID
+);
 
-    renderBookSections();
+await loadCustomerBookmarks(
+    customerID
+);
+
+renderBookSections();
     renderContinueReading();
     initialiseSearch();
     initialiseSectionViewAll();
