@@ -3768,18 +3768,21 @@ function renderNotesHighlightsPanel() {
      */
 
     notes =
-        notes.filter(
-            function (item) {
+    notes.filter(
+        function (item) {
 
-                return (
-                    String(item.bookId) ===
-                        String(bookID) &&
+            return (
+                String(item.bookId) ===
+                    String(bookID) &&
+                (
+                    !item.versionId ||
                     String(item.versionId) ===
                         String(versionID)
-                );
+                )
+            );
 
-            }
-        );
+        }
+    );
 
 
     highlights =
