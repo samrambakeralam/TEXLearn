@@ -395,6 +395,67 @@ function convertBackendNotesToLibraryNotes(notes) {
 }
 
 
+async function loadCustomerNotes(customerID) {
+
+    if (!customerID) {
+        return;
+    }
+
+    try {
+
+        const response =
+            await fetch(
+                LIBRARY_API_URL +
+                "?action=librarynotes" +
+                "&cid=" +
+                encodeURIComponent(customerID)
+            );
+
+        const data =
+            await response.json();
+
+        if (
+            !data ||
+            data.success !== true ||
+            !Array.isArray(data.notes)
+        ) {
+
+            console.warn(
+                "Customer notes could not be loaded.",
+                data
+            );
+
+            return;
+        }
+
+        const convertedNotes =
+            convertBackendNotesToLibraryNotes(
+                data.notes
+            );
+
+        saveStoredLibraryData(
+            NOTES_STORAGE_KEY,
+            convertedNotes
+        );
+
+        console.log(
+            "Customer notes loaded:",
+            convertedNotes
+        );
+
+    }
+    catch (error) {
+
+        console.error(
+            "Customer notes request failed.",
+            error
+        );
+
+    }
+
+}
+
+
     /* =========================================================
        02. DOM REFERENCES
     ========================================================= */
