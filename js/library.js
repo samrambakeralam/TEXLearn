@@ -910,6 +910,91 @@ console.log(
 }
 
 
+async function loadCustomerHighlights(customerID) {
+
+    if (!customerID) {
+        return;
+    }
+
+    try {
+
+        const response =
+            await fetch(
+                LIBRARY_API_URL +
+                "?action=libraryhighlights" +
+                "&cid=" +
+                encodeURIComponent(customerID)
+            );
+
+        const data =
+            await response.json();
+
+        if (
+            !data ||
+            data.success !== true ||
+            !Array.isArray(data.highlights)
+        ) {
+
+            console.warn(
+                "Customer highlights could not be loaded.",
+                data
+            );
+
+            return;
+        }
+
+        const convertedHighlights =
+            data.highlights.map(
+                function (item) {
+
+                    return {
+
+                        text:
+                            item.text || "",
+
+                        bookId:
+                            item.bookID || "",
+
+                        versionId:
+                            item.versionID || "",
+
+                        page:
+                            item.page || "",
+
+                        createdAt:
+                            item.createdAt || "",
+
+                        highlightId:
+                            item.highlightID || ""
+
+                    };
+
+                }
+            );
+
+        saveStoredLibraryData(
+            HIGHLIGHTS_STORAGE_KEY,
+            convertedHighlights
+        );
+
+        console.log(
+            "Customer highlights loaded:",
+            convertedHighlights
+        );
+
+    }
+    catch (error) {
+
+        console.error(
+            "Customer highlights request failed.",
+            error
+        );
+
+    }
+
+}
+
+
     /* =========================================================
        04. MOBILE SIDEBAR
     ========================================================= */
@@ -4138,6 +4223,10 @@ return;
 );
 
 await loadCustomerBookmarks(
+    customerID
+);
+
+await loadCustomerHighlights(
     customerID
 );
 
