@@ -780,23 +780,25 @@ if (!data.success) {
             }
 
 
-            pages =
-                Array.isArray(data.pages)
-                    ? data.pages
-                    : [];
+          pages =
+    Array.isArray(data.pages)
+        ? data.pages
+        : [];
 
 
-            if (!pages.length) {
+if (!pages.length) {
 
-                showError(
-                    "No reading content is available for this book."
-                );
+    showError(
+        "No reading content is available for this book."
+    );
 
-                return;
-            }
+    return;
+}
 
 
-            renderPage();
+renderNotesHighlightsPanel();
+
+renderPage();
 
 titleStylePromise.then(
     function () {
