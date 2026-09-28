@@ -278,7 +278,7 @@ function ensureSelectionToolbar() {
         )
         .addEventListener(
             "click",
-            function () {
+           async function () {
 
                 if (
                     !readerSavedRange ||
@@ -334,23 +334,124 @@ function ensureSelectionToolbar() {
                 });
 
 
-                try {
+           try {
 
-                    localStorage.setItem(
-                        "samramba_library_highlights",
-                        JSON.stringify(
-                            highlights
-                        )
-                    );
+    localStorage.setItem(
+        "samramba_library_highlights",
+        JSON.stringify(
+            highlights
+        )
+    );
 
-                } catch (error) {
+} catch (error) {
 
-                    console.warn(
-                        "Unable to save highlight.",
-                        error
-                    );
+    console.warn(
+        "Unable to save highlight.",
+        error
+    );
 
+}
+
+
+/*
+ * Sync the new highlight with the
+ * central personal library.
+ */
+
+if (customerID) {
+
+    try {
+
+        const latestHighlight =
+            highlights[
+                highlights.length - 1
+            ];
+
+        const response =
+            await fetch(
+                LIBRARY_API_URL,
+                {
+                    method: "POST",
+
+                    headers: {
+                        "Content-Type":
+                            "text/plain;charset=utf-8"
+                    },
+
+                    body:
+                        JSON.stringify({
+
+                            action:
+                                "LIBRARY_HIGHLIGHT",
+
+                            customerID:
+                                customerID,
+
+                            bookID:
+                                latestHighlight.bookId,
+
+                            highlightID:
+                                "highlight-" +
+                                Date.now(),
+
+                            text:
+                                latestHighlight.text,
+
+                            versionID:
+                                latestHighlight.versionId,
+
+                            page:
+                                latestHighlight.page,
+
+                            createdAt:
+                                latestHighlight.createdAt
+
+                        })
                 }
+            );
+
+        const data =
+            await response.json();
+
+        if (
+            !data ||
+            data.success !== true
+        ) {
+
+            console.warn(
+                "Highlight could not be synced.",
+                data
+            );
+
+        }
+        else {
+
+            console.log(
+                "Highlight synced:",
+                customerID,
+                latestHighlight.bookId
+            );
+
+        }
+
+    }
+    catch (error) {
+
+        console.error(
+            "Highlight sync failed.",
+            error
+        );
+
+    }
+
+}
+else {
+
+    console.warn(
+        "Highlight not synced: Customer ID not available."
+    );
+
+}
 
 
                 /*
