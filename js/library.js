@@ -3787,11 +3787,15 @@ function renderNotesView() {
                             }
                         </div>
 
-                        <div class="library-note-card-content">
-                            ${escapeHTML(
-                                item.text || ""
-                            )}
-                        </div>
+                       <div class="library-note-card-content">
+    ${
+        escapeHTML(
+            item.type === "note"
+                ? (item.note || "")
+                : (item.text || "")
+        )
+    }
+</div>
 
                     </article>
                 `;
