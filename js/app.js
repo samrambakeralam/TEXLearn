@@ -91,33 +91,6 @@ function closeRegistrationModal() {
 
 
 // =======================================
-// INSTITUTIONS
-// =======================================
-
-function initialiseInstitutionCards() {
-
-    institutionCards.forEach(card => {
-
-        card.addEventListener("click", () => {
-
-            institutionCards.forEach(c =>
-
-                c.classList.remove("active")
-
-            );
-
-            card.classList.add("active");
-
-            selectedInstitution =
-                card.dataset.value;
-
-        });
-
-    });
-
-}
-
-// =======================================
 // CONTINUE BUTTON
 // =======================================
 
