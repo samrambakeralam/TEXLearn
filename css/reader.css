@@ -1122,9 +1122,7 @@ body {
 
 
 .reader-display-title-large {
-
-    font-size:
-        38px;
+    font-size: clamp(37px, 0.35vw + 37px, 38px);
 }
 
 
@@ -1240,11 +1238,9 @@ body {
     }
 
 
-    .reader-display-title-large {
-
-        font-size:
-            26px;
-    }
+   .reader-display-title-large {
+    font-size: clamp(25px, 0.5vw + 24px, 26px);
+}
 
 
     .reader-display-title-medium {
@@ -1280,7 +1276,7 @@ body {
    DISPLAY TITLE — SMALL PHONE
 ========================================================= */
 
-@media (max-width: 380px) {
+@media (max-width: 420px) {
 
     .reader-display-title {
 
@@ -1316,11 +1312,11 @@ body {
 
     .reader-display-title-large {
 
-        font-size:
-            19px;
+        font-size: clamp(18px, 0.5vw + 17px, 19px);
+            
 
         font-weight:
-            700;
+            600;
     }
 
 
