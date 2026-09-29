@@ -2622,8 +2622,8 @@ case "table": {
                     class="reader-display-title-subtitle"
                     style="
                         color: ${secondary};
-                        font-size: 16px;
-                        font-weight: 400;
+                        font-size: 12px;
+                        font-weight: 200;
                         margin-top: 2px;
                     "
                 >
