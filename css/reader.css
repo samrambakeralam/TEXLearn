@@ -1135,8 +1135,7 @@ body {
 
 .reader-display-title-small {
 
-    font-size:
-        22px;
+     font-size: clamp(20px, 0.35vw + 19px, 21px);
 }
 
 
@@ -1211,7 +1210,7 @@ body {
    DISPLAY TITLE — PHONE
 ========================================================= */
 
-@media (max-width: 600px) {
+@media (max-width: 767px) {
 
     .reader-display-title {
 
@@ -1252,8 +1251,8 @@ body {
 
     .reader-display-title-small {
 
-        font-size:
-            17px;
+        font-size: clamp(16px, 0.5vw + 16px, 17px);
+           
     }
 
 
@@ -1332,8 +1331,8 @@ body {
 
     .reader-display-title-small {
 
-        font-size:
-            14px;
+        font-size: clamp(14px, 0.5vw + 13px, 15px);
+           
 
         font-weight:
             600;
