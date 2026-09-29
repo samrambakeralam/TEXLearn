@@ -110,7 +110,8 @@ function initialiseButtons() {
 }
 
 function openModal() {
-    window.location.href = "register.html";
+    resetForm();
+    modal.classList.add("active");
 }
 
 function closeRegistrationModal() {
