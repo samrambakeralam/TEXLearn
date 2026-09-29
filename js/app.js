@@ -91,30 +91,6 @@ function closeRegistrationModal() {
 
 
 // =======================================
-// CONTINUE BUTTON
-// =======================================
-
-function initialiseContinueButton() {
-
-    continueButton.addEventListener("click", () => {
-
-        console.log("Continue button clicked");
-
-        if (!validateForm()) {
-            return;
-        }
-
-        console.log("Calling registerCustomer()");
-
-        setLoading(true);
-
-        registerCustomer();
-
-    });
-
-}
-
-// =======================================
 // VALIDATION
 // =======================================
 
