@@ -89,29 +89,6 @@ function closeRegistrationModal() {
     modal.classList.remove("active");
 }
 
-// =======================================
-// MODAL
-// =======================================
-
-function initialiseModal() {
-
-    closeModal.addEventListener("click", () => {
-
-        closeRegistrationModal();
-
-    });
-
-    window.addEventListener("click", (e) => {
-
-        if (e.target === modal) {
-
-            closeRegistrationModal();
-
-        }
-
-    });
-
-}
 
 // =======================================
 // INSTITUTIONS
