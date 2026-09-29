@@ -1251,7 +1251,7 @@ body {
 
     .reader-display-title-small {
 
-        font-size: clamp(16px, 0.5vw + 16px, 17px);
+        font-size: clamp(14px, 0.5vw + 15px, 15px);
            
     }
 
@@ -1330,11 +1330,11 @@ body {
 
     .reader-display-title-small {
 
-        font-size: clamp(14px, 0.5vw + 13px, 15px);
+        font-size: clamp(12px, 0.5vw + 12px, 13px);
            
 
         font-weight:
-            400;
+            200;
     }
 
 
