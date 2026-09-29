@@ -1822,6 +1822,19 @@ case "heading": {
             ? escapeHTML(data.backgroundColor)
             : "var(--reader-theme-primary, #5B1A8F)";
 
+
+            console.log(
+    "HEADING THEME DEBUG:",
+    {
+        text: data.text,
+        dataColor: data.color,
+        dataBackground: data.backgroundColor,
+        finalColor: color,
+        finalBackground: backgroundColor
+    }
+);
+
+
     const weight =
         data.weight
             ? safeCssWeight(data.weight)
