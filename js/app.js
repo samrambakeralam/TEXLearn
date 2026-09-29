@@ -18,14 +18,6 @@ const CONFIG = {
 // GLOBAL ELEMENTS
 // =======================================
 
-let modal;
-let closeModal;
-let continueButton;
-let institutionCards;
-
-let studentName;
-let studentEmail;
-
 let selectedInstitution = "";
 
 // =======================================
