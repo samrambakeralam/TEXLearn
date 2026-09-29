@@ -42,12 +42,6 @@ if (window.lucide) {
 
     initialiseButtons();
 
-    initialiseModal();
-
-    initialiseInstitutionCards();
-
-    initialiseContinueButton();
-
 });
 
 // =======================================
