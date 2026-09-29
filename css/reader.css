@@ -1152,7 +1152,7 @@ body {
         13px;
 
     font-weight:
-        400;
+        200;
 
     line-height:
         1.25;
@@ -1200,8 +1200,7 @@ body {
 
     .reader-display-title-small {
 
-        font-size:
-            20px;
+       font-size: clamp(15px, 0.35vw + 14px, 16px);
     }
 
 }
