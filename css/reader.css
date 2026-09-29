@@ -988,12 +988,12 @@ body {
    BOOK COVER — NORMAL PHONE
 ========================================================= */
 
-@media (max-width: 600px) {
+@media (max-width: 767px) {
 
     .reader-cover {
 
         width:
-            175px;
+            150px;
 
         max-width:
             100%;
@@ -1025,12 +1025,12 @@ body {
    BOOK COVER — SMALL PHONE
 ========================================================= */
 
-@media (max-width: 380px) {
+@media (max-width: 420px) {
 
     .reader-cover {
 
         width:
-            125px;
+            110px;
 
         max-width:
             100%;
