@@ -89,25 +89,6 @@ function closeRegistrationModal() {
     modal.classList.remove("active");
 }
 
-// =======================================
-// RESET
-// =======================================
-
-function resetForm() {
-
-    studentName.value = "";
-
-    studentEmail.value = "";
-
-    selectedInstitution = "";
-
-    institutionCards.forEach(card =>
-
-        card.classList.remove("active")
-
-    );
-
-}
 
 // =======================================
 // LOADING
