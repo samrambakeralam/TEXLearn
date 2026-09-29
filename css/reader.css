@@ -1312,12 +1312,9 @@ body {
     .reader-display-title-large {
 
         font-size: clamp(18px, 0.5vw + 17px, 19px);
-            
 
         font-weight:
             600;
-
-        white-space: nowrap;
     }
 
 

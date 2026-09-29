@@ -2537,16 +2537,20 @@ case "table": {
                         );
 
 
-                    const size =
-                        [
-                            "large",
-                            "medium",
-                            "small"
-                        ].includes(
-                            part.size
-                        )
-                            ? part.size
-                            : "medium";
+                  const size =
+    index === 0
+        ? "large"
+        : (
+            [
+                "large",
+                "medium",
+                "small"
+            ].includes(
+                part.size
+            )
+                ? part.size
+                : "medium"
+        );
 
 
                     const color =
