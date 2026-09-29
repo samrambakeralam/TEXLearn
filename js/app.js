@@ -37,22 +37,6 @@ if (window.lucide) {
 
     console.log("SAMRAMBA KERALAM 2030 Loaded");
 
-    // Modal Elements
-
-    modal = document.getElementById("registrationModal");
-
-    closeModal = document.getElementById("closeModal");
-
-    continueButton = document.getElementById("continuePayment");
-
-    institutionCards =
-        document.querySelectorAll(".institution-card");
-
-    studentName =
-        document.getElementById("studentName");
-
-    studentEmail =
-        document.getElementById("studentEmail");
 
     // Buttons
 
