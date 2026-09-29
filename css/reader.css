@@ -1123,6 +1123,7 @@ body {
 
 .reader-display-title-large {
     font-size: clamp(37px, 0.35vw + 37px, 38px);
+    display: inline;
 }
 
 
@@ -2449,7 +2450,7 @@ body {
             5px 8px;
 
         font-size:
-    clamp(15px, 0.5vw + 14px, 15.5px);
+    clamp(14.5px, 0.5vw + 13px, 15px);
 
         font-weight:
             600;
