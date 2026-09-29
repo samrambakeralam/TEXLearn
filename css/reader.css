@@ -1913,7 +1913,7 @@ body {
    PHONE
 ========================================================= */
 
-@media (max-width: 600px) {
+@media (max-width: 767px) {
 
     body {
 
@@ -2449,7 +2449,7 @@ body {
             5px 8px;
 
         font-size:
-    clamp(15px, 0.5vw + 14px, 16px);
+    clamp(15px, 0.5vw + 14px, 15.5px);
 
         font-weight:
             600;
