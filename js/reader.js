@@ -220,6 +220,18 @@ if (versionID) {
 
     }
 
+    console.log(
+    "READER THEME:",
+    {
+        themePrimary,
+        themeSecondary,
+        cssPrimary: getComputedStyle(document.documentElement)
+            .getPropertyValue("--reader-theme-primary"),
+        cssSecondary: getComputedStyle(document.documentElement)
+            .getPropertyValue("--reader-theme-secondary")
+    }
+);
+
 
     /* =========================================================
        HELPERS
