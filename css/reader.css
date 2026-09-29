@@ -993,7 +993,7 @@ body {
     .reader-cover {
 
         width:
-            150px;
+            clamp(140px, 32vw, 150px);
 
         max-width:
             100%;
@@ -1030,7 +1030,7 @@ body {
     .reader-cover {
 
         width:
-            110px;
+            clamp(105px, 28vw, 110px);
 
         max-width:
             100%;
