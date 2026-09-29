@@ -2022,6 +2022,16 @@ if (bookmarkButton) {
         }
 
 
+        console.log(
+    "READER URL THEME SOURCE:",
+    {
+        bookId: book.id,
+        themePrimary: book.themePrimary,
+        themeSecondary: book.themeSecondary
+    }
+);
+
+
         if (book.themeSecondary) {
 
             params.set(
