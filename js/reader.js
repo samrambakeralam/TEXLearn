@@ -220,18 +220,6 @@ if (versionID) {
 
     }
 
-    console.log(
-    "READER THEME:",
-    {
-        themePrimary,
-        themeSecondary,
-        cssPrimary: getComputedStyle(document.documentElement)
-            .getPropertyValue("--reader-theme-primary"),
-        cssSecondary: getComputedStyle(document.documentElement)
-            .getPropertyValue("--reader-theme-secondary")
-    }
-);
-
 
     /* =========================================================
        HELPERS
@@ -1821,18 +1809,6 @@ case "heading": {
         data.backgroundColor
             ? escapeHTML(data.backgroundColor)
             : "var(--reader-theme-primary, #5B1A8F)";
-
-
-            console.log(
-    "HEADING THEME DEBUG:",
-    {
-        text: data.text,
-        dataColor: data.color,
-        dataBackground: data.backgroundColor,
-        finalColor: color,
-        finalBackground: backgroundColor
-    }
-);
 
 
     const weight =
