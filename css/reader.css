@@ -1101,7 +1101,7 @@ body {
         border-box;
 
     overflow:
-        hidden;
+        visible;
 }
 
 
@@ -1233,7 +1233,7 @@ body {
             border-box;
 
         overflow:
-            hidden;
+            visible;
     }
 
 
@@ -1298,7 +1298,7 @@ body {
             border-box;
 
         overflow:
-            hidden;
+            visible;
     }
 
 
