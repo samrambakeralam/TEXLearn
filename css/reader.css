@@ -1136,7 +1136,7 @@ body {
 
 .reader-display-title-small {
 
-     font-size: clamp(20px, 0.35vw + 19px, 21px);
+     font-size: clamp(15px, 0.35vw + 14px, 16px);
 }
 
 
