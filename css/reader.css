@@ -348,13 +348,13 @@ body {
         var(
             --reader-theme-primary,
             #5B1A8F
-        );
+         ) !important;
 
     color:
     var(
         --reader-theme-secondary,
         #ffffff
-    );
+     ) !important;
 
    font-size:
     clamp(18px, 0.35vw + 18px, 19px);
