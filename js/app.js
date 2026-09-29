@@ -89,64 +89,6 @@ function closeRegistrationModal() {
     modal.classList.remove("active");
 }
 
-
-// =======================================
-// VALIDATION
-// =======================================
-
-function validateForm() {
-
-    const name =
-        studentName.value.trim();
-
-    const email =
-        studentEmail.value.trim();
-
-    if (name === "") {
-
-        alert("Please enter your full name.");
-
-        studentName.focus();
-
-        return false;
-
-    }
-
-    if (email === "") {
-
-        alert("Please enter your email.");
-
-        studentEmail.focus();
-
-        return false;
-
-    }
-
-    const emailRegex =
-        /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-
-    if (!emailRegex.test(email)) {
-
-        alert("Please enter a valid email.");
-
-        studentEmail.focus();
-
-        return false;
-
-    }
-
-    if (selectedInstitution === "") {
-
-        alert("Please select your institution.");
-
-        return false;
-
-    }
-
-    return true;
-
-}
-
 // =======================================
 // RESET
 // =======================================
