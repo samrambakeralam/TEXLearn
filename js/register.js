@@ -175,8 +175,10 @@ async function loadInstitutions(type) {
 
         defaultOption.value = "";
 
-        defaultOption.textContent =
-            "Choose Your Institution";
+       defaultOption.textContent =
+    type === "SCHOOL"
+        ? "Choose Your School"
+        : "Choose Your College";
 
         institutionSelect.appendChild(
             defaultOption
