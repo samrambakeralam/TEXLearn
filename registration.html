@@ -5,12 +5,11 @@
 
     <meta charset="UTF-8">
 
-    <meta name="viewport"
-          content="width=device-width, initial-scale=1.0">
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 
-    <title>
-        Complete Your Registration | TEXLearn LEARNING 
-    </title>
+    <title>Get Started | TEXLearn Learning Modules</title>
 
     <link rel="preconnect"
           href="https://fonts.googleapis.com">
@@ -19,28 +18,35 @@
           href="https://fonts.gstatic.com"
           crossorigin>
 
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
-          rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet">
 
-    <link rel="stylesheet"
-          href="css/register.css">
+    <link
+        rel="stylesheet"
+        href="css/register.css">
 
 </head>
 
+
 <body>
 
-<!-- ==========================
+
+<!-- ==================================================
      HEADER
-========================== -->
+================================================== -->
 
 <header class="registration-header">
 
-    <div class="container">
+    <div class="header-inner">
 
-        <a href="index.html" class="logo">
+        <a
+            href="index.html"
+            class="logo">
 
-            <img src="assets/logo.webp"
-                 alt="TEXLearn Learning Modules">
+            <img
+                src="assets/logo.webp"
+                alt="TEXLearn Learning Modules">
 
         </a>
 
@@ -50,549 +56,283 @@
 
 
 
-<!-- ==========================
-     PAGE HERO
-========================== -->
+<!-- ==================================================
+     MAIN
+================================================== -->
 
-<section class="registration-hero">
+<main class="registration-main">
 
-    <div class="container">
+    <div class="registration-container">
 
-        <div class="page-heading">
 
-            <div class="progress-indicator">
+        <!-- ==========================================
+             HEADING
+        =========================================== -->
 
-                <div class="step active">
-
-                    <span>1</span>
-
-                    <p>Registration</p>
-
-                </div>
-
-                <div class="progress-line"></div>
-
-                <div class="step">
-
-                    <span>2</span>
-
-                    <p>Secure Payment</p>
-
-                </div>
-
-            </div>
+        <div class="registration-heading">
 
             <h1>
-
-                Unlock Your Learning Library
-
+                Get Started with TEXLearn
             </h1>
 
             <p>
-
-                You're just one step away from lifetime access to the
-                Complete Entrepreneurial Learning Library.
-
+                Enter your details to continue to secure checkout.
             </p>
 
         </div>
 
-    </div>
-
-</section>
 
 
+        <!-- ==========================================
+             REGISTRATION CARD
+        =========================================== -->
 
-<!-- ==========================
-     MAIN CONTENT
-========================== -->
-
-<section class="registration-content">
-
-    <div class="container">
-
-        <div class="registration-wrapper">
+        <div class="registration-card">
 
 
+            <form
+                id="registrationForm"
+                novalidate>
 
-            <!-- LEFT PANEL -->
 
-            <div class="registration-info">
+                <!-- ==================================
+                     NAME
+                =================================== -->
 
-                <div class="product-image">
+                <div class="form-group">
 
-                    <img src="assets/bundle-mockup.webp"
-                         alt="TEXLearn Learning Modules">
+                    <label for="name">
+                        Full Name
+                        <span>*</span>
+                    </label>
+
+                    <div class="input-box">
+
+                        <i data-lucide="user"></i>
+
+                        <input
+                            type="text"
+                            id="name"
+                            name="name"
+                            placeholder="Enter your full name"
+                            autocomplete="name">
+
+                    </div>
+
+                    <small class="validation-message"></small>
 
                 </div>
 
-                <h2>
 
-                    Complete Learning Library
 
-                </h2>
+                <!-- ==================================
+                     CONTACT
+                =================================== -->
 
-                <p>
+                <div class="form-group">
 
-                    Invest once and gain lifetime access to carefully curated
-                    learning resources designed to strengthen entrepreneurial
-                    thinking, financial awareness, business knowledge,
-                    leadership, and lifelong learning.
+                    <label for="contact">
+                        Contact
+                        <span>*</span>
+                    </label>
 
-                </p>
+                    <div class="input-box">
 
-                <div class="feature-grid">
+                        <i data-lucide="phone"></i>
 
-    <div class="feature-card">
+                        <input
+                            type="tel"
+                            id="contact"
+                            name="contact"
+                            placeholder="Enter your mobile number"
+                            autocomplete="tel"
+                            inputmode="numeric">
 
-        <i data-lucide="book-open"></i>
+                    </div>
 
-        <div>
+                    <small class="validation-message"></small>
 
-            <h4>500+ Learning Modules</h4>
+                </div>
 
-            <p>
-                Carefully curated practical learning resources.
-            </p>
 
-        </div>
 
-    </div>
+                <!-- ==================================
+                     EMAIL
+                =================================== -->
 
-    <div class="feature-card">
+                <div class="form-group">
 
-        <i data-lucide="target"></i>
+                    <label for="email">
+                        Email Address
+                        <span>*</span>
+                    </label>
 
-        <div>
+                    <div class="input-box">
 
-            <h4>12 Learning Tracks</h4>
+                        <i data-lucide="mail"></i>
 
-            <p>
-                Business, Finance, Leadership, Psychology and more.
-            </p>
+                        <input
+                            type="email"
+                            id="email"
+                            name="email"
+                            placeholder="Enter your email address"
+                            autocomplete="email"
+                            inputmode="email">
 
-        </div>
+                    </div>
 
-    </div>
+                    <small class="validation-message"></small>
 
-    <div class="feature-card">
+                </div>
 
-        <i data-lucide="infinity"></i>
 
-        <div>
 
-            <h4>Lifetime Access</h4>
+                <!-- ==================================
+                     INSTITUTION TYPE
+                =================================== -->
 
-            <p>
-                Pay once and continue learning anytime.
-            </p>
+                <div class="form-group">
 
-        </div>
+                    <label for="institutionType">
+                        Institution Type
+                        <span>*</span>
+                    </label>
 
-    </div>
+                    <div class="input-box">
 
-    <div class="feature-card">
+                        <i data-lucide="graduation-cap"></i>
 
-        <i data-lucide="zap"></i>
+                        <select
+                            id="institutionType"
+                            name="institutionType"
+                            required>
 
-        <div>
+                            <option value="">
+                                Select institution type
+                            </option>
 
-            <h4>Instant Digital Delivery</h4>
+                            <option value="SCHOOL">
+                                School
+                            </option>
 
-            <p>
-                Get immediate access after successful payment.
-            </p>
+                            <option value="COLLEGE">
+                                College
+                            </option>
 
-        </div>
+                            <option value="OTHERS">
+                                Others
+                            </option>
 
-    </div>
+                        </select>
 
-    <div class="feature-card">
+                    </div>
 
-        <i data-lucide="shield-check"></i>
+                    <small class="validation-message"></small>
 
-        <div>
+                </div>
 
-            <h4>Secure Checkout</h4>
 
-            <p>
-                Protected payment powered by Razorpay.
-            </p>
 
-        </div>
+                <!-- ==================================
+                     INSTITUTION
+                =================================== -->
 
-    </div>
+                <div
+                    class="form-group"
+                    id="institutionGroup">
 
-    <div class="feature-card">
+                    <label for="institution">
+                        Institution
+                        <span>*</span>
+                    </label>
 
-        <i data-lucide="smartphone"></i>
+                    <div class="input-box">
 
-        <div>
+                        <i data-lucide="school"></i>
 
-            <h4>Learn Anywhere</h4>
+                        <select
+                            id="institution"
+                            name="institution"
+                            required>
 
-            <p>
-                Access from mobile, tablet and desktop.
-            </p>
+                            <option value="">
+                                Select institution type first
+                            </option>
 
-        </div>
+                        </select>
 
-    </div>
+                    </div>
 
-</div>
+                    <small class="validation-message"></small>
 
-                <div class="price-box">
+                </div>
 
-                    <span class="price">
 
-                        ₹899
 
+                <!-- ==================================
+                     CONTINUE
+                =================================== -->
+
+                <button
+                    id="continueButton"
+                    type="submit">
+
+                    <span>
+                        Continue to Payment
                     </span>
 
-                    <span class="purchase">
+                    <i data-lucide="arrow-right"></i>
 
-                        One-Time Purchase
+                </button>
 
+
+
+                <!-- ==================================
+                     SECURITY NOTE
+                =================================== -->
+
+                <div class="checkout-note">
+
+                    <i data-lucide="lock-keyhole"></i>
+
+                    <span>
+                        Secure checkout powered by Razorpay
                     </span>
 
                 </div>
 
-            </div>
 
-
-
-            <!-- RIGHT PANEL -->
-
-<div class="registration-card">
-
-    <div class="form-badge">
-
-        <i data-lucide="shield-check"></i>
-
-        <span>Secure Registration</span>
-
-    </div>
-
-    <h2>
-
-        Complete Your Registration
-
-    </h2>
-
-    <p class="form-description">
-
-        Enter your details below to continue to secure checkout and unlock your
-        complete learning library.
-
-    </p>
-
-    <form id="registrationForm" novalidate>
-
-        <!-- FULL NAME -->
-
-        <div class="form-group">
-
-            <label for="name">
-
-                Full Name <span>*</span>
-
-            </label>
-
-            <div class="input-box">
-
-                <i data-lucide="user"></i>
-
-                <input
-                    type="text"
-                    id="name"
-                    name="name"
-                    placeholder="John Mathew"
-                    autocomplete="name">
-
-            </div>
-
-            <small class="validation-message"></small>
-
-        </div>
-
-
-        <!-- CONTACT -->
-
-<div class="form-group">
-
-    <label for="contact">
-
-        Contact <span>*</span>
-
-    </label>
-
-    <div class="input-box">
-
-        <i data-lucide="phone"></i>
-
-        <input
-            type="tel"
-            id="contact"
-            name="contact"
-            placeholder="9876543210"
-            autocomplete="tel">
-
-    </div>
-
-    <small class="validation-message"></small>
-
-</div>
-
-
-        <!-- EMAIL -->
-
-        <div class="form-group">
-
-            <label for="email">
-
-                Email Address <span>*</span>
-
-            </label>
-
-            <div class="input-box">
-
-                <i data-lucide="mail"></i>
-
-                <input
-                    type="email"
-                    id="email"
-                    name="email"
-                    placeholder="john@example.com"
-                    autocomplete="email">
-
-            </div>
-
-            <small class="validation-message"></small>
+            </form>
 
         </div>
 
 
 
-    <!-- INSTITUTION TYPE -->
+        <!-- ==========================================
+             SMALL FOOTNOTE
+        =========================================== -->
 
-<div class="form-group">
+        <p class="registration-footnote">
 
-    <label for="institutionType">
-
-        Institution Type <span>*</span>
-
-    </label>
-
-    <div class="input-box">
-
-        <i data-lucide="graduation-cap"></i>
-
-        <select
-            id="institutionType"
-            name="institutionType"
-            required>
-
-            <option value="">
-                Select institution type
-            </option>
-
-            <option value="SCHOOL">
-                School
-            </option>
-
-            <option value="COLLEGE">
-                College
-            </option>
-
-            <option value="OTHERS">
-                Others
-            </option>
-
-        </select>
-
-    </div>
-
-    <small class="validation-message"></small>
-
-</div>
-
-
-<!-- INSTITUTION -->
-
-<div
-    class="form-group"
-    id="institutionGroup">
-
-    <label for="institution">
-
-        Institution <span>*</span>
-
-    </label>
-
-    <div class="input-box">
-
-        <i data-lucide="school"></i>
-
-        <select
-            id="institution"
-            name="institution"
-            required>
-
-            <option value="">
-                Select institution type first
-            </option>
-
-        </select>
-
-    </div>
-
-    <small class="validation-message"></small>
-
-</div>
-
-
-
-        <!-- TRUST STRIP -->
-
-        <div class="trust-strip">
-
-            <div class="trust-pill">
-
-                <i data-lucide="shield-check"></i>
-
-                <span>Secure Checkout</span>
-
-            </div>
-
-            <div class="trust-pill">
-
-                <i data-lucide="zap"></i>
-
-                <span>Instant Access</span>
-
-            </div>
-
-            <div class="trust-pill">
-
-                <i data-lucide="mail-check"></i>
-
-                <span>Email Delivery</span>
-
-            </div>
-
-        </div>
-
-
-
-        <!-- ORDER SUMMARY -->
-
-        <div class="mini-summary">
-
-            <div class="summary-header">
-
-                <span>Your Purchase</span>
-
-            </div>
-
-            <div class="summary-row">
-
-                <span>Product</span>
-
-                <strong>TEXLearn Learning Modules</strong>
-
-            </div>
-
-
-            <div class="summary-row">
-
-                <span>Price</span>
-
-                <strong>₹899</strong>
-
-            </div>
-
-        </div>
-
-
-
-        <!-- BUTTON -->
-
-        <button
-            id="continueButton"
-            type="submit">
-
-            Continue to Secure Checkout
-
-            <i data-lucide="arrow-right"></i>
-
-        </button>
-
-
-
-        <!-- FOOTER -->
-
-        <div class="payment-footer">
-
-            <div class="payment-brand">
-
-                <i data-lucide="lock-keyhole"></i>
-
-                <span>
-
-                    Secure payment powered by Razorpay
-
-                </span>
-
-            </div>
-
-            <p>
-
-                One-Time Purchase • No Subscription • Lifetime Access
-
-            </p>
-
-        </div>
-
-    </form>
-
-</div>
-
-
-
-<!-- ==========================
-     HELP
-========================== -->
-
-<section class="registration-help">
-
-    <div class="container">
-
-        <h3>
-
-            Need Assistance?
-
-        </h3>
-
-        <p>
-
-            If you have any questions before completing your purchase,
-            feel free to contact us.
+            One-time purchase • No subscription
 
         </p>
 
-        <a href="mailto:texlearnmodules@gmail.com">
-
-            texlearnmodules@gmail.com
-
-        </a>
 
     </div>
 
-</section>
+</main>
+
+
+
+<!-- ==================================================
+     SCRIPTS
+================================================== -->
 
 <script src="js/config.js"></script>
 
 <script src="js/register.js"></script>
+
 
 </body>
 
