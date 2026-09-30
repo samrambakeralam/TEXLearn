@@ -313,7 +313,7 @@ async function addInstitution(e) {
 
     try {
 
-        const response =
+                const response =
             await fetch(
                 WEB_APP_URL +
                 "?action=adminaddinstitution",
@@ -349,8 +349,53 @@ async function addInstitution(e) {
             );
 
 
-        const result =
-            await response.json();
+        //------------------------------------------------
+        // Read server response as text first
+        //------------------------------------------------
+
+        const responseText =
+            await response.text();
+
+
+        console.log(
+            "ADMIN ADD RESPONSE:",
+            responseText
+        );
+
+
+        //------------------------------------------------
+        // Parse JSON response
+        //------------------------------------------------
+
+        let result;
+
+        try {
+
+            result =
+                JSON.parse(
+                    responseText
+                );
+
+        } catch (parseError) {
+
+            console.error(
+                "ADMIN ADD JSON PARSE ERROR:",
+                parseError
+            );
+
+            console.error(
+                "RAW SERVER RESPONSE:",
+                responseText
+            );
+
+            showMessage(
+                "The institution may have been added, but the server response could not be read.",
+                "error"
+            );
+
+            return;
+
+        }
 
 
          if (!result.success) {
