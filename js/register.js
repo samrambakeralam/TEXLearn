@@ -128,16 +128,18 @@ async function loadInstitutions(type) {
 
     institutionSelect.innerHTML = "";
 
-    const loadingOption =
+    const defaultOption =
         document.createElement("option");
 
-    loadingOption.value = "";
+    defaultOption.value = "";
 
-    loadingOption.textContent =
-        "Loading institutions...";
+    defaultOption.textContent =
+        type === "SCHOOL"
+            ? "Choose Your School"
+            : "Choose Your College";
 
     institutionSelect.appendChild(
-        loadingOption
+        defaultOption
     );
 
 
@@ -165,25 +167,6 @@ async function loadInstitutions(type) {
             );
 
         }
-
-
-        institutionSelect.innerHTML = "";
-
-
-        const defaultOption =
-            document.createElement("option");
-
-        defaultOption.value = "";
-
-       defaultOption.textContent =
-    type === "SCHOOL"
-        ? "Choose Your School"
-        : "Choose Your College";
-
-        institutionSelect.appendChild(
-            defaultOption
-        );
-
 
         result.institutions.forEach(
             function (institution) {
