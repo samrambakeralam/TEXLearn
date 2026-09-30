@@ -353,7 +353,7 @@ async function addInstitution(e) {
             await response.json();
 
 
-        if (!result.success) {
+         if (!result.success) {
 
             showMessage(
                 result.message ||
@@ -367,14 +367,34 @@ async function addInstitution(e) {
 
 
         //------------------------------------------------
-        // Success
+        // SUCCESS
+        //------------------------------------------------
+
+        const addedInstitution =
+            result.institution;
+
+
+        if (!addedInstitution) {
+
+            showMessage(
+                "Institution was added, but the server did not return the institution details.",
+                "error"
+            );
+
+            return;
+
+        }
+
+
+        //------------------------------------------------
+        // Show success immediately
         //------------------------------------------------
 
         showMessage(
 
             "Institution added successfully. " +
             "Institution ID: " +
-            result.institution.id,
+            addedInstitution.id,
 
             "success"
 
@@ -389,15 +409,20 @@ async function addInstitution(e) {
 
 
         //------------------------------------------------
-        // Add new institution to table
+        // Update table
         //------------------------------------------------
 
-        if (
-            result.institution
-        ) {
+        try {
 
             addInstitutionToTable(
-                result.institution
+                addedInstitution
+            );
+
+        } catch (tableError) {
+
+            console.error(
+                "Institution added, but table update failed:",
+                tableError
             );
 
         }
