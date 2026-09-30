@@ -192,9 +192,20 @@ if (versionID) {
 
     let pages = [];
 
-    let currentPageIndex = 0;
+let currentPageIndex = 0;
 
-    let bookAuthor = "";
+let bookAuthor = "";
+
+
+/* =========================================================
+   READING PROGRESS / HISTORY
+========================================================= */
+
+let savedProgress = null;
+
+let progressSaveTimer = null;
+
+let isInitialPageRender = true;
 
 
     /* =========================================================
@@ -239,6 +250,393 @@ if (versionID) {
 
     let readerSavedRange = null;
     let readerSavedSelectedText = "";
+
+
+    /* =========================================================
+   LOAD SAVED READING PROGRESS
+========================================================= */
+
+async function loadSavedProgress() {
+
+    if (
+        !customerID ||
+        !bookID ||
+        !versionID
+    ) {
+
+        return null;
+    }
+
+
+    try {
+
+        const url =
+            LIBRARY_API_URL +
+            "?action=libraryprogress" +
+            "&cid=" +
+            encodeURIComponent(customerID);
+
+
+        const response =
+            await fetch(url);
+
+
+        if (!response.ok) {
+
+            console.warn(
+                "Unable to load reading progress."
+            );
+
+            return null;
+        }
+
+
+        const data =
+            await response.json();
+
+
+        if (
+            !data ||
+            data.success !== true
+        ) {
+
+            console.warn(
+                "Reading progress response was unsuccessful.",
+                data
+            );
+
+            return null;
+        }
+
+
+        const progressList =
+            Array.isArray(data.progress)
+                ? data.progress
+                : [];
+
+
+        const matchingProgress =
+            progressList.find(
+                item =>
+                    String(item.bookID) ===
+                        String(bookID) &&
+                    String(item.versionID) ===
+                        String(versionID)
+            );
+
+
+        if (!matchingProgress) {
+
+            return null;
+        }
+
+
+        return matchingProgress;
+
+    }
+    catch (error) {
+
+        console.error(
+            "Reading progress load failed:",
+            error
+        );
+
+        return null;
+    }
+
+}
+
+
+/* =========================================================
+   SAVE READING PROGRESS
+========================================================= */
+
+function saveReadingProgress() {
+
+    if (
+        !customerID ||
+        !bookID ||
+        !versionID ||
+        !pages.length
+    ) {
+
+        return;
+    }
+
+
+    /*
+     * Cancel any pending save.
+     */
+    if (progressSaveTimer) {
+
+        clearTimeout(
+            progressSaveTimer
+        );
+    }
+
+
+    /*
+     * Small delay prevents multiple rapid
+     * page clicks/swipes from creating
+     * unnecessary requests.
+     */
+    progressSaveTimer =
+        setTimeout(
+            async function () {
+
+                const currentPage =
+                    currentPageIndex + 1;
+
+
+                const totalPages =
+                    pages.length;
+
+
+                const progress =
+                    totalPages > 0
+                        ? Math.round(
+                            (
+                                currentPage /
+                                totalPages
+                            ) * 100
+                        )
+                        : 0;
+
+
+                try {
+
+                    const response =
+                        await fetch(
+                            LIBRARY_API_URL +
+                            "?action=libraryprogress",
+                            {
+                                method: "POST",
+
+                                headers: {
+                                    "Content-Type":
+                                        "text/plain;charset=utf-8"
+                                },
+
+                                body:
+                                    JSON.stringify({
+
+                                        customerID:
+                                            customerID,
+
+                                        bookID:
+                                            bookID,
+
+                                        versionID:
+                                            versionID,
+
+                                        currentPage:
+                                            currentPage,
+
+                                        totalPages:
+                                            totalPages,
+
+                                        progress:
+                                            progress
+
+                                    })
+                            }
+                        );
+
+
+                    const responseText =
+                        await response.text();
+
+
+                    let data;
+
+
+                    try {
+
+                        data =
+                            JSON.parse(
+                                responseText
+                            );
+
+                    }
+                    catch (parseError) {
+
+                        console.warn(
+                            "Progress response was not valid JSON:",
+                            responseText
+                        );
+
+                        return;
+                    }
+
+
+                    if (
+                        !data ||
+                        data.success !== true
+                    ) {
+
+                        console.warn(
+                            "Reading progress was not saved.",
+                            data
+                        );
+
+                        return;
+                    }
+
+
+                    console.log(
+                        "Reading progress saved:",
+                        {
+                            bookID:
+                                bookID,
+
+                            versionID:
+                                versionID,
+
+                            currentPage:
+                                currentPage,
+
+                            totalPages:
+                                totalPages,
+
+                            progress:
+                                progress
+                        }
+                    );
+
+                }
+                catch (error) {
+
+                    console.error(
+                        "Reading progress save failed:",
+                        error
+                    );
+
+                }
+
+            },
+            500
+        );
+
+}
+
+
+/* =========================================================
+   SAVE READING HISTORY
+========================================================= */
+
+async function saveReadingHistory() {
+
+    if (
+        !customerID ||
+        !bookID ||
+        !versionID
+    ) {
+
+        return;
+    }
+
+
+    try {
+
+        const response =
+            await fetch(
+                LIBRARY_API_URL +
+                "?action=libraryhistory",
+                {
+                    method: "POST",
+
+                    headers: {
+                        "Content-Type":
+                            "text/plain;charset=utf-8"
+                    },
+
+                    body:
+                        JSON.stringify({
+
+                            customerID:
+                                customerID,
+
+                            bookID:
+                                bookID,
+
+                            versionID:
+                                versionID,
+
+                            lastPage:
+                                currentPageIndex + 1
+
+                        })
+                }
+            );
+
+
+        const responseText =
+            await response.text();
+
+
+        let data;
+
+
+        try {
+
+            data =
+                JSON.parse(
+                    responseText
+                );
+
+        }
+        catch (parseError) {
+
+            console.warn(
+                "History response was not valid JSON:",
+                responseText
+            );
+
+            return;
+        }
+
+
+        if (
+            !data ||
+            data.success !== true
+        ) {
+
+            console.warn(
+                "Reading history was not saved.",
+                data
+            );
+
+            return;
+        }
+
+
+        console.log(
+            "Reading history saved:",
+            {
+                bookID:
+                    bookID,
+
+                versionID:
+                    versionID,
+
+                lastPage:
+                    currentPageIndex + 1
+            }
+        );
+
+    }
+    catch (error) {
+
+        console.error(
+            "Reading history save failed:",
+            error
+        );
+
+    }
+
+}
+
+
 
 function ensureSelectionToolbar() {
     if (readerSelectionToolbar) {
@@ -899,7 +1297,49 @@ if (!pages.length) {
 
 renderNotesHighlightsPanel();
 
+
+/* =========================================================
+   LOAD SAVED READING PROGRESS
+========================================================= */
+
+savedProgress =
+    await loadSavedProgress();
+
+
+if (savedProgress) {
+
+    const savedPage =
+        Number(
+            savedProgress.currentPage ||
+            savedProgress.lastPage ||
+            1
+        );
+
+
+    if (
+        Number.isFinite(savedPage) &&
+        savedPage >= 1 &&
+        savedPage <= pages.length
+    ) {
+
+        currentPageIndex =
+            savedPage - 1;
+
+    }
+
+}
+
+
+/* =========================================================
+   INITIAL PAGE RENDER
+========================================================= */
+
 renderPage();
+
+
+/*
+ * Re-render once title styling has finished loading.
+ */
 
 titleStylePromise.then(
     function () {
@@ -908,6 +1348,29 @@ titleStylePromise.then(
 
     }
 );
+
+
+/* =========================================================
+   SAVE READING HISTORY
+========================================================= */
+
+await saveReadingHistory();
+
+
+/*
+ * Initial page restoration is complete.
+ * Future page changes can now save progress.
+ */
+
+isInitialPageRender = false;
+
+
+/* =========================================================
+   SAVE INITIAL READING PROGRESS
+========================================================= */
+
+saveReadingProgress();
+
 
 console.timeEnd("READER TOTAL LOAD");
 
@@ -1511,11 +1974,21 @@ console.timeEnd("READER TOTAL LOAD");
         window.setTimeout(
             () => {
 
-                currentPageIndex =
-                    index;
+               currentPageIndex =
+    index;
 
 
-                renderPage();
+renderPage();
+
+
+/*
+ * Save the new reading position.
+ */
+if (!isInitialPageRender) {
+
+    saveReadingProgress();
+
+}
 
 
                 content.classList.remove(
