@@ -3712,6 +3712,936 @@ function initialiseSectionViewAllHistory() {
 }
 
 
+/* =========================================================
+   READING PROGRESS / HISTORY VIEWS
+========================================================= */
+
+async function loadLibraryProgress(customerID) {
+
+    if (!customerID) {
+        return [];
+    }
+
+    try {
+
+        const response =
+            await fetch(
+                LIBRARY_API_URL +
+                "?action=libraryprogress" +
+                "&cid=" +
+                encodeURIComponent(customerID)
+            );
+
+        if (!response.ok) {
+            throw new Error(
+                "Unable to load reading progress."
+            );
+        }
+
+        const data =
+            await response.json();
+
+        if (
+            !data ||
+            data.success !== true ||
+            !Array.isArray(data.progress)
+        ) {
+            console.warn(
+                "Reading progress response was unsuccessful.",
+                data
+            );
+
+            return [];
+        }
+
+        return data.progress;
+
+    } catch (error) {
+
+        console.error(
+            "Unable to load reading progress.",
+            error
+        );
+
+        return [];
+
+    }
+
+}
+
+
+async function loadLibraryHistory(customerID) {
+
+    if (!customerID) {
+        return [];
+    }
+
+    try {
+
+        const response =
+            await fetch(
+                LIBRARY_API_URL +
+                "?action=libraryhistory" +
+                "&cid=" +
+                encodeURIComponent(customerID)
+            );
+
+        if (!response.ok) {
+            throw new Error(
+                "Unable to load reading history."
+            );
+        }
+
+        const data =
+            await response.json();
+
+        if (
+            !data ||
+            data.success !== true ||
+            !Array.isArray(data.history)
+        ) {
+            console.warn(
+                "Reading history response was unsuccessful.",
+                data
+            );
+
+            return [];
+        }
+
+        return data.history;
+
+    } catch (error) {
+
+        console.error(
+            "Unable to load reading history.",
+            error
+        );
+
+        return [];
+
+    }
+
+}
+
+
+function getLibraryCustomerID() {
+
+    return (
+        new URLSearchParams(
+            window.location.search
+        ).get("cid") ||
+        sessionStorage.getItem(
+            "texlearn_customer_id"
+        ) ||
+        ""
+    );
+
+}
+
+
+async function renderReadingProgressView() {
+
+    const customerID =
+        getLibraryCustomerID();
+
+    LIBRARY_STATE.personalView =
+        "progress";
+
+    LIBRARY_STATE.personalNotesView =
+        false;
+
+    if (libraryHome) {
+        libraryHome.style.display = "none";
+    }
+
+    if (exploreLibrarySection) {
+        exploreLibrarySection.style.display = "none";
+    }
+
+    if (libraryNotesView) {
+        libraryNotesView.classList.remove(
+            "is-active"
+        );
+    }
+
+    if (libraryPersonalView) {
+        libraryPersonalView.classList.add(
+            "is-active"
+        );
+    }
+
+    if (libraryPersonalTitle) {
+        libraryPersonalTitle.textContent =
+            "Reading Progress";
+    }
+
+    const eyebrowElement =
+        document.getElementById(
+            "libraryPersonalEyebrow"
+        );
+
+    if (eyebrowElement) {
+        eyebrowElement.textContent =
+            "CONTINUE YOUR READING";
+    }
+
+    if (!libraryPersonalGrid) {
+        return;
+    }
+
+    libraryPersonalGrid.innerHTML = `
+        <div class="library-empty-state">
+            <i data-lucide="loader-circle"></i>
+            <p>Loading your reading progress...</p>
+        </div>
+    `;
+
+    refreshIcons();
+
+    const progress =
+        await loadLibraryProgress(
+            customerID
+        );
+
+    if (libraryPersonalCount) {
+        libraryPersonalCount.textContent =
+            progress.length
+                ? `${progress.length} book${
+                    progress.length === 1
+                        ? ""
+                        : "s"
+                }`
+                : "";
+    }
+
+    if (!progress.length) {
+
+        libraryPersonalGrid.innerHTML = `
+            <div class="library-empty-state">
+                <i data-lucide="book-open"></i>
+                <p>
+                    Books you start reading will appear here.
+                </p>
+            </div>
+        `;
+
+        refreshIcons();
+
+        return;
+    }
+
+    const progressBooks =
+        progress
+            .map(
+                function (item) {
+
+                    const book =
+                        LIBRARY_BOOKS.find(
+                            function (candidate) {
+                                return (
+                                    String(candidate.id) ===
+                                    String(item.bookID)
+                                );
+                            }
+                        );
+
+                    if (!book) {
+                        return null;
+                    }
+
+                    return {
+                        book: book,
+                        progress: item
+                    };
+
+                }
+            )
+            .filter(Boolean)
+            .sort(
+                function (a, b) {
+
+                    return (
+                        new Date(
+                            b.progress.lastRead ||
+                            b.progress.timestamp ||
+                            0
+                        ) -
+                        new Date(
+                            a.progress.lastRead ||
+                            a.progress.timestamp ||
+                            0
+                        )
+                    );
+
+                }
+            );
+
+    if (!progressBooks.length) {
+
+        libraryPersonalGrid.innerHTML = `
+            <div class="library-empty-state">
+                <i data-lucide="book-open"></i>
+                <p>
+                    Your reading progress will appear here.
+                </p>
+            </div>
+        `;
+
+        refreshIcons();
+
+        return;
+    }
+
+    libraryPersonalGrid.innerHTML =
+        progressBooks
+            .map(
+                function (entry) {
+
+                    const book =
+                        entry.book;
+
+                    const item =
+                        entry.progress;
+
+                    const percent =
+                        Math.max(
+                            0,
+                            Math.min(
+                                100,
+                                Number(
+                                    item.progress ||
+                                    0
+                                )
+                            )
+                        );
+
+                    return `
+                        <article
+                            class="library-book-card library-progress-card"
+                            tabindex="0"
+                            role="button"
+                            data-progress-book-id="${escapeHTML(
+                                String(book.id)
+                            )}"
+                            data-progress-version-id="${escapeHTML(
+                                String(
+                                    item.versionID ||
+                                    ""
+                                )
+                            )}"
+                        >
+
+                            <div class="library-book-cover-wrap">
+
+                                ${
+                                    book.cover
+                                        ? `
+                                            <img
+                                                class="library-book-cover"
+                                                src="${escapeHTML(
+                                                    book.cover
+                                                )}"
+                                                alt="${escapeHTML(
+                                                    book.title ||
+                                                    "Book cover"
+                                                )}"
+                                                loading="lazy"
+                                            >
+                                        `
+                                        : `
+                                            <div class="library-book-cover-placeholder">
+                                                <span>
+                                                    ${escapeHTML(
+                                                        book.title ||
+                                                        "Book"
+                                                    )}
+                                                </span>
+                                            </div>
+                                        `
+                                }
+
+                            </div>
+
+                            <div class="library-book-info">
+
+                                <h3 class="library-book-title">
+                                    ${escapeHTML(
+                                        book.title ||
+                                        "Untitled Book"
+                                    )}
+                                </h3>
+
+                                <p class="library-book-author">
+                                    ${escapeHTML(
+                                        book.author ||
+                                        "Unknown Author"
+                                    )}
+                                </p>
+
+                                <div
+                                    class="library-reading-progress"
+                                    aria-label="${percent}% complete"
+                                >
+
+                                    <div
+                                        class="library-reading-progress-track"
+                                    >
+                                        <span
+                                            class="library-reading-progress-fill"
+                                            style="width:${percent}%"
+                                        ></span>
+                                    </div>
+
+                                    <div
+                                        class="library-reading-progress-meta"
+                                    >
+                                        <span>
+                                            ${percent}% complete
+                                        </span>
+
+                                        <span>
+                                            Page ${
+                                                Number(
+                                                    item.currentPage ||
+                                                    item.lastPage ||
+                                                    1
+                                                )
+                                            }${
+                                                item.totalPages
+                                                    ? " / " +
+                                                      Number(
+                                                          item.totalPages
+                                                      )
+                                                    : ""
+                                            }
+                                        </span>
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                        </article>
+                    `;
+
+                }
+            )
+            .join("");
+
+    libraryPersonalGrid
+        .querySelectorAll(
+            ".library-progress-card"
+        )
+        .forEach(
+            function (card) {
+
+                card.addEventListener(
+                    "click",
+                    function () {
+
+                        const bookID =
+                            card.getAttribute(
+                                "data-progress-book-id"
+                            );
+
+                        const versionID =
+                            card.getAttribute(
+                                "data-progress-version-id"
+                            );
+
+                        openReadingBook(
+                            bookID,
+                            versionID
+                        );
+
+                    }
+                );
+
+                card.addEventListener(
+                    "keydown",
+                    function (event) {
+
+                        if (
+                            event.key === "Enter" ||
+                            event.key === " "
+                        ) {
+
+                            event.preventDefault();
+
+                            const bookID =
+                                card.getAttribute(
+                                    "data-progress-book-id"
+                                );
+
+                            const versionID =
+                                card.getAttribute(
+                                    "data-progress-version-id"
+                                );
+
+                            openReadingBook(
+                                bookID,
+                                versionID
+                            );
+
+                        }
+
+                    }
+                );
+
+            }
+        );
+
+    refreshIcons();
+
+}
+
+
+async function renderReadingHistoryView() {
+
+    const customerID =
+        getLibraryCustomerID();
+
+    LIBRARY_STATE.personalView =
+        "history";
+
+    LIBRARY_STATE.personalNotesView =
+        false;
+
+    if (libraryHome) {
+        libraryHome.style.display = "none";
+    }
+
+    if (exploreLibrarySection) {
+        exploreLibrarySection.style.display = "none";
+    }
+
+    if (libraryNotesView) {
+        libraryNotesView.classList.remove(
+            "is-active"
+        );
+    }
+
+    if (libraryPersonalView) {
+        libraryPersonalView.classList.add(
+            "is-active"
+        );
+    }
+
+    if (libraryPersonalTitle) {
+        libraryPersonalTitle.textContent =
+            "Reading History";
+    }
+
+    const eyebrowElement =
+        document.getElementById(
+            "libraryPersonalEyebrow"
+        );
+
+    if (eyebrowElement) {
+        eyebrowElement.textContent =
+            "YOUR RECENT READING";
+    }
+
+    if (!libraryPersonalGrid) {
+        return;
+    }
+
+    libraryPersonalGrid.innerHTML = `
+        <div class="library-empty-state">
+            <i data-lucide="loader-circle"></i>
+            <p>Loading your reading history...</p>
+        </div>
+    `;
+
+    refreshIcons();
+
+    const history =
+        await loadLibraryHistory(
+            customerID
+        );
+
+    if (libraryPersonalCount) {
+        libraryPersonalCount.textContent =
+            history.length
+                ? `${history.length} entr${
+                    history.length === 1
+                        ? "y"
+                        : "ies"
+                }`
+                : "";
+    }
+
+    if (!history.length) {
+
+        libraryPersonalGrid.innerHTML = `
+            <div class="library-empty-state">
+                <i data-lucide="history"></i>
+                <p>
+                    Books you open will appear in your reading history.
+                </p>
+            </div>
+        `;
+
+        refreshIcons();
+
+        return;
+    }
+
+    const historyBooks =
+        history
+            .map(
+                function (item) {
+
+                    const book =
+                        LIBRARY_BOOKS.find(
+                            function (candidate) {
+                                return (
+                                    String(candidate.id) ===
+                                    String(item.bookID)
+                                );
+                            }
+                        );
+
+                    if (!book) {
+                        return null;
+                    }
+
+                    return {
+                        book: book,
+                        history: item
+                    };
+
+                }
+            )
+            .filter(Boolean);
+
+    if (!historyBooks.length) {
+
+        libraryPersonalGrid.innerHTML = `
+            <div class="library-empty-state">
+                <i data-lucide="history"></i>
+                <p>
+                    Your reading history will appear here.
+                </p>
+            </div>
+        `;
+
+        refreshIcons();
+
+        return;
+    }
+
+    libraryPersonalGrid.innerHTML =
+        historyBooks
+            .map(
+                function (entry) {
+
+                    const book =
+                        entry.book;
+
+                    const item =
+                        entry.history;
+
+                    return `
+                        <article
+                            class="library-book-card library-history-card"
+                            tabindex="0"
+                            role="button"
+                            data-history-book-id="${escapeHTML(
+                                String(book.id)
+                            )}"
+                            data-history-version-id="${escapeHTML(
+                                String(
+                                    item.versionID ||
+                                    ""
+                                )
+                            )}"
+                        >
+
+                            <div class="library-book-cover-wrap">
+
+                                ${
+                                    book.cover
+                                        ? `
+                                            <img
+                                                class="library-book-cover"
+                                                src="${escapeHTML(
+                                                    book.cover
+                                                )}"
+                                                alt="${escapeHTML(
+                                                    book.title ||
+                                                    "Book cover"
+                                                )}"
+                                                loading="lazy"
+                                            >
+                                        `
+                                        : `
+                                            <div class="library-book-cover-placeholder">
+                                                <span>
+                                                    ${escapeHTML(
+                                                        book.title ||
+                                                        "Book"
+                                                    )}
+                                                </span>
+                                            </div>
+                                        `
+                                }
+
+                            </div>
+
+                            <div class="library-book-info">
+
+                                <h3 class="library-book-title">
+                                    ${escapeHTML(
+                                        book.title ||
+                                        "Untitled Book"
+                                    )}
+                                </h3>
+
+                                <p class="library-book-author">
+                                    ${escapeHTML(
+                                        book.author ||
+                                        "Unknown Author"
+                                    )}
+                                </p>
+
+                                <div class="library-history-meta">
+                                    <span>
+                                        Page ${
+                                            Number(
+                                                item.lastPage ||
+                                                1
+                                            )
+                                        }
+                                    </span>
+                                </div>
+
+                            </div>
+
+                        </article>
+                    `;
+
+                }
+            )
+            .join("");
+
+    libraryPersonalGrid
+        .querySelectorAll(
+            ".library-history-card"
+        )
+        .forEach(
+            function (card) {
+
+                card.addEventListener(
+                    "click",
+                    function () {
+
+                        const bookID =
+                            card.getAttribute(
+                                "data-history-book-id"
+                            );
+
+                        const versionID =
+                            card.getAttribute(
+                                "data-history-version-id"
+                            );
+
+                        openReadingBook(
+                            bookID,
+                            versionID
+                        );
+
+                    }
+                );
+
+                card.addEventListener(
+                    "keydown",
+                    function (event) {
+
+                        if (
+                            event.key === "Enter" ||
+                            event.key === " "
+                        ) {
+
+                            event.preventDefault();
+
+                            const bookID =
+                                card.getAttribute(
+                                    "data-history-book-id"
+                                );
+
+                            const versionID =
+                                card.getAttribute(
+                                    "data-history-version-id"
+                                );
+
+                            openReadingBook(
+                                bookID,
+                                versionID
+                            );
+
+                        }
+
+                    }
+                );
+
+            }
+        );
+
+    refreshIcons();
+
+}
+
+
+async function openReadingBook(
+    bookID,
+    versionID
+) {
+
+    const book =
+        LIBRARY_BOOKS.find(
+            function (item) {
+                return (
+                    String(item.id) ===
+                    String(bookID)
+                );
+            }
+        );
+
+    if (!book) {
+        console.warn(
+            "Book not found:",
+            bookID
+        );
+        return;
+    }
+
+    let version =
+        Array.isArray(book.versions)
+            ? book.versions.find(
+                function (item) {
+                    return (
+                        String(item.id) ===
+                        String(versionID)
+                    );
+                }
+            )
+            : null;
+
+    if (!version) {
+        version =
+            Array.isArray(book.versions)
+                ? book.versions[0]
+                : null;
+    }
+
+    if (!version) {
+        console.warn(
+            "Readable version not found:",
+            bookID,
+            versionID
+        );
+        return;
+    }
+
+    const customerID =
+        getLibraryCustomerID();
+
+    let token = null;
+
+    if (customerID) {
+
+        const session =
+            await createLibrarySession(
+                customerID
+            );
+
+        if (
+            session &&
+            session.token
+        ) {
+            token =
+                session.token;
+        }
+
+    }
+
+    const params =
+        new URLSearchParams();
+
+    if (customerID) {
+        params.set(
+            "cid",
+            customerID
+        );
+    }
+
+    if (token) {
+        params.set(
+            "t",
+            token
+        );
+    }
+
+    params.set(
+        "bookId",
+        book.id
+    );
+
+    params.set(
+        "versionId",
+        version.id
+    );
+
+    if (book.themePrimary) {
+        params.set(
+            "themePrimary",
+            book.themePrimary
+        );
+    }
+
+    if (book.themeSecondary) {
+        params.set(
+            "themeSecondary",
+            book.themeSecondary
+        );
+    }
+
+    if (book.titleBackground) {
+        params.set(
+            "titleBackground",
+            book.titleBackground
+        );
+    }
+
+    if (book.titlePrimary) {
+        params.set(
+            "titlePrimary",
+            book.titlePrimary
+        );
+    }
+
+    if (book.titleSecondary) {
+        params.set(
+            "titleSecondary",
+            book.titleSecondary
+        );
+    }
+
+    if (book.displayTitle) {
+        params.set(
+            "displayTitle",
+            book.displayTitle
+        );
+    }
+
+    window.location.href =
+        "reader.html?" +
+        params.toString();
+
+}
+
+
 function renderPersonalView(view) {
 
     const storageKey =
@@ -3999,11 +4929,11 @@ function renderNotesView() {
 }
 
 
-    /* =========================================================
-       12. NAVIGATION STATE
-    ========================================================= */
+  /* =========================================================
+   12. NAVIGATION STATE
+========================================================= */
 
-    function initialiseNavigation() {
+function initialiseNavigation() {
 
     const navItems =
         document.querySelectorAll(
@@ -4016,7 +4946,7 @@ function renderNotesView() {
 
             item.addEventListener(
                 "click",
-                function (event) {
+                async function (event) {
 
                     const view =
                         item.getAttribute(
@@ -4024,15 +4954,23 @@ function renderNotesView() {
                         );
 
 
-                   if (
-    view === "favourites" ||
-    view === "bookmarks" ||
-    view === "notes"
-) {
+                    /*
+                     * Personal Library views
+                     */
+                    if (
+                        view === "favourites" ||
+                        view === "bookmarks" ||
+                        view === "progress" ||
+                        view === "history" ||
+                        view === "notes"
+                    ) {
 
                         event.preventDefault();
 
 
+                        /*
+                         * Update active sidebar item.
+                         */
                         navItems.forEach(
                             function (navItem) {
 
@@ -4042,45 +4980,96 @@ function renderNotesView() {
 
                             }
                         );
-                    }
+
 
                         item.classList.add(
                             "is-active"
                         );
 
 
-                      if (view === "notes") {
+                        /*
+                         * Notes & Highlights
+                         */
+                        if (view === "notes") {
 
-    history.pushState(
-        {
-            libraryNotesView: true
-        },
-        "",
-        "#notes"
-    );
+                            history.pushState(
+                                {
+                                    libraryNotesView: true
+                                },
+                                "",
+                                "#notes"
+                            );
 
-    renderNotesView();
+                            renderNotesView();
 
-} else {
-
-    history.pushState(
-        {
-            libraryPersonalView:
-                view
-        },
-        "",
-        "#" + view
-    );
-
-    renderPersonalView(
-        view
-    );
-
-}
-
-return;
+                            return;
+                        }
 
 
+                        /*
+                         * Reading Progress
+                         */
+                        if (view === "progress") {
+
+                            history.pushState(
+                                {
+                                    libraryPersonalView:
+                                        "progress"
+                                },
+                                "",
+                                "#progress"
+                            );
+
+                            await renderReadingProgressView();
+
+                            return;
+                        }
+
+
+                        /*
+                         * Reading History
+                         */
+                        if (view === "history") {
+
+                            history.pushState(
+                                {
+                                    libraryPersonalView:
+                                        "history"
+                                },
+                                "",
+                                "#history"
+                            );
+
+                            await renderReadingHistoryView();
+
+                            return;
+                        }
+
+
+                        /*
+                         * Favourites / Bookmarks
+                         */
+                        history.pushState(
+                            {
+                                libraryPersonalView:
+                                    view
+                            },
+                            "",
+                            "#" + view
+                        );
+
+                        renderPersonalView(
+                            view
+                        );
+
+                        return;
+
+                    }
+
+
+                    /*
+                     * Normal Library navigation.
+                     */
                     navItems.forEach(
                         function (navItem) {
 
@@ -4098,7 +5087,8 @@ return;
 
 
                     if (
-                        LIBRARY_STATE.personalView
+                        LIBRARY_STATE.personalView ||
+                        LIBRARY_STATE.personalNotesView
                     ) {
 
                         showLibraryHome();
@@ -4112,44 +5102,105 @@ return;
     );
 
 
-
+    /*
+     * Browser Back / Forward navigation.
+     */
     window.addEventListener(
         "popstate",
-        function (event) {
+        async function (event) {
 
             const personalView =
                 event.state &&
                 event.state.libraryPersonalView;
 
-                const notesView =
-    event.state &&
-    event.state.libraryNotesView;
+            const notesView =
+                event.state &&
+                event.state.libraryNotesView;
 
 
+            /*
+             * Notes view.
+             */
+            if (notesView) {
+
+                navItems.forEach(
+                    function (navItem) {
+
+                        navItem.classList.toggle(
+                            "is-active",
+                            navItem.getAttribute(
+                                "data-library-view"
+                            ) === "notes"
+                        );
+
+                    }
+                );
+
+                renderNotesView();
+
+                return;
+            }
+
+
+            /*
+             * Reading Progress.
+             */
+            if (
+                personalView === "progress"
+            ) {
+
+                navItems.forEach(
+                    function (navItem) {
+
+                        navItem.classList.toggle(
+                            "is-active",
+                            navItem.getAttribute(
+                                "data-library-view"
+                            ) === "progress"
+                        );
+
+                    }
+                );
+
+                await renderReadingProgressView();
+
+                return;
+            }
+
+
+            /*
+             * Reading History.
+             */
+            if (
+                personalView === "history"
+            ) {
+
+                navItems.forEach(
+                    function (navItem) {
+
+                        navItem.classList.toggle(
+                            "is-active",
+                            navItem.getAttribute(
+                                "data-library-view"
+                            ) === "history"
+                        );
+
+                    }
+                );
+
+                await renderReadingHistoryView();
+
+                return;
+            }
+
+
+            /*
+             * Favourites / Bookmarks.
+             */
             if (
                 personalView === "favourites" ||
                 personalView === "bookmarks"
             ) {
-
-                if (notesView) {
-
-    navItems.forEach(
-        function (navItem) {
-
-            navItem.classList.toggle(
-                "is-active",
-                navItem.getAttribute(
-                    "data-library-view"
-                ) === "notes"
-            );
-
-        }
-    );
-
-    renderNotesView();
-
-    return;
-}
 
                 navItems.forEach(
                     function (navItem) {
@@ -4170,12 +5221,15 @@ return;
                 );
 
                 return;
-
             }
 
 
+            /*
+             * Return to Library Home.
+             */
             if (
-                LIBRARY_STATE.personalView
+                LIBRARY_STATE.personalView ||
+                LIBRARY_STATE.personalNotesView
             ) {
 
                 navItems.forEach(
