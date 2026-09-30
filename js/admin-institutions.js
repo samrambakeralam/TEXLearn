@@ -126,7 +126,7 @@ async function unlockAdmin() {
         const response =
             await fetch(
                 WEB_APP_URL +
-                "?action=admintest",
+                "?action=admininstitutions",
                 {
 
                     method: "POST",
