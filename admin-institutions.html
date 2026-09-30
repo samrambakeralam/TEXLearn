@@ -1,0 +1,903 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>
+        Institution Management | TEXLearn
+    </title>
+
+    <link rel="preconnect"
+          href="https://fonts.googleapis.com">
+
+    <link rel="preconnect"
+          href="https://fonts.gstatic.com"
+          crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+          rel="stylesheet">
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+
+            margin: 0;
+
+            font-family: Inter, sans-serif;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #f5f7fb,
+                    #eef2f7
+                );
+
+            color: #172033;
+
+            min-height: 100vh;
+
+        }
+
+
+        .admin-header {
+
+            background: #ffffff;
+
+            border-bottom:
+                1px solid #e5e7eb;
+
+            padding:
+                18px 24px;
+
+        }
+
+
+        .admin-header-inner {
+
+            max-width: 1100px;
+
+            margin: auto;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: space-between;
+
+            gap: 20px;
+
+        }
+
+
+        .brand {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 12px;
+
+        }
+
+
+        .brand img {
+
+            width: 42px;
+
+            height: 42px;
+
+            object-fit: contain;
+
+        }
+
+
+        .brand-text strong {
+
+            display: block;
+
+            font-size: 17px;
+
+        }
+
+
+        .brand-text span {
+
+            display: block;
+
+            margin-top: 2px;
+
+            font-size: 12px;
+
+            color: #6b7280;
+
+        }
+
+
+        .page {
+
+            max-width: 1100px;
+
+            margin: 0 auto;
+
+            padding:
+                40px 20px 60px;
+
+        }
+
+
+        .page-heading {
+
+            margin-bottom: 28px;
+
+        }
+
+
+        .page-heading h1 {
+
+            margin: 0;
+
+            font-size: 30px;
+
+            font-weight: 800;
+
+        }
+
+
+        .page-heading p {
+
+            margin:
+                8px 0 0;
+
+            color: #6b7280;
+
+        }
+
+
+        /* ==========================================
+           ADMIN ACCESS
+        ========================================== */
+
+        .access-card {
+
+            max-width: 520px;
+
+            margin:
+                0 auto 28px;
+
+            background: #ffffff;
+
+            border:
+                1px solid #e5e7eb;
+
+            border-radius: 18px;
+
+            padding: 24px;
+
+            box-shadow:
+                0 10px 30px
+                rgba(15, 23, 42, 0.06);
+
+        }
+
+
+        .access-card h2 {
+
+            margin:
+                0 0 8px;
+
+            font-size: 19px;
+
+        }
+
+
+        .access-card p {
+
+            margin:
+                0 0 20px;
+
+            color: #6b7280;
+
+            font-size: 13px;
+
+            line-height: 1.6;
+
+        }
+
+
+        .access-row {
+
+            display: flex;
+
+            gap: 10px;
+
+        }
+
+
+        .access-row input {
+
+            flex: 1;
+
+            height: 46px;
+
+            padding:
+                0 13px;
+
+            border:
+                1px solid #d1d5db;
+
+            border-radius: 10px;
+
+            background: #ffffff;
+
+            font-family: inherit;
+
+            font-size: 14px;
+
+            outline: none;
+
+        }
+
+
+        .access-row input:focus {
+
+            border-color: #2563eb;
+
+            box-shadow:
+                0 0 0 3px
+                rgba(37, 99, 235, 0.10);
+
+        }
+
+
+        .unlock-button {
+
+            height: 46px;
+
+            padding:
+                0 20px;
+
+            border: 0;
+
+            border-radius: 10px;
+
+            background: #172033;
+
+            color: #ffffff;
+
+            font-family: inherit;
+
+            font-size: 13px;
+
+            font-weight: 700;
+
+            cursor: pointer;
+
+            white-space: nowrap;
+
+        }
+
+
+        .unlock-button:disabled {
+
+            opacity: 0.55;
+
+            cursor: not-allowed;
+
+        }
+
+
+        /* ==========================================
+           MAIN GRID
+        ========================================== */
+
+        .admin-content {
+
+            display: none;
+
+        }
+
+
+        .admin-content.unlocked {
+
+            display: block;
+
+        }
+
+
+        .grid {
+
+            display: grid;
+
+            grid-template-columns:
+                360px 1fr;
+
+            gap: 24px;
+
+        }
+
+
+        .card {
+
+            background: #ffffff;
+
+            border:
+                1px solid #e5e7eb;
+
+            border-radius: 18px;
+
+            padding: 24px;
+
+            box-shadow:
+                0 10px 30px
+                rgba(15, 23, 42, 0.06);
+
+        }
+
+
+        .card h2 {
+
+            margin:
+                0 0 20px;
+
+            font-size: 19px;
+
+        }
+
+
+        .form-group {
+
+            margin-bottom: 18px;
+
+        }
+
+
+        .form-group label {
+
+            display: block;
+
+            margin-bottom: 7px;
+
+            font-size: 13px;
+
+            font-weight: 600;
+
+        }
+
+
+        .form-group input,
+        .form-group select {
+
+            width: 100%;
+
+            height: 46px;
+
+            padding:
+                0 13px;
+
+            border:
+                1px solid #d1d5db;
+
+            border-radius: 10px;
+
+            background: #ffffff;
+
+            font-family: inherit;
+
+            font-size: 14px;
+
+            outline: none;
+
+        }
+
+
+        .form-group input:focus,
+        .form-group select:focus {
+
+            border-color: #2563eb;
+
+            box-shadow:
+                0 0 0 3px
+                rgba(37, 99, 235, 0.10);
+
+        }
+
+
+        .add-button {
+
+            width: 100%;
+
+            height: 48px;
+
+            border: 0;
+
+            border-radius: 10px;
+
+            background: #172033;
+
+            color: #ffffff;
+
+            font-family: inherit;
+
+            font-size: 14px;
+
+            font-weight: 700;
+
+            cursor: pointer;
+
+        }
+
+
+        .add-button:hover {
+
+            opacity: 0.92;
+
+        }
+
+
+        .add-button:disabled {
+
+            opacity: 0.55;
+
+            cursor: not-allowed;
+
+        }
+
+
+        .message {
+
+            display: none;
+
+            margin-top: 16px;
+
+            padding:
+                12px 14px;
+
+            border-radius: 10px;
+
+            font-size: 13px;
+
+            line-height: 1.5;
+
+        }
+
+
+        .message.success {
+
+            display: block;
+
+            background: #ecfdf5;
+
+            color: #047857;
+
+        }
+
+
+        .message.error {
+
+            display: block;
+
+            background: #fef2f2;
+
+            color: #b91c1c;
+
+        }
+
+
+        .table-wrap {
+
+            overflow-x: auto;
+
+        }
+
+
+        table {
+
+            width: 100%;
+
+            border-collapse: collapse;
+
+        }
+
+
+        th {
+
+            padding:
+                12px 10px;
+
+            text-align: left;
+
+            font-size: 11px;
+
+            text-transform: uppercase;
+
+            letter-spacing: .04em;
+
+            color: #6b7280;
+
+            border-bottom:
+                1px solid #e5e7eb;
+
+        }
+
+
+        td {
+
+            padding:
+                14px 10px;
+
+            font-size: 13px;
+
+            border-bottom:
+                1px solid #f0f1f3;
+
+        }
+
+
+        .status {
+
+            display: inline-block;
+
+            padding:
+                4px 8px;
+
+            border-radius: 999px;
+
+            font-size: 11px;
+
+            font-weight: 700;
+
+        }
+
+
+        .status.active {
+
+            background: #ecfdf5;
+
+            color: #047857;
+
+        }
+
+
+        .status.inactive {
+
+            background: #f3f4f6;
+
+            color: #6b7280;
+
+        }
+
+
+        .empty {
+
+            padding: 30px;
+
+            text-align: center;
+
+            color: #9ca3af;
+
+            font-size: 13px;
+
+        }
+
+
+        @media (max-width: 800px) {
+
+            .grid {
+
+                grid-template-columns: 1fr;
+
+            }
+
+        }
+
+
+        @media (max-width: 600px) {
+
+            .access-row {
+
+                flex-direction: column;
+
+            }
+
+            .unlock-button {
+
+                width: 100%;
+
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<header class="admin-header">
+
+    <div class="admin-header-inner">
+
+        <div class="brand">
+
+            <img
+                src="assets/logo.webp"
+                alt="TEXLearn Learning Modules">
+
+            <div class="brand-text">
+
+                <strong>
+                    TEXLearn
+                </strong>
+
+                <span>
+                    Institution Management
+                </span>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</header>
+
+
+<main class="page">
+
+
+    <div class="page-heading">
+
+        <h1>
+            Institution Management
+        </h1>
+
+        <p>
+            Add and manage schools and colleges connected to TEXLearn.
+        </p>
+
+    </div>
+
+
+    <!-- ==========================================
+         ADMIN ACCESS
+    =========================================== -->
+
+    <section
+        class="access-card"
+        id="accessCard">
+
+        <h2>
+            Admin Access
+        </h2>
+
+        <p>
+            Enter your private admin access key to continue.
+        </p>
+
+
+        <div class="access-row">
+
+            <input
+                type="password"
+                id="adminKey"
+                placeholder="Enter admin access key"
+                autocomplete="off">
+
+
+            <button
+                type="button"
+                class="unlock-button"
+                id="unlockButton">
+
+                Unlock
+
+            </button>
+
+        </div>
+
+
+        <div
+            id="accessMessage"
+            class="message">
+        </div>
+
+    </section>
+
+
+    <!-- ==========================================
+         ADMIN CONTENT
+    =========================================== -->
+
+    <div
+        class="admin-content"
+        id="adminContent">
+
+
+        <div class="grid">
+
+
+            <!-- ADD INSTITUTION -->
+
+            <section class="card">
+
+                <h2>
+                    Add Institution
+                </h2>
+
+
+                <form id="institutionForm">
+
+
+                    <div class="form-group">
+
+                        <label for="institutionName">
+                            Institution Name
+                        </label>
+
+                        <input
+                            type="text"
+                            id="institutionName"
+                            placeholder="Enter institution name"
+                            autocomplete="off"
+                            required>
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label for="institutionType">
+                            Institution Type
+                        </label>
+
+                        <select
+                            id="institutionType"
+                            required>
+
+                            <option value="">
+                                Select type
+                            </option>
+
+                            <option value="SCHOOL">
+                                School
+                            </option>
+
+                            <option value="COLLEGE">
+                                College
+                            </option>
+
+                        </select>
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label for="institutionStatus">
+                            Status
+                        </label>
+
+                        <select
+                            id="institutionStatus">
+
+                            <option value="Active">
+                                Active
+                            </option>
+
+                            <option value="Inactive">
+                                Inactive
+                            </option>
+
+                        </select>
+
+                    </div>
+
+
+                    <button
+                        type="submit"
+                        class="add-button"
+                        id="addButton">
+
+                        Add Institution
+
+                    </button>
+
+
+                    <div
+                        id="message"
+                        class="message">
+                    </div>
+
+
+                </form>
+
+            </section>
+
+
+            <!-- INSTITUTION LIST -->
+
+            <section class="card">
+
+                <h2>
+                    Existing Institutions
+                </h2>
+
+
+                <div class="table-wrap">
+
+                    <table>
+
+                        <thead>
+
+                            <tr>
+
+                                <th>
+                                    ID
+                                </th>
+
+                                <th>
+                                    Institution
+                                </th>
+
+                                <th>
+                                    Type
+                                </th>
+
+                                <th>
+                                    Status
+                                </th>
+
+                            </tr>
+
+                        </thead>
+
+
+                        <tbody
+                            id="institutionTableBody">
+
+                            <tr>
+
+                                <td
+                                    colspan="4"
+                                    class="empty">
+
+                                    Preparing institution list...
+
+                                </td>
+
+                            </tr>
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+            </section>
+
+
+        </div>
+
+
+    </div>
+
+
+</main>
+
+
+<script src="js/admin-institutions.js"></script>
+
+</body>
+
+</html>
