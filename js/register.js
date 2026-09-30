@@ -4,46 +4,161 @@
 
 console.log("REGISTER.JS LOADED");
 
-const form = document.getElementById("registrationForm");
+const form =
+    document.getElementById("registrationForm");
 
-const button = document.getElementById("continueButton");
+const button =
+    document.getElementById("continueButton");
 
-form.addEventListener("submit", registerCustomer);
+const institutionTypeSelect =
+    document.getElementById("institutionType");
 
-document.addEventListener(
-    "DOMContentLoaded",
-    function(){
+const institutionGroup =
+    document.getElementById("institutionGroup");
 
-        loadInstitutions();
+const institutionSelect =
+    document.getElementById("institution");
+
+
+// ==========================================
+// Form Submit
+// ==========================================
+
+form.addEventListener(
+    "submit",
+    registerCustomer
+);
+
+
+// ==========================================
+// Institution Type Change
+// ==========================================
+
+institutionTypeSelect.addEventListener(
+    "change",
+    function () {
+
+        const type =
+            institutionTypeSelect.value;
+
+        if (type === "SCHOOL") {
+
+            showInstitutionField();
+
+            loadInstitutions("SCHOOL");
+
+        }
+
+        else if (type === "COLLEGE") {
+
+            showInstitutionField();
+
+            loadInstitutions("COLLEGE");
+
+        }
+
+        else if (type === "OTHERS") {
+
+            hideInstitutionField();
+
+        }
+
+        else {
+
+            hideInstitutionField();
+
+        }
 
     }
 );
 
 
 // ==========================================
+// Initial State
+// ==========================================
+
+document.addEventListener(
+    "DOMContentLoaded",
+    function () {
+
+        hideInstitutionField();
+
+    }
+);
+
+
+// ==========================================
+// Show Institution Field
+// ==========================================
+
+function showInstitutionField() {
+
+    institutionGroup.style.display =
+        "";
+
+    institutionSelect.required =
+        true;
+
+}
+
+
+// ==========================================
+// Hide Institution Field
+// ==========================================
+
+function hideInstitutionField() {
+
+    institutionGroup.style.display =
+        "none";
+
+    institutionSelect.required =
+        false;
+
+    institutionSelect.value =
+        "";
+
+}
+
+
+// ==========================================
 // Load Institutions
 // ==========================================
 
-async function loadInstitutions(){
+async function loadInstitutions(type) {
 
-    const institutionSelect =
-        document.getElementById("institution");
+    institutionSelect.innerHTML = "";
 
-    try{
+    const loadingOption =
+        document.createElement("option");
+
+    loadingOption.value = "";
+
+    loadingOption.textContent =
+        "Loading institutions...";
+
+    institutionSelect.appendChild(
+        loadingOption
+    );
+
+
+    try {
 
         const response =
             await fetch(
                 CONFIG.WEB_APP_URL +
-                "?action=institutions"
+                "?action=institutions&type=" +
+                encodeURIComponent(type)
             );
+
 
         const result =
             await response.json();
 
-        if(
+
+        if (
             !result.success ||
             !Array.isArray(result.institutions)
-        ){
+        ) {
 
             throw new Error(
                 "Unable to load institutions."
@@ -51,7 +166,9 @@ async function loadInstitutions(){
 
         }
 
+
         institutionSelect.innerHTML = "";
+
 
         const defaultOption =
             document.createElement("option");
@@ -65,22 +182,27 @@ async function loadInstitutions(){
             defaultOption
         );
 
+
         result.institutions.forEach(
-            function(institution){
+            function (institution) {
 
                 console.log(
-    "INSTITUTION RECEIVED:",
-    institution
-);
+                    "INSTITUTION RECEIVED:",
+                    institution
+                );
+
 
                 const option =
                     document.createElement("option");
 
+
                 option.value =
                     institution.id;
 
+
                 option.textContent =
                     institution.name;
+
 
                 institutionSelect.appendChild(
                     option
@@ -89,23 +211,30 @@ async function loadInstitutions(){
             }
         );
 
+
     }
-    catch(error){
+
+    catch (error) {
 
         console.error(
             "Institution loading failed:",
             error
         );
 
+
         institutionSelect.innerHTML = "";
+
 
         const errorOption =
             document.createElement("option");
 
+
         errorOption.value = "";
+
 
         errorOption.textContent =
             "Unable to load institutions";
+
 
         institutionSelect.appendChild(
             errorOption
@@ -116,92 +245,197 @@ async function loadInstitutions(){
 }
 
 
-async function registerCustomer(e){
+// ==========================================
+// Registration
+// ==========================================
+
+async function registerCustomer(e) {
 
     e.preventDefault();
 
+
+    // ----------------------------------------
+    // Get Form Values
+    // ----------------------------------------
+
     const name =
-        document.getElementById("name").value.trim();
+        document
+            .getElementById("name")
+            .value
+            .trim();
+
+
+    const contact =
+        document
+            .getElementById("contact")
+            .value
+            .trim();
+
 
     const email =
-        document.getElementById("email").value.trim();
+        document
+            .getElementById("email")
+            .value
+            .trim();
+
+
+    const institutionType =
+        document
+            .getElementById("institutionType")
+            .value;
+
 
     const institution =
-        document.getElementById("institution").value;
+        document
+            .getElementById("institution")
+            .value;
 
-    //------------------------------------------------
 
-    if(name===""){
+    // ----------------------------------------
+    // Validation
+    // ----------------------------------------
 
-        alert("Please enter your full name.");
+    if (name === "") {
 
-        return;
-
-    }
-
-    if(email===""){
-
-        alert("Please enter your email address.");
-
-        return;
-
-    }
-
-    if(institution===""){
-
-        alert("Please choose your institution.");
+        alert(
+            "Please enter your full name."
+        );
 
         return;
 
     }
 
-    //------------------------------------------------
 
-    button.disabled = true;
+    if (contact === "") {
 
-    button.innerHTML = "Preparing Checkout...";
+        alert(
+            "Please enter your contact number."
+        );
 
-    try{
-
-   const response = await fetch(
-    CONFIG.API_URL + "/register",
-    {
-
-        method:"POST",
-
-        headers:{
-            "Content-Type":
-                "application/json"
-        },
-
-        body:JSON.stringify({
-
-            name:name,
-            email:email,
-            institution:institution
-
-        })
+        return;
 
     }
-);
 
-        const result = await response.json();
 
-        //------------------------------------------------
+    if (email === "") {
 
-        if(!result.success){
+        alert(
+            "Please enter your email address."
+        );
 
-            alert(result.message);
+        return;
 
-            button.disabled=false;
+    }
 
-            button.innerHTML="Continue to Secure Checkout";
+
+    if (institutionType === "") {
+
+        alert(
+            "Please choose your institution type."
+        );
+
+        return;
+
+    }
+
+
+    if (
+        (
+            institutionType === "SCHOOL" ||
+            institutionType === "COLLEGE"
+        ) &&
+        institution === ""
+    ) {
+
+        alert(
+            "Please choose your institution."
+        );
+
+        return;
+
+    }
+
+
+    // ----------------------------------------
+    // Disable Button
+    // ----------------------------------------
+
+    button.disabled =
+        true;
+
+    button.innerHTML =
+        "Preparing Checkout...";
+
+
+    try {
+
+        // ------------------------------------
+        // Send Registration
+        // ------------------------------------
+
+        const response =
+            await fetch(
+                CONFIG.API_URL + "/register",
+                {
+
+                    method: "POST",
+
+                    headers: {
+                        "Content-Type":
+                            "application/json"
+                    },
+
+                    body: JSON.stringify({
+
+                        name:
+                            name,
+
+                        contact:
+                            contact,
+
+                        email:
+                            email,
+
+                        institutionType:
+                            institutionType,
+
+                        institution:
+                            institution
+
+                    })
+
+                }
+            );
+
+
+        const result =
+            await response.json();
+
+
+        // ------------------------------------
+        // Registration Failed
+        // ------------------------------------
+
+        if (!result.success) {
+
+            alert(
+                result.message
+            );
+
+            button.disabled =
+                false;
+
+            button.innerHTML =
+                "Continue to Secure Checkout";
 
             return;
 
         }
 
-        //------------------------------------------------
+
+        // ------------------------------------
+        // Save Checkout Session
+        // ------------------------------------
 
         sessionStorage.setItem(
 
@@ -211,19 +445,36 @@ async function registerCustomer(e){
 
         );
 
-        window.location.href="checkout.html";
+
+        // ------------------------------------
+        // Continue to Checkout
+        // ------------------------------------
+
+        window.location.href =
+            "checkout.html";
+
 
     }
 
-    catch(error){
+    catch (error) {
 
-        console.error(error);
+        console.error(
+            "Registration error:",
+            error
+        );
 
-        alert("Unable to connect to the server.");
 
-        button.disabled=false;
+        alert(
+            "Unable to connect to the server."
+        );
 
-        button.innerHTML="Continue to Secure Checkout";
+
+        button.disabled =
+            false;
+
+
+        button.innerHTML =
+            "Continue to Secure Checkout";
 
     }
 
