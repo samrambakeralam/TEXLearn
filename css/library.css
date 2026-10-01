@@ -1097,6 +1097,16 @@ body {
     text-overflow: ellipsis;
 }
 
+/* =========================================================
+   READING HISTORY / PROGRESS PAGE TEXT
+========================================================= */
+
+.library-history-meta,
+.library-reading-progress-meta {
+    font-size: 14px;
+    line-height: 1.3;
+}
+
 .library-book-info .library-book-author {
     display: flex;
     align-items: center;
@@ -1980,7 +1990,7 @@ body.library-modal-is-open {
 
         gap: 20px 10px;
     }
-    
+
 
     /* =========================================================
    MOBILE PERSONAL LIBRARY VIEWS
@@ -2112,6 +2122,16 @@ body.library-modal-is-open {
 
 .library-book-author {
     font-size: clamp(7px, 1.9vw, 8.5px);
+}
+
+/* =========================================================
+   READING HISTORY / PROGRESS PAGE TEXT
+========================================================= */
+
+.library-history-meta,
+.library-reading-progress-meta {
+    font-size: 10px;
+    line-height: 1.3;
 }
 
     /*
