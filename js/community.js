@@ -69,9 +69,9 @@ async function loadCommunityCatalogue() {
                         caption:
                             community.description,
 
-                        image:
-                            "assets/community/" +
-                            community.image,
+                       image:
+    "https://samrambakerala.github.io/TEXLearn/assets/community/" +
+    community.image,
 
                         badge:
                             community.type,
