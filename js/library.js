@@ -5272,6 +5272,24 @@ function initialiseNavigation() {
         ) ||
         "";
 
+const librarySession =
+    await createLibrarySession(
+        customerID
+    );
+
+if (librarySession) {
+
+    LIBRARY_BOOKS.forEach(
+        function (book) {
+
+            book.isLocked = false;
+
+        }
+    );
+
+}
+
+
     await loadCustomerFavourites(
     customerID
 );
