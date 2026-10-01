@@ -70,7 +70,7 @@ async function loadCommunityCatalogue() {
                             community.description,
 
                         image:
-                            "https://samrambakerala.github.io/TEXLearn/assets/community/" +
+                            "https://samrambakeralam.github.io/TEXLearn/assets/community/" +
                             community.image,
 
                         badge:
