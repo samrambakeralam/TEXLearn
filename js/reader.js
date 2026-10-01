@@ -1212,6 +1212,47 @@ if (
 );
 
 
+/* =========================================================
+   PREVENT COPYING READER CONTENT
+
+   Text selection remains enabled so Highlight / Add Note
+   continue to work normally.
+========================================================= */
+
+document.addEventListener(
+    "copy",
+    function (event) {
+
+        const selection =
+            window.getSelection();
+
+        if (
+            !selection ||
+            selection.isCollapsed ||
+            !selection.rangeCount
+        ) {
+            return;
+        }
+
+        const range =
+            selection.getRangeAt(0);
+
+        if (
+            content &&
+            content.contains(
+                range.commonAncestorContainer
+            )
+        ) {
+
+            event.preventDefault();
+
+        }
+
+    }
+);
+
+
+
     /* =========================================================
        LOAD BOOK
     ========================================================= */
