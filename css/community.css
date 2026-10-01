@@ -66,7 +66,7 @@
 
     display: inline-block;
 
-    margin-bottom: 14px;
+    margin-bottom: 9px;
 
     font-family:
         "Inter",
@@ -131,8 +131,7 @@
     max-width:
         680px;
 
-    margin:
-        22px auto 0;
+     margin: 15px auto 0;
 
     font-family:
         "Inter",
@@ -971,7 +970,7 @@
     .rc2-community-hero {
 
         padding:
-            48px 16px 34px;
+            50px 20px 32px;
 
     }
 
