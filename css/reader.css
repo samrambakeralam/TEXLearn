@@ -2676,8 +2676,8 @@ body {
 @media (max-width: 767px) {
 
     .reader-notes-button {
-        min-height: 28px;
-        height: 28px;
+        min-height: clamp(27px, 7vw, 28px);
+        height: clamp(27px, 7vw, 28px);
 
         padding: 0 8px;
 
@@ -2696,8 +2696,10 @@ body {
 @media (max-width: 420px) {
 
     .reader-notes-button {
-        min-height: 27px;
-        height: 27px;
+
+        margin-top: 4px;
+        min-height: clamp(25px, 7vw, 26px);
+        height: clamp(25px, 7vw, 26px);
 
         padding: 0 7px;
 
