@@ -190,7 +190,7 @@
     const LIBRARY_BOOKS = Array.isArray(window.LIBRARY_BOOKS)
         ? window.LIBRARY_BOOKS
         : [];
-        
+
     let LIBRARY_ACCESS_ACTIVE = false;
 
     /*
@@ -1571,7 +1571,7 @@ async function loadCustomerHighlights(customerID) {
             ${coverHTML}
 
             ${
-                book.isLocked
+                book.isLocked && !LIBRARY_ACCESS_ACTIVE
                     ? `
                         <span class="library-book-lock">
                             <i data-lucide="lock"></i>
@@ -5287,6 +5287,10 @@ if (customerID) {
             customerID
         );
 
+}
+
+if (librarySession) {
+    LIBRARY_ACCESS_ACTIVE = true;
 }
 
 
