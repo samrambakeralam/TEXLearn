@@ -455,17 +455,17 @@
 .rc2-community-card-badge {
     position: absolute;
 
-    left: 50%;
-    top: 85%;
+    left: 12px;
+    top: 88%;
 
-    transform: translate(-50%, -50%);
+    transform: translateY(-50%);
 
     padding: 7px 12px;
 
     border-radius: 9px;
 
     background: #FFFFFF;
-    color: #000000;
+    color: #102A22;
 
     font-family: "Inter", sans-serif;
     font-size: .58rem;
@@ -1332,7 +1332,9 @@
     }
 
       .rc2-community-card-badge {
-        top: 85%;
+
+        left: 7px;
+        top: 88%;
 
         padding: 5px 8px;
 
