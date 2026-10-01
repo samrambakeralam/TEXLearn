@@ -456,25 +456,25 @@
     position: absolute;
 
     left: 50%;
-    top: 85%;
+    top: 95%;
 
     transform: translate(-50%, -50%);
 
     padding: 7px 12px;
 
-    border-radius: 7px;
+    border-radius: 9px;
 
     background: #FFFFFF;
     color: #000000;
 
     font-family: "Inter", sans-serif;
     font-size: .62rem;
-    font-weight: 700;
+    font-weight: 400;
 
     letter-spacing: .05em;
     text-transform: uppercase;
 
-    text-align: center;
+    text-align: left;
 
     backdrop-filter: blur(8px);
 
@@ -1136,7 +1136,13 @@
 
     }
 
+    .rc2-community-image {
 
+    object-fit:
+        cover;
+
+    }
+    
     /* -----------------------------------------
        CARD CONTENT
     ----------------------------------------- */
@@ -1326,7 +1332,7 @@
     }
 
       .rc2-community-card-badge {
-        top: 68%;
+        top: 95%;
 
         padding: 5px 8px;
 
