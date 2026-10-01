@@ -456,7 +456,7 @@
     position: absolute;
 
     left: 50%;
-    top: 95%;
+    top: 85%;
 
     transform: translate(-50%, -50%);
 
@@ -468,7 +468,7 @@
     color: #000000;
 
     font-family: "Inter", sans-serif;
-    font-size: .62rem;
+    font-size: .58rem;
     font-weight: 400;
 
     letter-spacing: .05em;
@@ -1142,7 +1142,7 @@
         cover;
 
     }
-    
+
     /* -----------------------------------------
        CARD CONTENT
     ----------------------------------------- */
@@ -1332,11 +1332,11 @@
     }
 
       .rc2-community-card-badge {
-        top: 95%;
+        top: 85%;
 
         padding: 5px 8px;
 
-        border-radius: 6px;
+        border-radius: 8px;
 
         font-size: .55rem;
 
