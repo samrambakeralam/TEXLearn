@@ -125,7 +125,7 @@
         },
         {
             id: "virtual-office",
-            eyebrow: "SAMRAMBA KERALAM SERVICES",
+            eyebrow: "STARTUP ESSENTIAL",
             title: "Need a Professional Business Address?",
             text:
                 "Explore Virtual Office solutions designed for " +
@@ -133,26 +133,7 @@
             action: "Explore Virtual Office",
             href: "#virtual-office"
         },
-        {
-            id: "sponsored-opportunities",
-            eyebrow: "SPONSORED OPPORTUNITIES",
-            title: "Put Your Business in Front of Future Entrepreneurs",
-            text:
-                "Explore opportunities to showcase your business " +
-                "across the SAMRAMBA KERALAM ecosystem.",
-            action: "Explore Opportunities",
-            href: "#sponsored-opportunities"
-        },
-        {
-            id: "workspace",
-            eyebrow: "WORKSPACE",
-            title: "Need a Place to Build Your Business?",
-            text:
-                "Discover workspace and coworking opportunities " +
-                "for entrepreneurs and emerging teams.",
-            action: "Explore Workspace",
-            href: "#workspace"
-        }
+        
     ];
 
 
