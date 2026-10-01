@@ -69,9 +69,9 @@ async function loadCommunityCatalogue() {
                         caption:
                             community.description,
 
-                       image:
-    "https://samrambakerala.github.io/TEXLearn/assets/community/" +
-    community.image,
+                        image:
+                            "https://samrambakerala.github.io/TEXLearn/assets/community/" +
+                            community.image,
 
                         badge:
                             community.type,
@@ -105,6 +105,7 @@ async function loadCommunityCatalogue() {
 
 }
 
+
 /* =========================================
    COMMUNITY CAROUSEL ENGINE
 ========================================= */
@@ -114,10 +115,16 @@ document.addEventListener(
     function () {
 
         const grid =
-            document.getElementById("rc2CommunityGrid");
+            document.getElementById(
+                "rc2CommunityGrid"
+            );
+
 
         const emptyState =
-            document.getElementById("rc2CommunityEmpty");
+            document.getElementById(
+                "rc2CommunityEmpty"
+            );
+
 
         const filters =
             document.querySelectorAll(
@@ -148,9 +155,11 @@ document.addEventListener(
                         return false;
                     }
 
+
                     if (currentFilter === "all") {
                         return true;
                     }
+
 
                     return item.type === currentFilter;
 
@@ -176,22 +185,31 @@ document.addEventListener(
             if (!items.length) {
 
                 if (emptyState) {
-                    emptyState.hidden = false;
+
+                    emptyState.hidden =
+                        false;
+
                 }
 
                 return;
+
             }
 
 
             if (emptyState) {
-                emptyState.hidden = true;
+
+                emptyState.hidden =
+                    true;
+
             }
 
 
             /* Keep index valid after filtering */
 
             if (currentIndex >= items.length) {
+
                 currentIndex = 0;
+
             }
 
 
@@ -199,7 +217,9 @@ document.addEventListener(
                 function (item, index) {
 
                     const card =
-                        document.createElement("article");
+                        document.createElement(
+                            "article"
+                        );
 
 
                     card.className =
@@ -210,7 +230,10 @@ document.addEventListener(
                         Only the active card is visible.
                     */
 
-                    if (index !== currentIndex) {
+                    if (
+                        index !==
+                        currentIndex
+                    ) {
 
                         card.classList.add(
                             "rc2-community-card-hidden"
@@ -261,12 +284,14 @@ document.addEventListener(
 
 
             if (
-                typeof lucide !== "undefined"
+                typeof lucide !==
+                "undefined"
             ) {
 
                 lucide.createIcons();
 
             }
+
 
             updateArrowVisibility();
 
@@ -290,8 +315,14 @@ document.addEventListener(
 
             currentIndex++;
 
-            if (currentIndex >= items.length) {
+
+            if (
+                currentIndex >=
+                items.length
+            ) {
+
                 currentIndex = 0;
+
             }
 
 
@@ -317,8 +348,12 @@ document.addEventListener(
 
             currentIndex--;
 
+
             if (currentIndex < 0) {
-                currentIndex = items.length - 1;
+
+                currentIndex =
+                    items.length - 1;
+
             }
 
 
@@ -371,75 +406,79 @@ document.addEventListener(
 
 
         /* =========================================
-   ARROWS
-========================================= */
+           ARROWS
+        ========================================== */
 
-const previousButton =
-    document.getElementById(
-        "rc2CommunityPrev"
-    );
-
-
-const nextButton =
-    document.getElementById(
-        "rc2CommunityNext"
-    );
+        const previousButton =
+            document.getElementById(
+                "rc2CommunityPrev"
+            );
 
 
-/* =========================================
-   UPDATE ARROW VISIBILITY
-========================================= */
-
-function updateArrowVisibility() {
-
-    const items =
-        getFilteredItems();
+        const nextButton =
+            document.getElementById(
+                "rc2CommunityNext"
+            );
 
 
-    const showArrows =
-        items.length > 1;
+        /* =========================================
+           UPDATE ARROW VISIBILITY
+        ========================================== */
+
+        function updateArrowVisibility() {
+
+            const items =
+                getFilteredItems();
 
 
-    if (previousButton) {
-
-        previousButton.style.display =
-            showArrows ? "flex" : "none";
-
-    }
+            const showArrows =
+                items.length > 1;
 
 
-    if (nextButton) {
+            if (previousButton) {
 
-        nextButton.style.display =
-            showArrows ? "flex" : "none";
+                previousButton.style.display =
+                    showArrows
+                        ? "flex"
+                        : "none";
 
-    }
-
-}
-
-
-/* =========================================
-   ARROW EVENTS
-========================================= */
-
-if (previousButton) {
-
-    previousButton.addEventListener(
-        "click",
-        showPrevious
-    );
-
-}
+            }
 
 
-if (nextButton) {
+            if (nextButton) {
 
-    nextButton.addEventListener(
-        "click",
-        showNext
-    );
+                nextButton.style.display =
+                    showArrows
+                        ? "flex"
+                        : "none";
 
-}
+            }
+
+        }
+
+
+        /* =========================================
+           ARROW EVENTS
+        ========================================== */
+
+        if (previousButton) {
+
+            previousButton.addEventListener(
+                "click",
+                showPrevious
+            );
+
+        }
+
+
+        if (nextButton) {
+
+            nextButton.addEventListener(
+                "click",
+                showNext
+            );
+
+        }
 
 
         /* =========================================
@@ -456,7 +495,8 @@ if (nextButton) {
             function (event) {
 
                 touchStartX =
-                    event.changedTouches[0].screenX;
+                    event.changedTouches[0]
+                        .screenX;
 
             },
             {
@@ -470,11 +510,13 @@ if (nextButton) {
             function (event) {
 
                 touchEndX =
-                    event.changedTouches[0].screenX;
+                    event.changedTouches[0]
+                        .screenX;
 
 
                 const distance =
-                    touchEndX - touchStartX;
+                    touchEndX -
+                    touchStartX;
 
 
                 const minimumSwipe =
@@ -495,7 +537,8 @@ if (nextButton) {
 
                     showNext();
 
-                } else {
+                }
+                else {
 
                     showPrevious();
 
@@ -509,14 +552,17 @@ if (nextButton) {
 
 
         /* =========================================
-   INITIAL LOAD
-========================================= */
+           INITIAL LOAD
+        ========================================== */
 
-loadCommunityCatalogue()
-    .then(
-        function () {
+        loadCommunityCatalogue()
+            .then(
+                function () {
 
-            renderCommunity();
+                    renderCommunity();
 
-        }
-    );
+                }
+            );
+
+    }
+);
