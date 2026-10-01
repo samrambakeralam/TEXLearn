@@ -1146,6 +1146,17 @@ body {
     fill: currentColor;
 }
 
+/* =========================================================
+   PERSONAL LIBRARY — DESKTOP / TABLET BREATHING SPACE
+========================================================= */
+
+#libraryPersonalView {
+    width: calc(100% - 40px);
+    margin-left: auto;
+    margin-right: auto;
+}
+
+
 @media (max-width: 767px) {
 
     .library-book-info .library-book-author {
