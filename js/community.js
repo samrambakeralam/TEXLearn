@@ -55,36 +55,33 @@ async function loadCommunityCatalogue() {
             data.communities.map(
                 function (community) {
 
-                    return {
+                return {
 
-                        id:
-                            community.id,
+    id:
+        community.id,
 
-                        type:
-                            community.type,
+    type:
+        community.type,
 
-                        title:
-                            community.caption,
+    caption:
+        community.caption,
 
-                        caption:
-                            community.description,
+    description:
+        community.description,
 
-                        image:
-                            "https://samrambakeralam.github.io/TEXLearn/assets/community/" +
-                            community.image,
+    image:
+        "https://samrambakeralam.github.io/TEXLearn/assets/community/" +
+        community.image,
 
-                        badge:
-                            community.type,
+    active:
+        String(
+            community.status || ""
+        )
+        .trim()
+        .toLowerCase() ===
+        "active"
 
-                        active:
-                            String(
-                                community.status || ""
-                            )
-                            .trim()
-                            .toLowerCase() ===
-                            "active"
-
-                    };
+};
 
                 }
             );
