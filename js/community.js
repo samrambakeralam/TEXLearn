@@ -244,11 +244,11 @@ document.addEventListener(
                                 loading="lazy"
                             >
 
-                            <span
-                                class="rc2-community-card-badge"
-                            >
-                                ${item.badge}
-                            </span>
+                           <span
+    class="rc2-community-card-badge"
+>
+    ${item.caption || ""}
+</span>
 
                         </div>
 
