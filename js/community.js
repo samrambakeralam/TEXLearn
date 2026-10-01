@@ -77,8 +77,11 @@ async function loadCommunityCatalogue() {
                             community.type,
 
                         active:
-                            community.status
-                                .toLowerCase() ===
+                            String(
+                                community.status || ""
+                            )
+                            .trim()
+                            .toLowerCase() ===
                             "active"
 
                     };
@@ -107,7 +110,7 @@ async function loadCommunityCatalogue() {
 
 
 /* =========================================
-   COMMUNITY CAROUSEL ENGINE
+   COMMUNITY GRID ENGINE
 ========================================= */
 
 document.addEventListener(
@@ -137,9 +140,20 @@ document.addEventListener(
         }
 
 
-        let currentFilter = "all";
+        /*
+         * Start with the first available
+         * filter button.
+         *
+         * Current filters:
+         * COMMUNITY
+         * INSTITUTIONS
+         * EVENTS
+         */
 
-        let currentIndex = 0;
+        let currentFilter =
+            filters.length
+                ? filters[0].dataset.communityFilter
+                : "COMMUNITY";
 
 
         /* =========================================
@@ -156,12 +170,10 @@ document.addEventListener(
                     }
 
 
-                    if (currentFilter === "all") {
-                        return true;
-                    }
-
-
-                    return item.type === currentFilter;
+                    return (
+                        item.type ===
+                        currentFilter
+                    );
 
                 }
             );
@@ -170,7 +182,7 @@ document.addEventListener(
 
 
         /* =========================================
-           RENDER
+           RENDER COMMUNITY GRID
         ========================================== */
 
         function renderCommunity() {
@@ -204,17 +216,15 @@ document.addEventListener(
             }
 
 
-            /* Keep index valid after filtering */
-
-            if (currentIndex >= items.length) {
-
-                currentIndex = 0;
-
-            }
-
+            /*
+             * Render EVERY matching item.
+             *
+             * CSS controls the layout:
+             * 2 cards per row on mobile.
+             */
 
             items.forEach(
-                function (item, index) {
+                function (item) {
 
                     const card =
                         document.createElement(
@@ -226,29 +236,13 @@ document.addEventListener(
                         "rc2-community-card";
 
 
-                    /*
-                        Only the active card is visible.
-                    */
-
-                    if (
-                        index !==
-                        currentIndex
-                    ) {
-
-                        card.classList.add(
-                            "rc2-community-card-hidden"
-                        );
-
-                    }
-
-
                     card.innerHTML = `
 
                         <div class="rc2-community-image-wrap">
 
                             <img
                                 src="${item.image}"
-                                alt="${item.title}"
+                                alt="${item.title || item.id}"
                                 class="rc2-community-image"
                                 loading="lazy"
                             >
@@ -265,11 +259,11 @@ document.addEventListener(
                         <div class="rc2-community-card-content">
 
                             <h3>
-                                ${item.title}
+                                ${item.title || ""}
                             </h3>
 
                             <p>
-                                ${item.caption}
+                                ${item.caption || ""}
                             </p>
 
                         </div>
@@ -292,73 +286,6 @@ document.addEventListener(
 
             }
 
-
-            updateArrowVisibility();
-
-        }
-
-
-        /* =========================================
-           SHOW NEXT
-        ========================================== */
-
-        function showNext() {
-
-            const items =
-                getFilteredItems();
-
-
-            if (items.length <= 1) {
-                return;
-            }
-
-
-            currentIndex++;
-
-
-            if (
-                currentIndex >=
-                items.length
-            ) {
-
-                currentIndex = 0;
-
-            }
-
-
-            renderCommunity();
-
-        }
-
-
-        /* =========================================
-           SHOW PREVIOUS
-        ========================================== */
-
-        function showPrevious() {
-
-            const items =
-                getFilteredItems();
-
-
-            if (items.length <= 1) {
-                return;
-            }
-
-
-            currentIndex--;
-
-
-            if (currentIndex < 0) {
-
-                currentIndex =
-                    items.length - 1;
-
-            }
-
-
-            renderCommunity();
-
         }
 
 
@@ -375,9 +302,6 @@ document.addEventListener(
 
                         currentFilter =
                             this.dataset.communityFilter;
-
-
-                        currentIndex = 0;
 
 
                         filters.forEach(
@@ -406,149 +330,27 @@ document.addEventListener(
 
 
         /* =========================================
-           ARROWS
+           INITIAL FILTER STATE
         ========================================== */
 
-        const previousButton =
-            document.getElementById(
-                "rc2CommunityPrev"
+        if (filters.length) {
+
+            filters.forEach(
+                function (button) {
+
+                    button.classList.remove(
+                        "active"
+                    );
+
+                }
             );
 
 
-        const nextButton =
-            document.getElementById(
-                "rc2CommunityNext"
-            );
-
-
-        /* =========================================
-           UPDATE ARROW VISIBILITY
-        ========================================== */
-
-        function updateArrowVisibility() {
-
-            const items =
-                getFilteredItems();
-
-
-            const showArrows =
-                items.length > 1;
-
-
-            if (previousButton) {
-
-                previousButton.style.display =
-                    showArrows
-                        ? "flex"
-                        : "none";
-
-            }
-
-
-            if (nextButton) {
-
-                nextButton.style.display =
-                    showArrows
-                        ? "flex"
-                        : "none";
-
-            }
-
-        }
-
-
-        /* =========================================
-           ARROW EVENTS
-        ========================================== */
-
-        if (previousButton) {
-
-            previousButton.addEventListener(
-                "click",
-                showPrevious
+            filters[0].classList.add(
+                "active"
             );
 
         }
-
-
-        if (nextButton) {
-
-            nextButton.addEventListener(
-                "click",
-                showNext
-            );
-
-        }
-
-
-        /* =========================================
-           MOBILE SWIPE
-        ========================================== */
-
-        let touchStartX = 0;
-
-        let touchEndX = 0;
-
-
-        grid.addEventListener(
-            "touchstart",
-            function (event) {
-
-                touchStartX =
-                    event.changedTouches[0]
-                        .screenX;
-
-            },
-            {
-                passive: true
-            }
-        );
-
-
-        grid.addEventListener(
-            "touchend",
-            function (event) {
-
-                touchEndX =
-                    event.changedTouches[0]
-                        .screenX;
-
-
-                const distance =
-                    touchEndX -
-                    touchStartX;
-
-
-                const minimumSwipe =
-                    50;
-
-
-                if (
-                    Math.abs(distance) <
-                    minimumSwipe
-                ) {
-
-                    return;
-
-                }
-
-
-                if (distance < 0) {
-
-                    showNext();
-
-                }
-                else {
-
-                    showPrevious();
-
-                }
-
-            },
-            {
-                passive: true
-            }
-        );
 
 
         /* =========================================
