@@ -1980,6 +1980,19 @@ body.library-modal-is-open {
 
         gap: 20px 10px;
     }
+    
+
+    /* =========================================================
+   MOBILE PERSONAL LIBRARY VIEWS
+   Match the main Library page content width
+========================================================= */
+
+#libraryPersonalView {
+    width: calc(100% - 20px);
+    margin-left: auto;
+    margin-right: auto;
+}
+
 
     /*
      * Home book rows:
