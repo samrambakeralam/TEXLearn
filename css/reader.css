@@ -171,7 +171,7 @@ body {
 ========================================================= */
 
 .reader-content {
-    width: min(1180px, calc(100% - 48px));
+    width: min(1080px, calc(100% - 48px));
 
     margin:
         4px auto 16px;
