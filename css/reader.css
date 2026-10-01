@@ -2698,8 +2698,8 @@ body {
     .reader-notes-button {
 
         margin-top: 4px;
-        min-height: clamp(25px, 7vw, 26px);
-        height: clamp(25px, 7vw, 26px);
+        min-height: clamp(24px, 7vw, 25px);
+        height: clamp(24px, 7vw, 25px);
 
         padding: 0 7px;
 
