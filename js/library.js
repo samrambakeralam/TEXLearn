@@ -190,7 +190,8 @@
     const LIBRARY_BOOKS = Array.isArray(window.LIBRARY_BOOKS)
         ? window.LIBRARY_BOOKS
         : [];
-
+        
+    let LIBRARY_ACCESS_ACTIVE = false;
 
     /*
      * Optional user state hook.
@@ -5264,33 +5265,32 @@ function initialiseNavigation() {
     renderCategories();
 
     const customerID =
-        new URLSearchParams(
-            window.location.search
-        ).get("cid") ||
-        sessionStorage.getItem(
-            "texlearn_customer_id"
-        ) ||
-        "";
+    new URLSearchParams(
+        window.location.search
+    ).get("cid") ||
+    sessionStorage.getItem(
+        "texlearn_customer_id"
+    ) ||
+    "";
 
-const librarySession =
-    await createLibrarySession(
-        customerID
-    );
 
-if (librarySession) {
+/*
+ * Check Library access for the current customer.
+ * A valid session means the customer has completed payment.
+ */
+let librarySession = null;
 
-    LIBRARY_BOOKS.forEach(
-        function (book) {
+if (customerID) {
 
-            book.isLocked = false;
-
-        }
-    );
+    librarySession =
+        await createLibrarySession(
+            customerID
+        );
 
 }
 
 
-    await loadCustomerFavourites(
+await loadCustomerFavourites(
     customerID
 );
 
@@ -5305,6 +5305,7 @@ await loadCustomerHighlights(
 await loadCustomerNotes(
     customerID
 );
+
 
 renderBookSections();
     renderContinueReading();
