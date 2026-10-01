@@ -1,53 +1,109 @@
 /* =========================================
-   SAMRAMBA COMMUNITY DATA
+   TEXLEARN COMMUNITY DATA
+   Loaded from COMMUNITY_CATALOGUE API
 ========================================= */
 
-const COMMUNITY_DATA = [
-
-    {
-        id: "endorse-1",
-
-        type: "endorsement",
-
-        title:
-            "SAMRAMBA KERALA 2030",
-
-        caption:
-            "Building connections through meaningful conversations.",
-
-        image:
-            "assets/community/endorse-1.jpg",
-
-        badge:
-            "COMMUNITY",
-
-        active:
-            true
-    },
+let COMMUNITY_DATA = [];
 
 
-    {
-        id: "endorse-2",
+/* =========================================
+   COMMUNITY CATALOGUE API
+========================================= */
 
-        type: "institutional",
+const COMMUNITY_API_URL =
+    "https://script.google.com/macros/s/AKfycbzQFLeWMQAX7gbedsu859N8nEZnGoAFinj4dn1JgpX0La7GSy-2xGHK38MdjcHM2ckk/exec";
 
-        title:
-            "Institutional Engagement",
 
-        caption:
-            "Connecting with local institutions and communities.",
+async function loadCommunityCatalogue() {
 
-        image:
-            "assets/community/endorse-2.jpg",
+    try {
 
-        badge:
-            "INSTITUTIONAL",
+        const response =
+            await fetch(
+                COMMUNITY_API_URL +
+                "?action=communitycatalogue"
+            );
 
-        active:
-            true
+
+        if (!response.ok) {
+
+            throw new Error(
+                "Community API request failed."
+            );
+
+        }
+
+
+        const data =
+            await response.json();
+
+
+        if (
+            !data ||
+            data.success !== true ||
+            !Array.isArray(data.communities)
+        ) {
+
+            throw new Error(
+                "Invalid Community Catalogue response."
+            );
+
+        }
+
+
+        COMMUNITY_DATA =
+            data.communities.map(
+                function (community) {
+
+                    return {
+
+                        id:
+                            community.id,
+
+                        type:
+                            community.type,
+
+                        title:
+                            community.caption,
+
+                        caption:
+                            community.description,
+
+                        image:
+                            "assets/community/" +
+                            community.image,
+
+                        badge:
+                            community.type,
+
+                        active:
+                            community.status
+                                .toLowerCase() ===
+                            "active"
+
+                    };
+
+                }
+            );
+
+
+        return true;
+
+    }
+    catch (error) {
+
+        console.error(
+            "COMMUNITY CATALOGUE ERROR:",
+            error
+        );
+
+        COMMUNITY_DATA = [];
+
+        return false;
+
     }
 
-];
+}
 
 /* =========================================
    COMMUNITY CAROUSEL ENGINE
@@ -453,10 +509,14 @@ if (nextButton) {
 
 
         /* =========================================
-           INITIAL RENDER
-        ========================================== */
+   INITIAL LOAD
+========================================= */
 
-        renderCommunity();
+loadCommunityCatalogue()
+    .then(
+        function () {
 
-    }
-);
+            renderCommunity();
+
+        }
+    );
