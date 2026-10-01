@@ -1821,11 +1821,10 @@ console.timeEnd("READER TOTAL LOAD");
         applySavedHighlights();
 
 
-        pageIndicator.textContent =
-            "Page " +
-            page.page +
-            " / " +
-            pages.length;
+       pageIndicator.textContent =
+    page.page +
+    "/" +
+    pages.length;
 
 
         renderPageDots();

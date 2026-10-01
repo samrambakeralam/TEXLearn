@@ -2667,3 +2667,23 @@ body {
     background: #dc2626;
     color: #ffffff;
 }
+
+
+/* =========================================================
+   MOBILE READER HEADER — NOTES BUTTON
+========================================================= */
+
+@media (max-width: 767px) {
+
+    .reader-notes-button {
+        min-height: 32px;
+        height: 32px;
+
+        padding: 0 8px;
+
+        border-radius: 7px;
+
+        font-size: clamp(10px, 2.4vw, 11px);
+    }
+
+}
