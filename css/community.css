@@ -1122,6 +1122,22 @@
         border-radius:
             14px;
 
+    }        
+
+    .rc2-community-card-badge {
+
+    left: 7px;
+    
+    top: 88%;
+
+    padding: 5px 8px;
+
+    border-radius: 8px;
+
+    font-size: clamp(9px, 2.2vw, 10px);
+
+    max-width: calc(100% - 14px);
+
     }
 
 
@@ -1331,19 +1347,20 @@
 
     }
 
-      .rc2-community-card-badge {
+    .rc2-community-card-badge {
 
-        left: 7px;
-        top: 88%;
+    left: 7px;
 
-        padding: 5px 8px;
+    top: 88%;
 
-        border-radius: 8px;
+    padding: 3px 7px;
 
-        font-size: .55rem;
+    border-radius: 8px;
 
-        max-width: calc(100% - 14px);
-    }
+    font-size: clamp(9px, 2.2vw, 10px);
+
+    max-width: calc(100% - 14px);
+}
 
 
     /* -----------------------------------------

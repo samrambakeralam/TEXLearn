@@ -239,7 +239,7 @@ document.addEventListener(
 
                             <img
                                 src="${item.image}"
-                                alt="${item.title || item.id}"
+                                alt="${item.caption || item.id}"
                                 class="rc2-community-image"
                                 loading="lazy"
                             >
