@@ -972,38 +972,30 @@
    MOBILE
 ========================================= */
 
-@media (max-width: 768px) {
-    
-    .rc2-community-carousel {
+@media (max-width: 767px) {
 
-    display:
-        block;
-
-}
-
-
-.rc2-community-arrow {
-
-    display:
-        none;
-
-}
-
-
-.rc2-community-grid {
-
-    width:
-        100%;
-
-    max-width:
-        none;
-
-}
+    /* -----------------------------------------
+       COMMUNITY HERO
+    ----------------------------------------- */
 
     .rc2-community-hero {
 
         padding:
-            90px 18px 55px;
+            48px 16px 34px;
+
+    }
+
+
+    .rc2-community-eyebrow {
+
+        margin-bottom:
+            8px;
+
+        font-size:
+            9px;
+
+        letter-spacing:
+            .11em;
 
     }
 
@@ -1011,26 +1003,49 @@
     .rc2-community-hero h1 {
 
         font-size:
-            2.15rem;
+            1.85rem;
+
+        line-height:
+            1.08;
+
+        max-width:
+            620px;
 
     }
 
 
     .rc2-community-hero p {
 
+        max-width:
+            520px;
+
+        margin:
+            13px auto 0;
+
         font-size:
-            .94rem;
+            .86rem;
+
+        line-height:
+            1.48;
 
     }
 
+
+    /* -----------------------------------------
+       COMMUNITY EXPLORER
+    ----------------------------------------- */
 
     .rc2-community-explorer {
 
         padding:
-            20px 14px 65px;
+            16px 12px 50px;
 
     }
 
+
+    /* -----------------------------------------
+       FILTERS
+    ----------------------------------------- */
 
     .rc2-community-filters {
 
@@ -1044,10 +1059,13 @@
             auto;
 
         padding:
-            2px 2px 8px;
+            2px 2px 6px;
 
         margin-bottom:
-            30px;
+            18px;
+
+        gap:
+            8px;
 
         scrollbar-width:
             none;
@@ -1068,51 +1086,109 @@
         flex:
             0 0 auto;
 
+        padding:
+            8px 14px;
+
         white-space:
             nowrap;
 
+        font-size:
+            .78rem;
+
     }
 
+
+    /* -----------------------------------------
+       COMMUNITY GRID
+       TWO CARDS PER ROW
+    ----------------------------------------- */
 
     .rc2-community-grid {
 
+        width:
+            100%;
+
+        max-width:
+            none;
+
         grid-template-columns:
-            1fr;
+            repeat(2, minmax(0, 1fr));
 
         gap:
-            20px;
+            14px 10px;
 
     }
 
+
+    /* -----------------------------------------
+       COMMUNITY CARD
+    ----------------------------------------- */
 
     .rc2-community-card {
 
         border-radius:
-            18px;
+            14px;
 
     }
 
+
+    /* -----------------------------------------
+       COMMUNITY IMAGE
+    ----------------------------------------- */
 
     .rc2-community-image-wrap {
 
         aspect-ratio:
-            16 / 10;
+            1 / 1;
 
     }
 
+
+    /* -----------------------------------------
+       CARD CONTENT
+    ----------------------------------------- */
 
     .rc2-community-card-content {
 
         padding:
-            18px 18px 20px;
+            11px 11px 13px;
 
     }
 
 
+    .rc2-community-card-content h3 {
+
+        margin:
+            0 0 5px;
+
+        font-size:
+            .88rem;
+
+        line-height:
+            1.3;
+
+    }
+
+
+    .rc2-community-card-content p {
+
+        font-size:
+            .72rem;
+
+        line-height:
+            1.45;
+
+    }
+
+
+    /* -----------------------------------------
+       CLOSING SECTION
+    ----------------------------------------- */
+
     .rc2-community-closing {
 
         padding:
-            65px 18px;
+            50px 16px;
 
     }
 
@@ -1120,7 +1196,7 @@
     .rc2-community-closing h2 {
 
         font-size:
-            1.75rem;
+            1.55rem;
 
     }
 
@@ -1133,10 +1209,25 @@
 
 @media (max-width: 420px) {
 
+    /* -----------------------------------------
+       COMMUNITY HERO
+    ----------------------------------------- */
+
     .rc2-community-hero {
 
-        padding-top:
-            78px;
+        padding:
+            38px 12px 28px;
+
+    }
+
+
+    .rc2-community-eyebrow {
+
+        margin-bottom:
+            7px;
+
+        font-size:
+            8px;
 
     }
 
@@ -1144,15 +1235,57 @@
     .rc2-community-hero h1 {
 
         font-size:
-            1.9rem;
+            1.62rem;
+
+        line-height:
+            1.08;
 
     }
 
 
-    .rc2-community-eyebrow {
+    .rc2-community-hero p {
+
+        margin-top:
+            11px;
 
         font-size:
-            10px;
+            .78rem;
+
+        line-height:
+            1.45;
+
+        max-width:
+            340px;
+
+    }
+
+
+    /* -----------------------------------------
+       EXPLORER
+    ----------------------------------------- */
+
+    .rc2-community-explorer {
+
+        padding:
+            13px 10px 42px;
+
+    }
+
+
+    /* -----------------------------------------
+       FILTERS
+    ----------------------------------------- */
+
+    .rc2-community-filters {
+
+        gap:
+            7px;
+
+        margin-bottom:
+            15px;
+
+        padding:
+            2px 1px 5px;
 
     }
 
@@ -1160,34 +1293,87 @@
     .rc2-community-filter {
 
         padding:
-            9px 15px;
+            7px 12px;
 
         font-size:
-            .82rem;
+            .72rem;
 
     }
 
-}
+
+    /* -----------------------------------------
+       TWO-COLUMN COMMUNITY GRID
+    ----------------------------------------- */
+
+    .rc2-community-grid {
+
+        grid-template-columns:
+            repeat(2, minmax(0, 1fr));
+
+        gap:
+            12px 8px;
+
+    }
 
 
-/* =========================================================
-   COMMUNITY PAGE TRANSITIONS
-========================================================= */
+    /* -----------------------------------------
+       COMMUNITY CARD
+    ----------------------------------------- */
 
-body.community-page-transition {
-    opacity: 0;
-    transform: translateX(20px);
-    transition:
-        opacity 850ms var(--rc2-transition),
-        transform 850ms var(--rc2-transition);
-}
+    .rc2-community-card {
 
-body.community-page-ready {
-    opacity: 1;
-    transform: translateX(0);
-}
+        border-radius:
+            12px;
 
-body.community-page-exit {
-    opacity: 0;
-    transform: translateX(-20px);
+    }
+
+
+    /* -----------------------------------------
+       IMAGE
+    ----------------------------------------- */
+
+    .rc2-community-image-wrap {
+
+        aspect-ratio:
+            1 / 1;
+
+    }
+
+
+    /* -----------------------------------------
+       CARD CONTENT
+    ----------------------------------------- */
+
+    .rc2-community-card-content {
+
+        padding:
+            9px 9px 11px;
+
+    }
+
+
+    .rc2-community-card-content h3 {
+
+        margin-bottom:
+            4px;
+
+        font-size:
+            .78rem;
+
+        line-height:
+            1.25;
+
+    }
+
+
+    .rc2-community-card-content p {
+
+        font-size:
+            .65rem;
+
+        line-height:
+            1.4;
+
+    }
+
 }
