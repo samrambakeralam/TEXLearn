@@ -620,6 +620,21 @@ body {
         28px 0 70px;
 }
 
+/* =========================================================
+   EXPLORE LIBRARY
+   Match the main Library content alignment
+========================================================= */
+
+#explore-library {
+    width: min(
+        calc(100% - 56px),
+        var(--library-content-max)
+    );
+
+    margin-left: auto;
+    margin-right: auto;
+}
+
 
 /* =========================================================
    13. DYNAMIC BANNER
@@ -1657,6 +1672,13 @@ body.library-modal-is-open {
         );
     }
 
+        #explore-library {
+        width: min(
+            calc(100% - 72px),
+            1380px
+        );
+    }
+
     .library-book-grid {
         grid-template-columns:
             repeat(7, minmax(0, 1fr));
@@ -1688,6 +1710,10 @@ body.library-modal-is-open {
     }
 
     .library-content {
+        width: calc(100% - 40px);
+    }
+
+        #explore-library {
         width: calc(100% - 40px);
     }
 
