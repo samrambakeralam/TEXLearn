@@ -2084,22 +2084,11 @@ body.library-modal-is-open {
     scroll-snap-align: start;
 }
 
-#popular-books .library-book-grid.is-view-all .library-book-card {
-    flex: 0 0 auto;
-    width: auto;
-
-    scroll-snap-align: none;
-}
-
-#new-releases .library-book-grid.is-view-all .library-book-card {
-    flex: 0 0 auto;
-    width: auto;
-    scroll-snap-align: none;
-}
-
+#popular-books .library-book-grid.is-view-all .library-book-card,
+#new-releases .library-book-grid.is-view-all .library-book-card,
 #recommended .library-book-grid.is-view-all .library-book-card {
     flex: 0 0 auto;
-    width: auto;
+    width: 100%;
     scroll-snap-align: none;
 }
 
