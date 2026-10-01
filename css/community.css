@@ -1134,7 +1134,7 @@
 
     border-radius: 8px;
 
-    font-size: clamp(8px, 2.2vw, 9px);
+    font-size: clamp(7px, 2.2vw, 8px);
 
     max-width: calc(100% - 14px);
 
@@ -1357,7 +1357,7 @@
 
     border-radius: 8px;
 
-    font-size: clamp(7.5px, 1.8vw, 8.5px);
+    font-size: clamp(6.5px, 1.8vw, 7.5px);
 
     max-width: calc(100% - 14px);
 }
