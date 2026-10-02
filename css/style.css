@@ -7418,10 +7418,10 @@ transform:translateY(0px);
         margin-top:20px !important;
     }
 
-   .featured-grid .module-card{
+.featured-grid .module-card{
     flex:0 0 88%;
-    min-height:530px;
-    height:530px;
+    min-height:0;
+    height:auto;
     padding:22px;
     border-radius:20px;
 }
@@ -7461,7 +7461,7 @@ transform:translateY(0px);
     }
 
     .featured-grid .module-footer{
-        margin-top:auto;
+        margin-top:26px;
     }
 
     .module-meta{
@@ -7564,10 +7564,10 @@ transform:translateY(0px);
        MODULE CARD
     ----------------------------------------------------- */
 
-    .featured-grid .module-card{
+.featured-grid .module-card{
     flex:0 0 86% !important;
-    min-height: 510px !important;
-    height: 510px !important;
+    min-height:0 !important;
+    height:auto !important;
     padding:14px !important;
     border-radius:clamp(15px,4vw,16px);
 }
@@ -7622,15 +7622,15 @@ transform:translateY(0px);
 
 
 .featured-grid .module-card p{
-
     font-size:clamp(10px,2.9vw,11px);
     line-height:1.45;
-    margin-bottom:clamp(12px,3.5vw,15px);
+    margin-bottom:0;
 }
 
 
+
     .featured-grid .module-footer{
-        margin-top:auto;
+        margin-top:24px;
             
     }
 
