@@ -4568,12 +4568,14 @@ transform:translateY(0px);
        SECTION
     ----------------------------------------- */
 
-    .opportunities-hub {
+  .opportunities-hub {
 
-        padding:
-            18px 10px 24px;
+    padding:
+        clamp(16px, 4.3vw, 18px)
+        clamp(8px, 2.8vw, 12px)
+        clamp(20px, 5.5vw, 24px);
 
-    }
+}
 
 
     /* -----------------------------------------
@@ -4633,8 +4635,8 @@ transform:translateY(0px);
 
     .opportunities-hub-banner {
 
-        border-radius:
-            14px;
+        border-radius:   clamp(11px, 3.3vw, 14px);
+           
 
     }
 
@@ -4656,27 +4658,29 @@ transform:translateY(0px);
        SMALL PHONE
     ----------------------------------------- */
 
-    .hub-slide-image {
+   .hub-slide-image {
 
-        height:
-            150px;
+    height:
+        clamp(130px, 36vw, 150px);
 
-        min-height:
-            150px;
+    min-height:
+        clamp(130px, 36vw, 150px);
 
-    }
+}
 
 
     /* -----------------------------------------
        SLIDE CONTENT
     ----------------------------------------- */
 
-    .hub-slide-content {
+   .hub-slide-content {
 
-         padding:
-            10px 14px 11px;
+    padding:
+        clamp(8px, 2.5vw, 10px)
+        clamp(11px, 3.5vw, 14px)
+        clamp(9px, 2.8vw, 11px);
 
-    }
+}
 
 
     /* -----------------------------------------
