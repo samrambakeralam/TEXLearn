@@ -1154,7 +1154,7 @@ body {
 }
 
 .library-book-info .library-book-action.is-active {
-    color: var(--library-navy);
+     color: #E11D48;
 }
 
 .library-book-info .library-book-action.is-active svg {
