@@ -138,10 +138,10 @@
         sans-serif;
 
     font-size:
-        1.05rem;
+        clamp(0.78rem, 1.1vw, 0.90rem);
 
     line-height:
-        1.7;
+        1.5;
 
     color:
         #64748B;
@@ -854,10 +854,10 @@
             13px auto 0;
 
         font-size:
-            .86rem;
+            clamp(10px, 3.2vw, 12px);
 
         line-height:
-            1.48;
+            1.45;
 
     }
 
@@ -1101,13 +1101,13 @@
     .rc2-community-hero p {
 
         margin-top:
-            11px;
+            9px;
 
         font-size:
-            .78rem;
+            clamp(10px, 2.8vw, 12px);
 
         line-height:
-            1.45;
+            1.4;
 
         max-width:
             340px;
