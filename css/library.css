@@ -2285,7 +2285,8 @@ body.library-modal-is-open {
 }
 
     .library-banner {
-        min-height: 195px;
+
+       height: clamp(195px, 50vw, 210px);
 
         border-radius: 14px;
     }
@@ -2295,29 +2296,29 @@ body.library-modal-is-open {
             22px 17px 27px;
     }
 
-    .library-banner-eyebrow {
-        margin-bottom: 7px;
+   .library-banner-eyebrow {
+    margin-bottom: 7px;
 
-        font-size: 7px;
-    }
+    font-size: clamp(6px, 1.7vw, 7px);
+}
 
-    .library-banner h1 {
-        max-width: 270px;
+.library-banner h1 {
+    max-width: 270px;
 
-        font-size: 21px;
-    }
+    font-size: clamp(19px, 5.1vw, 21px);
+}
 
-    .library-banner p {
-        max-width: 255px;
+.library-banner p {
+    max-width: 255px;
 
-        font-size: 10px;
-    }
+    font-size: clamp(9px, 2.5vw, 10px);
+}
 
-    .library-banner-action {
-        min-height: 34px;
+.library-banner-action {
+    min-height: 34px;
 
-        font-size: 9px;
-    }
+    font-size: clamp(8px, 2.3vw, 9px);
+}
 
     .library-section {
         margin-top: 30px;
