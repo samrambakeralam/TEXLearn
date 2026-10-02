@@ -4572,7 +4572,7 @@ transform:translateY(0px);
 
     padding:
         clamp(16px, 4.3vw, 18px)
-        clamp(8px, 2.8vw, 12px)
+         8px
         clamp(20px, 5.5vw, 24px);
 
 }
