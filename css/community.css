@@ -22,7 +22,7 @@
 .rc2-community-hero {
 
     padding:
-        72px 20px 48px;
+        34px 20px 24px;
 
     background:
         linear-gradient(
@@ -94,17 +94,17 @@
         0 auto;
 
     max-width:
-        850px;
+        1100px;
 
     font-family:
         "Poppins",
         sans-serif;
 
     font-size:
-        clamp(2.2rem, 5vw, 4rem);
+          clamp(2.2rem, 4vw, 3.35rem);
 
     line-height:
-        1.08;
+        1.05;
 
     letter-spacing:
         -.03em;
@@ -131,7 +131,7 @@
     max-width:
         680px;
 
-     margin: 15px auto 0;
+     margin: 10px auto 0;
 
     font-family:
         "Inter",
@@ -156,7 +156,7 @@
 .rc2-community-explorer {
 
     padding:
-        70px 20px 90px;
+        28px 20px 90px;
 
     background:
         #FFFFFF;
