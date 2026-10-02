@@ -5933,7 +5933,7 @@ transform:translateY(0px);
   .topics-section {
 
     padding:
-        30px 16px clamp(24px, 6vw, 32px);
+         30px 10px clamp(24px, 6vw, 32px);
 
 }
     .section-badge {
