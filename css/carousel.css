@@ -705,7 +705,7 @@ box-shadow:
     .rc2-carousel-image-wrap {
 
         aspect-ratio:
-             1.05;
+            0.85;
 
     }
 
@@ -763,7 +763,7 @@ box-shadow:
     .rc2-carousel-content {
 
         padding:
-              8px 12px 9px;
+            11px 12px 12px;
 
     }
 
@@ -773,16 +773,10 @@ box-shadow:
         font-size:
         clamp(12px, 3.3vw, 13px);
 
-        margin-bottom:
-        4px;
-
     }
 
 
     .rc2-carousel-content p {
-
-          margin:
-        0 0 7px;
 
          font-size:
         clamp(8.8px, 2.45vw, 9.5px);
@@ -793,7 +787,7 @@ box-shadow:
     .rc2-carousel-button {
 
         min-height:
-            27px;
+            30px;
 
         padding:
             0 14px;
