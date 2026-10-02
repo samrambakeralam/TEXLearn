@@ -3130,15 +3130,15 @@ a {
             clamp(14px,4.5vw,18px);
     }
 
-    .rc2-mobile-nav a{
+    .rc2-mobile-nav a {
         min-height:clamp(44px,12vw,48px);
 
         padding:
             clamp(11px,3.2vw,13px)
             4px;
 
-        font-size:clamp(14px,3.7vw,15px);
-        line-height:1.2;
+        font-size:clamp(12.5px,3.7vw,14px);
+        line-height:1.1;
     }
 
     .rc2-mobile-nav button{
