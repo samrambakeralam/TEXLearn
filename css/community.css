@@ -1148,10 +1148,10 @@
     .rc2-community-filter {
 
         padding:
-            7px 12px;
+            6px 10px;
 
         font-size:
-            .72rem;
+            clamp(10px, 2.6vw, 11px);
 
     }
 
