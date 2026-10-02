@@ -7621,17 +7621,17 @@ transform:translateY(0px);
     }
 
 
-    .featured-grid .module-card p {
-        font-size:
-            clamp(10px,2.9vw,11px);
+   .featured-grid .module-card p{
+    font-size:
+        clamp(10px,2.9vw,11px);
 
-        line-height:1.45;
-        margin-bottom: 6px;
-    }
+    line-height:1.45;
+    margin-bottom:clamp(8px,2.5vw,10px);
+}
 
 
     .featured-grid .module-footer{
-        margin-top:auto;
+        margin-top:0;
             
     }
 
