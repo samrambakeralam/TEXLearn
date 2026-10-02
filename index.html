@@ -28,7 +28,7 @@
 <script src="https://unpkg.com/lucide@latest"></script>
 </head>
 
-<body>
+<body class="home-community-transition">
 
     <div id="pageContent">
 
@@ -1342,16 +1342,29 @@
 
 <script>
 /* =========================================================
-   HOME → COMMUNITY PAGE TRANSITION
+   HOME ↔ COMMUNITY PAGE TRANSITION
 ========================================================= */
 
 document.addEventListener(
     "DOMContentLoaded",
     function () {
 
-        document.getElementById("pageContent").classList.add(
-    "home-community-transition"
-);
+        requestAnimationFrame(
+            function () {
+
+                requestAnimationFrame(
+                    function () {
+
+                        document.body.classList.add(
+                            "home-community-ready"
+                        );
+
+                    }
+                );
+
+            }
+        );
+
 
         document
             .querySelectorAll(
@@ -1374,16 +1387,26 @@ document.addEventListener(
                                 return;
                             }
 
+
                             event.preventDefault();
 
-                           document.getElementById("pageContent").classList.add(
-    "home-community-exit"
-);
+
+                            document.body.classList.remove(
+                                "home-community-ready"
+                            );
+
+
+                            document.body.classList.add(
+                                "home-community-exit"
+                            );
+
 
                             setTimeout(
                                 function () {
+
                                     window.location.href =
                                         link.href;
+
                                 },
                                 850
                             );

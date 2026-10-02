@@ -11840,18 +11840,23 @@ a {
 ========================================================= */
 
 /* -----------------------------------------
-   HOME → COMMUNITY
+   HOME ↔ COMMUNITY
 ----------------------------------------- */
 
-#pageContent.home-community-transition {
-    opacity: 1;
-    transform: translateX(0);
+body.home-community-transition {
+    opacity: 0;
+    transform: translateX(20px);
     transition:
-        opacity 800ms var(--rc2-transition),
-        transform 800ms var(--rc2-transition);
+        opacity 850ms var(--rc2-transition),
+        transform 850ms var(--rc2-transition);
 }
 
-#pageContent.home-community-exit {
+body.home-community-ready {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+body.home-community-exit {
     opacity: 0;
     transform: translateX(-20px);
 }
