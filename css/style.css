@@ -5937,7 +5937,7 @@ transform:translateY(0px);
 
 }
     .section-badge {
-        font-size: 9px;
+        font-size: 8px;
 
     }
 
@@ -7352,6 +7352,27 @@ transform:translateY(0px);
     background:#FFFFFF;
 }
 
+
+    .featured-modules .section-badge {
+
+        padding:
+            clamp(6px, 1.8vw, 8px)
+            clamp(12px, 3.5vw, 16px);
+
+        font-size:
+            clamp(8.5px, 2.5vw, 10px);
+
+        letter-spacing:
+            clamp(.8px, .25vw, 1px);
+
+        margin-bottom:
+            clamp(10px, 3vw, 14px);
+
+        line-height:
+            1.2;
+    }
+
+
    .featured-modules .section-title-center h2{
     font-size:19px;
     font-weight:700;
@@ -7485,13 +7506,14 @@ transform:translateY(0px);
        SECTION BADGE
     ----------------------------------------------------- */
 
-    .featured-modules .section-badge{
+    .featured-modules .section-badge {
+
         padding:
             clamp(6px,1.8vw,7px)
             clamp(14px,3.8vw,17px);
 
         font-size:
-            clamp(8.5px,2.5vw,10px);
+            clamp(7.5px,2.5vw,8.5px);
 
         letter-spacing:
             clamp(.8px,.25vw,1px);
