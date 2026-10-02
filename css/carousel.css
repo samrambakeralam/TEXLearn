@@ -802,12 +802,23 @@ box-shadow:
 
 }
 
+/* =========================================================
+   SMALL PHONE
+========================================================= */
+
 @media (max-width: 420px) {
 
 .rc2-carousel-section {
 
     padding:
         55px 0 30px;
+
+}
+
+.rc2-carousel-container {
+
+        width:
+            calc(100% - 24px);
 
 }
 
