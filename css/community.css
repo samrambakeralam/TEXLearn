@@ -770,7 +770,7 @@
 .rc2-community-footer {
 
     padding:
-        22px 20px;
+        14px 12px;
 
     text-align:
         center;
@@ -790,11 +790,14 @@
         "Inter",
         sans-serif;
 
-    font-size:
-        .78rem;
+    font-size: .58rem;
+        
 
     color:
         #94A8A0;
+
+    line-height:  1.45;
+           
 
 }
 
