@@ -1157,6 +1157,10 @@ body {
      color: #e11d72;
 }
 
+.library-book-info .library-bookmark-button.is-active {
+    color: var(--library-navy);
+}
+
 .library-book-info .library-book-action.is-active svg {
     fill: currentColor;
 }
