@@ -7500,6 +7500,14 @@ transform:translateY(0px);
 
 @media (max-width:420px){
 
+        .featured-modules{
+    padding:
+        clamp(42px, 10vw, 52px)
+        12px
+        clamp(24px, 6vw, 32px);
+    background:#FFFFFF;
+}
+
     .featured-grid{
         gap:clamp(8px,2.5vw,10px);
         padding-left:2px;
