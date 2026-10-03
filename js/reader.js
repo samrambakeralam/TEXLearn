@@ -4660,33 +4660,6 @@ function openNotesHighlightsPanel() {
 window.openNotesHighlightsPanel =
     openNotesHighlightsPanel;
 
-    const readerNotesButton =
-    document.getElementById(
-        "readerNotesButton"
-    );
-
-
-if (readerNotesButton) {
-
-    readerNotesButton.addEventListener(
-        "click",
-        function () {
-
-            openNotesHighlightsPanel();
-
-        }
-    );
-
-}
-
-
-    /* =========================================================
-       START
-    ========================================================= */
-
-    loadBook();
-
-})();
 
 
     /* =========================================================
