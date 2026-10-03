@@ -1362,85 +1362,69 @@ async function loadBook() {
         renderNotesHighlightsPanel();
 
 
-     /* =========================================================
-   LOAD SAVED READING PROGRESS
-========================================================= */
+        /* =========================================================
+           LOAD SAVED READING PROGRESS
+        ========================================================= */
 
-if (!preview) {
-
-    savedProgress =
-        await loadSavedProgress();
+        savedProgress =
+            await loadSavedProgress();
 
 
-    if (savedProgress) {
+        if (savedProgress) {
 
-        const savedPage =
-            Number(
-                savedProgress.currentPage ||
-                savedProgress.lastPage ||
-                1
-            );
+            const savedPage =
+                Number(
+                    savedProgress.currentPage ||
+                    savedProgress.lastPage ||
+                    1
+                );
 
 
-        if (
-            Number.isFinite(savedPage) &&
-            savedPage >= 1 &&
-            savedPage <= pages.length
-        ) {
+            if (
+                Number.isFinite(savedPage) &&
+                savedPage >= 1 &&
+                savedPage <= pages.length
+            ) {
 
-            currentPageIndex =
-                savedPage - 1;
+                currentPageIndex =
+                    savedPage - 1;
+
+            }
 
         }
 
-    }
 
-}
-
-
-/* =========================================================
-   INITIAL PAGE RENDER
-========================================================= */
-
-renderPage();
-
-
-titleStylePromise.then(
-    function () {
+        /* =========================================================
+           INITIAL PAGE RENDER
+        ========================================================= */
 
         renderPage();
 
-    }
-);
+
+        titleStylePromise.then(
+            function () {
+
+                renderPage();
+
+            }
+        );
 
 
-/* =========================================================
-   SAVE READING HISTORY
-========================================================= */
+        /* =========================================================
+           SAVE READING HISTORY
+        ========================================================= */
 
-if (!preview) {
-
-    await saveReadingHistory();
-
-}
+        await saveReadingHistory();
 
 
-/*
- * Initial page restoration is complete.
- */
-
-isInitialPageRender = false;
+        isInitialPageRender = false;
 
 
-/* =========================================================
-   SAVE INITIAL READING PROGRESS
-========================================================= */
+        /* =========================================================
+           SAVE INITIAL READING PROGRESS
+        ========================================================= */
 
-if (!preview) {
-
-    saveReadingProgress();
-
-}
+        saveReadingProgress();
 
 
         console.timeEnd("READER TOTAL LOAD");
