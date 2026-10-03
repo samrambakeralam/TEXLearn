@@ -2286,7 +2286,7 @@ body.library-modal-is-open {
 
     .library-banner {
 
-       height: clamp(165px, 50vw, 210px);
+       height: clamp(195px, 50vw, 200px);
 
         border-radius: 14px;
     }
