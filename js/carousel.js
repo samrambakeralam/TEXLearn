@@ -74,16 +74,18 @@ function getFeaturedCarouselData() {
 const FEATURED_MODULE_DATA = [
 
     {
-        id: "startup-fundamentals",
+        id: "book-039",
+        bookId: "book-039",
+        versionId: "book-039-v1",
 
         number: "MODULE 01",
 
         category: "Entrepreneurship",
 
-        title: "Startup Fundamentals",
+        title: "500 Tips for Startup Folks",
 
         description:
-            "Build a strong foundation in entrepreneurship by learning idea validation, product development, branding, sales, finance, and business growth.",
+            "A practical roadmap covering idea validation, product development, branding, sales, leadership, finance, and business growth.",
 
         pages: "7 Pages",
 
@@ -93,23 +95,26 @@ const FEATURED_MODULE_DATA = [
 
         buttonText: "Read Preview",
 
-        link: "#",
+        link:
+            "reader.html?bookId=book-039&versionId=book-039-v1&preview=1",
 
         active: true
     },
 
 
     {
-        id: "viral-marketing",
+        id: "book-379",
+        bookId: "book-379",
+        versionId: "book-379-v1",
 
         number: "MODULE 02",
 
         category: "Marketing Strategy",
 
-        title: "Viral Marketing",
+        title: "Contagious",
 
         description:
-            "Learn why ideas, products, and messages spread naturally, and discover practical principles for creating memorable and shareable marketing.",
+            "Discover why certain ideas, products, and messages spread naturally, and learn practical principles to make your own ideas more memorable and shareable.",
 
         pages: "9 Pages",
 
@@ -119,23 +124,26 @@ const FEATURED_MODULE_DATA = [
 
         buttonText: "Read Preview",
 
-        link: "#",
+        link:
+            "reader.html?bookId=book-379&versionId=book-379-v1&preview=1",
 
         active: true
     },
 
 
     {
-        id: "psychology-selling",
+        id: "book-086",
+        bookId: "book-086",
+        versionId: "book-086-v1",
 
         number: "MODULE 03",
 
         category: "Sales Mastery",
 
-        title: "Psychology of Selling",
+        title: "The Psychology of Selling",
 
         description:
-            "Understand customer behaviour, communication, negotiation, and relationship building to become more confident in real-world selling situations.",
+            "Learn the mindset, communication techniques, and customer psychology behind successful selling, negotiation, and long-term relationship building.",
 
         pages: "7 Pages",
 
@@ -145,7 +153,8 @@ const FEATURED_MODULE_DATA = [
 
         buttonText: "Read Preview",
 
-        link: "#",
+        link:
+            "reader.html?bookId=book-086&versionId=book-086-v1&preview=1",
 
         active: true
     }
