@@ -173,11 +173,11 @@ body {
 .reader-content {
     width: min(1080px, calc(100% - 48px));
 
-    margin:
-        4px auto 16px;
-
     padding:
-        28px 52px 32px;
+    20px 48px 24px;
+
+margin:
+    4px auto 12px;
 
     background: #ffffff;
 
@@ -339,10 +339,10 @@ body {
     max-width: 100%;
 
     margin:
-        30px 0 18px;
+    21px 0 11px;
 
-    padding:
-        7px 12px;
+   padding:
+    6px 11px;
 
     background:
         var(
@@ -357,10 +357,12 @@ body {
     );
 
    font-size:
-    clamp(18px, 0.35vw + 18px, 19px);
+    18px;
+
     font-weight: 700;
 
-    line-height: 1.3;
+   line-height:
+    1.25;
 
     letter-spacing: 0;
 
@@ -380,14 +382,14 @@ body {
 .reader-paragraph {
 
     margin:
-        0 0 17px;
+       0 0 11px;
 
     color: #000000;
 
-    font-size: clamp(17px, 1.05vw + 8px, 19px);
+    font-size:   17px;
     font-weight: 400;
 
-    line-height: 1.65;
+    line-height: 1.52;
 
     letter-spacing: 0;
 }
@@ -408,16 +410,16 @@ body {
 .reader-bold {
 
     margin:
-        0 0 17px;
+        0 0 11px;
 
     color:
         #000000;
 
     font-size:
-        19px;
+        17px;
 
     line-height:
-        1.65;
+        1.52;
 
     letter-spacing:
         0;
@@ -437,14 +439,14 @@ body {
     gap: 10px;
 
     margin:
-        8px 0;
+        5px 0;
 
     color: #000000;
 
-    font-size: 18px;
+    font-size: 17px;
     font-weight: 400;
 
-    line-height: 1.65;
+    line-height: 1.5;
 }
 
 
@@ -488,18 +490,24 @@ body {
     width: fit-content;
     max-width: 100%;
 
-    margin: 22px 0 10px;
-    padding: 6px 10px;
+    margin:
+    15px 0 7px;
+
+    padding:
+    5px 9px;
 
     color: var(
         --reader-theme-primary,
         #C62828
     );
 
-    font-size: 17px;
+   font-size:
+    16px;
+
     font-weight: 700;
 
-    line-height: 1.4;
+    line-height:
+    1.3;
 
     border-radius: 5px;
 }
@@ -514,16 +522,16 @@ body {
 .reader-bullet {
     display: flex;
     align-items: center;
-    gap: 10px;
+    gap: 8px;
 
-    margin: 6px 0;
+    margin: 4px 0;
 
     color: #000000;
 
-    font-size: 18px;
+    font-size: 17px;
     font-weight: 400;
 
-    line-height: 1.6;
+    line-height: 1.5;
 }
 
 .reader-bullet-marker {
@@ -563,7 +571,7 @@ body {
 
 .reader-table-block {
     width: 100%;
-    margin: 18px 0 24px;
+    margin: 13px 0 17px;
 }
 
 .reader-table-wrap {
@@ -581,13 +589,13 @@ body {
     color: #000000;
     background: transparent;
 
-    font-size: 18px;
-    line-height: 1.55;
+    font-size: 16px;
+    line-height: 1.45;
 }
 
 .reader-table th,
 .reader-table td {
-    padding: 7px 14px;
+    padding: 5px 11px;
 
     text-align: left;
     vertical-align: top;
@@ -719,10 +727,10 @@ body {
         #ffffff;
 
     font-size:
-        15px;
+        14px;
 
     line-height:
-        1.45;
+        1.4;
 }
 
 
@@ -731,7 +739,7 @@ body {
 .reader-comparison-table td {
 
     padding:
-        6px 10px;
+        5px 9px;
 
     color:
         #000000;
@@ -819,7 +827,7 @@ body {
         100%;
 
     margin:
-        30px 0 28px;
+        18px 0 18px;
 
     padding:
         0;
@@ -835,7 +843,7 @@ body {
         block;
 
     width:
-        88%;
+        84%;
 
     max-width:
         1000px;
@@ -924,7 +932,7 @@ body {
         100%;
 
     margin:
-        12px auto 24px;
+        8px auto 18px;
 
     padding:
         0;
@@ -1086,10 +1094,10 @@ body {
         100%;
 
     margin:
-        8px 0 26px;
+        5px 0 18px;
 
     padding:
-        18px 26px;
+    14px 22px;
 
     border-radius:
         10px;
@@ -1556,7 +1564,7 @@ body {
         100%;
 
     padding:
-        10px 20px 22px;
+    7px 20px 15px;
 }
 
 
