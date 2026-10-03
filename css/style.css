@@ -7566,7 +7566,7 @@ transform:translateY(0px);
 
 .featured-grid .module-card{
     flex:0 0 86% !important;
-    min-height:100px !important;
+    min-height:150px !important;
     height:auto !important;
     padding:14px !important;
     border-radius:clamp(15px,4vw,16px);
