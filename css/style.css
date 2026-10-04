@@ -7874,7 +7874,7 @@ transform:translateY(0px);
 }
 
 .featured-footer p{
-    font-size:clamp(10px,2.9vw,11px);
+    font-size:clamp(8px,2.9vw,9px);
     line-height:1.5;
     margin:0 auto;
     max-width:clamp(290px,86vw,340px);
