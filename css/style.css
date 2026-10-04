@@ -8108,6 +8108,28 @@ transform:translateY(0px);
 
 }
 
+.track-3d-icon {
+
+    width:
+        58px;
+
+    height:
+        58px;
+
+    display:
+        block;
+
+    object-fit:
+        contain;
+
+    flex-shrink:
+        0;
+
+    margin:
+        0 auto 10px;
+
+}
+
 
 /* =========================================================
    TRACK CARD — HOVER
@@ -8123,39 +8145,6 @@ transform:translateY(0px);
 
     box-shadow:
         0 20px 45px rgba(15,23,42,.10);
-
-}
-
-
-/* =========================================================
-   TRACK ICON
-========================================================= */
-
-.track-card i {
-
-    width:
-        64px;
-
-    height:
-        64px;
-
-    display:
-        flex;
-
-    align-items:
-        center;
-
-    justify-content:
-        center;
-
-    background:
-        #F0FDF4;
-
-    border-radius:
-        18px;
-
-    margin-bottom:
-        20px;
 
 }
 
@@ -8370,20 +8359,6 @@ transform:translateY(0px);
     }
 
 
-    .track-card i {
-
-        width:
-            60px;
-
-        height:
-            60px;
-
-        margin-bottom:
-            18px;
-
-    }
-
-
     .track-card svg {
 
         width:
@@ -8528,6 +8503,19 @@ transform:translateY(0px);
 
     justify-content:
         center;
+
+}
+
+.track-3d-icon {
+
+    width:
+        46px;
+
+    height:
+        46px;
+
+    margin-bottom:
+        7px;
 
 }
 
@@ -8738,21 +8726,18 @@ transform:translateY(0px);
 }
 
 
-    .track-card i {
+   .track-3d-icon {
 
-        width:
-            34px;
+    width:
+        40px;
 
-        height:
-            34px;
+    height:
+        40px;
 
-        margin-bottom:
-            6px;
+    margin-bottom:
+        5px;
 
-        border-radius:
-            10px;
-
-    }
+}
 
 
     .track-card svg {
