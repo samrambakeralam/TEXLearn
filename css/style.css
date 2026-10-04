@@ -7714,7 +7714,7 @@ transform:translateY(0px);
 
 @media (max-width:420px){
 
-        .featured-modules{
+        .featured-modules {
     padding:
         clamp(42px, 10vw, 52px)
         9px
