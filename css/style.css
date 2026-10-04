@@ -9969,7 +9969,7 @@ transform:translateY(0px);
 
 .highlight-item span{
     font-size:
-        clamp(17px,4.8vw,20px);
+        clamp(15px,4.8vw,17px);
 
     margin-top:
         clamp(1px,.5vw,2px);
