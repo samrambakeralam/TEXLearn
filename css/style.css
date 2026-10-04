@@ -4075,7 +4075,7 @@ transform:translateY(0px);
 
           padding:
         clamp(22px, 4.3vw, 23px)
-        8px
+        9px
         clamp(27.5px, 5.5vw, 28.5px);
 
     position:
@@ -4574,7 +4574,7 @@ transform:translateY(0px);
 
     padding:
         clamp(16px, 4.3vw, 18px)
-         8px
+         9px
         clamp(20px, 5.5vw, 24px);
 
 }
@@ -7554,10 +7554,11 @@ transform:translateY(0px);
 
 @media (max-width:767px){
 
-    .featured-modules{
+    .featured-modules {
+
     padding:
         clamp(42px, 10vw, 52px)
-        10px
+        20px
         clamp(24px, 6vw, 32px);
     background:#FFFFFF;
 }
