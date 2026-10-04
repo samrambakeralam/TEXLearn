@@ -8441,6 +8441,15 @@ transform:translateY(0px);
     }
 
 
+    .learning-tracks .section-title-center {
+
+    width:100%;
+    max-width:none;
+    margin-left:0;
+    margin-right:0;
+    text-align:left;
+}
+
     .learning-tracks .section-title-center h2 {
 
         font-size:
@@ -8581,9 +8590,10 @@ transform:translateY(0px);
 @media (max-width: 420px) {
 
 .learning-tracks {
+
     padding:
         clamp(28px, 8vw, 34px)
-        10px
+        9px
         clamp(24px, 7vw, 30px);
 }
 
@@ -8603,6 +8613,15 @@ transform:translateY(0px);
             .06em;
 
     }
+
+    .learning-tracks .section-title-center {
+
+    width:100%;
+    max-width:none;
+    margin-left:0;
+    margin-right:0;
+    text-align:left;
+}
 
 
     .learning-tracks .section-title-center h2 {
