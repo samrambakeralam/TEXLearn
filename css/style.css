@@ -5364,7 +5364,7 @@ transform:translateY(0px);
     .why-bundle {
 
     padding:
-        20px 10px 25px;
+        20px 11px 25px;
 
 }
 
@@ -6984,7 +6984,7 @@ transform:translateY(0px);
 
     .hub-video-section {
         padding:
-            24px 8px 28px;
+            24px 9px 28px;
     }
 
     .hub-video-label {
@@ -7719,7 +7719,7 @@ transform:translateY(0px);
         .featured-modules {
     padding:
         clamp(42px, 10vw, 52px)
-        9px
+        10px
         clamp(24px, 6vw, 32px);
     background:#FFFFFF;
 }
