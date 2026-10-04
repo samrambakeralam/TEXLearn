@@ -7610,6 +7610,7 @@ transform:translateY(0px);
 
     .featured-carousel{
         gap:0;
+        width:100%;
     }
 
     .featured-carousel-arrow{
@@ -7617,8 +7618,9 @@ transform:translateY(0px);
     }
 
     .featured-carousel .featured-grid{
-        padding-left:4px;
-        padding-right:4px;
+        padding-left:0px;
+        padding-right:0px;
+          width:100%;
     }
 
     .featured-grid{
