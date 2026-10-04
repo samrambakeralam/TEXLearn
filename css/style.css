@@ -8701,34 +8701,34 @@ transform:translateY(0px);
 
     .track-card {
 
-        height:
-            132px;
+    height:
+        114px;
 
-        min-height:
-            132px;
+    min-height:
+        114px;
 
-        padding:
-            10px 8px;
+    padding:
+        8px 7px;
 
-        border-radius:
-            16px;
+    border-radius:
+        16px;
 
-        box-sizing:
-            border-box;
+    box-sizing:
+        border-box;
 
-        display:
-            flex;
+    display:
+        flex;
 
-        flex-direction:
-            column;
+    flex-direction:
+        column;
 
-        align-items:
-            center;
+    align-items:
+        center;
 
-        justify-content:
-            center;
+    justify-content:
+        center;
 
-    }
+}
 
 
     .track-card i {
