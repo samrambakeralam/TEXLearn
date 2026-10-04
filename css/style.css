@@ -10468,7 +10468,7 @@ transform:translateY(0px);
     width:100%;
     max-width:none;
 
-    font-size:clamp(1.55rem,7vw,1.75rem);
+    font-size:clamp(1.50rem,7vw,1.70rem);
     line-height:1.08;
     letter-spacing:clamp(-.8px,-.18vw,-.7px);
 
@@ -10484,7 +10484,7 @@ transform:translateY(0px);
         auto
         clamp(14px,4vw,18px);
 
-    font-size:clamp(0.78rem,3.1vw,0.88rem);
+    font-size:clamp(0.75rem,3.1vw,0.85rem);
 
     line-height:1.5;
 }
