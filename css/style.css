@@ -7794,7 +7794,7 @@ transform:translateY(0px);
 
     .featured-grid .module-cover-text h4{
         font-size:
-            clamp(11px,3.4vw,12px) !important;
+            clamp(10px,3.4vw,11px) !important;
 
         line-height:1.2;
     }
@@ -7802,7 +7802,7 @@ transform:translateY(0px);
 
     .featured-grid .module-cover .module-number{
         font-size:
-            clamp(8px,2.4vw,9px) !important;
+            clamp(6px,2.4vw,7px) !important;
     }
 
 
