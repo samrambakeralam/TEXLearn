@@ -8480,18 +8480,17 @@ transform:translateY(0px);
     }
 
 
-    .learning-tracks-grid {
+   .learning-tracks-grid {
 
-        grid-template-columns:
-            repeat(2, minmax(0, 1fr));
+    grid-template-columns:
+        repeat(2, minmax(0, 1fr));
 
-        gap:
-            16px;
+    gap:
+        12px;
 
-        margin-top:
-            40px;
-
-    }
+    margin-top:
+        30px;
+}
 
 
            .track-card {
