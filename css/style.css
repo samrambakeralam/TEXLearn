@@ -10033,7 +10033,7 @@ transform:translateY(0px);
 
 .highlight-item span{
     font-size:
-        clamp(15px,4.8vw,17px);
+        clamp(14px,4.8vw,15px);
 
     margin-top:
         clamp(1px,.5vw,2px);
@@ -10050,7 +10050,7 @@ transform:translateY(0px);
 
 .value-statement h4{
     font-size:
-        clamp(14px,4vw,16px);
+        clamp(12px,4vw,13px);
 
     line-height:1.25;
 
