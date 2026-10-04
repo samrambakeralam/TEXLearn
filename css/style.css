@@ -7794,7 +7794,7 @@ transform:translateY(0px);
 
     .featured-grid .module-cover-text h4{
         font-size:
-            clamp(10px,3.4vw,11px) !important;
+            clamp(9px,3.4vw,10px) !important;
 
         line-height:1.2;
     }
@@ -7819,7 +7819,7 @@ transform:translateY(0px);
 
     .featured-grid .module-card h3{
         font-size:
-            clamp(11px,3.4vw,12px) !important;
+            clamp(10px,3.4vw,11px) !important;
 
         line-height:1.2;
         margin-bottom:
@@ -7828,7 +7828,7 @@ transform:translateY(0px);
 
 
 .featured-grid .module-card p{
-    font-size:clamp(9px,2.9vw,10px);
+    font-size:clamp(8px,2.9vw,9px);
     line-height:1.45;
     margin-bottom:0;
 }
