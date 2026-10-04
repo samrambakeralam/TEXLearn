@@ -5399,7 +5399,7 @@ transform:translateY(0px);
     .why-bundle .section-title p {
 
         font-size:
-            10px;
+           clamp(10px, 2.9vw, 11px);
 
         line-height:
             1.65;
@@ -5978,7 +5978,7 @@ transform:translateY(0px);
     .topics-left p {
 
     font-size:
-        clamp(10.5px, 2.9vw, 12px);
+        clamp(10px, 2.9vw, 11px);
 
     line-height:
         1.55;
@@ -7759,7 +7759,7 @@ transform:translateY(0px);
 
     .featured-modules .section-title-center p{
         font-size:
-            clamp(9px,2.9vw,10px);
+            clamp(10px, 2.9vw, 11px);
 
         line-height:1.5;
         margin-top:0;
@@ -8609,7 +8609,7 @@ transform:translateY(0px);
             100%;
 
         font-size:
-            11.5px;
+           clamp(10px, 2.9vw, 11px);
 
         line-height:
             1.58;
@@ -9403,7 +9403,7 @@ transform:translateY(0px);
 
 }
 
-.pricing-section .section-header p{
+.pricing-section .section-header p {
 
     max-width:500px;
 
@@ -9899,7 +9899,7 @@ transform:translateY(0px);
 }
 
 .pricing-section .section-header p {
-    font-size:clamp(11px,3vw,12px);
+    font-size:clamp(10px, 2.9vw, 11px);
     line-height:1.6;
 }
 

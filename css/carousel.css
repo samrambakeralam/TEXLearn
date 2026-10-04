@@ -872,7 +872,7 @@ box-shadow:
 .rc2-carousel-heading p {
 
     font-size:
-        10px;
+          clamp(10px, 2.9vw, 11px);
 
     line-height:
         1.45;
