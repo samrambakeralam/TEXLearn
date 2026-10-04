@@ -7557,7 +7557,7 @@ transform:translateY(0px);
     .featured-modules{
     padding:
         clamp(42px, 10vw, 52px)
-        18px
+        10px
         clamp(24px, 6vw, 32px);
     background:#FFFFFF;
 }
@@ -7716,7 +7716,7 @@ transform:translateY(0px);
         .featured-modules{
     padding:
         clamp(42px, 10vw, 52px)
-        10px
+        8px
         clamp(24px, 6vw, 32px);
     background:#FFFFFF;
 }
