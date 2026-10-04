@@ -7558,7 +7558,7 @@ transform:translateY(0px);
 
     padding:
         clamp(42px, 10vw, 52px)
-        12px
+        14px
         clamp(24px, 6vw, 32px);
     background:#FFFFFF;
 }
