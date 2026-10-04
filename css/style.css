@@ -7036,6 +7036,19 @@ transform:translateY(0px);
 
 }
 
+.featured-modules .container{
+
+    display:block;
+
+    width:100%;
+    max-width:1200px;
+
+    margin:0 auto;
+
+    box-sizing:border-box;
+
+}
+
 .featured-modules .section-title-center h2{
 
     font-size:30px;
@@ -7871,6 +7884,19 @@ transform:translateY(0px);
 
     border-top:
         1px solid #E5E7EB;
+
+}
+
+.learning-tracks .container{
+
+    display:block;
+
+    width:100%;
+    max-width:1200px;
+
+    margin:0 auto;
+
+    box-sizing:border-box;
 
 }
 
