@@ -8687,8 +8687,12 @@ transform:translateY(0px);
     gap:
         10px;
 
-    margin-top:
-        26px;
+    width:
+        calc(100% - 20px);
+
+    margin:
+        30px auto 0;
+
 }
 
 
