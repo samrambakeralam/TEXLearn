@@ -7036,6 +7036,25 @@ transform:translateY(0px);
 
 }
 
+.featured-modules .section-title-center{
+
+    width:
+        min(
+            calc(100% - 40px),
+            var(--rc2-container)
+        );
+
+    max-width:
+        var(--rc2-container);
+
+    margin:
+        0 auto;
+
+    box-sizing:
+        border-box;
+
+}
+
 .featured-modules .container{
 
     display:block;
@@ -7884,6 +7903,25 @@ transform:translateY(0px);
 
     border-top:
         1px solid #E5E7EB;
+
+}
+
+.learning-tracks .section-title-center{
+
+    width:
+        min(
+            calc(100% - 40px),
+            var(--rc2-container)
+        );
+
+    max-width:
+        var(--rc2-container);
+
+    margin:
+        0 auto;
+
+    box-sizing:
+        border-box;
 
 }
 
