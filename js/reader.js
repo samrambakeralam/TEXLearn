@@ -25,23 +25,17 @@
     params.get("preview") === "1";
 
 
-    const customerID =
+const customerID =
     params.get("cid") ||
-    sessionStorage.getItem(
-        "texlearn_reader_customer_id"
-    ) ||
     localStorage.getItem(
-        "texlearn_reader_customer_id"
+        "texlearn_customer_id"
     ) ||
     "";
 
-const token =
-    params.get("t") ||
-    sessionStorage.getItem(
-        "texlearn_reader_token"
-    ) ||
+const sessionToken =
+    params.get("sessionToken") ||
     localStorage.getItem(
-        "texlearn_reader_token"
+        "samramba_library_session_token"
     ) ||
     "";
 
@@ -66,6 +60,7 @@ const versionID =
     "";
 
 if (customerID) {
+
     sessionStorage.setItem(
         "texlearn_reader_customer_id",
         customerID
@@ -75,18 +70,35 @@ if (customerID) {
         "texlearn_reader_customer_id",
         customerID
     );
+
+    localStorage.setItem(
+        "texlearn_customer_id",
+        customerID
+    );
+
 }
 
-if (token) {
+if (sessionToken) {
+
     sessionStorage.setItem(
-        "texlearn_reader_token",
-        token
+        "texlearn_reader_session_token",
+        sessionToken
     );
 
     localStorage.setItem(
-        "texlearn_reader_token",
-        token
+        "texlearn_reader_session_token",
+        sessionToken
     );
+
+    /*
+     * Keep the main Library session token
+     * synchronized with the Reader.
+     */
+    localStorage.setItem(
+        "samramba_library_session_token",
+        sessionToken
+    );
+
 }
 
 if (bookID) {
@@ -135,24 +147,24 @@ if (versionID) {
     params.get("displayTitle") || "";
 
 
-    const libraryParams =
-        new URLSearchParams();
+   const libraryParams =
+    new URLSearchParams();
 
 
-    if (customerID) {
-        libraryParams.set(
-            "cid",
-            customerID
-        );
-    }
+if (customerID) {
+    libraryParams.set(
+        "cid",
+        customerID
+    );
+}
 
 
-    if (token) {
-        libraryParams.set(
-            "t",
-            token
-        );
-    }
+if (sessionToken) {
+    libraryParams.set(
+        "sessionToken",
+        sessionToken
+    );
+}
 
 
     const libraryURL =
@@ -1265,24 +1277,20 @@ async function loadBook() {
     console.time("READER TOTAL LOAD");
 
 
-    if (
-        !bookID ||
-        !versionID ||
-        (
-            !preview &&
-            (
-                !customerID ||
-                !token
-            )
-        )
-    ) {
+  if (
+    !bookID ||
+    !versionID ||
+    (
+        !preview &&
+        !sessionToken
+    )
+) {
+    showError(
+        "This reading session is missing required access information."
+    );
 
-        showError(
-            "This reading session is missing required access information."
-        );
-
-        return;
-    }
+    return;
+}
 
 
     try {
@@ -1296,20 +1304,20 @@ async function loadBook() {
             encodeURIComponent(versionID);
 
 
-        if (preview) {
+       if (preview) {
 
-            url +=
-                "&preview=1";
+    url +=
+        "&preview=1";
 
-        } else {
+} else {
 
-            url +=
-                "&cid=" +
-                encodeURIComponent(customerID) +
-                "&t=" +
-                encodeURIComponent(token);
+    url +=
+        "&sessionToken=" +
+        encodeURIComponent(
+            sessionToken
+        );
 
-        }
+}
 
 
         const titleStylePromise =

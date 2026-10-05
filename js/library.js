@@ -656,11 +656,91 @@ const libraryNotesGrid =
     }
 
 
-async function createLibrarySession(customerID) {
+async function createLibrarySession(
+    customerID,
+    accessToken,
+    persistentSessionToken
+) {
 
-    if (!customerID) {
-        return null;
+    /*
+     * Returning customer:
+     *
+     * Use the persistent session token already
+     * stored in this browser.
+     */
+    if (persistentSessionToken) {
+
+        try {
+
+            const response =
+                await fetch(
+                    LIBRARY_API_URL +
+                    "?action=librarysession" +
+                    "&sessionToken=" +
+                    encodeURIComponent(
+                        persistentSessionToken
+                    ) +
+                    "&_=" +
+                    Date.now(),
+                    {
+                        cache: "no-store"
+                    }
+                );
+
+            const data =
+                await response.json();
+
+            if (
+                data &&
+                data.success === true &&
+                data.authenticated === true &&
+                data.sessionToken
+            ) {
+
+                return data;
+
+            }
+
+            console.warn(
+                "Persistent Library session is not valid.",
+                data
+            );
+
+            return null;
+
+        } catch (error) {
+
+            console.error(
+                "Persistent Library session request failed.",
+                error
+            );
+
+            return null;
+
+        }
+
     }
+
+
+    /*
+     * First-time authentication:
+     *
+     * Requires BOTH:
+     *
+     * customerID
+     * accessToken
+     *
+     * Customer ID alone is never sufficient.
+     */
+    if (
+        !customerID ||
+        !accessToken
+    ) {
+
+        return null;
+
+    }
+
 
     try {
 
@@ -669,7 +749,18 @@ async function createLibrarySession(customerID) {
                 LIBRARY_API_URL +
                 "?action=librarysession" +
                 "&cid=" +
-                encodeURIComponent(customerID)
+                encodeURIComponent(
+                    customerID
+                ) +
+                "&t=" +
+                encodeURIComponent(
+                    accessToken
+                ) +
+                "&_=" +
+                Date.now(),
+                {
+                    cache: "no-store"
+                }
             );
 
         const data =
@@ -678,26 +769,54 @@ async function createLibrarySession(customerID) {
         if (
             !data ||
             data.success !== true ||
-            !data.token
+            !data.sessionToken
         ) {
+
             console.warn(
-                "Library session could not be created.",
+                "Library authentication failed.",
                 data
             );
 
             return null;
+
         }
+
+
+        /*
+         * Store the persistent session token
+         * on the TEXLearn / GitHub Pages origin.
+         */
+        localStorage.setItem(
+            "samramba_library_session_token",
+            data.sessionToken
+        );
+
+
+        /*
+         * Store Customer ID locally as an
+         * identity reference, not as authentication.
+         */
+        if (data.customerID) {
+
+            localStorage.setItem(
+                "texlearn_customer_id",
+                data.customerID
+            );
+
+        }
+
 
         return data;
 
     } catch (error) {
 
         console.error(
-            "Library session request failed.",
+            "Library authentication request failed.",
             error
         );
 
         return null;
+
     }
 
 }
@@ -1913,69 +2032,48 @@ if (bookmarkButton) {
         }
 
 
-        const currentParams =
-            new URLSearchParams(
-                window.location.search
-            );
-
-
         const customerID =
-            currentParams.get("cid") ||
-            sessionStorage.getItem(
-                "texlearn_customer_id"
-            );
+    localStorage.getItem(
+        "texlearn_customer_id"
+    ) ||
+    "";
 
+const persistentSessionToken =
+    localStorage.getItem(
+        "samramba_library_session_token"
+    ) ||
+    "";
 
-        /*
-         * If a customer ID exists,
-         * create a fresh Library session.
-         */
-        let token = null;
+/*
+ * Build Reader URL.
+ */
+const params =
+    new URLSearchParams();
 
+if (customerID) {
 
-        if (customerID) {
+    params.set(
+        "cid",
+        customerID
+    );
 
-            const session =
-                await createLibrarySession(
-                    customerID
-                );
+}
 
+/*
+ * Pass the persistent Library
+ * session to the Reader.
+ *
+ * This replaces the old
+ * cid + t authentication flow.
+ */
+if (persistentSessionToken) {
 
-            if (session) {
+    params.set(
+        "sessionToken",
+        persistentSessionToken
+    );
 
-                token =
-                    session.token;
-
-            }
-
-        }
-
-
-        /*
-         * Build Reader URL.
-         */
-        const params =
-            new URLSearchParams();
-
-
-        if (customerID) {
-
-            params.set(
-                "cid",
-                customerID
-            );
-
-        }
-
-
-        if (token) {
-
-            params.set(
-                "t",
-                token
-            );
-
-        }
+}
 
 
         params.set(
@@ -4526,44 +4624,41 @@ async function openReadingBook(
         return;
     }
 
-    const customerID =
-        getLibraryCustomerID();
+  const customerID =
+    localStorage.getItem(
+        "texlearn_customer_id"
+    ) ||
+    "";
 
-    let token = null;
+const persistentSessionToken =
+    localStorage.getItem(
+        "samramba_library_session_token"
+    ) ||
+    "";
 
-    if (customerID) {
+const params =
+    new URLSearchParams();
 
-        const session =
-            await createLibrarySession(
-                customerID
-            );
+if (customerID) {
+    params.set(
+        "cid",
+        customerID
+    );
+}
 
-        if (
-            session &&
-            session.token
-        ) {
-            token =
-                session.token;
-        }
-
-    }
-
-    const params =
-        new URLSearchParams();
-
-    if (customerID) {
-        params.set(
-            "cid",
-            customerID
-        );
-    }
-
-    if (token) {
-        params.set(
-            "t",
-            token
-        );
-    }
+/*
+ * Pass the persistent Library session
+ * to the Reader.
+ *
+ * This replaces the old cid + t
+ * authentication flow.
+ */
+if (persistentSessionToken) {
+    params.set(
+        "sessionToken",
+        persistentSessionToken
+    );
+}
 
     params.set(
         "bookId",
@@ -5245,33 +5340,192 @@ function initialiseNavigation() {
     initialiseBanner();
     renderCategories();
 
-    const customerID =
-    new URLSearchParams(
-        window.location.search
-    ).get("cid") ||
-    sessionStorage.getItem(
+    /*
+ * =========================================================
+ * LIBRARY AUTHENTICATION
+ * =========================================================
+ *
+ * Priority:
+ *
+ * 1. Existing persistent browser session
+ * 2. One-time email authentication
+ *
+ * Customer ID alone is NEVER used as authentication.
+ */
+
+
+/*
+ * Read persistent session token.
+ */
+const persistentSessionToken =
+    localStorage.getItem(
+        "samramba_library_session_token"
+    );
+
+
+/*
+ * Read Customer ID only as an identity reference.
+ */
+let customerID =
+    localStorage.getItem(
         "texlearn_customer_id"
     ) ||
     "";
 
 
 /*
- * Check Library access for the current customer.
- * A valid session means the customer has completed payment.
+ * Read one-time access credentials from
+ * the email link.
+ */
+const urlParams =
+    new URLSearchParams(
+        window.location.search
+    );
+
+
+const urlCustomerID =
+    urlParams.get("cid") ||
+    "";
+
+
+const accessToken =
+    urlParams.get("t") ||
+    "";
+
+
+/*
+ * If the email link contains Customer ID,
+ * use it for the initial authentication.
+ */
+if (urlCustomerID) {
+
+    customerID =
+        urlCustomerID;
+
+}
+
+
+/*
+ * Create / validate Library session.
  */
 let librarySession = null;
 
-if (customerID) {
+
+/*
+ * ---------------------------------------------------------
+ * RETURNING CUSTOMER
+ * ---------------------------------------------------------
+ *
+ * Existing browser session.
+ */
+if (persistentSessionToken) {
 
     librarySession =
         await createLibrarySession(
-            customerID
+            null,
+            null,
+            persistentSessionToken
         );
 
 }
 
+
+/*
+ * ---------------------------------------------------------
+ * FIRST-TIME CUSTOMER
+ * ---------------------------------------------------------
+ *
+ * Email link contains:
+ *
+ * cid = Customer ID
+ * t   = original access token
+ */
+if (
+    !librarySession &&
+    customerID &&
+    accessToken
+) {
+
+    librarySession =
+        await createLibrarySession(
+            customerID,
+            accessToken,
+            null
+        );
+
+}
+
+
+/*
+ * ---------------------------------------------------------
+ * AUTHENTICATION RESULT
+ * ---------------------------------------------------------
+ */
 if (librarySession) {
-    LIBRARY_ACCESS_ACTIVE = true;
+
+    LIBRARY_ACCESS_ACTIVE =
+        true;
+
+
+    /*
+     * Always keep the verified customer ID
+     * locally for the Library UI.
+     */
+    if (
+        librarySession.customerID
+    ) {
+
+        customerID =
+            librarySession.customerID;
+
+        localStorage.setItem(
+            "texlearn_customer_id",
+            customerID
+        );
+
+    }
+
+
+    /*
+     * Store the latest persistent session token.
+     */
+    if (
+        librarySession.sessionToken
+    ) {
+
+        localStorage.setItem(
+            "samramba_library_session_token",
+            librarySession.sessionToken
+        );
+
+    }
+
+
+    /*
+     * Remove authentication credentials
+     * from the browser address bar.
+     *
+     * Example:
+     *
+     * /TEXLearn/?cid=SK-2026-00030&t=xxxxx
+     *
+     * becomes:
+     *
+     * /TEXLearn/
+     */
+    if (
+        urlCustomerID ||
+        accessToken
+    ) {
+
+        window.history.replaceState(
+            {},
+            document.title,
+            window.location.pathname
+        );
+
+    }
+
 }
 
 
