@@ -370,24 +370,12 @@ async function registerCustomer(e) {
                             "application/json"
                     },
 
-                    body: JSON.stringify({
-
-                        name:
-                            name,
-
-                        contact:
-                            contact,
-
-                        email:
-                            email,
-
-                        institutionType:
-                            institutionType,
-
-                        institution:
-                            institution
-
-                    })
+                   body: JSON.stringify({
+    action: "register",
+    name: studentName.value.trim(),
+    email: studentEmail.value.trim(),
+    institution: selectedInstitution
+})
 
                 }
             );
