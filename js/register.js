@@ -383,29 +383,48 @@ const institution =
         // Send Registration
         // ------------------------------------
 
-       const response =
+       const formData =
+    new URLSearchParams();
+
+formData.append(
+    "action",
+    "register"
+);
+
+formData.append(
+    "name",
+    name
+);
+
+formData.append(
+    "contact",
+    contact
+);
+
+formData.append(
+    "email",
+    email
+);
+
+formData.append(
+    "institutionType",
+    institutionType
+);
+
+formData.append(
+    "institution",
+    institution
+);
+
+
+const response =
     await fetch(
         CONFIG.WEBAPP_URL,
         {
-
-                    method: "POST",
-
-                    headers: {
-    "Content-Type":
-        "text/plain;charset=utf-8"
-},
-
- body: JSON.stringify({
-    action: "register",
-    name: name,
-    contact: contact,
-    email: email,
-    institutionType: institutionType,
-    institution: institution
-})
-
-                }
-            );
+            method: "POST",
+            body: formData
+        }
+    );
 
 
         const result =
