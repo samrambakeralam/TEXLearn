@@ -391,9 +391,9 @@ const institution =
                     method: "POST",
 
                     headers: {
-                        "Content-Type":
-                            "application/json"
-                    },
+    "Content-Type":
+        "text/plain;charset=utf-8"
+},
 
  body: JSON.stringify({
     action: "register",
