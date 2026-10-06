@@ -427,8 +427,21 @@ const response =
     );
 
 
-        const result =
-            await response.json();
+        const rawResponse =
+    await response.text();
+
+console.log(
+    "REGISTRATION HTTP STATUS:",
+    response.status
+);
+
+console.log(
+    "REGISTRATION RAW RESPONSE:",
+    rawResponse
+);
+
+const result =
+    JSON.parse(rawResponse);
 
 
         // ------------------------------------
