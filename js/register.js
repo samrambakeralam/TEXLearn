@@ -278,7 +278,7 @@ const institution =
         ? institutionSelect.value.trim()
         : "";
 
-        
+
         console.log(
     "REGISTRATION INSTITUTION DEBUG:",
     {
@@ -385,7 +385,7 @@ const institution =
 
         const response =
             await fetch(
-                CONFIG.API_URL + "/register",
+                CONFIG.WEB_APP_URL,
                 {
 
                     method: "POST",
