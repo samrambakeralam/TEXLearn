@@ -361,31 +361,31 @@ async function verifyPayment(
         // Build API Request
         //--------------------------------------
 
-        const request = {
+       const request = {
 
-            action:
-                "VERIFY_PAYMENT",
+    action:
+        "verify payment",
 
-            paymentData: {
+    paymentData: {
 
-                customerID:
-                    session.customerID,
+        customerID:
+            session.customerID,
 
-                amount:
-                    session.razorpay.amount,
+        amount:
+            session.razorpay.amount,
 
-                razorpay_payment_id:
-                    response.razorpay_payment_id,
+        razorpay_payment_id:
+            response.razorpay_payment_id,
 
-                razorpay_order_id:
-                    response.razorpay_order_id,
+        razorpay_order_id:
+            response.razorpay_order_id,
 
-                razorpay_signature:
-                    response.razorpay_signature
+        razorpay_signature:
+            response.razorpay_signature
 
-            }
+    }
 
-        };
+};
 
 
         console.log(
@@ -398,26 +398,22 @@ async function verifyPayment(
         // Call Apps Script API
         //--------------------------------------
 
-        const apiResponse =
+       const apiResponse =
     await fetch(
-        CONFIG.API_URL + "/verify-payment",
+        CONFIG.WEBAPP_URL,
         {
-
             method:
                 "POST",
 
             headers: {
-
                 "Content-Type":
                     "application/json"
-
             },
 
             body:
                 JSON.stringify(
-                    request.paymentData
+                    request
                 )
-
         }
     );
 
