@@ -146,11 +146,11 @@ async function loadInstitutions(type) {
     try {
 
         const response =
-            await fetch(
-                CONFIG.WEB_APP_URL +
-                "?action=institutions&type=" +
-                encodeURIComponent(type)
-            );
+    await fetch(
+        CONFIG.WEBAPP_URL +
+        "?action=institutions&type=" +
+        encodeURIComponent(type)
+    );
 
 
         const result =
