@@ -29,6 +29,113 @@
         "exec";
 
 
+        // ============================================================
+// SAMRAMBA LIBRARY — UNIFIED API
+// ============================================================
+
+const LibraryAPI = {
+
+    async request(
+        operation,
+        data = {}
+    ) {
+
+        const formData =
+            new URLSearchParams();
+
+        formData.append(
+            "action",
+            "library"
+        );
+
+        formData.append(
+            "operation",
+            operation
+        );
+
+        Object.keys(data).forEach(
+            function (key) {
+
+                const value =
+                    data[key];
+
+                if (
+                    value !== undefined &&
+                    value !== null
+                ) {
+
+                    formData.append(
+                        key,
+                        String(value)
+                    );
+
+                }
+
+            }
+        );
+
+        const response =
+            await fetch(
+                LIBRARY_API_URL,
+                {
+                    method: "POST",
+                    body: formData,
+                    cache: "no-store"
+                }
+            );
+
+        const text =
+            await response.text();
+
+        let result;
+
+        try {
+
+            result =
+                JSON.parse(text);
+
+        }
+        catch (error) {
+
+            console.error(
+                "Library API returned invalid JSON:",
+                text
+            );
+
+            throw new Error(
+                "Library API returned an invalid response."
+            );
+
+        }
+
+        if (!response.ok) {
+
+            throw new Error(
+                result.message ||
+                "Library API request failed."
+            );
+
+        }
+
+        if (
+            result &&
+            result.success === false
+        ) {
+
+            throw new Error(
+                result.message ||
+                "Library API request failed."
+            );
+
+        }
+
+        return result;
+
+    }
+
+};
+
+
     /* =========================================================
        01. LIBRARY DATA
     ========================================================= */
@@ -377,66 +484,6 @@ function convertBackendNotesToLibraryNotes(notes) {
 }
 
 
-async function loadCustomerNotes(customerID) {
-
-    if (!customerID) {
-        return;
-    }
-
-    try {
-
-        const response =
-            await fetch(
-                LIBRARY_API_URL +
-                "?action=librarynotes" +
-                "&cid=" +
-                encodeURIComponent(customerID)
-            );
-
-        const data =
-            await response.json();
-
-        if (
-            !data ||
-            data.success !== true ||
-            !Array.isArray(data.notes)
-        ) {
-
-            console.warn(
-                "Customer notes could not be loaded.",
-                data
-            );
-
-            return;
-        }
-
-        const convertedNotes =
-            convertBackendNotesToLibraryNotes(
-                data.notes
-            );
-
-        saveStoredLibraryData(
-            NOTES_STORAGE_KEY,
-            convertedNotes
-        );
-
-        console.log(
-            "Customer notes loaded:",
-            convertedNotes
-        );
-
-    }
-    catch (error) {
-
-        console.error(
-            "Customer notes request failed.",
-            error
-        );
-
-    }
-
-}
-
 
     /* =========================================================
        02. DOM REFERENCES
@@ -672,23 +719,14 @@ async function createLibrarySession(
 
         try {
 
-            const response =
-                await fetch(
-                    LIBRARY_API_URL +
-                    "?action=librarysession" +
-                    "&sessionToken=" +
-                    encodeURIComponent(
-                        persistentSessionToken
-                    ) +
-                    "&_=" +
-                    Date.now(),
-                    {
-                        cache: "no-store"
-                    }
-                );
-
-            const data =
-                await response.json();
+       const data =
+    await LibraryAPI.request(
+        "session",
+        {
+            sessionToken:
+                persistentSessionToken
+        }
+    );
 
             if (
                 data &&
@@ -744,27 +782,17 @@ async function createLibrarySession(
 
     try {
 
-        const response =
-            await fetch(
-                LIBRARY_API_URL +
-                "?action=librarysession" +
-                "&cid=" +
-                encodeURIComponent(
-                    customerID
-                ) +
-                "&t=" +
-                encodeURIComponent(
-                    accessToken
-                ) +
-                "&_=" +
-                Date.now(),
-                {
-                    cache: "no-store"
-                }
-            );
+      const data =
+    await LibraryAPI.request(
+        "session",
+        {
+            customerID:
+                customerID,
 
-        const data =
-            await response.json();
+            accessToken:
+                accessToken
+        }
+    );
 
         if (
             !data ||
@@ -830,16 +858,14 @@ async function loadCustomerFavourites(customerID) {
 
     try {
 
-        const response =
-            await fetch(
-                LIBRARY_API_URL +
-                "?action=libraryfavourites" +
-                "&cid=" +
-                encodeURIComponent(customerID)
-            );
-
-        const data =
-            await response.json();
+       const data =
+    await LibraryAPI.request(
+        "favourites",
+        {
+            customerID:
+                customerID
+        }
+    );
 
         if (
             !data ||
@@ -889,16 +915,14 @@ async function loadCustomerBookmarks(customerID) {
 
     try {
 
-        const response =
-            await fetch(
-                LIBRARY_API_URL +
-                "?action=librarybookmarks" +
-                "&cid=" +
-                encodeURIComponent(customerID)
-            );
-
-        const data =
-            await response.json();
+       const data =
+    await LibraryAPI.request(
+        "bookmarks",
+        {
+            customerID:
+                customerID
+        }
+    );
 
         if (
             !data ||
@@ -953,16 +977,14 @@ async function loadCustomerNotes(customerID) {
 
     try {
 
-        const response =
-            await fetch(
-                LIBRARY_API_URL +
-                "?action=librarynotes" +
-                "&cid=" +
-                encodeURIComponent(customerID)
-            );
-
-        const data =
-            await response.json();
+       const data =
+    await LibraryAPI.request(
+        "notes",
+        {
+            customerID:
+                customerID
+        }
+    );
 
         if (
             !data ||
@@ -1019,16 +1041,14 @@ async function loadCustomerHighlights(customerID) {
 
     try {
 
-        const response =
-            await fetch(
-                LIBRARY_API_URL +
-                "?action=libraryhighlights" +
-                "&cid=" +
-                encodeURIComponent(customerID)
-            );
-
-        const data =
-            await response.json();
+       const data =
+    await LibraryAPI.request(
+        "highlights",
+        {
+            customerID:
+                customerID
+        }
+    );
 
         if (
             !data ||
@@ -1828,71 +1848,53 @@ async function loadCustomerHighlights(customerID) {
 
             try {
 
-                const response =
-                    await fetch(
-                        LIBRARY_API_URL,
-                        {
-                            method: "POST",
+    const data =
+        await LibraryAPI.request(
+            "favourite",
+            {
+                customerID:
+                    customerID,
 
-                            headers: {
-                                "Content-Type":
-                                    "text/plain;charset=utf-8"
-                            },
+                bookID:
+                    book.id,
 
-                            body: JSON.stringify({
-
-                                action:
-                                    "LIBRARY_FAVOURITE",
-
-                                customerID:
-                                    customerID,
-
-                                bookID:
-                                    book.id,
-
-                                active:
-                                    active
-
-                            })
-                        }
-                    );
-
-
-                const data =
-                    await response.json();
-
-
-                if (
-                    !data ||
-                    data.success !== true
-                ) {
-
-                    console.warn(
-                        "Favourite could not be synced.",
-                        data
-                    );
-
-                }
-                else {
-
-                    console.log(
-                        "Favourite synced:",
-                        customerID,
-                        book.id,
-                        active
-                    );
-
-                }
-
+                active:
+                    active
             }
-            catch (error) {
+        );
 
-                console.error(
-                    "Favourite sync failed.",
-                    error
-                );
 
-            }
+    if (
+        !data ||
+        data.success !== true
+    ) {
+
+        console.warn(
+            "Favourite could not be synced.",
+            data
+        );
+
+    }
+    else {
+
+        console.log(
+            "Favourite synced:",
+            customerID,
+            book.id,
+            active
+        );
+
+    }
+
+}
+catch (error) {
+
+    console.error(
+        "Favourite sync failed.",
+        error
+    );
+
+}
 
         }
     );
@@ -1942,73 +1944,55 @@ if (bookmarkButton) {
             }
 
 
-            try {
+   try {
 
-                const response =
-                    await fetch(
-                        LIBRARY_API_URL,
-                        {
-                            method: "POST",
+    const data =
+        await LibraryAPI.request(
+            "bookmark",
+            {
+                customerID:
+                    customerID,
 
-                            headers: {
-                                "Content-Type":
-                                    "text/plain;charset=utf-8"
-                            },
+                bookID:
+                    book.id,
 
-                            body: JSON.stringify({
-
-                                action:
-                                    "LIBRARY_BOOKMARK",
-
-                                customerID:
-                                    customerID,
-
-                                bookID:
-                                    book.id,
-
-                                active:
-                                    active
-
-                            })
-                        }
-                    );
-
-
-                const data =
-                    await response.json();
-
-
-                if (
-                    !data ||
-                    data.success !== true
-                ) {
-
-                    console.warn(
-                        "Bookmark could not be synced.",
-                        data
-                    );
-
-                }
-                else {
-
-                    console.log(
-                        "Bookmark synced:",
-                        customerID,
-                        book.id,
-                        active
-                    );
-
-                }
-
+                active:
+                    active
             }
-            catch (error) {
+        );
 
-                console.error(
-                    "Bookmark sync failed.",
-                    error
-                );
 
-            }
+    if (
+        !data ||
+        data.success !== true
+    ) {
+
+        console.warn(
+            "Bookmark could not be synced.",
+            data
+        );
+
+    }
+    else {
+
+        console.log(
+            "Bookmark synced:",
+            customerID,
+            book.id,
+            active
+        );
+
+    }
+
+}
+catch (error) {
+
+    console.error(
+        "Bookmark sync failed.",
+        error
+    );
+
+}
 
         }
     );
@@ -3804,22 +3788,14 @@ async function loadLibraryProgress(customerID) {
 
     try {
 
-        const response =
-            await fetch(
-                LIBRARY_API_URL +
-                "?action=libraryprogress" +
-                "&cid=" +
-                encodeURIComponent(customerID)
-            );
-
-        if (!response.ok) {
-            throw new Error(
-                "Unable to load reading progress."
-            );
+       const data =
+    await LibraryAPI.request(
+        "progress",
+        {
+            customerID:
+                customerID
         }
-
-        const data =
-            await response.json();
+    );
 
         if (
             !data ||
@@ -3858,22 +3834,14 @@ async function loadLibraryHistory(customerID) {
 
     try {
 
-        const response =
-            await fetch(
-                LIBRARY_API_URL +
-                "?action=libraryhistory" +
-                "&cid=" +
-                encodeURIComponent(customerID)
-            );
-
-        if (!response.ok) {
-            throw new Error(
-                "Unable to load reading history."
-            );
+       const data =
+    await LibraryAPI.request(
+        "history",
+        {
+            customerID:
+                customerID
         }
-
-        const data =
-            await response.json();
+    );
 
         if (
             !data ||

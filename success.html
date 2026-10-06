@@ -483,41 +483,157 @@
      */
 
     const customerID =
-        paymentResult &&
-        paymentResult.customerID
-            ? paymentResult.customerID
-            : (
-                localStorage.getItem(
-                    "texlearn_customer_id"
-                ) || ""
+    paymentResult &&
+    paymentResult.customerID
+        ? paymentResult.customerID
+        : (
+            localStorage.getItem(
+                "texlearn_customer_id"
+            ) || ""
+        );
+
+
+const accessToken =
+    paymentResult &&
+    paymentResult.accessToken
+        ? paymentResult.accessToken
+        : "";
+
+
+if (customerID) {
+
+    document
+        .getElementById("customerID")
+        .textContent =
+            customerID;
+
+
+    /*
+     * Keep customer ID available
+     * for the Library session flow.
+     */
+
+    localStorage.setItem(
+        "texlearn_customer_id",
+        customerID
+    );
+
+
+    sessionStorage.setItem(
+        "texlearn_customer_id",
+        customerID
+    );
+
+}
+
+
+/*
+ * Create the persistent Library session
+ * immediately after successful payment.
+ */
+
+async function initialiseLibrarySession() {
+
+    if (
+        !customerID ||
+        !accessToken
+    ) {
+
+        console.warn(
+            "Library session credentials are unavailable."
+        );
+
+        return false;
+    }
+
+
+    try {
+
+        const response =
+            await fetch(
+                "https://script.google.com/macros/s/AKfycbzQFLeWMQAX7gbedsu859N8nEZnGoAFinj4dn1JgpX0La7GSy-2xGHK38MdjcHM2ckk/exec" +
+                "?action=librarysession" +
+                "&cid=" +
+                encodeURIComponent(
+                    customerID
+                ) +
+                "&t=" +
+                encodeURIComponent(
+                    accessToken
+                ) +
+                "&_=" +
+                Date.now(),
+                {
+                    cache:
+                        "no-store"
+                }
             );
 
 
-    if (customerID) {
-
-        document
-            .getElementById("customerID")
-            .textContent =
-                customerID;
+        const data =
+            await response.json();
 
 
-        /*
-         * Keep customer ID available
-         * for the Library session flow.
-         */
-
-        localStorage.setItem(
-            "texlearn_customer_id",
-            customerID
+        console.log(
+            "Library session result:",
+            data
         );
 
 
-        sessionStorage.setItem(
-            "texlearn_customer_id",
-            customerID
+        if (
+            data &&
+            data.success === true &&
+            data.sessionToken
+        ) {
+
+            localStorage.setItem(
+                "samramba_library_session_token",
+                data.sessionToken
+            );
+
+
+            if (data.customerID) {
+
+                localStorage.setItem(
+                    "texlearn_customer_id",
+                    data.customerID
+                );
+
+            }
+
+
+            console.log(
+                "Persistent Library session established."
+            );
+
+
+            return true;
+        }
+
+
+        console.warn(
+            "Library session could not be created.",
+            data
         );
+
+
+        return false;
 
     }
+    catch (error) {
+
+        console.error(
+            "Library session creation failed.",
+            error
+        );
+
+
+        return false;
+    }
+}
+
+
+initialiseLibrarySession();
 
 
     /*
