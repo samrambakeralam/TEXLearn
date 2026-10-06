@@ -451,7 +451,7 @@ const apiResponse =
             );
 
             window.location.href =
-                "success.html";
+    "Success.html";
 
             return;
 
