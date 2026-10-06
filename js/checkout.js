@@ -398,22 +398,29 @@ async function verifyPayment(
         // Call Apps Script API
         //--------------------------------------
 
-       const apiResponse =
+     const formData =
+    new URLSearchParams();
+
+formData.append(
+    "action",
+    request.action
+);
+
+formData.append(
+    "paymentData",
+    JSON.stringify(
+        request.paymentData
+    )
+);
+
+
+const apiResponse =
     await fetch(
         CONFIG.WEBAPP_URL,
         {
-            method:
-                "POST",
+            method: "POST",
 
-            headers: {
-                "Content-Type":
-                    "application/json"
-            },
-
-            body:
-                JSON.stringify(
-                    request
-                )
+            body: formData
         }
     );
 
