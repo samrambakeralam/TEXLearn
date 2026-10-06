@@ -443,19 +443,18 @@ const apiResponse =
         // Successful Payment
         //--------------------------------------
 
-        if (result.success) {
+      if (result.success) {
 
-            sessionStorage.setItem(
-                "paymentResult",
-                JSON.stringify(result)
-            );
+    sessionStorage.setItem(
+        "paymentResult",
+        JSON.stringify(result)
+    );
 
-            window.location.href =
-    "success.html";
+    window.location.href =
+        "/TEXLearn/success.html";
 
-            return;
-
-        }
+    return;
+}
 
 
         //--------------------------------------
