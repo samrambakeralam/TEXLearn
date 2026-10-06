@@ -383,10 +383,10 @@ const institution =
         // Send Registration
         // ------------------------------------
 
-        const response =
-            await fetch(
-                CONFIG.WEB_APP_URL,
-                {
+       const response =
+    await fetch(
+        CONFIG.WEBAPP_URL,
+        {
 
                     method: "POST",
 
