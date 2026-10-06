@@ -270,10 +270,35 @@ async function registerCustomer(e) {
             .value;
 
 
-    const institution =
-        document
-            .getElementById("institution")
-            .value;
+    const institutionSelect =
+    document.getElementById("institution");
+
+const institution =
+    institutionSelect
+        ? institutionSelect.value.trim()
+        : "";
+
+        
+        console.log(
+    "REGISTRATION INSTITUTION DEBUG:",
+    {
+        institutionType:
+            institutionType,
+        institution:
+            institution,
+        selectedIndex:
+            institutionSelect
+                ? institutionSelect.selectedIndex
+                : -1,
+        selectedText:
+            institutionSelect &&
+            institutionSelect.selectedIndex >= 0
+                ? institutionSelect.options[
+                    institutionSelect.selectedIndex
+                  ].textContent
+                : ""
+    }
+);
 
 
     // ----------------------------------------
