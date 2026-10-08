@@ -5378,6 +5378,17 @@ let librarySession = null;
  * It MUST take priority over any existing
  * browser session.
  */
+
+console.log(
+    "LIBRARY AUTH INPUT:",
+    {
+        customerID: customerID,
+        hasAccessToken: !!accessToken,
+        url: window.location.href
+    }
+);
+
+
 if (
     customerID &&
     accessToken
