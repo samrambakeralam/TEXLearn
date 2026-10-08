@@ -1026,51 +1026,94 @@ description:
 
     try {
 
-        const formData =
-            new URLSearchParams();
+     const callbackName =
+    "samrambaLibraryCatalogueCallback_" +
+    Date.now();
 
-        formData.append(
-            "action",
-            "library"
-        );
+const script =
+    document.createElement("script");
 
-        formData.append(
-            "operation",
-            "catalogue"
-        );
+const requestURL =
+    LIBRARY_API_URL +
+    "?action=library" +
+    "&operation=catalogue" +
+    "&callback=" +
+    encodeURIComponent(callbackName);
 
-        const response =
-            await fetch(
-                LIBRARY_API_URL,
-                {
-                    method: "POST",
-                    body: formData,
-                    cache: "no-store"
-                }
-            );
-
-        const text =
-            await response.text();
-
-        let result;
+window[callbackName] =
+    function (result) {
 
         try {
 
-            result =
-                JSON.parse(text);
-
-        } catch (error) {
-
-            console.error(
-                "Library catalogue returned invalid JSON:",
-                text
+            console.log(
+                "LIBRARY CATALOGUE RESPONSE RECEIVED:",
+                new Date().toISOString(),
+                result
             );
 
-            throw new Error(
-                "Library catalogue returned an invalid response."
+            if (
+                !result ||
+                result.success !== true
+            ) {
+
+                throw new Error(
+                    result &&
+                    result.message
+                        ? result.message
+                        : "Unable to load the Library catalogue."
+                );
+
+            }
+
+            receiveLibraryCatalogue(
+                result
+            );
+
+        } finally {
+
+            delete window[callbackName];
+
+            if (script.parentNode) {
+
+                script.parentNode.removeChild(
+                    script
+                );
+
+            }
+
+        }
+
+    };
+
+script.src =
+    requestURL;
+
+script.async = true;
+
+script.onerror =
+    function () {
+
+        delete window[callbackName];
+
+        if (script.parentNode) {
+
+            script.parentNode.removeChild(
+                script
             );
 
         }
+
+        console.error(
+            "SAMRAMBA Library catalogue could not be loaded."
+        );
+
+    };
+
+document.head.appendChild(
+    script
+);
+
+return;
 
         if (
             !response.ok ||
