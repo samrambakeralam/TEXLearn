@@ -1115,31 +1115,6 @@ document.head.appendChild(
 
 return;
 
-        if (
-            !response.ok ||
-            !result ||
-            result.success !== true
-        ) {
-
-            throw new Error(
-                result &&
-                result.message
-                    ? result.message
-                    : "Unable to load the Library catalogue."
-            );
-
-        }
-
-        console.log(
-            "LIBRARY CATALOGUE RESPONSE RECEIVED:",
-            new Date().toISOString(),
-            result
-        );
-
-        receiveLibraryCatalogue(
-            result
-        );
-
     } catch (error) {
 
         console.error(
