@@ -280,6 +280,7 @@ const LibraryAPI = {
         : [];
 
     let LIBRARY_ACCESS_ACTIVE = false;
+    let VERIFIED_LIBRARY_CUSTOMER_ID = "";
 
     /*
      * Optional user state hook.
@@ -3870,12 +3871,7 @@ async function loadLibraryHistory(customerID) {
 function getLibraryCustomerID() {
 
     return (
-        new URLSearchParams(
-            window.location.search
-        ).get("cid") ||
-        sessionStorage.getItem(
-            "texlearn_customer_id"
-        ) ||
+        VERIFIED_LIBRARY_CUSTOMER_ID ||
         ""
     );
 
@@ -4588,10 +4584,7 @@ async function openReadingBook(
     }
 
   const customerID =
-    localStorage.getItem(
-        "texlearn_customer_id"
-    ) ||
-    "";
+    getLibraryCustomerID();
 
 const persistentSessionToken =
     localStorage.getItem(
@@ -5451,6 +5444,9 @@ if (librarySession) {
             "texlearn_customer_id",
             customerID
         );
+
+        VERIFIED_LIBRARY_CUSTOMER_ID =
+    customerID;
 
     }
 
