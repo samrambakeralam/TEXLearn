@@ -5390,6 +5390,11 @@ if (
             null
         );
 
+        console.log(
+    "LIBRARY AUTH RESULT:",
+    librarySession
+);
+
 }
 
 
