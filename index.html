@@ -1495,26 +1495,38 @@ document.addEventListener(
 
                             setTimeout(
                                 function () {
-                                    const customerID =
+                                   const params =
     new URLSearchParams(
         window.location.search
-    ).get("cid");
+    );
 
-if (customerID) {
+const customerID =
+    params.get("cid");
 
-    window.location.href =
-        link.href +
+const accessToken =
+    params.get("t");
+
+let libraryURL =
+    link.href;
+
+if (customerID && accessToken) {
+
+    libraryURL +=
         "?cid=" +
-        encodeURIComponent(
-            customerID
-        );
+        encodeURIComponent(customerID) +
+        "&t=" +
+        encodeURIComponent(accessToken);
 
-} else {
+} else if (customerID) {
 
-    window.location.href =
-        link.href;
+    libraryURL +=
+        "?cid=" +
+        encodeURIComponent(customerID);
 
 }
+
+window.location.href =
+    libraryURL;
                                 },
                                 850
                             );
