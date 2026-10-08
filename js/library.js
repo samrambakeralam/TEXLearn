@@ -1015,11 +1015,6 @@ console.log(
     convertedNotes
 );
 
-        console.log(
-            "Customer notes loaded:",
-            data.notes
-        );
-
     }
     catch (error) {
 
