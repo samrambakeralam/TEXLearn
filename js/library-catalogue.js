@@ -1017,144 +1017,96 @@ description:
      * JSONP avoids depending on normal cross-origin fetch.
      */
 
-    function loadLibraryCatalogue() {
+   async function loadLibraryCatalogue() {
 
-        const callbackName =
-            "__samrambaLibraryCatalogue_" +
-            Date.now();
+    console.log(
+        "LIBRARY CATALOGUE REQUEST START:",
+        new Date().toISOString()
+    );
 
+    try {
 
-        let script = null;
+        const formData =
+            new URLSearchParams();
 
+        formData.append(
+            "action",
+            "library"
+        );
 
-        /*
-         * Create the global JSONP callback.
-         */
+        formData.append(
+            "operation",
+            "catalogue"
+        );
 
-        window[callbackName] =
-    function (response) {
+        const response =
+            await fetch(
+                LIBRARY_API_URL,
+                {
+                    method: "POST",
+                    body: formData,
+                    cache: "no-store"
+                }
+            );
+
+        const text =
+            await response.text();
+
+        let result;
+
+        try {
+
+            result =
+                JSON.parse(text);
+
+        } catch (error) {
+
+            console.error(
+                "Library catalogue returned invalid JSON:",
+                text
+            );
+
+            throw new Error(
+                "Library catalogue returned an invalid response."
+            );
+
+        }
+
+        if (
+            !response.ok ||
+            !result ||
+            result.success !== true
+        ) {
+
+            throw new Error(
+                result &&
+                result.message
+                    ? result.message
+                    : "Unable to load the Library catalogue."
+            );
+
+        }
 
         console.log(
             "LIBRARY CATALOGUE RESPONSE RECEIVED:",
             new Date().toISOString(),
-            response
+            result
         );
 
-        try {
+        receiveLibraryCatalogue(
+            result
+        );
 
-            receiveLibraryCatalogue(
-                response
-            );
+    } catch (error) {
 
-                }
-
-                finally {
-
-                    /*
-                     * Clean up the temporary callback.
-                     */
-
-                    delete window[
-                        callbackName
-                    ];
-
-
-                    /*
-                     * Remove the temporary script element.
-                     */
-
-                    if (
-                        script &&
-                        script.parentNode
-                    ) {
-
-                        script.parentNode.removeChild(
-                            script
-                        );
-
-                    }
-
-                }
-
-            };
-
-
-        /*
-         * Create script element.
-         */
-
-        script =
-            document.createElement(
-                "script"
-            );
-
-
-        /*
-         * Build the Apps Script URL.
-         */
-
-      console.log(
-    "LIBRARY CATALOGUE REQUEST START:",
-    new Date().toISOString()
-);
-
-script.src =
-    LIBRARY_API_URL +
-    "?action=librarycatalogue" +
-    "&callback=" +
-    encodeURIComponent(callbackName) +
-    "&_=" +
-    Date.now();
-
-console.log(
-    "LIBRARY CATALOGUE REQUEST URL:",
-    script.src
-);
-
-
-        script.async = true;
-
-
-        /*
-         * Handle loading failure.
-         */
-
-        script.onerror =
-            function () {
-
-                console.error(
-                    "SAMRAMBA Library catalogue could not be loaded."
-                );
-
-
-                delete window[
-                    callbackName
-                ];
-
-
-                if (
-                    script &&
-                    script.parentNode
-                ) {
-
-                    script.parentNode.removeChild(
-                        script
-                    );
-
-                }
-
-            };
-
-
-        /*
-         * Start request.
-         */
-
-        document.head.appendChild(
-            script
+        console.error(
+            "SAMRAMBA Library catalogue could not be loaded:",
+            error
         );
 
     }
+
+}
 
 
     /* =========================================================
