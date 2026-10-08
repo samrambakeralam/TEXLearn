@@ -1035,8 +1035,7 @@ const script =
 
 const requestURL =
     LIBRARY_API_URL +
-    "?action=library" +
-    "&operation=catalogue" +
+    "?action=librarycatalogue" +
     "&callback=" +
     encodeURIComponent(callbackName);
 
