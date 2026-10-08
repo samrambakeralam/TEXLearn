@@ -5303,15 +5303,15 @@ function initialiseNavigation() {
     initialiseBanner();
     renderCategories();
 
-    /*
+  /*
  * =========================================================
  * LIBRARY AUTHENTICATION
  * =========================================================
  *
  * Priority:
  *
- * 1. Existing persistent browser session
- * 2. One-time email authentication
+ * 1. Explicit email authentication (cid + t)
+ * 2. Existing persistent browser session
  *
  * Customer ID alone is NEVER used as authentication.
  */
@@ -5376,35 +5376,16 @@ let librarySession = null;
 
 /*
  * ---------------------------------------------------------
- * RETURNING CUSTOMER
+ * EMAIL AUTHENTICATION
  * ---------------------------------------------------------
  *
- * Existing browser session.
- */
-if (persistentSessionToken) {
-
-    librarySession =
-        await createLibrarySession(
-            null,
-            null,
-            persistentSessionToken
-        );
-
-}
-
-
-/*
- * ---------------------------------------------------------
- * FIRST-TIME CUSTOMER
- * ---------------------------------------------------------
+ * If the current URL contains cid + t,
+ * this is an explicit Library login.
  *
- * Email link contains:
- *
- * cid = Customer ID
- * t   = original access token
+ * It MUST take priority over any existing
+ * browser session.
  */
 if (
-    !librarySession &&
     customerID &&
     accessToken
 ) {
@@ -5414,6 +5395,31 @@ if (
             customerID,
             accessToken,
             null
+        );
+
+}
+
+
+/*
+ * ---------------------------------------------------------
+ * RETURNING CUSTOMER
+ * ---------------------------------------------------------
+ *
+ * No email credentials are present.
+ *
+ * Continue using the existing persistent
+ * browser session.
+ */
+if (
+    !librarySession &&
+    persistentSessionToken
+) {
+
+    librarySession =
+        await createLibrarySession(
+            null,
+            null,
+            persistentSessionToken
         );
 
 }
