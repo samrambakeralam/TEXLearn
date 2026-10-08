@@ -5483,29 +5483,23 @@ if (librarySession) {
 
 
     /*
-     * Remove authentication credentials
-     * from the browser address bar.
-     *
-     * Example:
-     *
-     * /TEXLearn/?cid=SK-2026-00030&t=xxxxx
-     *
-     * becomes:
-     *
-     * /TEXLearn/
-     */
-    if (
-        urlCustomerID ||
-        accessToken
-    ) {
+ * Remove authentication credentials
+ * from the browser address bar
+ * only after successful authentication.
+ */
+if (
+    librarySession &&
+    librarySession.success &&
+    (urlCustomerID || accessToken)
+) {
 
-        window.history.replaceState(
-            {},
-            document.title,
-            window.location.pathname
-        );
+    window.history.replaceState(
+        {},
+        document.title,
+        window.location.pathname
+    );
 
-    }
+}
 
 }
 
