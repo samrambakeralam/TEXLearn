@@ -5500,21 +5500,14 @@ if (
 }
 
 
-await loadCustomerFavourites(
-    customerID
-);
 
-await loadCustomerBookmarks(
-    customerID
-);
+await Promise.all([
+    loadCustomerFavourites(customerID),
+    loadCustomerBookmarks(customerID),
+    loadCustomerHighlights(customerID),
+    loadCustomerNotes(customerID)
+]);
 
-await loadCustomerHighlights(
-    customerID
-);
-
-await loadCustomerNotes(
-    customerID
-);
 
 
 renderBookSections();
