@@ -2012,55 +2012,47 @@ catch (error) {
         }
 
 
-        const customerID =
-    localStorage.getItem(
-        "texlearn_customer_id"
-    ) ||
-    "";
+    const customerID =
+            VERIFIED_LIBRARY_CUSTOMER_ID || "";
 
-const persistentSessionToken =
-    localStorage.getItem(
-        "samramba_library_session_token"
-    ) ||
-    "";
+        const persistentSessionToken =
+            localStorage.getItem(
+                "samramba_library_session_token"
+            ) || "";
 
-/*
- * Build Reader URL.
- */
-const params =
-    new URLSearchParams();
+        /*
+         * Require a verified Library session
+         * before opening the Reader.
+         */
+        if (!customerID || !persistentSessionToken) {
+            console.error(
+                "Cannot open Reader: verified Library session is missing."
+            );
 
-if (customerID) {
+            alert(
+                "Your library session could not be verified. Please refresh the Library page and try again."
+            );
 
-    params.set(
-        "cid",
-        customerID
-    );
+            return;
+        }
 
-}
+        /*
+         * Build Reader URL using the verified
+         * customer identity.
+         */
+        const params = new URLSearchParams();
 
-/*
- * Pass the persistent Library
- * session to the Reader.
- *
- * This replaces the old
- * cid + t authentication flow.
- */
-if (persistentSessionToken) {
+        params.set("cid", customerID);
 
-    params.set(
-        "sessionToken",
-        persistentSessionToken
-    );
-
-}
-
+        params.set(
+            "sessionToken",
+            persistentSessionToken
+        );
 
         params.set(
             "bookId",
             book.id
         );
-
 
         params.set(
             "versionId",
@@ -5419,10 +5411,14 @@ if (
  * Continue using the existing persistent
  * browser session.
  */
+
 if (
+    !urlCustomerID &&
+    !accessToken &&
     !librarySession &&
     persistentSessionToken
 ) {
+
 
     librarySession =
         await createLibrarySession(
