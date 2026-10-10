@@ -5027,6 +5027,28 @@ transform:translateY(0px);
    ICON
 ===================================================== */
 
+.feature-icon {
+    width: 64px;
+    height: 64px;
+
+    margin: 0 auto 22px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    background: #F0FDF4;
+
+    border-radius: 18px;
+}
+
+.feature-icon svg {
+    width: 30px;
+    height: 30px;
+
+    stroke: #16A34A;
+    stroke-width: 2.2;
+}
 
 .feature-icon img {
     display: block;
