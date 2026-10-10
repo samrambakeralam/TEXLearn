@@ -23,6 +23,8 @@
 
 body{
 
+    padding-top: 76px;
+
     font-family:"Inter",sans-serif;
 
     background:linear-gradient(
@@ -50,28 +52,33 @@ body{
    HEADER
 ========================================== */
 
-.checkout-header{
-
-    padding:22px 0;
-
-    background:#FFFFFF;
-
-    border-bottom:1px solid var(--border);
-
+.checkout-header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+    height: 76px;
+    padding: 0;
+    background: #FFFFFF;
+    border-bottom: 1px solid var(--border);
 }
 
-.checkout-header .container{
-
-    display:flex;
-
-    justify-content:center;
-
+.checkout-header .container {
+    width: min(1100px, 92%);
+    height: 100%;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
 }
 
-.logo img{
-
-    height:72px;
-
+.logo img {
+    display: block;
+    width: auto;
+    height: 48px;
+    max-width: 100%;
+    object-fit: contain;
 }
 
 
@@ -80,12 +87,10 @@ body{
    HERO
 ========================================== */
 
-.checkout-hero{
-
-    padding:65px 0 45px;
-
-    text-align:center;
-
+.checkout-hero {
+    padding-top: 24px;
+        margin-top: 0;
+    text-align: center;
 }
 
 .page-heading{
@@ -96,118 +101,85 @@ body{
 
 }
 
-.page-heading h1{
-
-    font-size:48px;
-
-    font-weight:800;
-
-    color:var(--primary);
-
-    margin:35px 0 18px;
-
+.page-heading h1 {
+    font-size: 30px;
+    line-height: 1.15;
+    font-weight: 800;
+    color: var(--primary);
+    margin: 16px 0 8px;
 }
 
-.page-heading p{
-
-    font-size:18px;
-
-    color:var(--text);
-
-    line-height:1.8;
-
+.page-heading p {
+    max-width: 680px;
+    margin: 0 auto;
+    font-size: 15px;
+    line-height: 1.5;
+    color: var(--text);
 }
 
 
 
 /* ==========================================
-   PROGRESS
+   PROGRESS INDICATOR — DESKTOP
 ========================================== */
 
-.progress-indicator{
-
-    display:flex;
-
-    justify-content:center;
-
-    align-items:center;
-
-    gap:18px;
-
+.progress-indicator {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 15px;
+    margin-top: 0;
 }
 
-.step{
-
-    display:flex;
-
-    flex-direction:column;
-
-    align-items:center;
-
-    gap:10px;
-
+.step {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 7px;
+    min-width: 76px;
 }
 
-.step span{
-
-    width:48px;
-
-    height:48px;
-
-    border-radius:50%;
-
-    background:#E2E8F0;
-
-    color:#64748B;
-
-    display:flex;
-
-    align-items:center;
-
-    justify-content:center;
-
-    font-weight:700;
-
+.step span {
+    width: 42px;
+    height: 42px;
+    flex-shrink: 0;
+    border-radius: 50%;
+    background: #E2E8F0;
+    color: #64748B;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 500;
+    font-size: 11px;
 }
 
-.step.completed span{
-
-    background:#16A34A;
-
-    color:#FFFFFF;
-
+.step.completed span {
+    background: #16A34A;
+    color: #FFFFFF;
 }
 
-.step.active span{
-
-    background:#0B1F3A;
-
-    color:#FFFFFF;
-
+.step.active span {
+    background: #0B1F3A;
+    color: #FFFFFF;
 }
 
-.step p{
-
-    font-size:14px;
-
-    font-weight:600;
-
+.step p {
+    font-size: 11px;
+    line-height: 1.3;
+    font-weight: 600;
+    text-align: center;
 }
 
-.progress-line{
-
-    width:160px;
-
-    height:3px;
-
-    background:#CBD5E1;
-
+.progress-line {
+    width: 115px;
+    height: 2px;
+    flex-shrink: 1;
+    background: #CBD5E1;
+    margin-top: -21px;
 }
 
-.progress-line.active{
-
-    background:#16A34A;
-
+.progress-line.active {
+    background: #16A34A;
 }
 
 
@@ -216,25 +188,19 @@ body{
    CHECKOUT SECTION
 ========================================== */
 
-.checkout-section{
-
-    padding-bottom:100px;
-
+.checkout-section {
+    padding-bottom: 24px;
 }
 
-.checkout-card{
-
-    background:#FFFFFF;
-
-    border-radius:30px;
-
-    padding:55px;
-
-    border:1px solid var(--border);
-
-    box-shadow:
-        0 25px 60px rgba(15,23,42,.08);
-
+.checkout-card {
+    width: 100%;
+    max-width: 900px;
+    margin: 0 auto;
+     padding: 28px 34px;
+    background: #FFFFFF;
+    border: 1px solid var(--border);
+    border-radius: 22px;
+    box-shadow: 0 18px 45px rgba(15, 23, 42, 0.07);
 }
 
 
@@ -243,35 +209,25 @@ body{
    SUCCESS BADGE
 ========================================== */
 
-.checkout-success{
-
-    display:inline-flex;
-
-    align-items:center;
-
-    gap:10px;
-
-    padding:12px 22px;
-
-    background:#ECFDF5;
-
-    border:1px solid #BBF7D0;
-
-    border-radius:999px;
-
-    color:#16A34A;
-
-    font-weight:700;
-
-    margin-bottom:40px;
-
+.checkout-success {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+     padding: 7px 13px;
+    background: #ECFDF5;
+    border: 1px solid #BBF7D0;
+    border-radius: 599px;
+    color: #16A34A;
+    font-size: 12px;
+    font-weight: 600;
+    margin-bottom: 16px;
 }
 
 .checkout-success svg{
 
-    width:18px;
+    width: 16px;
 
-    height:18px;
+    height:16px;
 
 }
 
@@ -281,18 +237,15 @@ body{
    BLOCKS
 ========================================== */
 
-.checkout-block{
-
-    margin-bottom:40px;
-
+.checkout-block {
+    margin-bottom: 14px;
 }
 
-.checkout-block h2{
-
-    font-size:24px;
-
-    margin-bottom:22px;
-
+.checkout-block h2 {
+    font-size: 15px;
+    line-height: 1.3;
+    font-weight: 700;
+    margin-bottom: 6px;
 }
 
 
@@ -301,274 +254,184 @@ body{
    INFO ROWS
 ========================================== */
 
-.info-row{
-
-    display:flex;
-
-    justify-content:space-between;
-
-    align-items:center;
-
-    padding:18px 0;
-
-    border-bottom:1px solid #EDF2F7;
-
+.info-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+    padding: 7px 0;
+    border-bottom: 1px solid #EDF2F7;
 }
 
-.info-row:last-child{
-
-    border-bottom:none;
-
+.info-row:last-child {
+    border-bottom: none;
 }
 
-.info-row span{
-
-    color:#64748B;
-
-    font-size:15px;
-
+.info-row span {
+    color: #64748B;
+    font-size: 13px;
+    line-height: 1.5;
 }
 
-.info-row strong{
-
-    color:#0B1F3A;
-
-    font-size:16px;
-
-    font-weight:700;
-
+.info-row strong {
+    color: #0B1F3A;
+    font-size: 14px;
+    line-height: 1.5;
+    font-weight: 400;
+    text-align: right;
+    overflow-wrap: anywhere;
 }
 
 
 
 /* ==========================================
-   PRICE SUMMARY
+   PRICE SUMMARY — COMPACT
 ========================================== */
 
-.price-summary{
-
-    margin:45px 0;
-
-    padding:35px;
-
-    border-radius:22px;
-
-    text-align:center;
-
-    background:linear-gradient(
-        135deg,
-        #16A34A,
-        #22C55E
-    );
-
-    color:#FFFFFF;
-
+.price-summary {
+    margin: 10px 0 12px;
+    padding: 10px 18px;
+    border-radius: 14px;
+    text-align: center;
+    background: linear-gradient(135deg, #16A34A, #22C55E);
+    color: #FFFFFF;
 }
 
-.price-summary span{
-
-    display:block;
-
-    font-size:17px;
-
-    opacity:.9;
-
+.price-summary span {
+    display: block;
+    font-size: 12px;
+    line-height: 1.3;
+    font-weight: 600;
+    opacity: 0.95;
 }
 
-.price-summary strong{
-
-    display:block;
-
-    font-size:64px;
-
-    font-weight:800;
-
-    margin:10px 0;
-
-}
-
-.price-summary small{
-
-    font-size:18px;
-
+.price-summary strong {
+    display: block;
+    font-size: 36px;
+    line-height: 1.1;
+    font-weight: 800;
+    margin: 2px 0 0;
+    overflow-wrap: anywhere;
 }
 
 
 
 /* ==========================================
-   TRUST STRIP
+   TRUST STRIP — COMPACT
 ========================================== */
 
-.trust-strip{
-
-    display:flex;
-
-    justify-content:center;
-
-    flex-wrap:wrap;
-
-    gap:14px;
-
-    margin-bottom:40px;
-
+.trust-strip {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 12px;
 }
 
-.trust-pill{
-
-    display:flex;
-
-    align-items:center;
-
-    gap:10px;
-
-    padding:12px 18px;
-
-    border-radius:999px;
-
-    background:#F8FAFC;
-
-    border:1px solid #E5E7EB;
-
-    font-size:14px;
-
-    font-weight:600;
-
-    color:#475569;
-
+.trust-pill {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 10px;
+    border-radius: 999px;
+    background: #F8FAFC;
+    border: 1px solid #E5E7EB;
+    font-size: 11px;
+    line-height: 1.2;
+    font-weight: 600;
+    color: #475569;
+    white-space: nowrap;
 }
 
-.trust-pill svg{
-
-    width:18px;
-
-    height:18px;
-
-    color:#16A34A;
-
+.trust-pill svg {
+    width: 15px;
+    height: 15px;
+    flex-shrink: 0;
+    color: #16A34A;
 }
 
 
 
 /* ==========================================
-   PAYMENT BUTTON
+   PAYMENT BUTTON — COMPACT
 ========================================== */
 
-#paymentButton{
-
-    width:100%;
-
-    height:62px;
-
-    border:none;
-
-    border-radius:18px;
-
-    background:linear-gradient(
-        135deg,
-        #22C55E,
-        #16A34A
-    );
-
-    color:#FFFFFF;
-
-    font-size:19px;
-
-    font-weight:700;
-
-    cursor:pointer;
-
-    display:flex;
-
-    align-items:center;
-
-    justify-content:center;
-
-    gap:12px;
-
-    transition:.35s;
-
+#paymentButton {
+    width: 100%;
+    min-height: 48px;
+    padding: 10px 16px;
+    border: none;
+    border-radius: 12px;
+    background: linear-gradient(135deg, #22C55E, #16A34A);
+    color: #FFFFFF;
+    font-size: 15px;
+    line-height: 1.3;
+    font-weight: 700;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 9px;
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
 }
 
-#paymentButton svg{
-
-    width:20px;
-
-    height:20px;
-
-    transition:.35s;
-
+#paymentButton svg {
+    width: 17px;
+    height: 17px;
+    flex-shrink: 0;
+    transition: transform 0.25s ease;
 }
 
-#paymentButton:hover{
+#paymentButton:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 10px 24px rgba(22, 163, 74, 0.22);
+    }
 
-    transform:translateY(-3px);
-
-    box-shadow:0 20px 40px rgba(22,163,74,.30);
-
-}
-
-#paymentButton:hover svg{
-
-    transform:translateX(6px);
-
-}
+    #paymentButton:hover svg {
+        transform: translateX(3px);
+    }
 
 
 
 /* ==========================================
-   FOOTER
+   CHECKOUT FOOTER — COMPACT
 ========================================== */
 
-.checkout-footer{
-
-    text-align:center;
-
-    margin-top:35px;
-
+.checkout-footer {
+    text-align: center;
+    margin-top: 10px;
 }
 
-.payment-brand{
-
-    display:flex;
-
-    justify-content:center;
-
-    align-items:center;
-
-    gap:10px;
-
-    color:#16A34A;
-
-    font-weight:600;
-
-    margin-bottom:18px;
-
+.payment-brand {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 7px;
+    color: #64748B;
+    font-size: 12px;
+    line-height: 1.3;
+    font-weight: 600;
+    margin-bottom: 8px;
 }
 
-.payment-brand svg{
-
-    width:18px;
-
-    height:18px;
-
+.payment-brand svg {
+    width: 15px;
+    height: 15px;
+    flex-shrink: 0;
 }
 
-.checkout-footer a{
-
-    text-decoration:none;
-
-    color:#64748B;
-
-    font-size:15px;
-
-    transition:.3s;
-
+.checkout-footer a {
+    display: inline-block;
+    text-decoration: none;
+    color: #64748B;
+    font-size: 12px;
+    line-height: 1.4;
+    transition: color 0.2s ease;
 }
 
-.checkout-footer a:hover{
-
-    color:#16A34A;
-
+.checkout-footer a:hover {
+    color: #16A34A;
 }
 
 
@@ -615,16 +478,18 @@ body{
 
     }
 
-    .trust-strip{
+   .trust-strip {
+    flex-direction: row;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-bottom: 12px;
+}
 
-        flex-direction:column;
-
-    }
-
-    .trust-pill{
-
-        justify-content:center;
-
-    }
+.trust-pill {
+    justify-content: center;
+    padding: 7px 9px;
+    font-size: 10px;
+}
 
 }
