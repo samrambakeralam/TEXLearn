@@ -2573,10 +2573,10 @@ a {
             nowrap;
 
         gap:
-            12px;
+            8px;
 
         margin-top:
-            15px;
+            13px;
 
         transform:
             none;
@@ -2593,7 +2593,7 @@ a {
             center;
 
         gap:
-            4px;
+            3px;
 
         white-space:
             nowrap;
@@ -2604,10 +2604,10 @@ a {
     .rc2-trust-line svg {
 
         width:
-            14px;
+            12px;
 
         height:
-            14px;
+            12px;
 
         flex:
             0 0 auto;
@@ -3107,9 +3107,9 @@ a {
 
 
 .rc2-trust-line {
-    font-size: 6.5px;
+    font-size: 7px;
     line-height: 1;
-    gap: 2px;
+    gap: 1px;
 }
 
 .rc2-trust-line svg {
