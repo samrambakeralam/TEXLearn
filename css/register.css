@@ -134,7 +134,7 @@ body {
 
 .registration-container {
     width: 100%;
-    max-width: 520px;
+    max-width: 560px;
 
     margin: 0 auto;
 }
@@ -165,7 +165,7 @@ body {
 .registration-heading p {
     margin-top: 9px;
 
-    font-size: 14px;
+    font-size: 12px;
 
     line-height: 1.55;
 
@@ -537,18 +537,16 @@ body {
 }
 
 
+
 /* =========================================================
-   TABLET
+   TABLET — 768px TO 899px
 ========================================================= */
 
-@media (min-width: 900px) {
+@media (min-width: 768px) and (max-width: 899px) {
 
     .header-inner {
         min-height: 74px;
-
-        padding:
-            12px
-            24px;
+        padding: 12px 24px;
     }
 
     .logo img {
@@ -556,10 +554,7 @@ body {
     }
 
     .registration-main {
-        padding:
-            18px
-            24px
-            60px;
+        padding: 18px 24px 60px;
     }
 
     .registration-container {
@@ -579,10 +574,7 @@ body {
     }
 
     .registration-card {
-        padding:
-            26px
-            24px;
-
+        padding: 30px;
         border-radius: 20px;
     }
 
@@ -596,10 +588,7 @@ body {
 
     .input-box {
         height: 54px;
-
-        padding:
-            0
-            15px;
+        padding: 0 15px;
     }
 
     .input-box input,
@@ -609,49 +598,9 @@ body {
 
     #continueButton {
         min-height: 54px;
-
         font-size: 16px;
     }
-}
 
-
-/* =========================================================
-   DESKTOP
-========================================================= */
-
-@media (min-width: 900px) {
-
-    .header-inner {
-        justify-content: center;
-    }
-
-    .registration-main {
-        padding:
-            18px
-            24px
-            70px;
-    }
-
-    .registration-container {
-        max-width: 560px;
-    }
-
-    .registration-heading h1 {
-        font-size: 27px;
-    }
-
-    .registration-heading p {
-        font-size: 12px;
-    }
-
-    .registration-card {
-        padding:
-            30px;
-    }
-
-    .input-box {
-        height: 56px;
-    }
 }
 
 
