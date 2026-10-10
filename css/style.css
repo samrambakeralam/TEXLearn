@@ -3019,7 +3019,7 @@ a {
         0;
 
     min-height:
-        30px;
+        28px;
 
     padding: clamp(2.5px, 0.8vw, 3.5px) clamp(1.5px, 0.6vw, 2.5px);
 
@@ -3067,10 +3067,10 @@ a {
     .rc2-secondary-cta {
 
         height:
-            clamp(34px, 11vw, 36px);
+            clamp(36px, 11vw, 38px);
 
         min-height:
-            clamp(34px, 11vw, 36px);
+            clamp(36px, 11vw, 38px);
 
     }
 
