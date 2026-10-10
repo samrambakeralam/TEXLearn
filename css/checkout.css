@@ -642,7 +642,7 @@ body{
     min-width: 0;
     padding: 7px 6px;
 
-    border-radius: 299px;
+    border-radius: 199px;
     background: #F8FAFC;
     border: 1px solid #E5E7EB;
 
@@ -687,8 +687,8 @@ body{
     }
 
     .payment-brand svg {
-        width: 10px;
-        height: 10px;
+        width: 9px;
+        height: 9px;
     }
 
     .checkout-footer a {
