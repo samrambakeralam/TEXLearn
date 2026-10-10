@@ -588,11 +588,11 @@ body {
     }
 
     .registration-heading h1 {
-        font-size: 31px;
+        font-size: 27px;
     }
 
     .registration-heading p {
-        font-size: 15px;
+        font-size: 12px;
     }
 
     .registration-card {
@@ -654,11 +654,11 @@ body {
     }
 
     .registration-heading h1 {
-        font-size: 34px;
+        font-size: 27px;
     }
 
     .registration-heading p {
-        font-size: 15px;
+        font-size: 12px;
     }
 
     .registration-card {
@@ -676,7 +676,7 @@ body {
    SMALL PHONE
 ========================================================= */
 
-@media (max-width: 360px) {
+@media (max-width: 420px) {
 
     .header-inner {
         min-height: 62px;
@@ -702,11 +702,11 @@ body {
     }
 
     .registration-heading h1 {
-        font-size: 24px;
+        font-size: 22px;
     }
 
     .registration-heading p {
-        font-size: 13px;
+        font-size: 12px;
     }
 
     .registration-card {
