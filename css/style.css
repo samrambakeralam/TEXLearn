@@ -2374,7 +2374,7 @@ a {
             values;
 
         width:
-            90%;
+            80%;
 
         display:
             grid;
@@ -2382,7 +2382,7 @@ a {
         grid-template-columns: repeat(2, minmax(0, 1fr));
 
         gap:
-            7px;
+            9px;
 
         margin:
             0;
