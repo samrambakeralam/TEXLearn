@@ -2536,6 +2536,8 @@ a {
          gap:
             clamp(3px, 0.8vw, 4px);
 
+            transform: translateX(-32px);
+
     }
 
 
