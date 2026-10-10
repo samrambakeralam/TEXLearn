@@ -127,7 +127,7 @@ body {
     width: 100%;
 
     padding:
-        28px
+        18px
         16px
         40px;
 }
@@ -541,7 +541,7 @@ body {
    TABLET
 ========================================================= */
 
-@media (min-width: 600px) {
+@media (min-width: 900px) {
 
     .header-inner {
         min-height: 74px;
@@ -557,7 +557,7 @@ body {
 
     .registration-main {
         padding:
-            42px
+            18px
             24px
             60px;
     }
@@ -622,12 +622,12 @@ body {
 @media (min-width: 900px) {
 
     .header-inner {
-        justify-content: flex-start;
+        justify-content: center;
     }
 
     .registration-main {
         padding:
-            55px
+            18px
             24px
             70px;
     }
