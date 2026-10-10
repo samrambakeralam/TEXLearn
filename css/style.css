@@ -690,75 +690,77 @@ a {
 }
 
 
+
 /* =========================================================
    17. HERO VALUE POINTS
 ========================================================= */
 
+
 .rc2-value-points {
 
-    display:
-        flex;
+    display: flex;
 
-    flex-wrap:
-        wrap;
+    flex-wrap: nowrap;
 
-    gap:
-        10px;
+    gap: 10px;
 
-    margin-top:
-        14px;
+    margin-top: 14px;
+
+    width: 100%;
+
+    max-width: 520px;
+
+}
+
+
+.rc2-value-points > div {
+
+    flex: 1 1 0;
+
+    min-width: 0;
+
+    display: inline-flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    gap: 6px;
+
+    padding: 7px 7px;
+
+    box-sizing: border-box;
+
+    background: #FFFFFF;
+
+    border: 1px solid var(--rc2-border);
+
+    border-radius: 8px;
+
+    color: var(--rc2-text);
+
+    font-size: 11px;
+
+    font-weight: 600;
+
+    white-space: nowrap;
 
 }
 
-
-.rc2-value-points div {
-
-    display:
-        inline-flex;
-
-    align-items:
-        center;
-
-    gap:
-        7px;
-
-    padding:
-        8px 11px;
-
-    background:
-        #FFFFFF;
-
-    border:
-        1px solid
-        var(--rc2-border);
-
-    border-radius:
-        9px;
-
-    color:
-        var(--rc2-text);
-
-    font-size:
-        12px;
-
-    font-weight:
-        600;
-
-}
 
 
 .rc2-value-points svg {
 
-    width:
-        16px;
+    width: 14px;
 
-    height:
-        16px;
+    height: 14px;
 
-    color:
-        var(--rc2-green);
+    flex-shrink: 0;
+
+    color: var(--rc2-green);
 
 }
+
 
 
 /* =========================================================
@@ -2372,13 +2374,12 @@ a {
             values;
 
         width:
-            100%;
+            90%;
 
         display:
             grid;
 
-        grid-template-columns:
-            repeat(3,1fr);
+        grid-template-columns: repeat(2, minmax(0, 1fr));
 
         gap:
             6px;
@@ -2389,17 +2390,17 @@ a {
         transform:
             none;
 
+            justify-self: center;
+
     }
 
 
     .rc2-value-points div {
 
         min-height:
-            38px;
+            34px;
 
-        padding:
-            6px
-            clamp(4px, 1vw, 6px);
+       padding: 4px 5px;
 
         box-sizing:
             border-box;
