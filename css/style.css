@@ -3107,14 +3107,14 @@ a {
 
 
 .rc2-trust-line {
-    font-size: 8.5px;
-    line-height: 1.25;
-    gap: 4px;
+    font-size: 6.5px;
+    line-height: 1;
+    gap: 2px;
 }
 
 .rc2-trust-line svg {
-    width: 10px;
-    height: 10px;
+    width: 8px;
+    height: 8px;
 }
 
 
