@@ -1,7 +1,8 @@
 
 /* =====================================================
-   TEXLEARN — HERO QUIZ
-   Temporarily replaces the hero book display.
+   TEXLEARN — TWO-FRAME HERO QUIZ
+   Frame 1: Introduction
+   Frame 2: Question, voting and results
 ===================================================== */
 
 (() => {
@@ -11,60 +12,54 @@
         "https://samramba-api.samrambakerala.workers.dev";
 
     const quizBox = document.getElementById("tkHeroQuiz");
+    const introFrame = document.getElementById("tkHeroQuizIntro");
+    const voteFrame = document.getElementById("tkHeroQuizVote");
+    const startButton = document.getElementById("tkHeroQuizStart");
     const quizStatus = document.getElementById("tkHeroQuizStatus");
     const quizContent = document.getElementById("tkHeroQuizContent");
     const bookStage = document.getElementById("rc2UnboxingStage");
 
-    if (!quizBox || !quizStatus || !quizContent || !bookStage) {
+    if (
+        !quizBox || !introFrame || !voteFrame ||
+        !startButton || !quizStatus || !quizContent || !bookStage
+    ) {
         return;
     }
 
     let activeQuiz = null;
     let selectedAnswer = null;
     let submitting = false;
+    let transitionTimer = null;
 
     function showBook() {
+        clearTimeout(transitionTimer);
         quizBox.hidden = true;
         bookStage.hidden = false;
     }
 
-    function showQuiz() {
-        bookStage.hidden = true;
-        quizBox.hidden = false;
+    function showIntro() {
+        introFrame.hidden = false;
+        voteFrame.hidden = true;
+        startButton.disabled = false;
+
+        clearTimeout(transitionTimer);
+        transitionTimer = setTimeout(showVoteFrame, 2000);
     }
 
-    function getSessionId() {
-        const storageKey = "tk_quiz_session_id";
+    function showVoteFrame() {
+        clearTimeout(transitionTimer);
 
-        try {
-            let id = localStorage.getItem(storageKey);
+        if (!activeQuiz) return;
 
-            if (!id) {
-                id = window.crypto?.randomUUID
-                    ? window.crypto.randomUUID()
-                    : "tk-" + Date.now() + "-" +
-                      Math.random().toString(36).slice(2);
-
-                localStorage.setItem(storageKey, id);
-            }
-
-            return id;
-        } catch (error) {
-            return "tk-" + Date.now() + "-" +
-                Math.random().toString(36).slice(2);
-        }
+        introFrame.hidden = true;
+        voteFrame.hidden = false;
     }
 
     function createElement(tag, className, text) {
         const element = document.createElement(tag);
 
-        if (className) {
-            element.className = className;
-        }
-
-        if (text !== undefined) {
-            element.textContent = text;
-        }
+        if (className) element.className = className;
+        if (text !== undefined) element.textContent = text;
 
         return element;
     }
@@ -95,11 +90,10 @@
             "tk-hero-quiz-options"
         );
 
-        const optionLetters = ["A", "B", "C", "D"];
+        const letters = ["A", "B", "C", "D"];
 
-        optionLetters.forEach((letter) => {
+        letters.forEach((letter) => {
             const optionText = quiz.options?.[letter];
-
             if (!optionText) return;
 
             const button = createElement(
@@ -109,6 +103,7 @@
 
             button.type = "button";
             button.dataset.answer = letter;
+            button.setAttribute("aria-pressed", "false");
 
             const badge = createElement(
                 "span",
@@ -116,11 +111,7 @@
                 letter
             );
 
-            const label = createElement(
-                "span",
-                "",
-                optionText
-            );
+            const label = createElement("span", "", optionText);
 
             button.append(badge, label);
 
@@ -130,20 +121,14 @@
                 selectedAnswer = letter;
 
                 optionsBox.querySelectorAll("button").forEach((item) => {
-                    item.classList.toggle(
-                        "is-selected",
-                        item.dataset.answer === letter
-                    );
-                    item.setAttribute(
-                        "aria-pressed",
-                        String(item.dataset.answer === letter)
-                    );
+                    const chosen = item.dataset.answer === letter;
+                    item.classList.toggle("is-selected", chosen);
+                    item.setAttribute("aria-pressed", String(chosen));
                 });
 
                 submitButton.disabled = false;
             });
 
-            button.setAttribute("aria-pressed", "false");
             optionsBox.appendChild(button);
         });
 
@@ -189,6 +174,7 @@
                 }
 
                 renderResults(result);
+
             } catch (error) {
                 submitting = false;
                 submitButton.disabled = false;
@@ -199,8 +185,7 @@
                 });
 
                 quizStatus.textContent =
-                    error.message ||
-                    "Something went wrong. Please try again.";
+                    error.message || "Please try again.";
             }
         });
 
@@ -212,6 +197,28 @@
         );
     }
 
+    function getSessionId() {
+        const key = "tk_quiz_session_id";
+
+        try {
+            let id = localStorage.getItem(key);
+
+            if (!id) {
+                id = window.crypto?.randomUUID
+                    ? window.crypto.randomUUID()
+                    : "tk-" + Date.now() + "-" +
+                      Math.random().toString(36).slice(2);
+
+                localStorage.setItem(key, id);
+            }
+
+            return id;
+        } catch (error) {
+            return "tk-" + Date.now() + "-" +
+                Math.random().toString(36).slice(2);
+        }
+    }
+
     function renderResults(result) {
         quizContent.replaceChildren();
 
@@ -220,50 +227,56 @@
             "tk-hero-quiz-feedback"
         );
 
-        const heading = createElement(
-            "h3",
-            "",
-            result.isCorrect ? "Correct! 🎉" : "Good try!"
+        feedback.append(
+            createElement(
+                "h3",
+                "",
+                result.isCorrect ? "Correct! 🎉" : "Good try!"
+            ),
+            createElement(
+                "p",
+                "",
+                result.explanation || "Thanks for participating."
+            )
         );
 
-        const explanation = createElement(
-            "p",
-            "",
-            result.explanation || "Thanks for participating."
-        );
-
-        feedback.append(heading, explanation);
+        quizContent.appendChild(feedback);
 
         const results = result.results;
 
-        if (results && results.totalVotes > 0) {
-            const resultsHeading = createElement(
+        if (results && Number(results.totalVotes) > 0) {
+            const heading = createElement(
                 "h3",
                 "",
                 "How everyone answered"
             );
 
-            resultsHeading.style.marginTop = "18px";
+            heading.style.marginTop = "10px";
+            quizContent.appendChild(heading);
 
-            const resultsSummary = createElement(
-                "p",
-                "",
-                `${results.totalVotes} response` +
-                (results.totalVotes === 1 ? "" : "s")
+            quizContent.appendChild(
+                createElement(
+                    "p",
+                    "",
+                    `${results.totalVotes} response` +
+                    (results.totalVotes === 1 ? "" : "s")
+                )
             );
-
-            quizContent.append(feedback, resultsHeading, resultsSummary);
 
             ["A", "B", "C", "D"].forEach((letter) => {
                 const optionText = activeQuiz.options?.[letter];
-
                 if (!optionText) return;
 
-                const percentage =
-                    Number(results.optionPercentages?.[letter]) || 0;
+                const percentage = Math.max(
+                    0,
+                    Math.min(
+                        100,
+                        Number(results.optionPercentages?.[letter]) || 0
+                    )
+                );
 
                 const row = createElement("div", "");
-                row.style.marginTop = "10px";
+                row.style.marginTop = "6px";
 
                 const label = createElement(
                     "p",
@@ -271,28 +284,25 @@
                     `${letter}. ${optionText} — ${percentage}%`
                 );
 
-                label.style.margin = "0 0 5px";
-                label.style.fontSize = "12px";
+                label.style.margin = "0 0 3px";
+                label.style.fontSize = "11px";
 
                 const track = createElement("div", "");
-                track.style.height = "7px";
+                track.style.height = "6px";
                 track.style.overflow = "hidden";
                 track.style.borderRadius = "99px";
                 track.style.background = "#E5EAF0";
 
                 const bar = createElement("div", "");
-                bar.style.width = `${Math.min(100, Math.max(0, percentage))}%`;
+                bar.style.width = `${percentage}%`;
                 bar.style.height = "100%";
                 bar.style.borderRadius = "99px";
-                bar.style.background =
-                    "linear-gradient(90deg, #16866A, #65C7A5)";
+                bar.style.background = "#16866A";
 
                 track.appendChild(bar);
                 row.append(label, track);
                 quizContent.appendChild(row);
             });
-        } else {
-            quizContent.append(feedback);
         }
 
         quizStatus.textContent = "Thanks for sharing your answer!";
@@ -322,16 +332,23 @@
                 return;
             }
 
-            showQuiz();
-            renderQuestion(data.quiz);
+            activeQuiz = data.quiz;
+            renderQuestion(activeQuiz);
+
+            bookStage.hidden = true;
+            quizBox.hidden = false;
+
+            showIntro();
 
         } catch (error) {
-            // If the quiz cannot load, keep the original book visible.
             showBook();
             console.warn("Hero quiz unavailable:", error);
         }
     }
 
+    startButton.addEventListener("click", showVoteFrame);
+
+    // Begin with the original book visible until a quiz loads.
     showBook();
     loadActiveQuiz();
 })();

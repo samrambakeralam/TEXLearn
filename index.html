@@ -321,38 +321,61 @@
         <div class="rc2-hero-product">
 
             
-<!-- Weekly quiz view: hidden until quiz mode is activated -->
-<div
-    class="tk-hero-quiz"
-    id="tkHeroQuiz"
-    aria-live="polite"
-    hidden
->
-    <div class="tk-hero-quiz-heading">
-        <div class="tk-hero-quiz-icon">
+
+<!-- Hero quiz: two-frame experience -->
+<div class="tk-hero-quiz" id="tkHeroQuiz" aria-live="polite" hidden>
+
+    <!-- FRAME 1: INTRODUCTION -->
+    <div class="tk-hero-quiz-frame tk-hero-quiz-intro" id="tkHeroQuizIntro">
+
+        <div class="tk-hero-quiz-intro-icon">
             <i data-lucide="lightbulb"></i>
         </div>
 
-        <div>
-            <h2>Think you know?</h2>
-            <p>Let's see what you think.</p>
+        <h2>Think you know?</h2>
+
+        <p>Let's see what you think.</p>
+
+        <button
+            type="button"
+            class="tk-hero-quiz-start"
+            id="tkHeroQuizStart"
+        >
+            Take the challenge
+            <i data-lucide="arrow-right"></i>
+        </button>
+
+        <div class="tk-hero-quiz-dots" aria-hidden="true">
+            <span class="is-active"></span>
+            <span></span>
         </div>
+
     </div>
 
-    <div
-        class="tk-hero-quiz-status"
-        id="tkHeroQuizStatus"
-        role="status"
-    >
-        Finding an interesting question for you...
+    <!-- FRAME 2: QUESTION AND VOTING -->
+    <div class="tk-hero-quiz-frame tk-hero-quiz-vote" id="tkHeroQuizVote" hidden>
+
+        <div
+            class="tk-hero-quiz-status"
+            id="tkHeroQuizStatus"
+            role="status"
+        ></div>
+
+        <div
+            class="tk-hero-quiz-content"
+            id="tkHeroQuizContent"
+            hidden
+        ></div>
+
+        <div class="tk-hero-quiz-dots" aria-hidden="true">
+            <span></span>
+            <span class="is-active"></span>
+        </div>
+
     </div>
 
-    <div
-        class="tk-hero-quiz-content"
-        id="tkHeroQuizContent"
-        hidden
-    ></div>
 </div>
+
 
 
             <div
