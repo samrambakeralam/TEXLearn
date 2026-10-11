@@ -89,13 +89,13 @@ function showBook() {
     rotationPaused = false;
 
     if (activeQuiz) {
-        rotationTimer = setTimeout(showQuizIntro, BOOK_DURATION);
-    }
+    rotationTimer = setTimeout(showIntro, BOOK_DURATION);
+}
 }
 
 
 
-  
+
 
 function showIntro() {
     clearTimeout(transitionTimer);
@@ -113,24 +113,25 @@ function showIntro() {
         fadeToView("quiz");
     }
 
-    transitionTimer = setTimeout(showVoteFrame, 2000);
+    transitionTimer = setTimeout(showVoteFrame, 4000);
+}
+
+
+   
+
+
+function showVoteFrame() {
+    clearTimeout(transitionTimer);
+
+    if (!activeQuiz || rotationPaused) return;
+
+    introFrame.hidden = true;
+    voteFrame.hidden = false;
+
     rotationTimer = setTimeout(showBook, QUIZ_DURATION);
 }
 
 
-
-   
-function showVoteFrame() {
-    clearTimeout(transitionTimer);
-    clearTimeout(rotationTimer);
-
-    if (!activeQuiz) return;
-
-    rotationPaused = true;
-
-    introFrame.hidden = true;
-    voteFrame.hidden = false;
-}
 
 
     function createElement(tag, className, text) {
