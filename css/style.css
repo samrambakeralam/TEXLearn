@@ -1281,42 +1281,6 @@ box-shadow:
     margin: 0;
 }
 
-@media (max-width: 767px) {
-
-    .tk-hero-quiz {
-        width: 100%;
-        height: 100%;
-        min-height: 0;
-        padding: 12px;
-        box-sizing: border-box;
-        gap: 10px;
-        border-radius: 20px;
-        overflow-y: auto;
-    }
-
-    .tk-hero-quiz-heading h2 {
-        font-size: 21px;
-    }
-
-    .tk-hero-quiz-question {
-        font-size: 18px;
-    }
-
-    .tk-hero-quiz-option {
-        min-height: 47px;
-        padding: 8px 10px;
-        font-size: 12px;
-    }
-}
-
-@media (prefers-reduced-motion: reduce) {
-    .tk-hero-quiz-option {
-        transition: none;
-    }
-}
-
-
-
 
 /* Compact hero quiz — preserve original mobile dimensions */
 @media (max-width: 767px) {
@@ -1336,7 +1300,11 @@ box-shadow:
         gap: 4px;
         overflow: hidden;
         border-radius: 20px;
+        overflow-y: auto;
     }
+
+
+
 
     /* Compact but fully visible heading */
     .tk-hero-quiz-heading {
@@ -1395,7 +1363,7 @@ box-shadow:
         display: grid;
         grid-template-columns: 1fr;
         gap: 10px;
-        margin: 2px 18px 0 6px;
+        margin: 2px 20px 0 6px;
      transform: translateY(10px);
     }
 
@@ -1440,6 +1408,12 @@ box-shadow:
     box-sizing: border-box;
 }
 
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .tk-hero-quiz-option {
+        transition: none;
+    }
 }
 
 
