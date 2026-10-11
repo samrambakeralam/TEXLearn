@@ -1377,7 +1377,7 @@ box-shadow:
 
    .tk-hero-quiz-question {
     max-width: 100%;
-    margin: 0 0 5px;
+     margin-top: 4px;
     font-size: 13px;
     line-height: 1.4;
     overflow-wrap: anywhere;
@@ -1431,6 +1431,13 @@ box-shadow:
         margin-bottom: 2px;
         font-size: 12px;
     }
+
+    .tk-hero-quiz-vote {
+    justify-content: flex-start;
+    padding-top: 10px;
+    box-sizing: border-box;
+}
+
 }
 
 
@@ -3324,7 +3331,7 @@ box-shadow:
 
     #tkHeroQuizIntro h2 {
     margin: 0;
-    transform: translateY(-6px);
+    transform: translateY(-12px);
     font-size: 22px;
     line-height: 1.15;
     letter-spacing: -0.5px;
@@ -3336,13 +3343,24 @@ box-shadow:
         line-height: 1.4;
     }
 
-    #tkHeroQuizIntro .tk-hero-quiz-start {
-        min-height: 42px;
-        margin-top: 4px;
-        padding: 0 16px;
-        font-size: 13px;
-        border-radius: 10px;
-    }
+   #tkHeroQuizIntro .tk-hero-quiz-start {
+    min-height: 42px;
+    margin-top: 4px;
+    padding: 0 16px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+
+    border: 1px solid #16866A;
+    border-radius: 10px;
+    background: #16866A;
+    color: #FFFFFF;
+
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+}
 
 
 }
