@@ -26,34 +26,111 @@
         return;
     }
 
-    let activeQuiz = null;
-    let selectedAnswer = null;
-    let submitting = false;
-    let transitionTimer = null;
+    
+let activeQuiz = null;
+let selectedAnswer = null;
+let submitting = false;
+let transitionTimer = null;
 
-    function showBook() {
-        clearTimeout(transitionTimer);
+// Automatic book–quiz rotation
+const BOOK_DURATION = 50000;
+const QUIZ_DURATION = 25000;
+const FADE_DURATION = 1500;
+
+let rotationTimer = null;
+let rotationPaused = false;
+let currentHeroView = "book";
+
+let isTransitioning = false;
+
+function fadeToView(nextView) {
+    if (isTransitioning || currentHeroView === nextView) return;
+
+    isTransitioning = true;
+
+    const outgoing = nextView === "quiz" ? bookStage : quizBox;
+    const incoming = nextView === "quiz" ? quizBox : bookStage;
+
+    incoming.hidden = false;
+    incoming.classList.add("tk-hero-fading");
+
+    requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+            outgoing.classList.add("tk-hero-fading");
+            incoming.classList.remove("tk-hero-fading");
+
+            setTimeout(() => {
+                outgoing.hidden = true;
+                outgoing.classList.remove("tk-hero-fading");
+
+                currentHeroView = nextView;
+                isTransitioning = false;
+            }, FADE_DURATION);
+        });
+    });
+}
+
+
+
+  
+
+function showBook() {
+    clearTimeout(transitionTimer);
+    clearTimeout(rotationTimer);
+
+    if (currentHeroView === "book" && !isTransitioning) {
         quizBox.hidden = true;
         bookStage.hidden = false;
+    } else {
+        fadeToView("book");
     }
 
-    function showIntro() {
-        introFrame.hidden = false;
-        voteFrame.hidden = true;
-        startButton.disabled = false;
+    rotationPaused = false;
 
-        clearTimeout(transitionTimer);
-        transitionTimer = setTimeout(showVoteFrame, 2000);
+    if (activeQuiz) {
+        rotationTimer = setTimeout(showQuizIntro, BOOK_DURATION);
+    }
+}
+
+
+
+  
+
+function showIntro() {
+    clearTimeout(transitionTimer);
+    clearTimeout(rotationTimer);
+
+    introFrame.hidden = false;
+    voteFrame.hidden = true;
+    startButton.disabled = false;
+
+    rotationPaused = false;
+
+    if (currentHeroView === "quiz" && !isTransitioning) {
+        quizBox.hidden = false;
+    } else {
+        fadeToView("quiz");
     }
 
-    function showVoteFrame() {
-        clearTimeout(transitionTimer);
+    transitionTimer = setTimeout(showVoteFrame, 2000);
+    rotationTimer = setTimeout(showBook, QUIZ_DURATION);
+}
 
-        if (!activeQuiz) return;
 
-        introFrame.hidden = true;
-        voteFrame.hidden = false;
-    }
+
+   
+function showVoteFrame() {
+    clearTimeout(transitionTimer);
+    clearTimeout(rotationTimer);
+
+    if (!activeQuiz) return;
+
+    rotationPaused = true;
+
+    introFrame.hidden = true;
+    voteFrame.hidden = false;
+}
+
 
     function createElement(tag, className, text) {
         const element = document.createElement(tag);
@@ -128,6 +205,9 @@ function renderQuestion(quiz) {
             });
 
             const result = await response.json();
+
+            clearTimeout(rotationTimer);
+            rotationPaused = true;
 
             if (!response.ok || !result.success) {
                 throw new Error(
@@ -341,7 +421,15 @@ function renderQuestion(quiz) {
         }
     }
 
-    startButton.addEventListener("click", showVoteFrame);
+   
+startButton.addEventListener("click", () => {
+    clearTimeout(rotationTimer);
+    clearTimeout(transitionTimer);
+
+    rotationPaused = true;
+    showVoteFrame();
+});
+
 
     // Begin with the original book visible until a quiz loads.
     showBook();
