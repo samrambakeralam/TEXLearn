@@ -34,8 +34,9 @@ let transitionTimer = null;
 
 // Automatic book–quiz rotation
 const BOOK_DURATION = 50000;
-const QUIZ_DURATION = 25000;
+const QUIZ_DURATION = 20000;
 const FADE_DURATION = 1500;
+const FIRST_BOOK_DURATION = 30000;
 
 let rotationTimer = null;
 let rotationPaused = false;
