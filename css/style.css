@@ -1364,7 +1364,7 @@ box-shadow:
         grid-template-columns: 1fr;
         gap: 10px;
         margin: 2px 20px 0 6px;
-     transform: translateY(10px);
+     transform: translateY(12px);
     }
 
     .tk-hero-quiz-option {
