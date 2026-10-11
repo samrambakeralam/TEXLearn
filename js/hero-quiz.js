@@ -44,6 +44,7 @@ let currentHeroView = "book";
 
 let isTransitioning = false;
 
+
 function fadeToView(nextView) {
     if (isTransitioning || currentHeroView === nextView) return;
 
@@ -70,6 +71,7 @@ function fadeToView(nextView) {
         });
     });
 }
+
 
 
 
@@ -180,11 +182,16 @@ function renderQuestion(quiz) {
     const letters = ["A", "B", "C", "D"];
     const optionButtons = [];
 
-    async function submitAnswer(letter, button) {
-        if (submitting || selectedAnswer) return;
+    
+async function submitAnswer(letter, button) {
+    if (submitting || selectedAnswer) return;
 
-        selectedAnswer = letter;
-        submitting = true;
+    clearTimeout(rotationTimer);
+    rotationPaused = true;
+
+    selectedAnswer = letter;
+    submitting = true;
+
 
         optionButtons.forEach((item) => {
             item.disabled = true;
