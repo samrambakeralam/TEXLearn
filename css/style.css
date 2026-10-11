@@ -1394,9 +1394,9 @@ box-shadow:
     .tk-hero-quiz-options {
         display: grid;
         grid-template-columns: 1fr;
-        gap: 7px;
+        gap: 9px;
         margin: 2px 18px 0 6px;
-     transform: translateY(10px);
+     transform: translateY(8px);
     }
 
     .tk-hero-quiz-option {
