@@ -1379,6 +1379,7 @@ a {
         margin: 0 0 3px;
         font-size: 9px;
         line-height: 1.2;
+        display: none;
     }
 
     .tk-hero-quiz-options {
@@ -1569,6 +1570,7 @@ a {
         margin: 0 0 4px;
     font-size: 9px;
     line-height: 1.2;
+    display: none;
     }
 
     .tk-hero-quiz-options {
