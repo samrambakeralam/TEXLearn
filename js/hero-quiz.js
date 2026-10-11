@@ -407,13 +407,22 @@ function renderQuestion(quiz) {
                 return;
             }
 
-            activeQuiz = data.quiz;
-            renderQuestion(activeQuiz);
+           
+activeQuiz = data.quiz;
+renderQuestion(activeQuiz);
 
-            bookStage.hidden = true;
-            quizBox.hidden = false;
+// Keep the book visible when the homepage first loads.
+clearTimeout(rotationTimer);
 
-            showIntro();
+bookStage.hidden = false;
+quizBox.hidden = true;
+
+currentHeroView = "book";
+rotationPaused = false;
+
+// Show the book for 30 seconds before the first crossfade.
+rotationTimer = setTimeout(showIntro, 30000);
+
 
         } catch (error) {
             showBook();
