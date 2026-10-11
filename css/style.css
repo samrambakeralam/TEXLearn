@@ -1378,7 +1378,7 @@ box-shadow:
    .tk-hero-quiz-question {
     max-width: 100%;
      margin-top: 4px;
-    font-size: 13px;
+    font-size: 14px;
     line-height: 1.4;
     overflow-wrap: anywhere;
     white-space: normal;
@@ -1394,9 +1394,9 @@ box-shadow:
     .tk-hero-quiz-options {
         display: grid;
         grid-template-columns: 1fr;
-        gap: 9px;
+        gap: 10px;
         margin: 2px 18px 0 6px;
-     transform: translateY(8px);
+     transform: translateY(10px);
     }
 
     .tk-hero-quiz-option {
