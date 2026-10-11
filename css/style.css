@@ -1518,8 +1518,10 @@ a {
         display: flex;
         flex-direction: column;
         justify-content: center;
-        gap: 5px;
+        gap: 8px;
         overflow: hidden;
+         padding: 5px 1px;
+         box-sizing: border-box;
     }
 
     .tk-hero-quiz-status {
@@ -1528,10 +1530,12 @@ a {
     }
 
     .tk-hero-quiz-question {
-          margin: -3px 0 1px;
-    font-size: 11px;
-    line-height: 1.25;
+          margin: 0 0 5px;
+          transform: translateY(-10px);
+    font-size: 13px;
+    line-height: 1.35;
         overflow-wrap: anywhere;
+        text-align: center;
     }
 
     .tk-hero-quiz-instruction {
@@ -1542,9 +1546,10 @@ a {
     }
 
     .tk-hero-quiz-options {
-        display: grid;
+    display: grid;
     grid-template-columns: 1fr;
-    gap: 6px;
+    gap: 9px;
+    margin-top: 3px;
     }
 
     .tk-hero-quiz-option {
