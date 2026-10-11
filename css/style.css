@@ -13169,46 +13169,59 @@ body.about-page-exit {
 
 
 
-/* TEXLEARN — Desktop poll intro content */
+
+/* TEXLEARN — Refined desktop poll spacing */
 @media (min-width: 768px) {
+
+    /* Keep the intro content available on desktop */
     #tkHeroQuizIntro .tk-hero-quiz-intro-icon,
     #tkHeroQuizIntro h2,
     #tkHeroQuizIntro p {
         display: none;
     }
 
+    /* Compact question frame */
     #tkHeroQuizVote {
         position: relative;
-        padding-top: 110px;
+        padding-top: 88px;
+        padding-bottom: 16px;
     }
 
+    /* Heading */
     #tkHeroQuizVote::before {
         content: "Think you know?";
         position: absolute;
-        top: 28px;
+        top: 12px;
         left: 0;
         width: 100%;
         text-align: center;
-        font-size: 28px;
+        font-size: 27px;
         font-weight: 700;
         line-height: 1.2;
         color: inherit;
     }
 
+    /* Subtitle */
     #tkHeroQuizVote::after {
         content: "Let's see what you think.";
         position: absolute;
-        top: 64px;
+        top: 48px;
         left: 0;
         width: 100%;
         text-align: center;
-        font-size: 15px;
-        line-height: 1.4;
+        font-size: 14px;
+        line-height: 1.35;
         color: inherit;
         opacity: 0.8;
     }
 
+    /* No intro button on desktop */
     #tkHeroQuizStart {
         display: none !important;
+    }
+
+    /* Slightly tighten spacing between question elements */
+    #tkHeroQuizContent {
+        margin-top: 0;
     }
 }
