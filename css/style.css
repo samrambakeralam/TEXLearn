@@ -1560,7 +1560,7 @@ a {
         align-items: center;
        gap: 7px;
     box-sizing: border-box;
-    border-radius: 8px;
+    border-radius: 10px;
     font-size: 10px;
     line-height: 1.2;
     text-align: left;
