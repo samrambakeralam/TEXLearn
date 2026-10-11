@@ -1083,10 +1083,26 @@ a {
     flex-direction: column;
     justify-content: center;
     gap: 22px;
-    background: #FFFFFF;
-    border: 1px solid #E5EAF0;
-    border-radius: 28px;
-    box-shadow: 0 12px 32px rgba(23, 43, 77, 0.07);
+   
+
+background: linear-gradient(
+    125deg,
+    #1237A5 0%,
+    #075985 35%,
+    #0D9488 68%,
+    #10B981 100%
+);
+
+border: 1px solid rgba(255, 255, 255, 0.55);
+
+border-radius: 28px;
+
+box-shadow:
+    0 12px 32px rgba(18, 55, 165, 0.20),
+    0 5px 16px rgba(13, 148, 136, 0.16),
+    inset 0 1px 0 rgba(255, 255, 255, 0.30);
+
+
     font-family: Inter, sans-serif;
 }
 
