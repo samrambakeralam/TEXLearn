@@ -1426,6 +1426,82 @@ a {
 }
 
 
+/* =====================================================
+   HERO QUIZ — SMALL PHONE
+   420px and below
+===================================================== */
+
+@media (max-width: 420px) {
+
+    .tk-hero-quiz {
+        padding: 9px 10px;
+        gap: 5px;
+        border-radius: 20px;
+    }
+
+    .tk-hero-quiz-heading {
+        gap: 7px;
+        flex-shrink: 0;
+    }
+
+    .tk-hero-quiz-icon {
+        width: 29px;
+        height: 29px;
+        flex-basis: 29px;
+    }
+
+    .tk-hero-quiz-icon svg {
+        width: 17px;
+        height: 17px;
+    }
+
+    .tk-hero-quiz-heading h2 {
+        font-size: 15px;
+        line-height: 1.2;
+    }
+
+    .tk-hero-quiz-heading p {
+        font-size: 10px;
+    }
+
+    .tk-hero-quiz-question {
+        font-size: 12px;
+        line-height: 1.25;
+    }
+
+    .tk-hero-quiz-instruction {
+        font-size: 9px;
+        margin-bottom: 3px;
+    }
+
+    .tk-hero-quiz-options {
+        gap: 4px;
+    }
+
+    .tk-hero-quiz-option {
+        min-height: 27px;
+        padding: 3px 6px;
+        gap: 6px;
+        font-size: 9px;
+        line-height: 1.2;
+    }
+
+    .tk-hero-quiz-option-letter {
+        width: 20px;
+        height: 20px;
+        flex-basis: 20px;
+        font-size: 9px;
+    }
+
+    .tk-hero-quiz-submit {
+        min-height: 30px;
+        margin-top: 3px;
+        padding: 4px 7px;
+        font-size: 10px;
+    }
+}
+
+
 
 
 
