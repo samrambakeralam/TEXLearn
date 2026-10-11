@@ -13080,3 +13080,90 @@ body.about-page-exit {
         transition-duration: 0.01ms;
     }
 }
+
+
+
+/* =====================================================
+   TEXLEARN — STABLE BOOK / POLL CROSSFADE LAYOUT
+   Keep both views in the same position during fading.
+===================================================== */
+
+.rc2-hero-product {
+    position: relative;
+}
+
+.rc2-hero-product > #rc2UnboxingStage,
+.rc2-hero-product > #tkHeroQuiz {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin: 0;
+    box-sizing: border-box;
+    backface-visibility: hidden;
+}
+
+/* Desktop and tablet */
+.rc2-hero-product > #rc2UnboxingStage {
+    width: min(100%, 560px);
+    min-height: 520px;
+    transform: translate(-50%, -50%);
+}
+
+.rc2-hero-product > #tkHeroQuiz {
+    width: min(100%, 560px);
+    height: 520px;
+    min-height: 520px;
+    transform: translate(-50%, -50%);
+}
+
+/* Tablet */
+@media (min-width: 768px) and (max-width: 900px) {
+    .rc2-hero-product > #rc2UnboxingStage,
+    .rc2-hero-product > #tkHeroQuiz {
+        min-height: 480px;
+        height: 480px;
+    }
+}
+
+/* Normal phone and small phone */
+@media (max-width: 767px) {
+      .rc2-hero-product {
+        position: relative;
+        aspect-ratio: 16 / 9;
+        min-height: 0;
+        align-self: start;
+    }
+
+    .rc2-hero-product > #rc2UnboxingStage,
+    .rc2-hero-product > #tkHeroQuiz {
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        min-height: 0;
+        transform: none;
+    }
+
+    .rc2-hero-product > #rc2UnboxingStage {
+        aspect-ratio: 16 / 9;
+    }
+}
+
+
+/* Smooth crossfade between poll intro and question */
+.tk-hero-quiz-frame {
+    transition: opacity 1.5s cubic-bezier(0.4, 0, 0.2, 1);
+    will-change: opacity;
+}
+
+.tk-hero-quiz-frame.tk-frame-fading {
+    opacity: 0;
+    pointer-events: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .tk-hero-quiz-frame {
+        transition-duration: 0.01ms;
+    }
+}
+

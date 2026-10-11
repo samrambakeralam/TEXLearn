@@ -115,11 +115,12 @@ function showIntro() {
         fadeToView("quiz");
     }
 
-    transitionTimer = setTimeout(showVoteFrame, 4000);
+    transitionTimer = setTimeout(showVoteFrame, 7000);
 }
 
 
    
+
 
 
 
@@ -128,17 +129,33 @@ function showVoteFrame() {
 
     if (!activeQuiz) return;
 
-    introFrame.hidden = true;
-    voteFrame.hidden = false;
-
-    // Start the idle timer only when the student
-    // has not engaged with the quiz.
     clearTimeout(rotationTimer);
 
-    if (!rotationPaused) {
-        rotationTimer = setTimeout(showBook, QUIZ_DURATION);
-    }
+    // Prepare the question frame before fading it in.
+    voteFrame.hidden = false;
+    voteFrame.classList.add("tk-frame-fading");
+
+    requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+            // Fade out the intro while fading in the question.
+            introFrame.classList.add("tk-frame-fading");
+            voteFrame.classList.remove("tk-frame-fading");
+
+            // Remove the intro after the crossfade completes.
+            transitionTimer = setTimeout(() => {
+                introFrame.hidden = true;
+                introFrame.classList.remove("tk-frame-fading");
+
+                // Keep the question visible for 20 seconds
+                // unless the student is actively participating.
+                if (!rotationPaused) {
+                    rotationTimer = setTimeout(showBook, QUIZ_DURATION);
+                }
+            }, FADE_DURATION);
+        });
+    });
 }
+
 
 
 
