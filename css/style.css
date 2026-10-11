@@ -13226,3 +13226,44 @@ body.about-page-exit {
         margin-top: 0;
     }
 }
+
+
+
+/* =====================================================
+   TEXLEARN — POLL INTRO / QUESTION FRAME OVERLAP
+   Keep both phone frames in the same position.
+===================================================== */
+
+@media (max-width: 767px) {
+
+    #tkHeroQuiz {
+        position: relative;
+        display: block;
+        overflow: hidden;
+    }
+
+    #tkHeroQuiz > #tkHeroQuizIntro,
+    #tkHeroQuiz > #tkHeroQuizVote {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        min-height: 0;
+        box-sizing: border-box;
+        margin: 0;
+    }
+
+    #tkHeroQuiz > #tkHeroQuizIntro:not([hidden]) {
+        z-index: 2;
+    }
+
+    #tkHeroQuiz > #tkHeroQuizVote:not([hidden]) {
+        z-index: 1;
+    }
+
+    #tkHeroQuiz > #tkHeroQuizIntro[hidden],
+    #tkHeroQuiz > #tkHeroQuizVote[hidden] {
+        display: none !important;
+    }
+
+}
