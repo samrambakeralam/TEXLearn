@@ -64,138 +64,133 @@
         return element;
     }
 
-    function renderQuestion(quiz) {
-        activeQuiz = quiz;
-        selectedAnswer = null;
-        submitting = false;
+    
+function renderQuestion(quiz) {
+    activeQuiz = quiz;
+    selectedAnswer = null;
+    submitting = false;
 
-        quizStatus.textContent = "";
-        quizContent.replaceChildren();
-        quizContent.hidden = false;
+    quizStatus.textContent = "";
+    quizContent.replaceChildren();
+    quizContent.hidden = false;
 
-        const question = createElement(
-            "h3",
-            "tk-hero-quiz-question",
-            quiz.question
-        );
+    const question = createElement(
+        "h3",
+        "tk-hero-quiz-question",
+        quiz.question
+    );
 
-        const instruction = createElement(
-            "p",
-            "tk-hero-quiz-instruction",
-            "Choose the answer you think is right."
-        );
+    const instruction = createElement(
+        "p",
+        "tk-hero-quiz-instruction",
+        "Choose the answer you think is right."
+    );
 
-        const optionsBox = createElement(
-            "div",
-            "tk-hero-quiz-options"
-        );
+    const optionsBox = createElement(
+        "div",
+        "tk-hero-quiz-options"
+    );
 
-        const letters = ["A", "B", "C", "D"];
+    const letters = ["A", "B", "C", "D"];
+    const optionButtons = [];
 
-        letters.forEach((letter) => {
-            const optionText = quiz.options?.[letter];
-            if (!optionText) return;
+    async function submitAnswer(letter, button) {
+        if (submitting || selectedAnswer) return;
 
-            const button = createElement(
-                "button",
-                "tk-hero-quiz-option"
+        selectedAnswer = letter;
+        submitting = true;
+
+        optionButtons.forEach((item) => {
+            item.disabled = true;
+            item.classList.toggle(
+                "is-selected",
+                item.dataset.answer === letter
             );
-
-            button.type = "button";
-            button.dataset.answer = letter;
-            button.setAttribute("aria-pressed", "false");
-
-            const badge = createElement(
-                "span",
-                "tk-hero-quiz-option-letter",
-                letter
+            item.setAttribute(
+                "aria-pressed",
+                String(item.dataset.answer === letter)
             );
-
-            const label = createElement("span", "", optionText);
-
-            button.append(badge, label);
-
-            button.addEventListener("click", () => {
-                if (submitting) return;
-
-                selectedAnswer = letter;
-
-                optionsBox.querySelectorAll("button").forEach((item) => {
-                    const chosen = item.dataset.answer === letter;
-                    item.classList.toggle("is-selected", chosen);
-                    item.setAttribute("aria-pressed", String(chosen));
-                });
-
-                submitButton.disabled = false;
-            });
-
-            optionsBox.appendChild(button);
         });
 
-        const submitButton = createElement(
-            "button",
-            "tk-hero-quiz-submit",
-            "Submit my answer"
-        );
+        quizStatus.textContent = "Submitting your answer…";
 
-        submitButton.type = "button";
-        submitButton.disabled = true;
-
-        submitButton.addEventListener("click", async () => {
-            if (!selectedAnswer || submitting) return;
-
-            submitting = true;
-            submitButton.disabled = true;
-            submitButton.textContent = "Submitting…";
-
-            optionsBox.querySelectorAll("button").forEach((button) => {
-                button.disabled = true;
+        try {
+            const response = await fetch(`${API_BASE}/quiz/vote`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    quizId: activeQuiz.quizId,
+                    selectedAnswer: letter,
+                    sessionId: getSessionId()
+                })
             });
 
-            try {
-                const response = await fetch(`${API_BASE}/quiz/vote`, {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json"
-                    },
-                    body: JSON.stringify({
-                        quizId: activeQuiz.quizId,
-                        selectedAnswer,
-                        sessionId: getSessionId()
-                    })
-                });
+            const result = await response.json();
 
-                const result = await response.json();
-
-                if (!response.ok || !result.success) {
-                    throw new Error(
-                        result.message || "Your answer could not be recorded."
-                    );
-                }
-
-                renderResults(result);
-
-            } catch (error) {
-                submitting = false;
-                submitButton.disabled = false;
-                submitButton.textContent = "Try submitting again";
-
-                optionsBox.querySelectorAll("button").forEach((button) => {
-                    button.disabled = false;
-                });
-
-                quizStatus.textContent =
-                    error.message || "Please try again.";
+            if (!response.ok || !result.success) {
+                throw new Error(
+                    result.message || "Your answer could not be recorded."
+                );
             }
+
+            renderResults(result);
+
+        } catch (error) {
+            selectedAnswer = null;
+            submitting = false;
+
+            optionButtons.forEach((item) => {
+                item.disabled = false;
+                item.classList.remove("is-selected");
+                item.setAttribute("aria-pressed", "false");
+            });
+
+            quizStatus.textContent =
+                error.message ||
+                "Unable to submit. Please select an answer to try again.";
+        }
+    }
+
+    letters.forEach((letter) => {
+        const optionText = quiz.options?.[letter];
+        if (!optionText) return;
+
+        const button = createElement(
+            "button",
+            "tk-hero-quiz-option"
+        );
+
+        button.type = "button";
+        button.dataset.answer = letter;
+        button.setAttribute("aria-pressed", "false");
+
+        const badge = createElement(
+            "span",
+            "tk-hero-quiz-option-letter",
+            letter
+        );
+
+        const label = createElement("span", "", optionText);
+
+        button.append(badge, label);
+
+        button.addEventListener("click", () => {
+            submitAnswer(letter, button);
         });
 
-        quizContent.append(
-            question,
-            instruction,
-            optionsBox,
-            submitButton
-        );
-    }
+        optionButtons.push(button);
+        optionsBox.appendChild(button);
+    });
+
+    quizContent.append(
+        question,
+        instruction,
+        optionsBox
+    );
+}
+
 
     function getSessionId() {
         const key = "tk_quiz_session_id";

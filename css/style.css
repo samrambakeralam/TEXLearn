@@ -1223,35 +1223,11 @@ a {
     color: #8553B5;
 }
 
-.tk-hero-quiz-option:focus-visible,
-.tk-hero-quiz-submit:focus-visible {
+.tk-hero-quiz-option:focus-visible  {
     outline: 3px solid rgba(22, 134, 106, 0.25);
     outline-offset: 3px;
 }
 
-.tk-hero-quiz-submit {
-    width: 100%;
-    min-height: 46px;
-    margin-top: 14px;
-    padding: 11px 16px;
-    border: none;
-    border-radius: 11px;
-    background: #16866A;
-    color: #FFFFFF;
-    font-family: Inter, sans-serif;
-    font-size: 13px;
-    font-weight: 700;
-    cursor: pointer;
-}
-
-.tk-hero-quiz-submit:hover {
-    background: #106D56;
-}
-
-.tk-hero-quiz-submit:disabled {
-    opacity: 0.55;
-    cursor: not-allowed;
-}
 
 .tk-hero-quiz-feedback {
     margin-top: 15px;
@@ -1403,14 +1379,6 @@ a {
         flex: 0 0 19px;
         border-radius: 6px;
         font-size: 9px;
-    }
-
-    .tk-hero-quiz-submit {
-        min-height: 28px;
-        margin-top: 3px;
-        padding: 4px 7px;
-        border-radius: 7px;
-        font-size: 10px;
     }
 
     .tk-hero-quiz-feedback {
@@ -1602,16 +1570,6 @@ a {
         justify-content: center;
         border-radius: 6px;
         font-size: 9px;
-    }
-
-    .tk-hero-quiz-submit {
-        width: 100%;
-        min-height: 27px;
-        margin-top: 2px;
-        padding: 3px 7px;
-        border-radius: 7px;
-        font-size: 9px;
-         line-height: 1.2;
     }
 
     .tk-hero-quiz-feedback {
