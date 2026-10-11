@@ -1070,6 +1070,242 @@ a {
 }
 
 
+/* =====================================================
+   TEXLEARN — HERO QUIZ VIEW
+===================================================== */
+
+.tk-hero-quiz {
+    width: 100%;
+    min-height: 420px;
+    padding: 30px;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 22px;
+    background: #FFFFFF;
+    border: 1px solid #E5EAF0;
+    border-radius: 28px;
+    box-shadow: 0 12px 32px rgba(23, 43, 77, 0.07);
+    font-family: Inter, sans-serif;
+}
+
+.tk-hero-quiz[hidden],
+.tk-hero-quiz-content[hidden] {
+    display: none !important;
+}
+
+.tk-hero-quiz-heading {
+    display: flex;
+    align-items: center;
+    gap: 13px;
+}
+
+.tk-hero-quiz-icon {
+    width: 44px;
+    height: 44px;
+    flex: 0 0 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #16866A;
+    background: #E7F5EF;
+    border-radius: 13px;
+}
+
+.tk-hero-quiz-icon svg {
+    width: 23px;
+    height: 23px;
+}
+
+.tk-hero-quiz-heading h2 {
+    margin: 0 0 4px;
+    color: #172B4D;
+    font-family: Poppins, sans-serif;
+    font-size: clamp(21px, 2.2vw, 27px);
+    font-weight: 700;
+    line-height: 1.2;
+    letter-spacing: -0.03em;
+}
+
+.tk-hero-quiz-heading p {
+    margin: 0;
+    color: #64748B;
+    font-size: 13px;
+    line-height: 1.5;
+}
+
+.tk-hero-quiz-status {
+    color: #64748B;
+    font-size: 14px;
+    line-height: 1.6;
+}
+
+.tk-hero-quiz-question {
+    margin: 0 0 9px;
+    color: #172B4D;
+    font-family: Poppins, sans-serif;
+    font-size: clamp(18px, 1.8vw, 22px);
+    font-weight: 700;
+    line-height: 1.4;
+}
+
+.tk-hero-quiz-instruction {
+    margin: 0 0 16px;
+    color: #64748B;
+    font-size: 13px;
+    line-height: 1.6;
+}
+
+.tk-hero-quiz-options {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 9px;
+}
+
+.tk-hero-quiz-option {
+    width: 100%;
+    min-height: 49px;
+    display: flex;
+    align-items: center;
+    gap: 11px;
+    padding: 9px 12px;
+    border: 1px solid #E5EAF0;
+    border-radius: 12px;
+    background: #FFFFFF;
+    color: #25364D;
+    font-family: Inter, sans-serif;
+    font-size: 13px;
+    font-weight: 500;
+    line-height: 1.45;
+    text-align: left;
+    cursor: pointer;
+    transition: background 180ms ease, border-color 180ms ease;
+}
+
+.tk-hero-quiz-option:hover {
+    background: #F7FCF9;
+    border-color: #91CDB8;
+}
+
+.tk-hero-quiz-option.is-selected {
+    background: #EFF9F4;
+    border-color: #16866A;
+    box-shadow: inset 0 0 0 1px #16866A;
+}
+
+.tk-hero-quiz-option-letter {
+    width: 29px;
+    height: 29px;
+    flex: 0 0 29px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 9px;
+    background: #EAF2FF;
+    color: #315BB5;
+    font-size: 12px;
+    font-weight: 700;
+}
+
+.tk-hero-quiz-option:nth-child(2) .tk-hero-quiz-option-letter {
+    background: #E7F5EF;
+    color: #16866A;
+}
+
+.tk-hero-quiz-option:nth-child(3) .tk-hero-quiz-option-letter {
+    background: #FFF2DF;
+    color: #B45309;
+}
+
+.tk-hero-quiz-option:nth-child(4) .tk-hero-quiz-option-letter {
+    background: #F3EAFE;
+    color: #8553B5;
+}
+
+.tk-hero-quiz-option:focus-visible,
+.tk-hero-quiz-submit:focus-visible {
+    outline: 3px solid rgba(22, 134, 106, 0.25);
+    outline-offset: 3px;
+}
+
+.tk-hero-quiz-submit {
+    width: 100%;
+    min-height: 46px;
+    margin-top: 14px;
+    padding: 11px 16px;
+    border: none;
+    border-radius: 11px;
+    background: #16866A;
+    color: #FFFFFF;
+    font-family: Inter, sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+.tk-hero-quiz-submit:hover {
+    background: #106D56;
+}
+
+.tk-hero-quiz-submit:disabled {
+    opacity: 0.55;
+    cursor: not-allowed;
+}
+
+.tk-hero-quiz-feedback {
+    margin-top: 15px;
+    padding: 13px;
+    border: 1px solid #D6EEE3;
+    border-radius: 12px;
+    background: #F1F8F5;
+    color: #25364D;
+    font-size: 13px;
+    line-height: 1.65;
+}
+
+.tk-hero-quiz-feedback h3 {
+    margin: 0 0 5px;
+    color: #16866A;
+    font-family: Poppins, sans-serif;
+    font-size: 16px;
+}
+
+.tk-hero-quiz-feedback p {
+    margin: 0;
+}
+
+@media (max-width: 767px) {
+    .tk-hero-quiz {
+        min-height: 0;
+        padding: 19px 15px;
+        gap: 17px;
+        border-radius: 20px;
+    }
+
+    .tk-hero-quiz-heading h2 {
+        font-size: 21px;
+    }
+
+    .tk-hero-quiz-question {
+        font-size: 18px;
+    }
+
+    .tk-hero-quiz-option {
+        min-height: 47px;
+        padding: 8px 10px;
+        font-size: 12px;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .tk-hero-quiz-option {
+        transition: none;
+    }
+}
+
+
+
 /* ---------------------------------------------------------
    UNBOXING STAGE
 --------------------------------------------------------- */
@@ -1131,6 +1367,11 @@ a {
     transform:
     translate3d(0,-25px,0);
 
+}
+
+/* Hide the original book display while the quiz is active */
+.rc2-unboxing-stage[hidden] {
+    display: none !important;
 }
 
 
@@ -4824,7 +5065,6 @@ transform:translateY(0px);
     }
 
 }
-
 
 /* -----------------------------------------
    SPACE BEFORE FEATURED CAROUSEL

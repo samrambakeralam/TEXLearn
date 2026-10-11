@@ -320,6 +320,41 @@
 
         <div class="rc2-hero-product">
 
+            
+<!-- Weekly quiz view: hidden until quiz mode is activated -->
+<div
+    class="tk-hero-quiz"
+    id="tkHeroQuiz"
+    aria-live="polite"
+    hidden
+>
+    <div class="tk-hero-quiz-heading">
+        <div class="tk-hero-quiz-icon">
+            <i data-lucide="lightbulb"></i>
+        </div>
+
+        <div>
+            <h2>Think you know?</h2>
+            <p>Let's see what you think.</p>
+        </div>
+    </div>
+
+    <div
+        class="tk-hero-quiz-status"
+        id="tkHeroQuizStatus"
+        role="status"
+    >
+        Finding an interesting question for you...
+    </div>
+
+    <div
+        class="tk-hero-quiz-content"
+        id="tkHeroQuizContent"
+        hidden
+    ></div>
+</div>
+
+
             <div
                 class="rc2-unboxing-stage"
                 id="rc2UnboxingStage"
@@ -501,6 +536,7 @@
     </div>
 
 </section>
+
 
 <!-- =========================================
      RC2.3 — FEATURED CAROUSEL
@@ -1582,6 +1618,9 @@ window.addEventListener(
     }
 );
 </script>
+
+
+<script src="js/hero-quiz.js"></script>
 
 </body>
 </html>
