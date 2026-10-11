@@ -13167,3 +13167,48 @@ body.about-page-exit {
     }
 }
 
+
+
+/* TEXLEARN — Desktop poll intro content */
+@media (min-width: 768px) {
+    #tkHeroQuizIntro .tk-hero-quiz-intro-icon,
+    #tkHeroQuizIntro h2,
+    #tkHeroQuizIntro p {
+        display: none;
+    }
+
+    #tkHeroQuizVote {
+        position: relative;
+        padding-top: 110px;
+    }
+
+    #tkHeroQuizVote::before {
+        content: "Think you know?";
+        position: absolute;
+        top: 28px;
+        left: 0;
+        width: 100%;
+        text-align: center;
+        font-size: 28px;
+        font-weight: 700;
+        line-height: 1.2;
+        color: inherit;
+    }
+
+    #tkHeroQuizVote::after {
+        content: "Let's see what you think.";
+        position: absolute;
+        top: 64px;
+        left: 0;
+        width: 100%;
+        text-align: center;
+        font-size: 15px;
+        line-height: 1.4;
+        color: inherit;
+        opacity: 0.8;
+    }
+
+    #tkHeroQuizStart {
+        display: none !important;
+    }
+}

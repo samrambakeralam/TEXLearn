@@ -99,15 +99,36 @@ function showBook() {
 
 
 
+
 function showIntro() {
     clearTimeout(transitionTimer);
     clearTimeout(rotationTimer);
 
+    rotationPaused = false;
+
+    // Desktop: skip the intro and show the question directly.
+    if (window.matchMedia("(min-width: 768px)").matches) {
+        introFrame.hidden = true;
+        voteFrame.hidden = false;
+        startButton.disabled = false;
+
+        if (currentHeroView === "quiz" && !isTransitioning) {
+            quizBox.hidden = false;
+        } else {
+            fadeToView("quiz");
+        }
+
+        if (!rotationPaused) {
+            rotationTimer = setTimeout(showBook, QUIZ_DURATION);
+        }
+
+        return;
+    }
+
+    // Phone: retain the existing intro frame.
     introFrame.hidden = false;
     voteFrame.hidden = true;
     startButton.disabled = false;
-
-    rotationPaused = false;
 
     if (currentHeroView === "quiz" && !isTransitioning) {
         quizBox.hidden = false;
@@ -115,8 +136,9 @@ function showIntro() {
         fadeToView("quiz");
     }
 
-    transitionTimer = setTimeout(showVoteFrame, 7000);
+    transitionTimer = setTimeout(showVoteFrame, 6000);
 }
+
 
 
    
