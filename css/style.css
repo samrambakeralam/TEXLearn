@@ -3303,12 +3303,17 @@ box-shadow:
 
     
     /* NORMAL PHONE — POLL INTRO FRAME */
-    #tkHeroQuizIntro {
-        gap: 10px;
-        padding: 14px;
-        box-sizing: border-box;
-        text-align: center;
-    }
+   #tkHeroQuizIntro {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    padding: 10px 14px;
+    padding: 14px;
+    box-sizing: border-box;
+    text-align: center;
+}
 
     #tkHeroQuizIntro .tk-hero-quiz-intro-icon {
         width: 44px;
@@ -3318,11 +3323,12 @@ box-shadow:
     }
 
     #tkHeroQuizIntro h2 {
-        margin: 0;
-        font-size: 22px;
-        line-height: 1.15;
-        letter-spacing: -0.5px;
-    }
+    margin: 0;
+    transform: translateY(-6px);
+    font-size: 22px;
+    line-height: 1.15;
+    letter-spacing: -0.5px;
+}
 
     #tkHeroQuizIntro p {
         margin: 0;
