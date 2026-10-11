@@ -13189,7 +13189,8 @@ body.about-page-exit {
 
     /* Heading */
     #tkHeroQuizVote::before {
-        content: "Think you know?";
+        content: "💡  Think you know?";
+        display: block;
         position: absolute;
         top: 12px;
         left: 0;
