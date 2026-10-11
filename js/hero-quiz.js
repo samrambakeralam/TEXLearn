@@ -120,15 +120,22 @@ function showIntro() {
    
 
 
+
 function showVoteFrame() {
     clearTimeout(transitionTimer);
 
-    if (!activeQuiz || rotationPaused) return;
+    if (!activeQuiz) return;
 
     introFrame.hidden = true;
     voteFrame.hidden = false;
 
-    rotationTimer = setTimeout(showBook, QUIZ_DURATION);
+    // Start the idle timer only when the student
+    // has not engaged with the quiz.
+    clearTimeout(rotationTimer);
+
+    if (!rotationPaused) {
+        rotationTimer = setTimeout(showBook, QUIZ_DURATION);
+    }
 }
 
 
