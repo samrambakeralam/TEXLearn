@@ -270,7 +270,16 @@ async function submitAnswer(letter, button) {
                 );
             }
 
-            renderResults(result);
+            try {
+    localStorage.setItem(
+        "tk_quiz_voted_" + activeQuiz.quizId,
+        "true"
+    );
+} catch (error) {
+    console.warn("Could not save quiz vote status:", error);
+}
+
+renderResults(result);
 
         } catch (error) {
             selectedAnswer = null;
