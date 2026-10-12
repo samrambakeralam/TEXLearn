@@ -1365,7 +1365,7 @@ box-shadow:
         display: grid;
         grid-template-columns: 1fr;
         gap: 10px;
-        margin: 2px 18px 0 18px;
+        margin: 2px 20px 0 20px;
      transform: translateY(10px);
     }
 
@@ -1581,7 +1581,7 @@ box-shadow:
     display: grid;
     grid-template-columns: 1fr;
     gap: 8px;
-     margin: 2px 14px 0 14px;
+     margin: 2px 18px 0 18px;
      transform: translateY(0px);
     }
 
