@@ -1626,9 +1626,10 @@ box-shadow:
 }
 
 .tk-hero-quiz-feedback h3 {
-    margin: 0 0 2px;
+    margin: 0 0 4px;
+    padding: 2px 0;
     font-size: 11px;
-    line-height: 1.2;
+    line-height: 1.3;
 }
 
 .tk-hero-quiz-feedback p {
