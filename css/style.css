@@ -1554,6 +1554,7 @@ box-shadow:
 
  .tk-hero-quiz-question {
      max-width: 100%;
+     min-height: 29px;
     margin: 0 0 3px;
      transform: translateY(-7px);
     font-size: 12px;
@@ -1561,6 +1562,7 @@ box-shadow:
     text-align: center;
     overflow-wrap: anywhere;
     white-space: normal;
+     box-sizing: border-box;
 }
 
     .tk-hero-quiz-instruction {
