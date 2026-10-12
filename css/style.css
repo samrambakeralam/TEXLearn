@@ -1344,7 +1344,7 @@ box-shadow:
     }
 
    .tk-hero-quiz-question {
-    max-width: 100%;
+      width: calc(100% - 24px);
     margin: 4px 8px 3px;
     padding: 0 4px;
     font-size: 14px;
