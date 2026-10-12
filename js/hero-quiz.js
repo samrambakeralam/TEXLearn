@@ -597,6 +597,7 @@ function renderResults(result) {
         );
     });
     
+    optionsBox.classList.add("tk-hero-quiz-results");
 
     // No correct answer or explanation is displayed.
 }

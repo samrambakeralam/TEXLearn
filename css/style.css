@@ -1281,6 +1281,10 @@ box-shadow:
     margin: 0;
 }
 
+.tk-hero-quiz-options.tk-hero-quiz-results {
+    gap: 12px;
+}
+
 
 /* Compact hero quiz — preserve original mobile dimensions */
 @media (max-width: 767px) {
@@ -1408,6 +1412,10 @@ box-shadow:
     justify-content: flex-start;
     padding-top: 10px;
     box-sizing: border-box;
+}
+
+.tk-hero-quiz-options.tk-hero-quiz-results {
+    gap: 10px;
 }
 
 }
@@ -1636,6 +1644,11 @@ box-shadow:
     margin: 0;
     line-height: 1.2;
 }
+
+.tk-hero-quiz-options.tk-hero-quiz-results {
+    gap: 6px;
+}
+
 }
 
 
