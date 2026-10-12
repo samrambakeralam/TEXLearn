@@ -211,7 +211,7 @@ function renderQuestion(quiz) {
     const instruction = createElement(
         "p",
         "tk-hero-quiz-instruction",
-        "Choose the answer you think is right."
+        "Choose what you think is right."
     );
 
     const optionsBox = createElement(
