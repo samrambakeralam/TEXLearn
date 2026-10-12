@@ -192,6 +192,7 @@ function showVoteFrame() {
     }
 
     
+
 function renderQuestion(quiz) {
     activeQuiz = quiz;
     selectedAnswer = null;
@@ -221,26 +222,34 @@ function renderQuestion(quiz) {
     const letters = ["A", "B", "C", "D"];
     const optionButtons = [];
 
-    
-async function submitAnswer(letter, button) {
-    if (submitting || selectedAnswer) return;
+    const voteKey = "tk_quiz_voted_" + quiz.quizId;
 
-    clearTimeout(rotationTimer);
-    rotationPaused = true;
+    function hasVotedLocally() {
+        try {
+            return localStorage.getItem(voteKey) === "true";
+        } catch (error) {
+            return false;
+        }
+    }
 
-    selectedAnswer = letter;
-    submitting = true;
+    async function submitAnswer(letter) {
+        if (submitting || selectedAnswer) return;
 
+        clearTimeout(rotationTimer);
+        rotationPaused = true;
 
-        optionButtons.forEach((item) => {
-            item.disabled = true;
-            item.classList.toggle(
+        selectedAnswer = letter;
+        submitting = true;
+
+        optionButtons.forEach((button) => {
+            button.disabled = true;
+            button.classList.toggle(
                 "is-selected",
-                item.dataset.answer === letter
+                button.dataset.answer === letter
             );
-            item.setAttribute(
+            button.setAttribute(
                 "aria-pressed",
-                String(item.dataset.answer === letter)
+                String(button.dataset.answer === letter)
             );
         });
 
@@ -253,7 +262,7 @@ async function submitAnswer(letter, button) {
                     "Content-Type": "application/json"
                 },
                 body: JSON.stringify({
-                    quizId: activeQuiz.quizId,
+                    quizId: quiz.quizId,
                     selectedAnswer: letter,
                     sessionId: getSessionId()
                 })
@@ -261,39 +270,51 @@ async function submitAnswer(letter, button) {
 
             const result = await response.json();
 
-            clearTimeout(rotationTimer);
-            rotationPaused = true;
-
             if (!response.ok || !result.success) {
                 throw new Error(
-                    result.message || "Your answer could not be recorded."
+                    result.message ||
+                    "Your answer could not be recorded."
                 );
             }
 
             try {
-    localStorage.setItem(
-        "tk_quiz_voted_" + activeQuiz.quizId,
-        "true"
-    );
-} catch (error) {
-    console.warn("Could not save quiz vote status:", error);
-}
+                localStorage.setItem(voteKey, "true");
+            } catch (error) {
+                console.warn(
+                    "Could not save quiz vote status:",
+                    error
+                );
+            }
 
-renderResults(result);
+            renderResults(result);
+
+            rotationPaused = false;
+            clearTimeout(rotationTimer);
+            rotationTimer = setTimeout(
+                showBook,
+                QUIZ_DURATION
+            );
 
         } catch (error) {
             selectedAnswer = null;
             submitting = false;
 
-            optionButtons.forEach((item) => {
-                item.disabled = false;
-                item.classList.remove("is-selected");
-                item.setAttribute("aria-pressed", "false");
+            optionButtons.forEach((button) => {
+                button.disabled = false;
+                button.classList.remove("is-selected");
+                button.setAttribute("aria-pressed", "false");
             });
 
             quizStatus.textContent =
                 error.message ||
-                "Unable to submit. Please select an answer to try again.";
+                "Unable to submit. Please try again.";
+
+            rotationPaused = false;
+            clearTimeout(rotationTimer);
+            rotationTimer = setTimeout(
+                showBook,
+                QUIZ_DURATION
+            );
         }
     }
 
@@ -316,12 +337,16 @@ renderResults(result);
             letter
         );
 
-        const label = createElement("span", "", optionText);
+        const label = createElement(
+            "span",
+            "tk-hero-quiz-option-text",
+            optionText
+        );
 
         button.append(badge, label);
 
         button.addEventListener("click", () => {
-            submitAnswer(letter, button);
+            submitAnswer(letter);
         });
 
         optionButtons.push(button);
@@ -333,7 +358,45 @@ renderResults(result);
         instruction,
         optionsBox
     );
+
+    // Returning voters see results instead of being asked to vote again.
+    if (hasVotedLocally()) {
+        selectedAnswer = "already-voted";
+        submitting = true;
+
+        optionButtons.forEach((button) => {
+            button.disabled = true;
+            button.setAttribute("aria-disabled", "true");
+        });
+
+        instruction.textContent = "Current poll results";
+
+        fetch(
+            `${API_BASE}/quiz/results?quizId=${encodeURIComponent(quiz.quizId)}`
+        )
+            .then((response) => {
+                if (!response.ok) {
+                    throw new Error("Could not load poll results.");
+                }
+                return response.json();
+            })
+            .then((data) => {
+                if (!data.success) {
+                    throw new Error(
+                        data.message || "Could not load poll results."
+                    );
+                }
+
+                renderResults(data);
+            })
+            .catch((error) => {
+                console.error("Quiz results error:", error);
+                quizStatus.textContent =
+                    "Poll results are temporarily unavailable.";
+            });
+    }
 }
+
 
 
     function getSessionId() {
@@ -359,136 +422,145 @@ renderResults(result);
     }
 
    
+
 function renderResults(result) {
-    quizContent.replaceChildren();
+    const data = result.results || result;
 
-    const results = result.results;
-
-    if (!results) {
-        quizStatus.textContent = "Results are temporarily unavailable.";
-        return;
-    }
-
-    const panel = createElement("div", "tk-hero-quiz-feedback");
-
-    panel.style.background = "transparent";
-    panel.style.border = "none";
-    panel.style.boxShadow = "none";
-    panel.style.padding = "0";
-
-    const summary = createElement("div", "");
-    summary.style.display = "flex";
-    summary.style.alignItems = "center";
-    summary.style.justifyContent = "space-between";
-    summary.style.marginBottom = "10px";
-
-    const heading = createElement("h3", "", "Poll results");
-    heading.style.margin = "0";
-    heading.style.fontSize = "13px";
-
-    const votes = Number(results.totalVotes) || 0;
-    const voteCount = createElement(
-        "span",
-        "",
-        `${votes} ${votes === 1 ? "vote" : "votes"}`
-    );
-    voteCount.style.fontSize = "11px";
-    voteCount.style.fontWeight = "600";
-    voteCount.style.whiteSpace = "nowrap";
-
-    summary.append(heading, voteCount);
-    panel.appendChild(summary);
-
+    const counts = data.optionCounts || {};
+    const percentages = data.optionPercentages || {};
     const letters = ["A", "B", "C", "D"];
-    const colors = {
+
+    const colours = {
         A: "#D81B83",
         B: "#7025A8",
         C: "#E53935",
         D: "#F28C28"
     };
 
-    letters.forEach((letter) => {
-        const optionText = activeQuiz.options?.[letter];
-        if (!optionText) return;
+    quizStatus.textContent = "";
 
-        const percentage = Math.max(
-            0,
-            Math.min(
-                100,
-                Number(results.optionPercentages?.[letter]) || 0
-            )
-        );
+    // Preserve the existing question and option labels.
+    const question = quizContent.querySelector(
+        ".tk-hero-quiz-question"
+    );
 
-        const row = createElement("div", "");
-        row.style.marginTop = "8px";
+    const instruction = quizContent.querySelector(
+        ".tk-hero-quiz-instruction"
+    );
 
-        const track = createElement("div", "");
-        track.style.position = "relative";
-        track.style.height = "32px";
-        track.style.width = "100%";
-        track.style.overflow = "hidden";
-        track.style.border = "1px solid #E2E6EB";
-        track.style.borderRadius = "9px";
-        track.style.background = "#FFFFFF";
-        track.style.boxSizing = "border-box";
+    const optionsBox = quizContent.querySelector(
+        ".tk-hero-quiz-options"
+    );
 
-        const bar = createElement("div", "");
-        bar.style.position = "absolute";
-        bar.style.left = "0";
-        bar.style.top = "0";
-        bar.style.bottom = "0";
-        bar.style.width = `${percentage}%`;
-        bar.style.background = colors[letter];
-        bar.style.borderRadius = "8px";
-        bar.style.transition = "width 350ms ease";
+    if (!optionsBox) {
+        console.warn("Quiz options container was not found.");
+        return;
+    }
 
-        const letterLabel = createElement("span", "", letter);
-        letterLabel.style.position = "absolute";
-        letterLabel.style.left = "10px";
-        letterLabel.style.top = "50%";
-        letterLabel.style.transform = "translateY(-50%)";
-        letterLabel.style.fontSize = "12px";
-        letterLabel.style.fontWeight = "700";
-        letterLabel.style.color = "#172B4D";
-        letterLabel.style.zIndex = "1";
+    if (instruction) {
+        instruction.textContent = "Current poll results";
+    }
 
-        const percentageLabel = createElement(
+    const optionButtons = Array.from(
+        optionsBox.querySelectorAll(".tk-hero-quiz-option")
+    );
+
+    optionButtons.forEach((button) => {
+        const letter = button.dataset.answer;
+        const optionText =
+            activeQuiz?.options?.[letter] || letter;
+
+        const rawPercentage = Number(percentages[letter]);
+        const percentage = Number.isFinite(rawPercentage)
+            ? Math.max(0, Math.min(100, rawPercentage))
+            : 0;
+
+        const count = Number(counts[letter]) || 0;
+
+        button.replaceChildren();
+        button.disabled = true;
+        button.setAttribute("aria-disabled", "true");
+        button.setAttribute("aria-pressed", "false");
+        button.classList.remove("is-selected");
+        button.classList.add("is-results");
+        button.style.position = "relative";
+        button.style.overflow = "hidden";
+        button.style.width = "100%";
+        button.style.cursor = "default";
+        button.style.pointerEvents = "none";
+        button.style.background = "#FFFFFF";
+        button.style.border = "1px solid #E2E6EB";
+        button.style.minHeight = "42px";
+        button.style.padding = "8px 12px";
+        button.style.display = "flex";
+        button.style.alignItems = "center";
+        button.style.gap = "10px";
+        button.style.textAlign = "left";
+
+        // Coloured progress fill.
+        const fill = createElement("span", "");
+        fill.setAttribute("aria-hidden", "true");
+        fill.style.position = "absolute";
+        fill.style.left = "0";
+        fill.style.top = "0";
+        fill.style.bottom = "0";
+        fill.style.width = percentage + "%";
+        fill.style.background = colours[letter];
+        fill.style.opacity = "0.24";
+        fill.style.transition = "width 450ms ease";
+        fill.style.pointerEvents = "none";
+
+        // Keep the option letter visible.
+        const badge = createElement(
             "span",
-            "",
-            `${percentage}%`
+            "tk-hero-quiz-option-letter",
+            letter
         );
-        percentageLabel.style.position = "absolute";
-        percentageLabel.style.right = "10px";
-        percentageLabel.style.top = "50%";
-        percentageLabel.style.transform = "translateY(-50%)";
-        percentageLabel.style.fontSize = "12px";
-        percentageLabel.style.fontWeight = "700";
-        percentageLabel.style.color = "#172B4D";
-        percentageLabel.style.zIndex = "1";
+        badge.style.position = "relative";
+        badge.style.zIndex = "1";
+        badge.style.flex = "0 0 auto";
 
-        track.append(bar, letterLabel, percentageLabel);
-
-        const accessibleLabel = createElement(
+        // Keep the full option text visible.
+        const label = createElement(
             "span",
-            "",
-            `${letter}: ${optionText}, ${percentage}%`
+            "tk-hero-quiz-option-text",
+            optionText
         );
-        accessibleLabel.style.position = "absolute";
-        accessibleLabel.style.width = "1px";
-        accessibleLabel.style.height = "1px";
-        accessibleLabel.style.padding = "0";
-        accessibleLabel.style.margin = "-1px";
-        accessibleLabel.style.overflow = "hidden";
-        accessibleLabel.style.clip = "rect(0, 0, 0, 0)";
-        accessibleLabel.style.whiteSpace = "nowrap";
+        label.style.position = "relative";
+        label.style.zIndex = "1";
+        label.style.flex = "1";
+        label.style.minWidth = "0";
+        label.style.color = "#172B4D";
 
-        row.append(track, accessibleLabel);
-        panel.appendChild(row);
+        // Percentage at the right edge.
+        const percentLabel = createElement(
+            "span",
+            "tk-hero-quiz-percentage",
+            percentage + "%"
+        );
+        percentLabel.style.position = "relative";
+        percentLabel.style.zIndex = "1";
+        percentLabel.style.flex = "0 0 auto";
+        percentLabel.style.fontWeight = "700";
+        percentLabel.style.color = colours[letter];
+        percentLabel.style.whiteSpace = "nowrap";
+
+        button.append(
+            fill,
+            badge,
+            label,
+            percentLabel
+        );
+
+        button.setAttribute(
+            "aria-label",
+            `${letter}: ${optionText}. ${percentage}% of votes, ${count} votes.`
+        );
     });
 
-    quizContent.appendChild(panel);
-    quizStatus.textContent = "";
+    // No correct answer or explanation is displayed.
 }
+
 
 
 
