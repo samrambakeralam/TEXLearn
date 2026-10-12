@@ -419,15 +419,24 @@ if (!response.ok || !result.success) {
                 }
                 return response.json();
             })
-            .then((data) => {
-                if (!data.success) {
-                    throw new Error(
-                        data.message || "Could not load poll results."
-                    );
-                }
+        
+.then((data) => {
+    if (!data.success) {
+        throw new Error(
+            data.message || "Could not load poll results."
+        );
+    }
 
-                renderResults(data);
-            })
+    renderResults(data);
+
+    rotationPaused = false;
+    clearTimeout(rotationTimer);
+    rotationTimer = setTimeout(
+        showBook,
+        QUIZ_DURATION
+    );
+})
+
             .catch((error) => {
                 console.error("Quiz results error:", error);
                 quizStatus.textContent =
