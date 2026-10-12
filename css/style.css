@@ -1410,10 +1410,6 @@ box-shadow:
     box-sizing: border-box;
 }
 
-.tk-hero-quiz-options.tk-hero-quiz-results {
-    gap: 12px;
-}
-
 }
 
 @media (prefers-reduced-motion: reduce) {
