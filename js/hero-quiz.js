@@ -473,7 +473,7 @@ function renderResults(result) {
     });
 
     quizContent.appendChild(panel);
-    quizStatus.textContent = "Poll results updated.";
+    quizStatus.textContent = "";
 }
 
 
