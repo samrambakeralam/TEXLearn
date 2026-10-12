@@ -349,94 +349,135 @@ async function submitAnswer(letter, button) {
         }
     }
 
-    function renderResults(result) {
-        quizContent.replaceChildren();
+   
+function renderResults(result) {
+    quizContent.replaceChildren();
 
-        const feedback = createElement(
-            "div",
-            "tk-hero-quiz-feedback"
-        );
+    const results = result.results;
 
-        feedback.append(
-            createElement(
-                "h3",
-                "",
-                result.isCorrect ? "Correct! 🎉" : "Good try!"
-            ),
-            createElement(
-                "p",
-                "",
-                result.explanation || "Thanks for participating."
+    if (!results) {
+        quizStatus.textContent = "Results are temporarily unavailable.";
+        return;
+    }
+
+    const panel = createElement("div", "tk-hero-quiz-feedback");
+
+    const summary = createElement("div", "");
+    summary.style.display = "flex";
+    summary.style.alignItems = "center";
+    summary.style.justifyContent = "space-between";
+    summary.style.marginBottom = "10px";
+
+    const heading = createElement("h3", "", "Poll results");
+    heading.style.margin = "0";
+    heading.style.fontSize = "13px";
+
+    const votes = Number(results.totalVotes) || 0;
+    const voteCount = createElement(
+        "span",
+        "",
+        `${votes} ${votes === 1 ? "vote" : "votes"}`
+    );
+    voteCount.style.fontSize = "11px";
+    voteCount.style.fontWeight = "600";
+    voteCount.style.whiteSpace = "nowrap";
+
+    summary.append(heading, voteCount);
+    panel.appendChild(summary);
+
+    const letters = ["A", "B", "C", "D"];
+    const colors = {
+        A: "#D81B83",
+        B: "#7025A8",
+        C: "#E53935",
+        D: "#F28C28"
+    };
+
+    letters.forEach((letter) => {
+        const optionText = activeQuiz.options?.[letter];
+        if (!optionText) return;
+
+        const percentage = Math.max(
+            0,
+            Math.min(
+                100,
+                Number(results.optionPercentages?.[letter]) || 0
             )
         );
 
-        quizContent.appendChild(feedback);
+        const row = createElement("div", "");
+        row.style.marginTop = "8px";
 
-        const results = result.results;
+        const track = createElement("div", "");
+        track.style.position = "relative";
+        track.style.height = "32px";
+        track.style.width = "100%";
+        track.style.overflow = "hidden";
+        track.style.border = "1px solid #E2E6EB";
+        track.style.borderRadius = "9px";
+        track.style.background = "#FFFFFF";
+        track.style.boxSizing = "border-box";
 
-        if (results && Number(results.totalVotes) > 0) {
-            const heading = createElement(
-                "h3",
-                "",
-                "How everyone answered"
-            );
+        const bar = createElement("div", "");
+        bar.style.position = "absolute";
+        bar.style.left = "0";
+        bar.style.top = "0";
+        bar.style.bottom = "0";
+        bar.style.width = `${percentage}%`;
+        bar.style.background = colors[letter];
+        bar.style.borderRadius = "8px";
+        bar.style.transition = "width 350ms ease";
 
-            heading.style.marginTop = "10px";
-            quizContent.appendChild(heading);
+        const letterLabel = createElement("span", "", letter);
+        letterLabel.style.position = "absolute";
+        letterLabel.style.left = "10px";
+        letterLabel.style.top = "50%";
+        letterLabel.style.transform = "translateY(-50%)";
+        letterLabel.style.fontSize = "12px";
+        letterLabel.style.fontWeight = "700";
+        letterLabel.style.color = "#172B4D";
+        letterLabel.style.zIndex = "1";
 
-            quizContent.appendChild(
-                createElement(
-                    "p",
-                    "",
-                    `${results.totalVotes} response` +
-                    (results.totalVotes === 1 ? "" : "s")
-                )
-            );
+        const percentageLabel = createElement(
+            "span",
+            "",
+            `${percentage}%`
+        );
+        percentageLabel.style.position = "absolute";
+        percentageLabel.style.right = "10px";
+        percentageLabel.style.top = "50%";
+        percentageLabel.style.transform = "translateY(-50%)";
+        percentageLabel.style.fontSize = "12px";
+        percentageLabel.style.fontWeight = "700";
+        percentageLabel.style.color = "#172B4D";
+        percentageLabel.style.zIndex = "1";
 
-            ["A", "B", "C", "D"].forEach((letter) => {
-                const optionText = activeQuiz.options?.[letter];
-                if (!optionText) return;
+        track.append(bar, letterLabel, percentageLabel);
 
-                const percentage = Math.max(
-                    0,
-                    Math.min(
-                        100,
-                        Number(results.optionPercentages?.[letter]) || 0
-                    )
-                );
+        const accessibleLabel = createElement(
+            "span",
+            "",
+            `${letter}: ${optionText}, ${percentage}%`
+        );
+        accessibleLabel.style.position = "absolute";
+        accessibleLabel.style.width = "1px";
+        accessibleLabel.style.height = "1px";
+        accessibleLabel.style.padding = "0";
+        accessibleLabel.style.margin = "-1px";
+        accessibleLabel.style.overflow = "hidden";
+        accessibleLabel.style.clip = "rect(0, 0, 0, 0)";
+        accessibleLabel.style.whiteSpace = "nowrap";
 
-                const row = createElement("div", "");
-                row.style.marginTop = "6px";
+        row.append(track, accessibleLabel);
+        panel.appendChild(row);
+    });
 
-                const label = createElement(
-                    "p",
-                    "",
-                    `${letter}. ${optionText} — ${percentage}%`
-                );
+    quizContent.appendChild(panel);
+    quizStatus.textContent = "Poll results updated.";
+}
 
-                label.style.margin = "0 0 3px";
-                label.style.fontSize = "11px";
 
-                const track = createElement("div", "");
-                track.style.height = "6px";
-                track.style.overflow = "hidden";
-                track.style.borderRadius = "99px";
-                track.style.background = "#E5EAF0";
 
-                const bar = createElement("div", "");
-                bar.style.width = `${percentage}%`;
-                bar.style.height = "100%";
-                bar.style.borderRadius = "99px";
-                bar.style.background = "#16866A";
-
-                track.appendChild(bar);
-                row.append(label, track);
-                quizContent.appendChild(row);
-            });
-        }
-
-        quizStatus.textContent = "Thanks for sharing your answer!";
-    }
 
     async function loadActiveQuiz() {
         try {
