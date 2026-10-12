@@ -1574,7 +1574,7 @@ box-shadow:
     display: grid;
     grid-template-columns: 1fr;
     gap: 8px;
-     margin: 2px 20px 0 6px;
+     margin: 2px 13px 0 13px;
      transform: translateY(4px);
     }
 
