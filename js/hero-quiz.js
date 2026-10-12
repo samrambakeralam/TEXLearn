@@ -530,7 +530,7 @@ function renderResults(result) {
         button.style.background = "#FFFFFF";
         button.style.border = "1px solid #E2E6EB";
         button.style.minHeight = "0";
-        button.style.padding = "3px 7px";
+        button.style.padding = "2px 7px";
         button.style.display = "flex";
         button.style.alignItems = "center";
         button.style.gap = "8px";
@@ -597,8 +597,7 @@ function renderResults(result) {
         );
     });
     
-    optionsBox.classList.add("tk-hero-quiz-results");
-    
+
     // No correct answer or explanation is displayed.
 }
 
