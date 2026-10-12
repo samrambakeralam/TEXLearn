@@ -1363,7 +1363,7 @@ box-shadow:
         display: grid;
         grid-template-columns: 1fr;
         gap: 10px;
-        margin: 2px 13px 0 13px;
+        margin: 2px 15px 0 15px;
      transform: translateY(14px);
     }
 
