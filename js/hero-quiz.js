@@ -270,12 +270,51 @@ function renderQuestion(quiz) {
 
             const result = await response.json();
 
-            if (!response.ok || !result.success) {
-                throw new Error(
-                    result.message ||
-                    "Your answer could not be recorded."
-                );
-            }
+           
+if (!response.ok || !result.success) {
+    const alreadyRecorded =
+        (result.message || "").toLowerCase().includes(
+            "already been recorded"
+        );
+
+    if (alreadyRecorded) {
+        try {
+            localStorage.setItem(voteKey, "true");
+        } catch (error) {
+            console.warn(
+                "Could not save quiz vote status:",
+                error
+            );
+        }
+
+        selectedAnswer = "already-voted";
+        submitting = true;
+
+        const resultsResponse = await fetch(
+            `${API_BASE}/quiz/results?quizId=${encodeURIComponent(quiz.quizId)}`
+        );
+
+        const latestResults = await resultsResponse.json();
+
+        if (!resultsResponse.ok || !latestResults.success) {
+            throw new Error("Could not load the latest poll results.");
+        }
+
+        renderResults(latestResults);
+
+        rotationPaused = false;
+        clearTimeout(rotationTimer);
+        rotationTimer = setTimeout(showBook, QUIZ_DURATION);
+
+        return;
+    }
+
+    throw new Error(
+        result.message ||
+        "Your answer could not be recorded."
+    );
+}
+
 
             try {
                 localStorage.setItem(voteKey, "true");
