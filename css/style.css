@@ -1611,20 +1611,23 @@ box-shadow:
 }
 
     .tk-hero-quiz-feedback {
-        margin-top: 4px;
-        padding: 6px;
-        font-size: 10px;
-        line-height: 1.25;
-    }
+    margin-top: 3px;
+    padding: 5px 6px;
+    font-size: 9px;
+    line-height: 1.2;
+    box-sizing: border-box;
+}
 
-    .tk-hero-quiz-feedback h3 {
-        margin: 0 0 3px;
-        font-size: 12px;
-    }
+.tk-hero-quiz-feedback h3 {
+    margin: 0 0 2px;
+    font-size: 11px;
+    line-height: 1.2;
+}
 
-    .tk-hero-quiz-feedback p {
-        margin: 0;
-    }
+.tk-hero-quiz-feedback p {
+    margin: 0;
+    line-height: 1.2;
+}
 }
 
 
