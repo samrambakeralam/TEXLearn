@@ -362,6 +362,11 @@ function renderResults(result) {
 
     const panel = createElement("div", "tk-hero-quiz-feedback");
 
+    panel.style.background = "transparent";
+    panel.style.border = "none";
+    panel.style.boxShadow = "none";
+    panel.style.padding = "0";
+
     const summary = createElement("div", "");
     summary.style.display = "flex";
     summary.style.alignItems = "center";
