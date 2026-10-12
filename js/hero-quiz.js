@@ -596,7 +596,9 @@ function renderResults(result) {
             `${letter}: ${optionText}. ${percentage}% of votes, ${count} votes.`
         );
     });
-
+    
+    optionsBox.classList.add("tk-hero-quiz-results");
+    
     // No correct answer or explanation is displayed.
 }
 
