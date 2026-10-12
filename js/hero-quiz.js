@@ -529,11 +529,11 @@ function renderResults(result) {
         button.style.pointerEvents = "none";
         button.style.background = "#FFFFFF";
         button.style.border = "1px solid #E2E6EB";
-        button.style.minHeight = "42px";
-        button.style.padding = "8px 12px";
+        button.style.minHeight = "0";
+        button.style.padding = "3px 7px";
         button.style.display = "flex";
         button.style.alignItems = "center";
-        button.style.gap = "10px";
+        button.style.gap = "8px";
         button.style.textAlign = "left";
 
         // Coloured progress fill.
