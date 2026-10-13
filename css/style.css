@@ -86,7 +86,7 @@ a {
 .rc2-header {
 
     position:
-        sticky;
+         fixed;
 
     top:
         0;
