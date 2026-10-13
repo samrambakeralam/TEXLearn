@@ -912,27 +912,20 @@
     }
 
 
-    .rc2-community-filter {
+   .rc2-community-filter {
 
-        flex:
-            0 0 auto;
-
-        padding:
-            6px 11px;
-
-        white-space:
-            nowrap;
-
-        font-size:
-            .68rem;
-
-        border-radius: 12px;
-
-        padding:
-        4px 11px;
-           
-
-    }
+    flex: 0 0 auto;
+    height: 28px;
+    min-height: 0 !important;
+    padding: 0 11px !important;
+    line-height: 1 !important;
+    box-sizing: border-box;
+    display: inline-flex;
+    align-items: center;
+    white-space: nowrap;
+    font-size: .68rem;
+    border-radius: 8px;
+}
 
 
     /* -----------------------------------------
@@ -1153,13 +1146,12 @@
 
     .rc2-community-filter {
 
-        padding:
-            2px 10px;
-
+        padding: 0 11px !important;
+            
         font-size:
             clamp(10px, 2.6vw, 11px);
 
-        border-radius: 11px;
+        border-radius: 8px;
 
     }
 
