@@ -29,6 +29,8 @@ if (window.lucide) {
 
     initialiseRC2Navigation();
 
+    initialiseDynamicHeader();
+
     console.log("SAMRAMBA KERALAM 2030 Loaded");
 
 
@@ -337,6 +339,8 @@ menu
 // =======================================
 
 function initialiseDynamicHeader() {
+
+    console.log("DYNAMIC HEADER INITIALIZED");
 
     const header =
         document.querySelector(".rc2-header");
