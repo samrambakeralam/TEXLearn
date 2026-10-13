@@ -374,18 +374,30 @@ function initialiseDynamicHeader() {
         }
 
 
-        /* ---------------------------------------
+        
+/* ---------------------------------------
    HIDE / SHOW HEADER
 --------------------------------------- */
 
 const scrollDifference =
     currentScrollY - lastScrollY;
 
+const scrollThreshold = 5;
+
+
+/* Always show at top */
+
+if (currentScrollY <= 20) {
+
+    header.classList.remove("is-hidden");
+
+}
+
 
 /* Scrolling DOWN */
 
-if (
-    scrollDifference > 2 &&
+else if (
+    scrollDifference > scrollThreshold &&
     currentScrollY > 100
 ) {
 
@@ -397,7 +409,7 @@ if (
 /* Scrolling UP */
 
 else if (
-    scrollDifference < -2
+    scrollDifference < -scrollThreshold
 ) {
 
     header.classList.remove("is-hidden");
@@ -405,21 +417,12 @@ else if (
 }
 
 
-        /* Always show at top */
+lastScrollY =
+    Math.max(currentScrollY, 0);
 
-        if (currentScrollY <= 20) {
+ticking = false;
 
-            header.classList.remove("is-hidden");
-
-        }
-
-
-        lastScrollY =
-            Math.max(currentScrollY, 0);
-
-        ticking = false;
-
-    }
+}
 
 
     window.addEventListener(
