@@ -929,7 +929,7 @@
         border-radius: 12px;
 
         padding:
-        6px 11px;
+        4px 11px;
            
 
     }
@@ -1154,7 +1154,7 @@
     .rc2-community-filter {
 
         padding:
-            4px 10px;
+            2px 10px;
 
         font-size:
             clamp(10px, 2.6vw, 11px);
