@@ -10303,13 +10303,12 @@ transform:translateY(0px);
 
 }
 
-.pricing-card:hover{
 
-    transform:translateY(-10px);
-
-    box-shadow:0 35px 75px rgba(15,23,42,.16);
-
+.pricing-card:hover {
+    transform: translateX(90px) translateY(-10px);
+    box-shadow: 0 35px 75px rgba(15,23,42,.16);
 }
+
 
 
 /* ==========================================
