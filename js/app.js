@@ -361,6 +361,13 @@ function initialiseDynamicHeader() {
 
     function updateHeader() {
 
+        console.log(
+    "HEADER SCROLL CHECK:",
+    window.scrollY,
+    "Previous:",
+    lastScrollY
+);
+
         const currentScrollY =
             window.scrollY;
 
@@ -406,6 +413,8 @@ else if (
 ) {
 
     header.classList.add("is-hidden");
+
+    console.log("HEADER HIDDEN TRIGGERED");
 
 }
 
