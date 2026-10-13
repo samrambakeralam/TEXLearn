@@ -9476,7 +9476,7 @@ transform:translateY(0px);
 .mission-section {
 
     padding:
-        80px 0 100px;
+        116px 0 100px;
 
     background:
         #FFFFFF;
@@ -9602,7 +9602,7 @@ transform:translateY(0px);
         0 auto;
 
     font-size:
-        16px;
+        15px;
 
     line-height:
         1.9;
@@ -10225,7 +10225,7 @@ transform:translateY(0px);
 
     color:#16A34A;
 
-    font-size:20px;
+    font-size:17px;
 
     font-weight:700;
 
@@ -10273,17 +10273,21 @@ transform:translateY(0px);
 
 .pricing-card{
 
-    max-width:460px;
+    max-width:400px;
 
     width:100%;
 
-    margin:0 auto;
+    margin-top: 2px;
+    margin-bottom: 0;
+
+    left: 20px;
+    top: -8px;
 
     background:#FFFFFF;
 
     border-radius:20px;
 
-    padding:26px 28px;
+    padding:20px 28px;
 
     text-align:center;
 
@@ -10294,6 +10298,8 @@ transform:translateY(0px);
     position:relative;
 
     transition:all .35s ease;
+
+    transform: translateX(90px);
 
 }
 
@@ -10328,7 +10334,7 @@ transform:translateY(0px);
 
     border-radius:999px;
 
-    font-size:.75rem;
+    font-size:.72rem;
 
     font-weight:700;
 
@@ -10343,15 +10349,15 @@ transform:translateY(0px);
 
 .pricing-card h3{
 
-    margin-top:6px;
+    margin-top:14px;
 
     font-family:'Poppins', sans-serif;
 
-    font-size:1.4rem;
+    font-size:1.2rem;
 
     font-weight:700;
 
-    line-height:1.25;
+    line-height:1.35;
 }
 
 
@@ -10361,13 +10367,13 @@ transform:translateY(0px);
 
 .price{
 
-    margin:14px 0 5px;
+    margin: 8px 0 3px;
 
 }
 
 .currency{
 
-    font-size:1.9rem;
+    font-size:1.7rem;
 
     font-weight:700;
 
@@ -10379,7 +10385,7 @@ transform:translateY(0px);
 
 .amount{
 
-    font-size:4.2rem;
+    font-size:3.5rem;
 
     font-weight:800;
 
@@ -10391,11 +10397,11 @@ transform:translateY(0px);
 
 .price-note{
 
-    font-size:.85rem;
+    font-size:.70rem;
 
     color:#64748B;
 
-    margin-bottom:16px;
+    margin-bottom:10px;
 
     font-weight:500;
 
@@ -10412,7 +10418,7 @@ transform:translateY(0px);
 
     padding:0;
 
-    margin:0 0 14px;
+    margin:0 0 10px;
 
     text-align:left;
 
@@ -10426,11 +10432,11 @@ transform:translateY(0px);
 
     gap:8px;
 
-    padding:6px 0;
+    padding:4px 0;
 
     border-bottom:1px solid #EDF2F7;
 
-    font-size:13px;
+    font-size:10px;
 
     line-height:1.25;
 
@@ -10453,13 +10459,13 @@ transform:translateY(0px);
 
     border:none;
 
-    padding:14px;
+    padding: 10px 13px;
 
-    font-size:1rem;
+    font-size:.95rem;
 
     font-weight:700;
 
-    border-radius:12px;
+    border-radius:10px;
 
     cursor:pointer;
 
@@ -10490,11 +10496,11 @@ transform:translateY(0px);
 
 .secure-payment{
 
-    margin-top:10px;
+    margin-top:7px;
 
     color:#64748B;
 
-    font-size:.60rem;
+    font-size:.50rem;
 
 }
 
@@ -10509,9 +10515,9 @@ transform:translateY(0px);
 
     grid-template-columns:repeat(2,1fr);
 
-    gap:6px;
+    gap:5px;
 
-    margin-top:12px;
+    margin-top:8px;
 
 }
 
@@ -10521,15 +10527,15 @@ transform:translateY(0px);
 
     align-items:center;
 
-    gap:5px;
+    gap:4px;
 
     background:#F8FAFC;
 
     border:1px solid #E5E7EB;
 
-    border-radius:7px;
+    border-radius:6px;
 
-    padding:6px 7px;
+    padding:3px 5px;
 
     transition:all .3s ease;
 
@@ -10547,9 +10553,9 @@ transform:translateY(0px);
 
 .trust-icon{
 
-    width:24px;
+    width:19px;
 
-    height:24px;
+    height:19px;
 
     border-radius:50%;
 
@@ -10561,7 +10567,7 @@ transform:translateY(0px);
 
     background:#ECFDF5;
 
-    font-size:11px;
+    font-size:9px;
 
     flex-shrink:0;
 
@@ -10569,7 +10575,7 @@ transform:translateY(0px);
 
 .trust-item span{
 
-    font-size:.64rem;
+    font-size:.55rem;
 
     line-height:1.15;
 
