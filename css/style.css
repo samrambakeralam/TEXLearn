@@ -10610,6 +10610,9 @@ transform:translateY(0px);
 
     .pricing-card {
         padding: 40px 28px;
+        left: 0;
+        top: 0;
+        transform: none;
     }
 
     .amount {
