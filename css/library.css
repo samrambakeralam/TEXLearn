@@ -2545,6 +2545,50 @@ body.library-page-ready {
     transform: none;
 }
 
+
+
+/* =========================================================
+   IMAGE-ONLY LIBRARY BANNER
+   Supports image banners alongside existing text banners
+========================================================= */
+
+.library-banner.is-image-banner .library-banner-content {
+    display: none;
+}
+
+.library-banner.is-image-banner .library-banner-visual {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 1;
+    background: none;
+    z-index: 1;
+}
+
+.library-banner.is-image-banner .library-banner-visual::before,
+.library-banner.is-image-banner .library-banner-visual::after {
+    display: none;
+}
+
+.library-banner-image {
+    position: absolute;
+    inset: 0;
+    display: block;
+    width: 100%;
+    height: 100%;
+    max-width: none;
+    object-fit: cover;
+    object-position: center;
+    border-radius: inherit;
+}
+
+/* Keep carousel navigation visible on image banners */
+.library-banner.is-image-banner .library-banner-controls {
+    z-index: 5;
+}
+
+
 /* =========================================================
    END — LIBRARY.CSS
 ========================================================= */

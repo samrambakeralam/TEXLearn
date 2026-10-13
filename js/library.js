@@ -240,6 +240,12 @@ const LibraryAPI = {
             action: "Explore Virtual Office",
             href: "#virtual-office"
         },
+         {
+        id: "image-banner",
+        type: "image",
+        image: "file:///C:/Users/pro/Documents/GitHub/SAMRAMBA%20KERALAM%202030%20-%20V1%20RC2%20DEVELOPMENT/assets/Images/missionmalappuram.webp",
+        alt: "Library promotional banner"
+    }
         
     ];
 
@@ -1307,90 +1313,85 @@ async function loadCustomerHighlights(customerID) {
     }
 
 
-    function showBanner(index) {
+    
+function showBanner(index) {
+    if (!LIBRARY_BANNERS.length) return;
 
-        if (!LIBRARY_BANNERS.length) {
-            return;
-        }
+    const safeIndex =
+        (index + LIBRARY_BANNERS.length) %
+        LIBRARY_BANNERS.length;
 
-        const safeIndex =
-            (
-                index +
-                LIBRARY_BANNERS.length
-            ) %
-            LIBRARY_BANNERS.length;
+    const item = LIBRARY_BANNERS[safeIndex];
 
-        const item =
-            LIBRARY_BANNERS[safeIndex];
+    LIBRARY_STATE.currentBanner = safeIndex;
 
-        LIBRARY_STATE.currentBanner =
-            safeIndex;
+    if (banner) {
+        banner.classList.add("is-transitioning");
+    }
 
+    window.setTimeout(function () {
+        const isImageBanner = item.type === "image";
 
         if (banner) {
-            banner.classList.add(
-                "is-transitioning"
+            banner.classList.toggle(
+                "is-image-banner",
+                isImageBanner
             );
         }
 
+        if (bannerEyebrow) {
+            bannerEyebrow.hidden = isImageBanner;
+            bannerEyebrow.textContent = item.eyebrow || "";
+        }
 
-        /*
-         * A short timeout gives the CSS transition a
-         * chance to fade the existing content out.
-         */
-        window.setTimeout(
-            function () {
+        if (bannerTitle) {
+            bannerTitle.hidden = isImageBanner;
+            bannerTitle.textContent = item.title || "";
+        }
 
-                if (bannerEyebrow) {
-                    bannerEyebrow.textContent =
-                        item.eyebrow;
-                }
+        if (bannerText) {
+            bannerText.hidden = isImageBanner;
+            bannerText.textContent = item.text || "";
+        }
 
-                if (bannerTitle) {
-                    bannerTitle.textContent =
-                        item.title;
-                }
+        if (bannerAction) {
+            bannerAction.hidden = isImageBanner;
+            bannerAction.textContent = item.action || "";
+            bannerAction.setAttribute(
+                "href",
+                item.href || "#"
+            );
+        }
 
-                if (bannerText) {
-                    bannerText.textContent =
-                        item.text;
-                }
+        if (bannerVisual) {
+            bannerVisual.setAttribute(
+                "data-banner-type",
+                item.id
+            );
 
-                if (bannerAction) {
-                    bannerAction.textContent =
-                        item.action;
+            if (isImageBanner) {
+                const image = document.createElement("img");
+                image.src = item.image;
+                image.alt = item.alt || "";
+                image.className = "library-banner-image";
+                image.draggable = false;
 
-                    bannerAction.setAttribute(
-                        "href",
-                        item.href || "#"
-                    );
-                }
+                bannerVisual.replaceChildren(image);
+            } else {
+                bannerVisual.replaceChildren();
+            }
+        }
 
-                if (bannerVisual) {
-                    bannerVisual.setAttribute(
-                        "data-banner-type",
-                        item.id
-                    );
-                }
+        renderBannerControls();
 
+        if (banner) {
+            banner.classList.remove("is-transitioning");
+        }
 
-                renderBannerControls();
+        refreshIcons();
+    }, 180);
+}
 
-
-                if (banner) {
-                    banner.classList.remove(
-                        "is-transitioning"
-                    );
-                }
-
-
-                refreshIcons();
-
-            },
-            180
-        );
-
-    }
 
 
     function restartBannerTimer() {
