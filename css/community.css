@@ -213,7 +213,7 @@
         7px 18px;
 
     border-radius:
-        14px;
+        13px;
 
     font-family:
         "Inter",
@@ -927,6 +927,9 @@
             .68rem;
 
         border-radius: 12px;
+
+        padding:
+        6px 11px;
            
 
     }
