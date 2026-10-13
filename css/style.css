@@ -12862,23 +12862,20 @@ a {
    HOME ↔ COMMUNITY
 ----------------------------------------- */
 
+
 body.home-community-transition {
     opacity: 0;
-    transform: translateX(20px);
-    transition:
-        opacity 850ms var(--rc2-transition),
-        transform 850ms var(--rc2-transition);
+    transition: opacity 850ms var(--rc2-transition);
 }
 
 body.home-community-ready {
     opacity: 1;
-    transform: translateX(0);
 }
 
 body.home-community-exit {
     opacity: 0;
-    transform: translateX(-20px);
 }
+
 
 
 /* -----------------------------------------
