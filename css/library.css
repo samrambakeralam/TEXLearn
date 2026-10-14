@@ -2387,6 +2387,21 @@ body.library-modal-is-open {
         border-radius: 14px;
     }
 
+    
+.library-banner-image {
+    position: absolute;
+    inset: 0;
+    display: block;
+    width: 100%;
+    height: 100%;
+    max-width: none;
+    object-fit: cover;
+    object-position: center;
+    border-radius: inherit;
+}
+
+
+
     .library-banner-content {
         padding:
             22px 17px 27px;
