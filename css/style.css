@@ -10612,7 +10612,7 @@ transform:translateY(0px);
         padding: 40px 28px;
         left: 0;
         top: 0;
-        transform: none;
+       transform: none;
     }
 
     .amount {
@@ -10718,7 +10718,7 @@ transform:translateY(0px);
 }
 
 
-    .pricing-card{
+    .pricing-card {
     width:100%;
     max-width:100%;
     padding:

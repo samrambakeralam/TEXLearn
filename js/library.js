@@ -245,6 +245,12 @@ const LibraryAPI = {
         type: "image",
         image: "assets/Images/missionmalappuram.webp",
         alt: "Library promotional banner"
+    },
+    {
+        id: "image-banner-2",
+        type: "image",
+        image: "assets/Images/sananaseer.webp",
+        alt: "Library promotional banner"
     }
         
     ];
