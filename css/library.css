@@ -1982,6 +1982,21 @@ body.library-modal-is-open {
     border-radius: 16px;
 }
 
+
+.library-banner-image {
+    position: absolute;
+    inset: 0;
+    display: block;
+    width: 100%;
+    height: 100%;
+    max-width: none;
+    object-fit: cover;
+    object-position: center;
+    border-radius: inherit;
+}
+
+
+
    .library-banner-content {
     width: 100%;
 
