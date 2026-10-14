@@ -10297,7 +10297,7 @@ transform:translateY(0px);
 
     transition:all .35s ease;
 
-    transform: translateX(90px);
+    transform: translate(90px, -18px);
 
 }
 
@@ -10590,11 +10590,11 @@ transform:translateY(0px);
 
 @media (min-width:421px) and (max-width:767px) {
 
-    .pricing-section {
+ .pricing-section {
     padding:
-        clamp(28px, 7vw, 34px)
+        clamp(20px, 5vw, 28px)
         0
-        90px;
+        clamp(30px, 6vw, 40px);
 }
 
     .pricing-section .section-header h2 {
