@@ -2378,14 +2378,16 @@ body.library-modal-is-open {
     padding-top: 14px;
 }
 
-    .library-banner {
+   .library-banner {
+    width: calc(100% + clamp(8px, 2.05vw, 16px));
+    margin-left: calc(-1 * clamp(4px, 1.025vw, 8px));
 
-    height: 180px !important;
-    min-height: 180px !important;
-    max-height: 180px !important;
+    height: auto;
+    min-height: 0;
+    aspect-ratio: 2.4 / 1;
 
-        border-radius: 14px;
-    }
+    border-radius: 14px;
+}
 
     
 .library-banner-image {
