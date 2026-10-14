@@ -2419,7 +2419,7 @@ body.library-modal-is-open {
     }
 
    .library-banner-eyebrow {
-    margin-bottom: 7px;
+    margin-bottom: 4px;
 
     font-size: clamp(6px, 1.7vw, 7px);
 }
