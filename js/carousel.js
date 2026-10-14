@@ -597,22 +597,17 @@ function renderFeaturedModules() {
 
 function initialiseMissionValuesCarousel() {
 
-    const carousel =
-        document.querySelector(".mission-values");
+    
+const carousel =
+    document.querySelector(".mission-values");
 
-        /* Prevent native horizontal scrolling */
+if (!carousel) {
+    return;
+}
 
-        carousel.scrollLeft = 0;
+/* Prevent native horizontal scrolling */
+carousel.scrollLeft = 0;
 
-    if (!carousel) {
-
-        console.warn(
-            "Mission Values carousel not found."
-        );
-
-        return;
-
-    }
 
     const cards =
         Array.from(
