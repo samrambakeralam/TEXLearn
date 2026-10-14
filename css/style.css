@@ -10625,8 +10625,8 @@ transform:translateY(0px);
     transform: translate3d(0, -4px, 0) !important;
     box-shadow: 0 22px 48px rgba(15, 23, 42, 0.12);
     transition:
-        transform 0.25s ease,
-        box-shadow 0.25s ease;
+        transform 0.35s ease,
+        box-shadow 0.35s ease;
 }
 
     .amount {
@@ -10752,8 +10752,8 @@ transform:translateY(0px);
     transform: translate3d(0, -4px, 0) !important;
     box-shadow: 0 22px 48px rgba(15, 23, 42, 0.12);
     transition:
-        transform 0.25s ease,
-        box-shadow 0.25s ease;
+        transform 0.35s ease,
+        box-shadow 0.35s ease;
 }
 
 
