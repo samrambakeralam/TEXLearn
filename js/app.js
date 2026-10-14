@@ -671,54 +671,6 @@ const hubItems = [
             "contain"
     },
 
-
-    {
-        type: "opportunity",
-
-        label: "SPEAK WITH IMPACT",
-
-        title: "Public Speaking for Future Entrepreneurs",
-
-        description:
-            "Build confidence to present your ideas, communicate your vision, and speak with impact.",
-
-        action:
-            "Explore",
-
-        link:
-            "#",
-
-        image:
-            "assets/p1.png",
-
-        imageFit:
-            "contain"
-    },
-
-
-        {
-        type: "opportunity",
-
-        label: "STARTUP ESSENTIAL",
-
-        title: "Premium Virtual Office",
-
-        description:
-            "Get a professional business address for company registration, GST registration and current account opening at an affordable price.",
-
-        action:
-            "Explore",
-
-        link:
-            "#",
-
-        image:
-            "assets/vo.png",
-
-        imageFit:
-            "cover"
-    }
-
 ];
 
 
