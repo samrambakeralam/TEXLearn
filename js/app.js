@@ -31,8 +31,6 @@ if (window.lucide) {
 
     initialiseDynamicHeader();
 
-    console.log("SAMRAMBA KERALAM 2030 Loaded");
-
 
     // Buttons
 
@@ -316,11 +314,6 @@ menu
             "click",
             function () {
 
-                console.log(
-                    "RC2 MOBILE LINK CLICKED:",
-                    link.href
-                );
-
                 closeMenu();
 
                 window.location.href =
@@ -340,7 +333,6 @@ menu
 
 function initialiseDynamicHeader() {
 
-    console.log("DYNAMIC HEADER INITIALIZED");
 
     const header =
         document.querySelector(".rc2-header");
@@ -360,13 +352,6 @@ function initialiseDynamicHeader() {
 
 
     function updateHeader() {
-
-        console.log(
-    "HEADER SCROLL CHECK:",
-    window.scrollY,
-    "Previous:",
-    lastScrollY
-);
 
         const currentScrollY =
             window.scrollY;
@@ -414,7 +399,6 @@ else if (
 
     header.classList.add("is-hidden");
 
-    console.log("HEADER HIDDEN TRIGGERED");
 
 }
 
