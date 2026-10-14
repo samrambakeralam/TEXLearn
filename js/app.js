@@ -716,7 +716,7 @@ const hubItems = [
             "assets/vo.png",
 
         imageFit:
-            "contain"
+            "cover"
     }
 
 ];

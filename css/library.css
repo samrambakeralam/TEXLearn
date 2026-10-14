@@ -2022,7 +2022,9 @@ body.library-modal-is-open {
             -1 * clamp(4px, 1.025vw, 8px)
         );
 
-    min-height: 225px;
+    height: auto;
+    min-height: 0;
+    aspect-ratio: 2.4 / 1;
     border-radius: 16px;
 }
 
@@ -2384,7 +2386,7 @@ body.library-modal-is-open {
 
     height: auto;
     min-height: 0;
-    aspect-ratio: 2.4 / 1;
+    aspect-ratio: 2.3 / 1;
 
     border-radius: 14px;
 }
