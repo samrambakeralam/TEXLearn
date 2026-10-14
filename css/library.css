@@ -646,7 +646,8 @@ body {
 .library-banner {
     position: relative;
 
-    min-height: 220px;
+    aspect-ratio: 5 / 1;
+    min-height: 0;
 
     display: flex;
     align-items: stretch;
@@ -1851,7 +1852,8 @@ body.library-modal-is-open {
     }
 
     .library-banner {
-        min-height: 205px;
+        aspect-ratio: 16 / 9;
+        min-height: 0;
     }
 
     .library-banner-content {
@@ -1978,7 +1980,6 @@ body.library-modal-is-open {
             -1 * clamp(4px, 1.025vw, 8px)
         );
 
-    min-height: 225px;
     border-radius: 16px;
 }
 
@@ -2320,8 +2321,6 @@ body.library-modal-is-open {
 }
 
     .library-banner {
-
-       height: clamp(195px, 50vw, 220px);
 
         border-radius: 14px;
     }
