@@ -361,10 +361,11 @@ async function verifyPayment(
         // Build API Request
         //--------------------------------------
 
-       const request = {
+       
+const request = {
 
     action:
-        "verify payment",
+        "VERIFY_PAYMENT",
 
     paymentData: {
 
