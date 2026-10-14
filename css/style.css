@@ -10617,6 +10617,7 @@ transform:translateY(0px);
         margin: 2px auto 0;
         left: auto;
         top: auto;
+         transform: translateY(-12px);
         
     }
 
@@ -10742,7 +10743,7 @@ transform:translateY(0px);
             clamp(14px, 4.5vw, 18px);
         left: auto;
         top: auto;
-        transform: none;
+        transform: translateY(-12px);
         border-radius: clamp(16px, 4.5vw, 18px);
     }
 
