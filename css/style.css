@@ -10620,11 +10620,13 @@ transform:translateY(0px);
         
     }
 
-   .pricing-card:hover,
+ .pricing-card:hover,
 .pricing-card:active {
-    transform: translateY(-2px) !important;
-    box-shadow: 0 22px 48px rgba(15,23,42,.12);
-    transition: transform .25s ease, box-shadow .25s ease;
+    transform: translate3d(0, -4px, 0) !important;
+    box-shadow: 0 22px 48px rgba(15, 23, 42, 0.12);
+    transition:
+        transform 0.25s ease,
+        box-shadow 0.25s ease;
 }
 
     .amount {
@@ -10745,11 +10747,13 @@ transform:translateY(0px);
     }
 
 
-    .pricing-card:hover,
-    .pricing-card:active {
-    transform: translateY(-2px) !important;
-    box-shadow: 0 22px 48px rgba(15,23,42,.12);
-    transition: transform .25s ease, box-shadow .25s ease;
+.pricing-card:hover,
+.pricing-card:active {
+    transform: translate3d(0, -4px, 0) !important;
+    box-shadow: 0 22px 48px rgba(15, 23, 42, 0.12);
+    transition:
+        transform 0.25s ease,
+        box-shadow 0.25s ease;
 }
 
 
@@ -13341,4 +13345,5 @@ body.about-page-exit {
     }
 
 }
+
 
