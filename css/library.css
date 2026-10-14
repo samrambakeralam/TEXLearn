@@ -2321,7 +2321,9 @@ body.library-modal-is-open {
 
     .library-banner {
 
-       height: clamp(195px, 50vw, 220px);
+    height: 180px !important;
+    min-height: 180px !important;
+    max-height: 180px !important;
 
         border-radius: 14px;
     }
@@ -2340,13 +2342,13 @@ body.library-modal-is-open {
 .library-banner h1 {
     max-width: 270px;
 
-    font-size: clamp(19px, 5.1vw, 21px);
+    font-size: clamp(17px, 5.1vw, 19px);
 }
 
 .library-banner p {
     max-width: 255px;
 
-    font-size: clamp(9px, 2.5vw, 10px);
+    font-size: clamp(8px, 2.5vw, 9px);
 }
 
 .library-banner-action {
