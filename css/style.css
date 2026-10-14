@@ -10271,7 +10271,7 @@ transform:translateY(0px);
    PRICING CARD
 ========================================== */
 
-.pricing-card{
+.pricing-card {
 
     max-width:400px;
 
@@ -10295,7 +10295,10 @@ transform:translateY(0px);
 
     position:relative;
 
-    transition:all .35s ease;
+    transition:
+    transform .35s ease,
+    box-shadow .35s ease,
+    border-color .35s ease;
 
     transform: translate(90px, -18px);
 
@@ -10303,8 +10306,8 @@ transform:translateY(0px);
 
 
 .pricing-card:hover {
-    transform: translateX(90px) translateY(-10px);
-    box-shadow: 0 35px 75px rgba(15,23,42,.16);
+    transform: translate(90px, -22px);
+    box-shadow: 0 24px 55px rgba(15,23,42,.13);
 }
 
 
@@ -10614,8 +10617,15 @@ transform:translateY(0px);
         margin: 2px auto 0;
         left: auto;
         top: auto;
-        transform: none;
+        
     }
+
+   .pricing-card:hover,
+.pricing-card:active {
+    transform: translateY(-2px) !important;
+    box-shadow: 0 22px 48px rgba(15,23,42,.12);
+    transition: transform .25s ease, box-shadow .25s ease;
+}
 
     .amount {
         font-size: 4rem;
@@ -10733,6 +10743,15 @@ transform:translateY(0px);
         transform: none;
         border-radius: clamp(16px, 4.5vw, 18px);
     }
+
+
+    .pricing-card:hover,
+    .pricing-card:active {
+    transform: translateY(-2px) !important;
+    box-shadow: 0 22px 48px rgba(15,23,42,.12);
+    transition: transform .25s ease, box-shadow .25s ease;
+}
+
 
    .pricing-badge{
     top:
@@ -13041,25 +13060,6 @@ body.about-page-exit {
 
 
 /* =========================================================
-   5. PRICING
-   ---------------------------------------------------------
-   Keep the global .container as the section's horizontal
-   boundary.
-   
-   Only remove the extra 12px restriction applied to the
-   pricing card on very small phones.
-========================================================= */
-
-@media (max-width: 420px) {
-
-    .pricing-card {
-        max-width: 100%;
-    }
-
-}
-
-
-/* =========================================================
    6. FINAL CTA
    ---------------------------------------------------------
    Final CTA already owns horizontal padding.
@@ -13341,3 +13341,4 @@ body.about-page-exit {
     }
 
 }
+
