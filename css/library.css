@@ -2427,7 +2427,7 @@ body.library-modal-is-open {
 .library-banner h1 {
     max-width: 270px;
 
-    font-size: clamp(16px, 5.1vw, 18px);
+    font-size: clamp(15px, 5.1vw, 17px);
 }
 
 .library-banner p {
