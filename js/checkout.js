@@ -395,47 +395,33 @@ const request = {
         );
 
 
+ 
         //--------------------------------------
-        // Call Apps Script API
+        // Call Cloudflare Worker API
         //--------------------------------------
 
-     const formData =
-    new URLSearchParams();
+        const apiResponse = await fetch(
+            CONFIG.API_URL + "/verify-payment",
+            {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(
+                    request.paymentData
+                )
+            }
+        );
 
-formData.append(
-    "action",
-    request.action
-);
+        console.log(
+            "VERIFY PAYMENT HTTP STATUS:",
+            apiResponse.status
+        );
 
-formData.append(
-    "paymentData",
-    JSON.stringify(
-        request.paymentData
-    )
-);
-
-
-
-const apiResponse =
-    await fetch(
-        CONFIG.WEBAPP_URL,
-        {
-            method: "POST",
-            body: formData
-        }
-    );
-
-console.log(
-    "VERIFY PAYMENT HTTP STATUS:",
-    apiResponse.status
-);
-
-console.log(
-    "VERIFY PAYMENT RESPONSE URL:",
-    apiResponse.url
-);
-
-
+        console.log(
+            "VERIFY PAYMENT RESPONSE URL:",
+            apiResponse.url
+        );
 
         //--------------------------------------
         // Read Response
@@ -444,11 +430,11 @@ console.log(
         const result =
             await apiResponse.json();
 
-
         console.log(
             "Payment verification result:",
             result
         );
+
 
 
         //--------------------------------------
