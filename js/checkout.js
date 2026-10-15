@@ -415,15 +415,26 @@ formData.append(
 );
 
 
+
 const apiResponse =
     await fetch(
         CONFIG.WEBAPP_URL,
         {
             method: "POST",
-
             body: formData
         }
     );
+
+console.log(
+    "VERIFY PAYMENT HTTP STATUS:",
+    apiResponse.status
+);
+
+console.log(
+    "VERIFY PAYMENT RESPONSE URL:",
+    apiResponse.url
+);
+
 
 
         //--------------------------------------
