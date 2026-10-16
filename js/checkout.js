@@ -259,16 +259,22 @@ function openRazorpayCheckout(
 
         },
 
-        handler:
-            function (response) {
+       
+handler: function (response) {
 
-                verifyPayment(
-                    response,
-                    session,
-                    paymentButton
-                );
+    console.log(
+        "RAZORPAY SUCCESS HANDLER FIRED",
+        response
+    );
 
-            },
+    verifyPayment(
+        response,
+        session,
+        paymentButton
+    );
+
+},
+
 
         modal: {
 
@@ -286,12 +292,15 @@ function openRazorpayCheckout(
     };
 
 
+    
     //------------------------------------------
     // Create Razorpay Instance
     //------------------------------------------
 
-    const rzp =
-        new Razorpay(options);
+    console.log("Opening Razorpay checkout");
+
+    const rzp = new Razorpay(options);
+
 
 
     //------------------------------------------
