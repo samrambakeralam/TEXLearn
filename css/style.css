@@ -9967,7 +9967,7 @@ transform:translateY(0px);
 
 
     .mission-section h2 {
-        font-size: 32px;
+        font-size: 25px;
     }
 
     .mission-section .section-description {
@@ -10110,7 +10110,7 @@ transform:translateY(0px);
 
 .mission-section .section-badge {
     padding: 7px 16px;
-    margin-bottom: 16px;
+    margin-bottom: 15px;
     font-size: 10px;
     letter-spacing: 0.9px;
 }
@@ -10118,8 +10118,8 @@ transform:translateY(0px);
 
 .mission-section h2 {
     margin: 0 0 18px;
-    font-size: clamp(25px, 7.2vw, 29px);
-    line-height: 1.18;
+    font-size: clamp(20px, 7.2vw, 24px);
+    line-height: 1.16;
     letter-spacing: -0.6px;
 }
 
