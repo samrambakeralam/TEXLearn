@@ -10121,6 +10121,15 @@ transform:translateY(0px);
     line-height: 1.7;
 }
 
+.mission-message blockquote {
+    margin: 22px 0;
+    padding: 20px 18px;
+    box-sizing: border-box;
+    font-size: 20px;
+    line-height: 1.4;
+    letter-spacing: -0.35px;
+}
+
 
 .mission-values .value-card {
         width: 72%;
