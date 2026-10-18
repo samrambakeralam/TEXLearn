@@ -203,7 +203,7 @@
 
 
 /* ==========================================
-   MOBILE
+   NORMAL PHONE
 ========================================== */
 
 @media(max-width:767px){
@@ -275,6 +275,81 @@
     }
 
 }
+
+
+/* ==========================================
+   NORMAL PHONE
+========================================== */
+
+@media(max-width:420px){
+
+    .faq-section {
+        padding: 45 0 30px;
+    }
+
+      
+.faq-section .container {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.faq-section .section-header {
+    order: 1;
+    width: 100%;
+    max-width: 650px;
+    margin: 0 auto;
+    padding: 30px 20px 0;
+    box-sizing: border-box;
+    text-align: center;
+    font-size: 11px;
+}
+
+.faq-section .section-header h2 {
+    margin-top: 10px;
+    margin-bottom: 16px;
+    font-size: 18px;
+    line-height: .8;
+}
+
+.faq-section .section-header p {
+    width: 100%;
+    max-width: 100%;
+    margin: 0 auto;
+    line-height: 1.7;
+    font-size: 11px;
+}
+
+.faq-section .faq-container {
+    order: 2;
+    width: 100%;
+    max-width: 900px;
+    margin: 28px auto 0;
+    padding: 0 20px;
+    box-sizing: border-box;
+}
+
+
+    .faq-item {
+        margin-bottom: 14px;
+    }
+
+    .faq-item summary {
+        padding: 10px 20px;
+        font-size: 11px;
+    }
+
+    .faq-item p {
+        padding: 0 20px 20px;
+        font-size: 11px;
+        line-height: 1.7;
+    }
+
+}
+
+
 
 /* =========================================================
    FAQ PAGE TRANSITIONS
