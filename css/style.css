@@ -6616,12 +6616,10 @@ transform:translateY(0px);
 
 @media (max-width: 420px) {
 
-  .topics-section {
-
-    padding:
-         30px 10px clamp(24px, 6vw, 32px);
-
+.topics-section {
+    padding: 30px 16px clamp(24px, 6vw, 32px);
 }
+
     .section-badge {
         font-size: 8px;
 
@@ -9953,14 +9951,20 @@ transform:translateY(0px);
 
 /* =====================================================
    NORMAL MOBILE
-   421px – 576px
+   421px – 767px
 ===================================================== */
 
 @media (min-width:421px) and (max-width:767px) {
 
-    .mission-section {
-        padding: 80px 6% 90px;
+   .mission-section {
+    padding: 80px 16px 90px;
+}
+
+    .mission-section > .container {
+        width: 100%;
+        max-width: 1200px;
     }
+
 
     .mission-section h2 {
         font-size: 32px;
@@ -10072,7 +10076,6 @@ transform:translateY(0px);
 
 }
 
-
 /* =====================================================
    SMALL MOBILE
    420px AND BELOW
@@ -10080,11 +10083,46 @@ transform:translateY(0px);
 
 @media (max-width: 420px) {
 
-    .mission-section {
-        padding: 60px 6% 70px;
-    }
+   .mission-section {
+    padding: 90px 6% 48px;
+    box-sizing: border-box;
+}
 
-    .mission-values .value-card {
+
+.mission-section .section-header {
+    width: 100%;
+    max-width: 100%;
+    margin: 0 auto;
+    text-align: center;
+}
+
+
+.mission-section .section-badge {
+    padding: 7px 16px;
+    margin-bottom: 16px;
+    font-size: 11px;
+    letter-spacing: 1px;
+}
+
+
+.mission-section h2 {
+    margin: 0 0 18px;
+    font-size: clamp(25px, 7.2vw, 29px);
+    line-height: 1.18;
+    letter-spacing: -0.6px;
+}
+
+
+.mission-section .section-description {
+    width: 100%;
+    max-width: 340px;
+    margin: 0 auto;
+    font-size: 14px;
+    line-height: 1.7;
+}
+
+
+.mission-values .value-card {
         width: 72%;
         height: 300px;
         box-sizing: border-box;
@@ -13040,31 +13078,6 @@ body.about-page-exit {
 
 
 /* =========================================================
-   4. MISSION / VISION / PROMISE
-   ---------------------------------------------------------
-   The Mission section already owns horizontal spacing.
-   Neutralize the global .container width restriction here.
-   
-   Cover-flow card widths remain untouched because those
-   are intentional carousel mechanics.
-========================================================= */
-
-@media (max-width: 767px) {
-
-    .mission-section {
-        padding-left: 16px;
-        padding-right: 16px;
-    }
-
-    .mission-section > .container {
-        width: 100%;
-        max-width: 1200px;
-    }
-
-}
-
-
-/* =========================================================
    6. FINAL CTA
    ---------------------------------------------------------
    Final CTA already owns horizontal padding.
@@ -13110,24 +13123,6 @@ body.about-page-exit {
     .footer-grid {
         min-width: 0;
         box-sizing: border-box;
-    }
-
-}
-
-
-/* =========================================================
-   8. SMALL PHONE
-   ---------------------------------------------------------
-   Keep the intentional compact edge system.
-   Do NOT alter Featured Modules typography or card rules.
-========================================================= */
-
-@media (max-width: 420px) {
-
-    .topics-section,
-    .mission-section {
-        padding-left: 16px;
-        padding-right: 16px;
     }
 
 }
