@@ -10150,12 +10150,20 @@ transform:translateY(0px);
 }
 
 
+
 .mission-values .value-card {
-        width: 72%;
-        height: 300px;
-        box-sizing: border-box;
-        padding: 22px 18px;
-    }
+    width: 72%;
+    height: 260px;
+    min-height: 260px;
+    box-sizing: border-box;
+    padding: 18px 16px;
+}
+
+.mission-values .value-card p {
+    font-size: 13px;
+    line-height: 1.5;
+}
+
 
 }
 
