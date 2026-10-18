@@ -92,13 +92,13 @@
 
 .faq-item summary{
 
-    padding:24px 28px;
+    padding:12px 28px;
 
     cursor:pointer;
 
     list-style:none;
 
-    font-size: 16px;
+    font-size: 14px;
 
     font-weight:700;
 
@@ -151,7 +151,7 @@
 
     color:#16A34A;
 
-    font-size:22px;
+    font-size:20px;
 
     font-weight:700;
 
@@ -182,7 +182,7 @@
 
     color:#64748B;
 
-    font-size:16px;
+    font-size:14px;
 
     line-height:1.9;
 
