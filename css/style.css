@@ -9987,12 +9987,26 @@ transform:translateY(0px);
         font-size: 14px;
     }
 
+}
 
-    /* ------------------------------------------
+/* Respect reduced-motion preferences */
+@media (prefers-reduced-motion: reduce) {
+
+    .mission-values,
+    .mission-values .value-card {
+        transition: none !important;
+        animation: none !important;
+    }
+
+}
+
+/* ------------------------------------------
        MOBILE COVER-FLOW
-    ------------------------------------------ */
+------------------------------------------ */
 
-    .mission-values {
+@media (max-width: 767px) {
+
+     .mission-values {
         position: relative;
         display: block;
         height: 360px;
@@ -10002,23 +10016,21 @@ transform:translateY(0px);
         user-select: none;
         -webkit-user-select: none;
         perspective: 1000px;
-          transition:
+
+        transition:
             opacity 650ms ease,
             transform 650ms ease;
     }
 
     .mission-values .value-card {
         position: absolute;
-        padding: 30px 24px;
         top: 20px;
         left: 50% !important;
         width: 78%;
         margin: 0 !important;
+        box-sizing: border-box;
 
-        transform:
-            translateX(-50%)
-            scale(.92);
-
+        transform: translateX(-50%) scale(.92);
         opacity: .65;
 
         transition:
@@ -10032,12 +10044,7 @@ transform:translateY(0px);
 
     .mission-values .value-card.mvc-left {
         left: 50% !important;
-
-        transform:
-            translateX(-88%)
-            scale(.92)
-            rotateY(8deg);
-
+        transform: translateX(-88%) scale(.92) rotateY(8deg);
         opacity: .65;
         z-index: 1;
     }
@@ -10045,36 +10052,25 @@ transform:translateY(0px);
 
     /* CENTRE CARD */
 
-    .mission-values .value-card.mvc-center {
+   .mission-values .value-card.mvc-center {
         left: 50% !important;
-
-        transform:
-            translateX(-50%)
-            scale(1.05);
-
+        transform: translateX(-50%) scale(1.05);
         opacity: 1;
         z-index: 3;
-
-        box-shadow:
-            0 24px 55px rgba(15,23,42,.18);
+        box-shadow: 0 24px 55px rgba(15,23,42,.18);
     }
 
 
     /* RIGHT CARD */
 
-    .mission-values .value-card.mvc-right {
+     .mission-values .value-card.mvc-right {
         left: 50% !important;
-
-        transform:
-            translateX(-12%)
-            scale(.92)
-            rotateY(-8deg);
-
+        transform: translateX(-12%) scale(.92) rotateY(-8deg);
         opacity: .65;
         z-index: 1;
     }
 
-    .mission-values.mvc-reveal-pending {
+       .mission-values.mvc-reveal-pending {
         opacity: 0;
         transform: translateY(18px);
     }
@@ -10084,18 +10080,8 @@ transform:translateY(0px);
         transform: translateY(0);
     }
 
-}
-
-/* Respect reduced-motion preferences */
-@media (prefers-reduced-motion: reduce) {
-
-    .mission-values,
-    .mission-values .value-card {
-        transition: none !important;
-        animation: none !important;
     }
 
-}
 
 /* =====================================================
    SMALL MOBILE
