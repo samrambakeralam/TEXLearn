@@ -10159,6 +10159,22 @@ transform:translateY(0px);
     padding: 17px 15px;
 }
 
+.mission-values .value-card h3{
+
+    font-family:
+        "Poppins",
+        sans-serif;
+
+    font-size:16px;
+
+    font-weight:700;
+
+    color:#0B1F3A;
+
+    margin-bottom:7px;
+
+}
+
 .mission-values .value-card p {
     font-size: 12px;
     line-height: 1.4;
