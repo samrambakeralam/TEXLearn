@@ -2,9 +2,9 @@
    FAQ SECTION
 ========================================== */
 
-.faq-section{
+.faq-section {
 
-    padding:30px 0;
+     padding: 0 0 30px;
 
     background:#FFFFFF;
 
@@ -208,34 +208,67 @@
    MOBILE
 ========================================== */
 
-@media(max-width:768px){
+@media(max-width:767px){
 
     .faq-section{
 
-        padding:90px 0;
+        padding: 0 0 90px;
 
     }
 
-    .faq-container{
+      
+.faq-section .container {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    width: 100%;
+    box-sizing: border-box;
+}
 
-        margin-top:50px;
+.faq-section .section-header {
+    order: 1;
+    width: 100%;
+    max-width: 650px;
+    margin: 0 auto;
+    padding: 30px 20px 0;
+    box-sizing: border-box;
+    text-align: center;
+}
 
+.faq-section .section-header h2 {
+    margin-bottom: 16px;
+}
+
+.faq-section .section-header p {
+    width: 100%;
+    max-width: 100%;
+    margin: 0 auto;
+    line-height: 1.7;
+}
+
+.faq-section .faq-container {
+    order: 2;
+    width: 100%;
+    max-width: 900px;
+    margin: 28px auto 0;
+    padding: 0 20px;
+    box-sizing: border-box;
+}
+
+
+    .faq-item {
+        margin-bottom: 14px;
     }
 
-    .faq-item summary{
-
-        padding:20px;
-
-        font-size:15px;
-
+    .faq-item summary {
+        padding: 18px 20px;
+        font-size: 15px;
     }
 
-    .faq-item p{
-
-        padding:0 20px 22px;
-
-        font-size:15px;
-
+    .faq-item p {
+        padding: 0 20px 20px;
+        font-size: 15px;
+        line-height: 1.7;
     }
 
 }
