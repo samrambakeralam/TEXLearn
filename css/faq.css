@@ -311,14 +311,14 @@
     margin-top: 10px;
     margin-bottom: 16px;
     font-size: 18px;
-    line-height: .8;
+    line-height: .7;
 }
 
 .faq-section .section-header p {
     width: 100%;
     max-width: 100%;
     margin: 0 auto;
-    line-height: 1.7;
+    line-height: 1.6;
     font-size: 11px;
 }
 
@@ -337,14 +337,14 @@
     }
 
     .faq-item summary {
-        padding: 10px 20px;
+        padding: 9px 20px;
         font-size: 11px;
     }
 
     .faq-item p {
         padding: 0 20px 20px;
         font-size: 11px;
-        line-height: 1.7;
+        line-height: 1.5;
     }
 
 }
