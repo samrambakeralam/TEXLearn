@@ -8335,7 +8335,7 @@ transform:translateY(0px);
     .module-card p{
         font-size:11px;
         line-height:1.6;
-        margin-bottom: clamp(22px, 5vw, 28px);
+        margin-bottom: clamp(24px, 5vw, 30px);
     }
 
    .featured-grid .module-footer {
@@ -8515,7 +8515,7 @@ transform:translateY(0px);
 .featured-grid .module-card p{
     font-size:clamp(8px,2.9vw,9px);
     line-height:1.45;
-    margin-bottom: clamp(22px, 5vw, 28px);
+    margin-bottom: clamp(24px, 5vw, 28px);
 }
 
 
