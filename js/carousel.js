@@ -591,245 +591,130 @@ function renderFeaturedModules() {
 
 }
 
+
 /* =========================================================
-   VISION • MISSION • PROMISE — MOBILE COVER FLOW
+   VISION • MISSION • PROMISE
+   MOBILE CAROUSEL + SCROLL REVEAL
 ========================================================= */
 
 function initialiseMissionValuesCarousel() {
 
-    
-const carousel =
-    document.querySelector(".mission-values");
+    const carousel = document.querySelector(".mission-values");
 
-if (!carousel) {
-    return;
-}
+    if (!carousel) return;
 
-/* Prevent native horizontal scrolling */
-carousel.scrollLeft = 0;
-
-
-    const cards =
-        Array.from(
-            carousel.querySelectorAll(".value-card")
-        );
+    const cards = Array.from(
+        carousel.querySelectorAll(".value-card")
+    );
 
     if (cards.length !== 3) {
-
         console.warn(
             "Mission Values carousel requires exactly 3 cards."
         );
-
         return;
-
     }
 
+    const mobileQuery = window.matchMedia("(max-width: 767px)");
 
-    /* -----------------------------------------------------
-       MOBILE CHECK
-    ----------------------------------------------------- */
+    if (!mobileQuery.matches) return;
 
-    const isMobile =
-        window.matchMedia(
-            "(max-width: 768px)"
-        ).matches;
+    /* Prevent duplicate initialization */
+    if (carousel.dataset.carouselInitialised === "true") return;
+    carousel.dataset.carouselInitialised = "true";
 
-    if (!isMobile) {
-
-        return;
-
-    }
-
-
-    /* -----------------------------------------------------
-       CARD POSITIONS
-       
-       left   = Promise
-       center = Vision
-       right  = Mission
-    ----------------------------------------------------- */
-
-    let positions = [
-        "center",
-        "right",
-        "left"
-    ];
-
-
-    /* -----------------------------------------------------
-       APPLY POSITIONS
-    ----------------------------------------------------- */
+    /* Vision centre, Mission right, Promise left */
+    let positions = ["center", "right", "left"];
 
     function updateCards() {
-
-    carousel.scrollLeft = 0;
-
-    cards.forEach(
-        (card, index) => {
-
-            const position =
-                positions[index];
-
+        cards.forEach((card, index) => {
             card.classList.remove(
                 "mvc-left",
                 "mvc-center",
                 "mvc-right"
             );
 
-            card.classList.add(
-                "mvc-" + position
-            );
+            card.classList.add("mvc-" + positions[index]);
 
+            /* Let the existing CSS control card positioning */
+            card.style.removeProperty("transform");
+            card.style.removeProperty("opacity");
+            card.style.removeProperty("z-index");
+            card.style.removeProperty("box-shadow");
+        });
+    }
 
-            /* ------------------------------------------
-               APPLY POSITION DIRECTLY
-            ------------------------------------------ */
+    function rotateLeft() {
+        positions = [
+            positions[2],
+            positions[0],
+            positions[1]
+        ];
 
-            if (position === "left") {
+        updateCards();
+    }
 
-                // LEFT
-                card.style.transform =
-                "translateX(-78%) scale(.92) rotateY(8deg)";
+    function rotateRight() {
+        positions = [
+            positions[1],
+            positions[2],
+            positions[0]
+        ];
 
-                card.style.opacity =
-                    ".65";
+        updateCards();
+    }
 
-                card.style.zIndex =
-                    "1";
-
-            }
-
-
-            else if (position === "center") {
-
-                card.style.transform =
-                "translateX(-50%) scale(1.05) rotateY(0deg)";
-
-                card.style.opacity =
-                    "1";
-
-                card.style.zIndex =
-                    "3";
-
-                card.style.boxShadow =
-                    "0 20px 50px rgba(15,23,42,.14)";
-
-            }
-
-
-            else if (position === "right") {
-
-                // RIGHT
-                card.style.transform =
-                "translateX(-22%) scale(.92) rotateY(-8deg)";
-
-                card.style.opacity =
-                    ".65";
-
-                card.style.zIndex =
-                    "1";
-
-            }
-
-        }
-    );
-
-}
-
-
-    /* -----------------------------------------------------
-   ROTATE LEFT
------------------------------------------------------ */
-
-function rotateLeft() {
-
-    positions = [
-        positions[2],
-        positions[0],
-        positions[1]
-    ];
-
-    updateCards();
-
-}
-
-
-/* -----------------------------------------------------
-   ROTATE RIGHT
------------------------------------------------------ */
-
-function rotateRight() {
-
-    positions = [
-        positions[1],
-        positions[2],
-        positions[0]
-    ];
-
-    updateCards();
-
-}
-
-
-    /* -----------------------------------------------------
-       TOUCH / SWIPE
-    ----------------------------------------------------- */
-
+    /* Touch/swipe navigation */
     let startX = 0;
-    let endX = 0;
+    let startY = 0;
 
+    carousel.addEventListener("touchstart", event => {
+        startX = event.changedTouches[0].clientX;
+        startY = event.changedTouches[0].clientY;
+    }, { passive: true });
 
-    carousel.addEventListener(
-        "touchstart",
-        event => {
+    carousel.addEventListener("touchend", event => {
+        const endX = event.changedTouches[0].clientX;
+        const endY = event.changedTouches[0].clientY;
 
-            startX =
-                event.touches[0].clientX;
+        const distanceX = endX - startX;
+        const distanceY = endY - startY;
 
-        },
-        { passive:true }
-    );
+        /* Do not interfere with vertical page scrolling */
+        if (Math.abs(distanceX) < 40) return;
+        if (Math.abs(distanceX) < Math.abs(distanceY)) return;
 
+        if (distanceX < 0) {
+            rotateLeft();
+        } else {
+            rotateRight();
+        }
+    }, { passive: true });
 
-    carousel.addEventListener(
-        "touchend",
-        event => {
+    /* Reveal the carousel when it enters the viewport */
+    if ("IntersectionObserver" in window) {
 
-            endX =
-                event.changedTouches[0].clientX;
+        carousel.classList.add("mvc-reveal-pending");
 
-            const distance =
-                endX - startX;
+        const observer = new IntersectionObserver(entries => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    carousel.classList.add("mvc-reveal-visible");
+                    carousel.classList.remove("mvc-reveal-pending");
+                    observer.disconnect();
+                }
+            });
+        }, {
+            threshold: 0.15
+        });
 
+        observer.observe(carousel);
 
-            if (Math.abs(distance) < 35) {
+    } else {
+        carousel.classList.add("mvc-reveal-visible");
+    }
 
-                return;
-
-            }
-
-
-            if (distance < 0) {
-
-                rotateLeft();
-
-            } else {
-
-                rotateRight();
-
-            }
-
-        },
-        { passive:true }
-    );
-
-
-    /* -----------------------------------------------------
-       INITIAL STATE
-    ----------------------------------------------------- */
-
+    /* Apply the initial card positions */
     updateCards();
-
 }
 
 

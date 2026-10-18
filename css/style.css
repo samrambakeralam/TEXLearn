@@ -9987,10 +9987,6 @@ transform:translateY(0px);
         font-size: 14px;
     }
 
-    .value-card {
-        padding: 30px 24px;
-    }
-
 
     /* ------------------------------------------
        MOBILE COVER-FLOW
@@ -10006,10 +10002,14 @@ transform:translateY(0px);
         user-select: none;
         -webkit-user-select: none;
         perspective: 1000px;
+          transition:
+            opacity 650ms ease,
+            transform 650ms ease;
     }
 
     .mission-values .value-card {
         position: absolute;
+        padding: 30px 24px;
         top: 20px;
         left: 50% !important;
         width: 78%;
@@ -10072,6 +10072,27 @@ transform:translateY(0px);
 
         opacity: .65;
         z-index: 1;
+    }
+
+    .mission-values.mvc-reveal-pending {
+        opacity: 0;
+        transform: translateY(18px);
+    }
+
+    .mission-values.mvc-reveal-visible {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+}
+
+/* Respect reduced-motion preferences */
+@media (prefers-reduced-motion: reduce) {
+
+    .mission-values,
+    .mission-values .value-card {
+        transition: none !important;
+        animation: none !important;
     }
 
 }
