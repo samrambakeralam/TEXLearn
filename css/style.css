@@ -10153,14 +10153,14 @@ transform:translateY(0px);
 
 .mission-values .value-card {
     width: 72%;
-    height: 260px;
-    min-height: 260px;
+    height: 250px;
+    min-height: 250px;
     box-sizing: border-box;
     padding: 18px 16px;
 }
 
 .mission-values .value-card p {
-    font-size: 13px;
+    font-size: 12px;
     line-height: 1.5;
 }
 
