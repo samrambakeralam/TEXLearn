@@ -10075,12 +10075,12 @@ transform:translateY(0px);
         transform: translateY(18px);
     }
 
-    .mission-values.mvc-reveal-visible {
+      .mission-values.mvc-reveal-visible {
         opacity: 1;
         transform: translateY(0);
     }
 
-    }
+}
 
 
 /* =====================================================
