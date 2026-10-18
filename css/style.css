@@ -10084,8 +10084,12 @@ transform:translateY(0px);
 @media (max-width: 420px) {
 
    .mission-section {
-    padding: 90px 6% 48px;
+    padding: 80px 6% 48px;
     box-sizing: border-box;
+}
+
+.mission-content {
+    margin-top: 45px;
 }
 
 
@@ -10100,8 +10104,8 @@ transform:translateY(0px);
 .mission-section .section-badge {
     padding: 7px 16px;
     margin-bottom: 16px;
-    font-size: 11px;
-    letter-spacing: 1px;
+    font-size: 10px;
+    letter-spacing: 0.9px;
 }
 
 
@@ -10117,9 +10121,17 @@ transform:translateY(0px);
     width: 100%;
     max-width: 340px;
     margin: 0 auto;
-    font-size: 14px;
+    font-size: 13px;
     line-height: 1.7;
 }
+
+ .mission-profile h3 {
+        font-size: 15px;
+    }
+
+    .mission-message {
+        font-size: 13px;
+    }
 
 .mission-message blockquote {
     margin: 22px 0;
