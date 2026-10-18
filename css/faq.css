@@ -210,7 +210,7 @@
 
     .faq-section {
 
-        padding: 55 0 30px;
+        padding: 50 0 30px;
 
     }
 
@@ -234,7 +234,10 @@
 }
 
 .faq-section .section-header h2 {
+    margin-top: 10px;
     margin-bottom: 16px;
+    font-size: 25px;
+    line-height: .8;
 }
 
 .faq-section .section-header p {
