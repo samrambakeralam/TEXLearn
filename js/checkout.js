@@ -1,6 +1,7 @@
+
 /*************************************************
  SAMRAMBA KERALAM 2030
- GitHub Checkout
+ GitHub + Android Native Checkout
 *************************************************/
 
 document.addEventListener("DOMContentLoaded", function () {
@@ -15,399 +16,305 @@ document.addEventListener("DOMContentLoaded", function () {
         return;
     }
 
-    //------------------------------------------
-    // Get Registration Session
-    //------------------------------------------
-
     const storedSession =
         sessionStorage.getItem("checkoutSession");
 
     if (!storedSession) {
-
-        console.error(
-            "checkoutSession not found."
-        );
-
+        console.error("checkoutSession not found.");
         paymentButton.disabled = true;
-
         return;
     }
 
     let session;
 
     try {
-
-        session =
-            JSON.parse(storedSession);
-
-    }
-    catch (error) {
-
-        console.error(
-            "Invalid checkoutSession:",
-            error
-        );
-
+        session = JSON.parse(storedSession);
+    } catch (error) {
+        console.error("Invalid checkoutSession:", error);
         paymentButton.disabled = true;
-
         return;
     }
-
-    console.log(
-        "Checkout session:",
-        session
-    );
-
-
-    //------------------------------------------
-    // Validate Session
-    //------------------------------------------
 
     if (
         !session.customerID ||
         !session.token ||
         !session.razorpay ||
-        !session.razorpay.orderID
+        !session.razorpay.orderID ||
+        !session.razorpay.key ||
+        !session.razorpay.amount ||
+        !session.razorpay.currency
     ) {
-
-        console.error(
-            "Incomplete checkout session."
-        );
-
+        console.error("Incomplete checkout session.");
         paymentButton.disabled = true;
-
         return;
     }
 
-
-    //------------------------------------------
-    // Display Real Customer Information
-    //------------------------------------------
-
     const customerName =
-        document.getElementById(
-            "customerName"
-        );
+        document.getElementById("customerName");
 
     const customerEmail =
-        document.getElementById(
-            "customerEmail"
-        );
+        document.getElementById("customerEmail");
 
     const customerInstitution =
-        document.getElementById(
-            "customerInstitution"
-        );
+        document.getElementById("customerInstitution");
 
     const customerID =
-        document.getElementById(
-            "customerID"
-        );
-
+        document.getElementById("customerID");
 
     if (customerName) {
-
-        customerName.textContent =
-            session.name || "";
-
+        customerName.textContent = session.name || "";
     }
 
     if (customerEmail) {
-
-        customerEmail.textContent =
-            session.email || "";
-
+        customerEmail.textContent = session.email || "";
     }
 
     if (customerInstitution) {
-
         customerInstitution.textContent =
             session.institutionName ||
             session.institution ||
             "";
-
     }
 
     if (customerID) {
-
-        customerID.textContent =
-            session.customerID;
-
+        customerID.textContent = session.customerID;
     }
 
-
-    //------------------------------------------
-    // Payment Button
-    //------------------------------------------
-
-    paymentButton.addEventListener(
-        "click",
-        function () {
-
-            openRazorpayCheckout(
-                session,
-                paymentButton
-            );
-
+    paymentButton.addEventListener("click", function () {
+        if (
+            window.TEXLearnNative &&
+            typeof window.TEXLearnNative.openCheckout === "function"
+        ) {
+            openNativeRazorpayCheckout(session, paymentButton);
+        } else {
+            openRazorpayCheckout(session, paymentButton);
         }
-    );
+    });
 
 });
 
 
-
 /*************************************************
- Open Razorpay Checkout
+ Button Helpers
 *************************************************/
 
-function openRazorpayCheckout(
-    session,
-    paymentButton
-) {
+function setPaymentButtonBusy(button, text) {
+    button.disabled = true;
+    button.style.opacity = "0.7";
+    button.style.cursor = "not-allowed";
+    button.textContent = text;
+}
 
-    if (
-        typeof Razorpay ===
-        "undefined"
-    ) {
-
-        console.error(
-            "Razorpay SDK not loaded."
-        );
-
-        alert(
-            "Payment system is not available. Please try again."
-        );
-
-        return;
-    }
+function restorePaymentButton(button) {
+    button.disabled = false;
+    button.style.opacity = "1";
+    button.style.cursor = "pointer";
+    button.textContent = "Continue to Payment";
+}
 
 
-    //------------------------------------------
-    // Disable Button
-    //------------------------------------------
+/*************************************************
+ Native Android Checkout
+*************************************************/
 
-    paymentButton.disabled = true;
+function openNativeRazorpayCheckout(session, paymentButton) {
 
-    paymentButton.style.opacity =
-        "0.7";
-
-    paymentButton.style.cursor =
-        "not-allowed";
-
-    paymentButton.innerHTML =
-        "Preparing Secure Payment...";
-
-
-    //------------------------------------------
-    // Razorpay Options
-    //------------------------------------------
+    setPaymentButtonBusy(
+        paymentButton,
+        "Opening Secure Payment..."
+    );
 
     const options = {
-
-        key:
-            session.razorpay.key,
-
-        amount:
-            session.razorpay.amount,
-
-        currency:
-            session.razorpay.currency,
-
-        name:
-            "SAMRAMBA KERALAM 2030",
-
-        description:
-            "Entrepreneurship Bundle",
-
-        order_id:
-            session.razorpay.orderID,
+        key: session.razorpay.key,
+        amount: Number(session.razorpay.amount),
+        currency: session.razorpay.currency,
+        name: "SAMRAMBA KERALAM 2030",
+        description: "Entrepreneurship Bundle",
+        order_id: session.razorpay.orderID,
 
         prefill: {
-
-            name:
-                session.name || "",
-
-            email:
-                session.email || ""
-
+            name: session.name || "",
+            email: session.email || "",
+            contact: session.contact || ""
         },
 
         notes: {
-
-            customerID:
-                session.customerID,
-
+            customerID: session.customerID,
             institution:
                 session.institutionName ||
                 session.institution ||
                 ""
-
         },
 
         theme: {
-
-            color:
-                "#0A8754"
-
-        },
-
-        readonly: {
-
-            email: true,
-
-            name: true
-
-        },
-
-       
-handler: function (response) {
-
-    console.log(
-        "RAZORPAY SUCCESS HANDLER FIRED",
-        response
-    );
-
-    verifyPayment(
-        response,
-        session,
-        paymentButton
-    );
-
-},
-
-
-        modal: {
-
-            ondismiss:
-                function () {
-
-                    restorePaymentButton(
-                        paymentButton
-                    );
-
-                }
-
+            color: "#0A8754"
         }
-
     };
 
-
-    
-    //------------------------------------------
-    // Create Razorpay Instance
-    //------------------------------------------
-
-    console.log("Opening Razorpay checkout");
-
-    const rzp = new Razorpay(options);
-
-
-
-    //------------------------------------------
-    // Payment Failed
-    //------------------------------------------
-
-    rzp.on(
-        "payment.failed",
-        function (response) {
-
-            console.error(
-                "Razorpay payment failed:",
-                response
-            );
-
-            restorePaymentButton(
-                paymentButton
-            );
-
-            alert(
-                "Payment failed. Please try again."
-            );
-
-        }
-    );
-
-
-    //------------------------------------------
-    // Open Checkout
-    //------------------------------------------
-
-    rzp.open();
-
+    try {
+        window.TEXLearnNative.openCheckout(
+            JSON.stringify(options)
+        );
+    } catch (error) {
+        console.error("Native checkout launch failed:", error);
+        restorePaymentButton(paymentButton);
+        alert("Unable to open payment. Please try again.");
+    }
 }
 
 
-
 /*************************************************
- Verify Payment
+ Native SDK Callbacks
 *************************************************/
 
-async function verifyPayment(
-    response,
-    session,
-    paymentButton
-) {
+window.onNativeRazorpaySuccess = function (response) {
 
-    console.log(
-        "Razorpay payment response:",
-        response
-    );
+    console.log("Native Razorpay success callback:", response);
 
+    const paymentButton =
+        document.getElementById("paymentButton");
 
-    //------------------------------------------
-    // Disable Button
-    //------------------------------------------
+    const storedSession =
+        sessionStorage.getItem("checkoutSession");
 
-    paymentButton.disabled = true;
-
-    paymentButton.innerHTML =
-        "Verifying Payment...";
-
-
-    try {
-
-        //--------------------------------------
-        // Build API Request
-        //--------------------------------------
-
-       
-const request = {
-
-    action:
-        "VERIFY_PAYMENT",
-
-    paymentData: {
-
-        customerID:
-            session.customerID,
-
-        amount:
-            session.razorpay.amount,
-
-        razorpay_payment_id:
-            response.razorpay_payment_id,
-
-        razorpay_order_id:
-            response.razorpay_order_id,
-
-        razorpay_signature:
-            response.razorpay_signature
-
+    if (!storedSession) {
+        alert("Your checkout session has expired. Contact support before retrying.");
+        return;
     }
 
+    let session;
+
+    try {
+        session = JSON.parse(storedSession);
+    } catch (error) {
+        alert("Unable to read your checkout session. Contact support.");
+        return;
+    }
+
+    if (
+        !response ||
+        !response.razorpay_payment_id ||
+        !response.razorpay_order_id ||
+        !response.razorpay_signature
+    ) {
+        restorePaymentButton(paymentButton);
+        alert("Payment response is incomplete. Please contact support before retrying.");
+        return;
+    }
+
+    verifyPayment(response, session, paymentButton);
+};
+
+window.onNativeRazorpayError = function (message) {
+    console.error("Native Razorpay checkout error:", message);
+
+    const paymentButton =
+        document.getElementById("paymentButton");
+
+    if (paymentButton) {
+        restorePaymentButton(paymentButton);
+    }
+
+    alert(message || "Payment was not completed. You can try again.");
 };
 
 
-        console.log(
-            "Sending payment verification:",
-            request
-        );
+/*************************************************
+ Existing Browser Checkout
+*************************************************/
+
+function openRazorpayCheckout(session, paymentButton) {
+
+    if (typeof Razorpay === "undefined") {
+        console.error("Razorpay SDK not loaded.");
+        alert("Payment system is not available. Please try again.");
+        return;
+    }
+
+    setPaymentButtonBusy(
+        paymentButton,
+        "Preparing Secure Payment..."
+    );
+
+    const options = {
+        key: session.razorpay.key,
+        amount: session.razorpay.amount,
+        currency: session.razorpay.currency,
+        name: "SAMRAMBA KERALAM 2030",
+        description: "Entrepreneurship Bundle",
+        order_id: session.razorpay.orderID,
+
+        prefill: {
+            name: session.name || "",
+            email: session.email || ""
+        },
+
+        notes: {
+            customerID: session.customerID,
+            institution:
+                session.institutionName ||
+                session.institution ||
+                ""
+        },
+
+        theme: {
+            color: "#0A8754"
+        },
+
+        readonly: {
+            email: true,
+            name: true
+        },
+
+        handler: function (response) {
+            verifyPayment(response, session, paymentButton);
+        },
+
+        modal: {
+            ondismiss: function () {
+                restorePaymentButton(paymentButton);
+            }
+        }
+    };
+
+    try {
+        const rzp = new Razorpay(options);
+
+        rzp.on("payment.failed", function (response) {
+            console.error("Razorpay payment failed:", response);
+            restorePaymentButton(paymentButton);
+            alert("Payment failed. Please try again.");
+        });
+
+        rzp.open();
+
+    } catch (error) {
+        console.error("Unable to open Razorpay checkout:", error);
+        restorePaymentButton(paymentButton);
+        alert("Unable to open payment. Please try again.");
+    }
+}
 
 
- 
-        //--------------------------------------
-        // Call Cloudflare Worker API
-        //--------------------------------------
+/*************************************************
+ Verify Payment — Existing Cloudflare Endpoint
+*************************************************/
+
+async function verifyPayment(response, session, paymentButton) {
+
+    setPaymentButtonBusy(
+        paymentButton,
+        "Verifying Payment..."
+    );
+
+    try {
+        const paymentData = {
+            customerID: session.customerID,
+            amount: session.razorpay.amount,
+            razorpay_payment_id: response.razorpay_payment_id,
+            razorpay_order_id: response.razorpay_order_id,
+            razorpay_signature: response.razorpay_signature
+        };
 
         const apiResponse = await fetch(
             CONFIG.API_URL + "/verify-payment",
@@ -416,103 +323,35 @@ const request = {
                 headers: {
                     "Content-Type": "application/json"
                 },
-                body: JSON.stringify(
-                    request.paymentData
-                )
+                body: JSON.stringify(paymentData)
             }
         );
 
-        console.log(
-            "VERIFY PAYMENT HTTP STATUS:",
-            apiResponse.status
+        const result = await apiResponse.json();
+
+        console.log("Payment verification result:", result);
+
+        if (!apiResponse.ok || !result.success) {
+            throw new Error(
+                result.message || "Payment verification failed."
+            );
+        }
+
+        sessionStorage.setItem(
+            "paymentResult",
+            JSON.stringify(result)
         );
 
-        console.log(
-            "VERIFY PAYMENT RESPONSE URL:",
-            apiResponse.url
-        );
+        window.location.href = "/TEXLearn/success.html";
 
-        //--------------------------------------
-        // Read Response
-        //--------------------------------------
+    } catch (error) {
+        console.error("Payment verification error:", error);
 
-        const result =
-            await apiResponse.json();
-
-        console.log(
-            "Payment verification result:",
-            result
-        );
-
-
-
-        //--------------------------------------
-        // Successful Payment
-        //--------------------------------------
-
-      if (result.success) {
-
-    sessionStorage.setItem(
-        "paymentResult",
-        JSON.stringify(result)
-    );
-
-    window.location.href =
-        "/TEXLearn/success.html";
-
-    return;
-}
-
-
-        //--------------------------------------
-        // Verification Failed
-        //--------------------------------------
-
-        throw new Error(
-            result.message ||
-            "Payment verification failed."
-        );
-
-    }
-    catch (error) {
-
-        console.error(
-            "Payment verification error:",
-            error
-        );
-
-        restorePaymentButton(
-            paymentButton
-        );
+        restorePaymentButton(paymentButton);
 
         alert(
-            error.message ||
-            "Payment verification failed."
+            (error.message || "Payment verification failed.") +
+            " If money was deducted, please check your payment status before retrying."
         );
-
     }
-
-}
-
-
-
-/*************************************************
- Restore Payment Button
-*************************************************/
-
-function restorePaymentButton(
-    paymentButton
-) {
-
-    paymentButton.disabled = false;
-
-    paymentButton.style.opacity =
-        "1";
-
-    paymentButton.style.cursor =
-        "pointer";
-
-    paymentButton.innerHTML =
-        "Continue to Payment";
-
 }
