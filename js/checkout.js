@@ -206,6 +206,7 @@ window.onNativeRazorpaySuccess = function (response) {
 };
 
 
+
 window.onNativeRazorpayError = async function (message) {
     console.error("Native Razorpay checkout error:", message);
 
@@ -225,50 +226,69 @@ window.onNativeRazorpayError = async function (message) {
         console.error("Unable to read checkout session:", error);
     }
 
-    // Check the server's saved payment status before
-    // telling the customer that payment failed.
     if (session && session.customerID && session.token) {
-        try {
-            const response = await fetch(
-                CONFIG.API_URL + "/payment-recovery",
-                {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json"
-                    },
-                    body: JSON.stringify({
-                        customerID: session.customerID,
-                        token: session.token
-                    })
-                }
-            );
-
-            const result = await response.json();
-
-            console.log("Payment recovery result:", result);
-
-            if (
-                response.ok &&
-                result.success === true &&
-                result.paid === true &&
-                result.paymentID
-            ) {
-                // The server confirms payment is already recorded.
-                // Do not verify or process the payment a second time.
-                sessionStorage.setItem(
-                    "paymentResult",
-                    JSON.stringify({
-                        ...result,
-                        success: true,
-                        recovered: true
-                    })
+        // Allow time for the webhook to update the payment record.
+        for (let attempt = 1; attempt <= 5; attempt++) {
+            try {
+                const response = await fetch(
+                    CONFIG.API_URL + "/payment-recovery",
+                    {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json"
+                        },
+                        body: JSON.stringify({
+                            customerID: session.customerID,
+                            token: session.token
+                        })
+                    }
                 );
 
-                window.location.href = "/TEXLearn/success.html";
-                return;
+                const result = await response.json();
+
+                console.log(
+                    "Payment recovery attempt:",
+                    attempt,
+                    {
+                        httpStatus: response.status,
+                        success: result.success,
+                        paid: result.paid,
+                        paymentIDPresent: Boolean(result.paymentID)
+                    }
+                );
+
+                if (
+                    response.ok &&
+                    result.success === true &&
+                    result.paid === true &&
+                    result.paymentID
+                ) {
+                    sessionStorage.setItem(
+                        "paymentResult",
+                        JSON.stringify({
+                            ...result,
+                            success: true,
+                            recovered: true
+                        })
+                    );
+
+                    window.location.href =
+                        "/TEXLearn/success.html";
+                    return;
+                }
+            } catch (error) {
+                console.error(
+                    "Payment recovery attempt failed:",
+                    attempt,
+                    error
+                );
             }
-        } catch (error) {
-            console.error("Payment recovery check failed:", error);
+
+            if (attempt < 5) {
+                await new Promise(resolve =>
+                    setTimeout(resolve, 2000)
+                );
+            }
         }
     }
 
