@@ -438,6 +438,9 @@ function openRazorpayCheckout(session, paymentButton) {
 }
 
         recoveryStarted = true;
+        console.log(
+    "[UPI RETURN DEBUG] Recovery started after returning from UPI."
+);
 
         // Give Razorpay's own success callback time to resume.
         await new Promise(resolve => setTimeout(resolve, 2000));
@@ -477,6 +480,13 @@ if (!window.__texlearnBrowserVerificationStarted) {
     }
 
     function handleVisibilityChange() {
+        console.log("[UPI RETURN DEBUG] visibilitychange:", {
+    visibilityState: document.visibilityState,
+    pageWasHidden: pageWasHidden,
+    recoveryStarted: recoveryStarted,
+    verificationStarted:
+        window.__texlearnBrowserVerificationStarted
+});
         if (document.visibilityState === "hidden") {
             pageWasHidden = true;
             return;
@@ -488,6 +498,11 @@ if (!window.__texlearnBrowserVerificationStarted) {
     }
 
     function handlePageShow() {
+        console.log("[UPI RETURN DEBUG] pageshow:", {
+    visibilityState: document.visibilityState,
+    pageWasHidden: pageWasHidden,
+    recoveryStarted: recoveryStarted
+});
         if (pageWasHidden) {
             checkPaymentAfterReturn();
         }
