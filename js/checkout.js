@@ -305,12 +305,102 @@ window.onNativeRazorpayError = async function (message) {
 
 
 
+
 /*************************************************
- Existing Browser Checkout
+ Browser UPI Return — Payment Recovery
+*************************************************/
+
+async function recoverBrowserPayment(session) {
+    if (!session?.customerID || !session?.token) {
+        console.error("Browser recovery: checkout session incomplete.");
+        return false;
+    }
+
+    for (let attempt = 1; attempt <= 10; attempt++) {
+        // Normal Razorpay verification always takes priority.
+        if (window.__texlearnBrowserVerificationStarted) {
+            return false;
+        }
+
+        try {
+            const response = await fetch(
+                CONFIG.API_URL + "/payment-recovery",
+                {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({
+                        customerID: session.customerID,
+                        token: session.token
+                    })
+                }
+            );
+
+            const result = await response.json();
+
+            console.log("Browser payment recovery:", {
+                attempt: attempt,
+                httpStatus: response.status,
+                success: result.success,
+                paid: result.paid,
+                paymentIDPresent: Boolean(result.paymentID)
+            });
+
+            // Check again because the normal Razorpay handler
+            // might have started while the request was in flight.
+            if (window.__texlearnBrowserVerificationStarted) {
+                return false;
+            }
+
+            if (
+                response.ok &&
+                result.success === true &&
+                result.paid === true &&
+                result.paymentID
+            ) {
+                sessionStorage.setItem(
+                    "paymentResult",
+                    JSON.stringify({
+                        ...result,
+                        success: true,
+                        recovered: true
+                    })
+                );
+
+                window.location.href = "/TEXLearn/success.html";
+                return true;
+            }
+        } catch (error) {
+            console.error(
+                "Browser recovery attempt failed:",
+                attempt,
+                error
+            );
+        }
+
+        if (attempt < 10) {
+    await new Promise(resolve => setTimeout(resolve, 2000));
+}
+    }
+
+    console.log(
+        "Browser recovery ended without confirmed payment."
+    );
+
+    return false;
+}
+
+
+
+
+
+
+/*************************************************
+ Existing Browser Checkout — UPI Return Recovery
 *************************************************/
 
 function openRazorpayCheckout(session, paymentButton) {
-
     if (typeof Razorpay === "undefined") {
         console.error("Razorpay SDK not loaded.");
         alert("Payment system is not available. Please try again.");
@@ -321,6 +411,94 @@ function openRazorpayCheckout(session, paymentButton) {
         paymentButton,
         "Preparing Secure Payment..."
     );
+
+    window.__texlearnBrowserVerificationStarted = false;
+
+    let pageWasHidden = false;
+    let recoveryStarted = false;
+    let checkoutDismissed = false;
+
+    function cleanupListeners() {
+        document.removeEventListener(
+            "visibilitychange",
+            handleVisibilityChange
+        );
+
+        window.removeEventListener("pageshow", handlePageShow);
+    }
+
+    async function checkPaymentAfterReturn() {
+       if (
+    !pageWasHidden ||
+    document.visibilityState !== "visible" ||
+    recoveryStarted ||
+    window.__texlearnBrowserVerificationStarted
+) {
+    return;
+}
+
+        recoveryStarted = true;
+
+        // Give Razorpay's own success callback time to resume.
+        await new Promise(resolve => setTimeout(resolve, 2000));
+
+        if (window.__texlearnBrowserVerificationStarted) {
+            cleanupListeners();
+            return;
+        }
+
+        const recovered = await recoverBrowserPayment(session);
+
+        if (recovered) {
+            cleanupListeners();
+            return;
+        }
+
+       cleanupListeners();
+
+if (!window.__texlearnBrowserVerificationStarted) {
+    setPaymentButtonBusy(
+        paymentButton,
+        "Payment Status Unconfirmed"
+    );
+
+    alert(
+        "We couldn't confirm your payment yet.\n\n" +
+        "If you completed the payment or money was deducted, " +
+        "please check your access email or contact support " +
+        "before attempting another payment."
+    );
+
+    console.warn(
+        "Payment remains unconfirmed after browser return. " +
+        "The payment button remains disabled to prevent an immediate retry."
+    );
+}
+    }
+
+    function handleVisibilityChange() {
+        if (document.visibilityState === "hidden") {
+            pageWasHidden = true;
+            return;
+        }
+
+        if (document.visibilityState === "visible") {
+            checkPaymentAfterReturn();
+        }
+    }
+
+    function handlePageShow() {
+        if (pageWasHidden) {
+            checkPaymentAfterReturn();
+        }
+    }
+
+    document.addEventListener(
+        "visibilitychange",
+        handleVisibilityChange
+    );
+
+    window.addEventListener("pageshow", handlePageShow);
 
     const options = {
         key: session.razorpay.key,
@@ -353,12 +531,29 @@ function openRazorpayCheckout(session, paymentButton) {
         },
 
         handler: function (response) {
+            window.__texlearnBrowserVerificationStarted = true;
+            cleanupListeners();
+
             verifyPayment(response, session, paymentButton);
         },
 
         modal: {
             ondismiss: function () {
-                restorePaymentButton(paymentButton);
+                checkoutDismissed = true;
+
+                // Keep recovery listeners if the page switched away
+                // to a UPI app and has not yet resumed.
+                if (!pageWasHidden) {
+                    cleanupListeners();
+                }
+
+                if (
+    !pageWasHidden &&
+    !window.__texlearnBrowserVerificationStarted &&
+    !recoveryStarted
+) {
+    restorePaymentButton(paymentButton);
+}
             }
         }
     };
@@ -367,19 +562,38 @@ function openRazorpayCheckout(session, paymentButton) {
         const rzp = new Razorpay(options);
 
         rzp.on("payment.failed", function (response) {
-            console.error("Razorpay payment failed:", response);
+            console.error("Razorpay payment.failed event:", response);
+
+            // If Chrome switched to another app, let the return
+            // recovery check the server before declaring failure.
+            if (pageWasHidden) {
+                checkPaymentAfterReturn();
+                return;
+            }
+
+            cleanupListeners();
             restorePaymentButton(paymentButton);
-            alert("Payment failed. Please try again.");
+
+            alert(
+                "Razorpay reported a payment failure. " +
+                "If money was deducted, check your payment status " +
+                "before attempting another payment."
+            );
         });
 
         rzp.open();
 
     } catch (error) {
+        cleanupListeners();
+
         console.error("Unable to open Razorpay checkout:", error);
+
         restorePaymentButton(paymentButton);
+
         alert("Unable to open payment. Please try again.");
     }
 }
+
 
 
 /*************************************************
