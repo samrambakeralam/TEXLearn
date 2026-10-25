@@ -623,8 +623,9 @@ ticking = false;
 }
 
 
+
 /* =========================================================
-   OPPORTUNITIES & UPDATES HUB — V1
+   OPPORTUNITIES & UPDATES HUB — V2
 ========================================================= */
 
 const hubItems = [
@@ -640,13 +641,13 @@ const hubItems = [
             "Fresh learning resources are now available in the collection.",
 
         action:
-              "Unlock Now",
+            "Unlock Now",
 
         link:
             "#",
 
         actionType:
-            "registration",    
+            "registration",
 
         image:
             "assets/book1.png",
@@ -655,11 +656,38 @@ const hubItems = [
             "contain"
     },
 
+    {
+        type: "app",
+
+        label: "NOW AVAILABLE",
+
+        title: "TEXLEARN Is Now on Android!",
+
+        description:
+            "Take your learning journey anywhere. Explore 500+ books, practical skills, business insights, community updates, and new opportunities with the TEXLEARN Android app.",
+
+        action:
+            "Download APK",
+
+        link:
+            "https://github.com/texlearn/TEXLearn-Android/releases/latest/download/TEXLearn.apk",
+
+        actionType:
+            "download",
+
+        image:
+            "assets/texlearn-android-banner.webp",
+
+        imageFit:
+            "cover"
+    }
+
 ];
 
 
 let hubCurrentIndex = 0;
 let hubTimer = null;
+
 
 
 /* -----------------------------------------
