@@ -4,6 +4,70 @@
  GitHub + Android Native Checkout
 *************************************************/
 
+// Browser-only marker for an unresolved Razorpay checkout. It survives a
+// page reload/app switch, unlike window.__texlearnBrowserReturnState.
+const TEXLEARN_PENDING_BROWSER_PAYMENT_KEY = "texlearn_pending_browser_payment";
+
+function getPendingBrowserPayment() {
+    try {
+        const raw = sessionStorage.getItem(TEXLEARN_PENDING_BROWSER_PAYMENT_KEY);
+        return raw ? JSON.parse(raw) : null;
+    } catch (error) {
+        console.error("Unable to read pending browser payment marker:", error);
+        return null;
+    }
+}
+
+function savePendingBrowserPayment(session) {
+    try {
+        sessionStorage.setItem(TEXLEARN_PENDING_BROWSER_PAYMENT_KEY, JSON.stringify({
+            customerID: session.customerID,
+            token: session.token,
+            orderID: session.razorpay.orderID,
+            startedAt: new Date().toISOString()
+        }));
+    } catch (error) {
+        console.error("Unable to persist pending browser payment:", error);
+    }
+}
+
+function clearPendingBrowserPayment() {
+    try {
+        sessionStorage.removeItem(TEXLEARN_PENDING_BROWSER_PAYMENT_KEY);
+    } catch (error) {
+        console.error("Unable to clear pending browser payment marker:", error);
+    }
+}
+
+async function resumePendingBrowserRecovery(session, paymentButton) {
+    if (window.__texlearnPendingRecoveryInProgress) return;
+    if (!getPendingBrowserPayment()) return;
+
+    window.__texlearnPendingRecoveryInProgress = true;
+    if (paymentButton) setPaymentButtonBusy(paymentButton, "Checking Payment Status...");
+    console.warn("An unresolved browser payment was found; checking server status before allowing another payment.");
+
+    try {
+        const recovered = await recoverBrowserPayment(session);
+        if (recovered) return; // recoverBrowserPayment redirects on confirmed payment.
+
+        // Do not permit a second charge while the server cannot confirm the
+        // previous attempt. The same button becomes a safe status-check action.
+        if (paymentButton) {
+            paymentButton.disabled = false;
+            paymentButton.style.opacity = "1";
+            paymentButton.style.cursor = "pointer";
+            paymentButton.textContent = "Check Payment Status";
+        }
+        alert(
+            "Your previous payment status is still unconfirmed.\n\n" +
+            "We have not confirmed whether it succeeded. Please use Check Payment Status or contact support before making another payment."
+        );
+    } finally {
+        window.__texlearnPendingRecoveryInProgress = false;
+    }
+}
+
 document.addEventListener("DOMContentLoaded", function () {
 
     console.log("CHECKOUT.JS LOADED");
@@ -80,15 +144,32 @@ document.addEventListener("DOMContentLoaded", function () {
         customerID.textContent = session.customerID;
     }
 
+    // If this page was recreated during a UPI handoff, resume status recovery
+    // from the persisted marker instead of relying on lost in-memory state.
+    const pendingBrowserPayment = getPendingBrowserPayment();
+    if (pendingBrowserPayment && !(window.TEXLearnNative && typeof window.TEXLearnNative.openCheckout === "function")) {
+        setTimeout(function () {
+            resumePendingBrowserRecovery(session, paymentButton);
+        }, 0);
+    }
+
     paymentButton.addEventListener("click", function () {
         if (
             window.TEXLearnNative &&
             typeof window.TEXLearnNative.openCheckout === "function"
         ) {
             openNativeRazorpayCheckout(session, paymentButton);
-        } else {
-            openRazorpayCheckout(session, paymentButton);
+            return;
         }
+
+        // An unresolved attempt must be checked with the server first; never
+        // open Razorpay again merely because the user returned to this page.
+        if (getPendingBrowserPayment()) {
+            resumePendingBrowserRecovery(session, paymentButton);
+            return;
+        }
+
+        openRazorpayCheckout(session, paymentButton);
     });
 
 });
@@ -374,6 +455,7 @@ logBrowserPaymentEvent("RECOVERY_FUNCTION_ENTERED", {
                 result.paid === true &&
                 result.paymentID
             ) {
+                clearPendingBrowserPayment();
                 sessionStorage.setItem(
                     "paymentResult",
                     JSON.stringify({
@@ -651,6 +733,9 @@ function openRazorpayCheckout(session, paymentButton) {
                 "before attempting another payment."
             );
         });
+        // Persist the pending attempt before opening the modal. This marker
+        // survives page recreation while the in-memory monitor does not.
+        savePendingBrowserPayment(session);
         rzp.open();
     } catch (error) {
         console.error("Unable to open Razorpay checkout:", error);
@@ -708,6 +793,7 @@ async function verifyPayment(response, session, paymentButton) {
             "paymentResult",
             JSON.stringify(result)
         );
+        clearPendingBrowserPayment();
 
         window.location.href = "/TEXLearn/success.html";
 
