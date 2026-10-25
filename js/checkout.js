@@ -239,10 +239,8 @@ function openNativeRazorpayCheckout(session, paymentButton) {
         );
     } catch (error) {
         console.error("Native checkout launch failed:", error);
-        // This catch is reached when Razorpay construction/opening throws
-        // synchronously. No usable checkout was opened, so remove the marker
-        // created immediately before rzp.open().
-        clearPendingBrowserPayment();
+        // Native checkout does not create a browser pending-payment marker.
+        // Leave browser recovery state untouched.
         restorePaymentButton(paymentButton);
         alert("Unable to open payment. Please try again.");
     }
