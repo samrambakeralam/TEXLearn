@@ -667,7 +667,7 @@ const hubItems = [
             "Take your learning journey anywhere.",
 
         action:
-            "Download APK",
+            "Download Now",
 
         link:
             "https://github.com/texlearn/TEXLearn-Android/releases/latest/download/TEXLearn.apk",
