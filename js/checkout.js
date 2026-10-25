@@ -311,6 +311,12 @@ window.onNativeRazorpayError = async function (message) {
 *************************************************/
 
 async function recoverBrowserPayment(session) {
+
+logBrowserPaymentEvent("RECOVERY_FUNCTION_ENTERED", {
+    hasCustomerID: Boolean(session?.customerID),
+    hasToken: Boolean(session?.token)
+});
+
     if (!session?.customerID || !session?.token) {
         console.error("Browser recovery: checkout session incomplete.");
         return false;
@@ -338,6 +344,15 @@ async function recoverBrowserPayment(session) {
             );
 
             const result = await response.json();
+
+
+            logBrowserPaymentEvent("RECOVERY_RESPONSE", {
+    attempt: attempt,
+    httpStatus: response.status,
+    success: result.success,
+    paid: result.paid,
+    hasPaymentID: Boolean(result.paymentID)
+});
 
             console.log("Browser payment recovery:", {
                 attempt: attempt,
@@ -368,6 +383,8 @@ async function recoverBrowserPayment(session) {
                     })
                 );
 
+                logBrowserPaymentEvent("RECOVERY_REDIRECT_TO_SUCCESS");
+
                 window.location.href = "/TEXLearn/success.html";
                 return true;
             }
@@ -392,7 +409,37 @@ async function recoverBrowserPayment(session) {
 }
 
 
+function logBrowserPaymentEvent(event, details = {}) {
+    const key = "texlearn_upi_return_diagnostics";
+    let records = [];
 
+    try {
+        records = JSON.parse(
+            sessionStorage.getItem(key) || "[]"
+        );
+    } catch (error) {
+        records = [];
+    }
+
+    records.push({
+        event,
+        time: new Date().toISOString(),
+        visibility: document.visibilityState,
+        url: location.href,
+        details
+    });
+
+    // Keep the latest 100 records.
+    records = records.slice(-100);
+
+    try {
+        sessionStorage.setItem(key, JSON.stringify(records));
+    } catch (error) {
+        console.error("Unable to save payment diagnostics:", error);
+    }
+
+    console.log("[TEXLearn UPI Diagnostic]", event, details);
+}
 
 
 
@@ -407,113 +454,125 @@ function openRazorpayCheckout(session, paymentButton) {
         return;
     }
 
-    setPaymentButtonBusy(
-        paymentButton,
-        "Preparing Secure Payment..."
-    );
+    setPaymentButtonBusy(paymentButton, "Preparing Secure Payment...");
 
-    window.__texlearnBrowserVerificationStarted = false;
-
-    let pageWasHidden = false;
-    let recoveryStarted = false;
-    let checkoutDismissed = false;
-
-    function cleanupListeners() {
-        document.removeEventListener(
-            "visibilitychange",
-            handleVisibilityChange
-        );
-
-        window.removeEventListener("pageshow", handlePageShow);
+    // Keep one shared monitor for the lifetime of this checkout page.
+    // A later checkout attempt updates this state instead of replacing
+    // the browser lifecycle listeners from the previous attempt.
+    let state = window.__texlearnBrowserReturnState;
+    if (!state) {
+        state = {
+            session: null,
+            paymentButton: null,
+            pageWasHidden: false,
+            recoveryStarted: false,
+            verificationStarted: false,
+            listenersInstalled: false
+        };
+        window.__texlearnBrowserReturnState = state;
     }
 
-    async function checkPaymentAfterReturn() {
-       if (
-    !pageWasHidden ||
-    document.visibilityState !== "visible" ||
-    recoveryStarted ||
-    window.__texlearnBrowserVerificationStarted
-) {
-    return;
-}
+    // A new user-initiated checkout starts a fresh attempt. Clear stale
+    // lifecycle flags left by a previous dismissed/unconfirmed attempt.
+    // The button is disabled while recovery is actively running, so this
+    // reset is reached only when another checkout can be started.
+    state.session = session;
+    state.paymentButton = paymentButton;
+    state.pageWasHidden = false;
+    state.recoveryStarted = false;
+    state.verificationStarted = false;
+    window.__texlearnBrowserVerificationStarted = false;
+    logBrowserPaymentEvent("NEW_CHECKOUT_ATTEMPT_STATE_RESET");
 
-        recoveryStarted = true;
-        console.log(
-    "[UPI RETURN DEBUG] Recovery started after returning from UPI."
-);
+    async function checkPaymentAfterReturn(source) {
+        logBrowserPaymentEvent("RETURN_CHECK_CALLED", {
+            source: source,
+            pageWasHidden: state.pageWasHidden,
+            recoveryStarted: state.recoveryStarted,
+            verificationStarted: state.verificationStarted ||
+                window.__texlearnBrowserVerificationStarted
+        });
 
-        // Give Razorpay's own success callback time to resume.
+        if (
+            !state.pageWasHidden ||
+            document.visibilityState !== "visible" ||
+            state.recoveryStarted ||
+            state.verificationStarted ||
+            window.__texlearnBrowserVerificationStarted
+        ) {
+            return;
+        }
+
+        // Consume this hidden→visible transition before awaiting anything,
+        // so visibilitychange and pageshow cannot start parallel recoveries.
+        state.pageWasHidden = false;
+        state.recoveryStarted = true;
+        setPaymentButtonBusy(state.paymentButton, "Verifying Payment...");
+        logBrowserPaymentEvent("RETURN_VERIFICATION_UI_SHOWN", {
+            source: source,
+            visibilityState: document.visibilityState
+        });
+
+        console.log("[UPI RETURN DEBUG] Recovery started after returning from UPI.");
+
+        // Give Razorpay's own success callback a brief chance to resume.
         await new Promise(resolve => setTimeout(resolve, 2000));
 
-        if (window.__texlearnBrowserVerificationStarted) {
-            cleanupListeners();
+        if (state.verificationStarted || window.__texlearnBrowserVerificationStarted) {
+            state.recoveryStarted = false;
             return;
         }
 
-        const recovered = await recoverBrowserPayment(session);
+        const recovered = await recoverBrowserPayment(state.session);
+        if (recovered) return;
 
-        if (recovered) {
-            cleanupListeners();
-            return;
+        state.recoveryStarted = false;
+
+        if (!state.verificationStarted && !window.__texlearnBrowserVerificationStarted) {
+            restorePaymentButton(state.paymentButton);
+            logBrowserPaymentEvent("RECOVERY_UNCONFIRMED_BUTTON_RESTORED", {
+                source: source
+            });
+            alert(
+                "We couldn't confirm your payment yet.\n\n" +
+                "If you completed the payment or money was deducted, " +
+                "please check your access email or contact support " +
+                "before attempting another payment."
+            );
         }
-
-       cleanupListeners();
-
-if (!window.__texlearnBrowserVerificationStarted) {
-    setPaymentButtonBusy(
-        paymentButton,
-        "Payment Status Unconfirmed"
-    );
-
-    alert(
-        "We couldn't confirm your payment yet.\n\n" +
-        "If you completed the payment or money was deducted, " +
-        "please check your access email or contact support " +
-        "before attempting another payment."
-    );
-
-    console.warn(
-        "Payment remains unconfirmed after browser return. " +
-        "The payment button remains disabled to prevent an immediate retry."
-    );
-}
     }
 
     function handleVisibilityChange() {
-        console.log("[UPI RETURN DEBUG] visibilitychange:", {
-    visibilityState: document.visibilityState,
-    pageWasHidden: pageWasHidden,
-    recoveryStarted: recoveryStarted,
-    verificationStarted:
-        window.__texlearnBrowserVerificationStarted
-});
+        logBrowserPaymentEvent("VISIBILITY_CHANGE", {
+            visibilityState: document.visibilityState,
+            pageWasHidden: state.pageWasHidden,
+            recoveryStarted: state.recoveryStarted
+        });
+
         if (document.visibilityState === "hidden") {
-            pageWasHidden = true;
+            state.pageWasHidden = true;
             return;
         }
-
         if (document.visibilityState === "visible") {
-            checkPaymentAfterReturn();
+            checkPaymentAfterReturn("visibilitychange");
         }
     }
 
     function handlePageShow() {
-        console.log("[UPI RETURN DEBUG] pageshow:", {
-    visibilityState: document.visibilityState,
-    pageWasHidden: pageWasHidden,
-    recoveryStarted: recoveryStarted
-});
-        if (pageWasHidden) {
-            checkPaymentAfterReturn();
-        }
+        logBrowserPaymentEvent("PAGESHOW", {
+            visibilityState: document.visibilityState,
+            pageWasHidden: state.pageWasHidden,
+            recoveryStarted: state.recoveryStarted
+        });
+        if (state.pageWasHidden) checkPaymentAfterReturn("pageshow");
     }
 
-    document.addEventListener(
-        "visibilitychange",
-        handleVisibilityChange
-    );
-
-    window.addEventListener("pageshow", handlePageShow);
+    if (!state.listenersInstalled) {
+        document.addEventListener("visibilitychange", handleVisibilityChange);
+        window.addEventListener("pageshow", handlePageShow);
+        state.listenersInstalled = true;
+        logBrowserPaymentEvent("PERSISTENT_RETURN_LISTENERS_INSTALLED");
+    }
 
     const options = {
         key: session.razorpay.key,
@@ -530,85 +589,78 @@ if (!window.__texlearnBrowserVerificationStarted) {
 
         notes: {
             customerID: session.customerID,
-            institution:
-                session.institutionName ||
-                session.institution ||
-                ""
+            institution: session.institutionName || session.institution || ""
         },
 
-        theme: {
-            color: "#0A8754"
-        },
+        theme: { color: "#0A8754" },
 
-        readonly: {
-            email: true,
-            name: true
-        },
+        readonly: { email: true, name: true },
 
         handler: function (response) {
+            logBrowserPaymentEvent("RAZORPAY_SUCCESS_HANDLER", {
+                hasPaymentID: Boolean(response?.razorpay_payment_id),
+                hasOrderID: Boolean(response?.razorpay_order_id),
+                hasSignature: Boolean(response?.razorpay_signature)
+            });
+            state.verificationStarted = true;
             window.__texlearnBrowserVerificationStarted = true;
-            cleanupListeners();
-
+            logBrowserPaymentEvent("VERIFY_PAYMENT_STARTED");
             verifyPayment(response, session, paymentButton);
         },
 
         modal: {
             ondismiss: function () {
-                checkoutDismissed = true;
+                logBrowserPaymentEvent("RAZORPAY_MODAL_DISMISSED", {
+                    pageWasHidden: state.pageWasHidden,
+                    recoveryStarted: state.recoveryStarted,
+                    verificationStarted: state.verificationStarted,
+                    visibilityState: document.visibilityState
+                });
 
-                // Keep recovery listeners if the page switched away
-                // to a UPI app and has not yet resumed.
-                if (!pageWasHidden) {
-                    cleanupListeners();
+                // Intentionally keep the single shared lifecycle listeners.
+                // Chrome may deliver the app-switch visibility event late.
+                if (!state.verificationStarted && !state.recoveryStarted) {
+                    restorePaymentButton(paymentButton);
+                    logBrowserPaymentEvent("DISMISS_BUTTON_RESTORED_LISTENERS_KEPT", {
+                        visibilityState: document.visibilityState,
+                        pageWasHidden: state.pageWasHidden
+                    });
                 }
-
-                if (
-    !pageWasHidden &&
-    !window.__texlearnBrowserVerificationStarted &&
-    !recoveryStarted
-) {
-    restorePaymentButton(paymentButton);
-}
             }
         }
     };
 
     try {
         const rzp = new Razorpay(options);
-
         rzp.on("payment.failed", function (response) {
             console.error("Razorpay payment.failed event:", response);
+            logBrowserPaymentEvent("RAZORPAY_PAYMENT_FAILED", {
+                pageWasHidden: state.pageWasHidden,
+                visibilityState: document.visibilityState
+            });
 
-            // If Chrome switched to another app, let the return
-            // recovery check the server before declaring failure.
-            if (pageWasHidden) {
-                checkPaymentAfterReturn();
+            if (state.pageWasHidden) {
+                checkPaymentAfterReturn("payment.failed");
                 return;
             }
 
-            cleanupListeners();
             restorePaymentButton(paymentButton);
-
             alert(
                 "Razorpay reported a payment failure. " +
                 "If money was deducted, check your payment status " +
                 "before attempting another payment."
             );
         });
-
         rzp.open();
-
     } catch (error) {
-        cleanupListeners();
-
         console.error("Unable to open Razorpay checkout:", error);
-
+        logBrowserPaymentEvent("RAZORPAY_OPEN_ERROR", {
+            message: String(error?.message || error)
+        });
         restorePaymentButton(paymentButton);
-
         alert("Unable to open payment. Please try again.");
     }
 }
-
 
 
 /*************************************************
