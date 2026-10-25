@@ -186,11 +186,12 @@ function setPaymentButtonBusy(button, text) {
     button.textContent = text;
 }
 
-function restorePaymentButton(button) {
+function restorePaymentButton(button, label = "Continue to Payment") {
+    if (!button) return;
     button.disabled = false;
     button.style.opacity = "1";
     button.style.cursor = "pointer";
-    button.textContent = "Continue to Payment";
+    button.textContent = label;
 }
 
 
@@ -238,6 +239,10 @@ function openNativeRazorpayCheckout(session, paymentButton) {
         );
     } catch (error) {
         console.error("Native checkout launch failed:", error);
+        // This catch is reached when Razorpay construction/opening throws
+        // synchronously. No usable checkout was opened, so remove the marker
+        // created immediately before rzp.open().
+        clearPendingBrowserPayment();
         restorePaymentButton(paymentButton);
         alert("Unable to open payment. Please try again.");
     }
@@ -611,7 +616,10 @@ function openRazorpayCheckout(session, paymentButton) {
         state.recoveryStarted = false;
 
         if (!state.verificationStarted && !window.__texlearnBrowserVerificationStarted) {
-            restorePaymentButton(state.paymentButton);
+            restorePaymentButton(
+                state.paymentButton,
+                getPendingBrowserPayment() ? "Check Payment Status" : "Continue to Payment"
+            );
             logBrowserPaymentEvent("RECOVERY_UNCONFIRMED_BUTTON_RESTORED", {
                 source: source
             });
@@ -702,7 +710,13 @@ function openRazorpayCheckout(session, paymentButton) {
                 // Intentionally keep the single shared lifecycle listeners.
                 // Chrome may deliver the app-switch visibility event late.
                 if (!state.verificationStarted && !state.recoveryStarted) {
-                    restorePaymentButton(paymentButton);
+                    // A dismissal does not prove the payment failed: the UPI
+                    // app may have completed payment before Razorpay dismissed.
+                    // Keep the pending marker and label the next action clearly.
+                    restorePaymentButton(
+                        paymentButton,
+                        getPendingBrowserPayment() ? "Check Payment Status" : "Continue to Payment"
+                    );
                     logBrowserPaymentEvent("DISMISS_BUTTON_RESTORED_LISTENERS_KEPT", {
                         visibilityState: document.visibilityState,
                         pageWasHidden: state.pageWasHidden
@@ -726,7 +740,10 @@ function openRazorpayCheckout(session, paymentButton) {
                 return;
             }
 
-            restorePaymentButton(paymentButton);
+            restorePaymentButton(
+                paymentButton,
+                getPendingBrowserPayment() ? "Check Payment Status" : "Continue to Payment"
+            );
             alert(
                 "Razorpay reported a payment failure. " +
                 "If money was deducted, check your payment status " +
@@ -742,6 +759,10 @@ function openRazorpayCheckout(session, paymentButton) {
         logBrowserPaymentEvent("RAZORPAY_OPEN_ERROR", {
             message: String(error?.message || error)
         });
+        // This catch is reached when Razorpay construction/opening throws
+        // synchronously. No usable checkout was opened, so remove the marker
+        // created immediately before rzp.open().
+        clearPendingBrowserPayment();
         restorePaymentButton(paymentButton);
         alert("Unable to open payment. Please try again.");
     }
@@ -800,7 +821,10 @@ async function verifyPayment(response, session, paymentButton) {
     } catch (error) {
         console.error("Payment verification error:", error);
 
-        restorePaymentButton(paymentButton);
+        restorePaymentButton(
+            paymentButton,
+            getPendingBrowserPayment() ? "Check Payment Status" : "Continue to Payment"
+        );
 
         alert(
             (error.message || "Payment verification failed.") +
