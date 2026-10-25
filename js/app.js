@@ -661,10 +661,10 @@ const hubItems = [
 
         label: "NOW AVAILABLE",
 
-        title: "TEXLEARN Is Now on Android!",
+        title: "TEXLearn Is Now on Android!",
 
         description:
-            "Take your learning journey anywhere. Explore 500+ books, practical skills, business insights, community updates, and new opportunities with the TEXLEARN Android app.",
+            "Take your learning journey anywhere.",
 
         action:
             "Download APK",
