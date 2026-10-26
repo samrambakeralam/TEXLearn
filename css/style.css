@@ -6658,21 +6658,34 @@ transform:translateY(0px);
 
         gap:
             8px;
+
+        align-items: stretch;    
     }
 
 
    .topic-card {
 
-    min-height:
-        clamp(100px, 28vw, 114px);
+    box-sizing: border-box;
 
-    padding:
-        clamp(12px, 3.5vw, 16px)
-        clamp(5px, 1.8vw, 6px);
+    min-height: 0;
+
+   padding: clamp(8px, 2.5vw, 10px) clamp(3px, 1vw, 4px);
 
     border-radius:
         14px;
+
+     justify-content: center;    
 }
+
+
+.topic-card img {
+
+        width: 46px;
+        height: 46px;
+        object-fit: contain;
+        margin: 0 auto 5px;
+        flex-shrink: 0;
+    }
 
 
    .topic-card svg {
@@ -6695,12 +6708,15 @@ transform:translateY(0px);
         sans-serif;
 
     font-size:
-        clamp(10px, 2.7vw, 11px);
+        clamp(8px, 2.7vw, 9px);
 
     font-weight:400;
 
     line-height:
         1.2;
+
+    margin: 0;
+        min-height: 0;    
 }
 
 
