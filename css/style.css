@@ -13296,6 +13296,16 @@ body.about-page-exit {
 }
 
 
+
+/* Ensure inactive hero views stay hidden */
+#rc2UnboxingStage[hidden],
+#tkHeroQuiz[hidden],
+#tkHeroFounders[hidden] {
+    display: none !important;
+}
+
+
+
 /* Tablet */
 @media (min-width: 768px) and (max-width: 900px) {
     .rc2-hero-product > #rc2UnboxingStage,
