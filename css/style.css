@@ -4311,6 +4311,9 @@ transform:translateY(0px);
     height:
         100%;
 
+    object-fit:
+        contain;    
+
     object-position:
         center;
 
@@ -13192,21 +13195,24 @@ body.about-page-exit {
 /* TEXLEARN — Hero book/quiz crossfade */
 
 #rc2UnboxingStage,
-#tkHeroQuiz {
+#tkHeroQuiz,
+#tkHeroFounders {
     transition: opacity 1.5s cubic-bezier(0.4, 0, 0.2, 1);
     will-change: opacity;
 }
 
 
 #rc2UnboxingStage.tk-hero-fading,
-#tkHeroQuiz.tk-hero-fading {
+#tkHeroQuiz.tk-hero-fading,
+#tkHeroFounders.tk-hero-fading {
     opacity: 0;
     pointer-events: none;
 }
 
 @media (prefers-reduced-motion: reduce) {
     #rc2UnboxingStage,
-    #tkHeroQuiz {
+    #tkHeroQuiz,
+    #tkHeroFounders {
         transition-duration: 0.01ms;
     }
 }
@@ -13223,7 +13229,8 @@ body.about-page-exit {
 }
 
 .rc2-hero-product > #rc2UnboxingStage,
-.rc2-hero-product > #tkHeroQuiz {
+.rc2-hero-product > #tkHeroQuiz,
+.rc2-hero-product > #tkHeroFounders {
     position: absolute;
     top: 50%;
     left: 50%;
@@ -13249,7 +13256,8 @@ body.about-page-exit {
 /* Tablet */
 @media (min-width: 768px) and (max-width: 900px) {
     .rc2-hero-product > #rc2UnboxingStage,
-    .rc2-hero-product > #tkHeroQuiz {
+    .rc2-hero-product > #tkHeroQuiz,
+    .rc2-hero-product > #tkHeroFounders {    
         min-height: 480px;
         height: 480px;
     }
@@ -13264,15 +13272,18 @@ body.about-page-exit {
         align-self: start;
     }
 
-    .rc2-hero-product > #rc2UnboxingStage,
-    .rc2-hero-product > #tkHeroQuiz {
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        min-height: 0;
-        transform: none;
-    }
+   
+.rc2-hero-product > #rc2UnboxingStage,
+.rc2-hero-product > #tkHeroQuiz,
+.rc2-hero-product > #tkHeroFounders {
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    min-height: 0;
+    transform: none;
+}
+
 
     .rc2-hero-product > #rc2UnboxingStage {
         aspect-ratio: 16 / 9;

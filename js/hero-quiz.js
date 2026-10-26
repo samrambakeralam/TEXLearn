@@ -18,13 +18,15 @@
     const quizStatus = document.getElementById("tkHeroQuizStatus");
     const quizContent = document.getElementById("tkHeroQuizContent");
     const bookStage = document.getElementById("rc2UnboxingStage");
+    const foundersPoster = document.getElementById("tkHeroFounders");
 
-    if (
-        !quizBox || !introFrame || !voteFrame ||
-        !startButton || !quizStatus || !quizContent || !bookStage
-    ) {
-        return;
-    }
+   if (
+    !quizBox || !introFrame || !voteFrame ||
+    !startButton || !quizStatus || !quizContent ||
+    !bookStage || !foundersPoster
+) {
+    return;
+}
 
     
 let activeQuiz = null;
@@ -45,13 +47,22 @@ let currentHeroView = "book";
 let isTransitioning = false;
 
 
+
 function fadeToView(nextView) {
     if (isTransitioning || currentHeroView === nextView) return;
 
-    isTransitioning = true;
+    const views = {
+        book: bookStage,
+        founders: foundersPoster,
+        quiz: quizBox
+    };
 
-    const outgoing = nextView === "quiz" ? bookStage : quizBox;
-    const incoming = nextView === "quiz" ? quizBox : bookStage;
+    const outgoing = views[currentHeroView];
+    const incoming = views[nextView];
+
+    if (!outgoing || !incoming) return;
+
+    isTransitioning = true;
 
     incoming.hidden = false;
     incoming.classList.add("tk-hero-fading");
@@ -75,27 +86,46 @@ function fadeToView(nextView) {
 
 
 
-  
 
 function showBook() {
     clearTimeout(transitionTimer);
     clearTimeout(rotationTimer);
 
-    if (currentHeroView === "book" && !isTransitioning) {
-        quizBox.hidden = true;
-        bookStage.hidden = false;
-    } else {
+    if (currentHeroView !== "book") {
         fadeToView("book");
+    } else {
+        bookStage.hidden = false;
+        quizBox.hidden = true;
+        foundersPoster.hidden = true;
     }
 
     rotationPaused = false;
 
+    // Show the poster after the book.
+    rotationTimer = setTimeout(
+        showFoundersPoster,
+        BOOK_DURATION
+    );
+}
+
+function showFoundersPoster() {
+    clearTimeout(transitionTimer);
+    clearTimeout(rotationTimer);
+
+    rotationPaused = false;
+
+    if (currentHeroView !== "founders") {
+        fadeToView("founders");
+    }
+
+    // Show the quiz after the poster, but only when
+    // the backend has returned an active quiz.
     if (activeQuiz) {
-    rotationTimer = setTimeout(showIntro, BOOK_DURATION);
+        rotationTimer = setTimeout(showIntro, BOOK_DURATION);
+    } else {
+        rotationTimer = setTimeout(showBook, BOOK_DURATION);
+    }
 }
-}
-
-
 
 
 
@@ -652,8 +682,8 @@ quizBox.hidden = true;
 currentHeroView = "book";
 rotationPaused = false;
 
-// Show the book for 30 seconds before the first crossfade.
-rotationTimer = setTimeout(showIntro, 30000);
+// Show the book for 30 seconds before the poster appears.
+rotationTimer = setTimeout(showFoundersPoster, FIRST_BOOK_DURATION);
 
 
         } catch (error) {
