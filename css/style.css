@@ -4966,7 +4966,7 @@ transform:translateY(0px);
         100%;
 
     object-fit:
-        contain;
+        cover;
 
     object-position:
         center;
