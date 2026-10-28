@@ -1000,7 +1000,7 @@ margin:
 
     .reader-cover {
 
-        width:clamp(115px, 23vw, 130px);
+        width:clamp(100px, 23vw, 115px);
              
         max-width:
             100%;
