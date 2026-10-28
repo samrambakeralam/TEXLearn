@@ -3686,7 +3686,7 @@ function ensureNotesHighlightsPanel() {
                 class="reader-notes-panel-close"
                 aria-label="Close Notes & Highlights"
             >
-                Ã—
+                ×
             </button>
 
         </div>
@@ -3812,6 +3812,293 @@ function ensureNotesHighlightsPanel() {
 
 
     document.body.appendChild(panel);
+
+
+    /*
+     * TEXLearn Notes & Highlights — visual refresh.
+     * Scoped to this panel so the reader page remains unchanged.
+     */
+    if (!document.getElementById("readerNotesHighlightsStyles")) {
+        const notesStyles = document.createElement("style");
+        notesStyles.id = "readerNotesHighlightsStyles";
+        notesStyles.textContent = `
+            #readerNotesHighlightsPanel {
+                color: #17212b;
+                background: #ffffff;
+                border-left: 1px solid rgba(15, 35, 55, .08);
+                box-shadow: -14px 0 42px rgba(15, 35, 55, .16);
+                overscroll-behavior: contain;
+            }
+
+            #readerNotesHighlightsPanel .reader-notes-panel-header {
+                position: sticky;
+                top: 0;
+                z-index: 2;
+                min-height: 82px;
+                padding: 20px 18px 16px;
+                background: rgba(255, 255, 255, .97);
+                border-bottom: 1px solid #e8edf1;
+            }
+
+            #readerNotesHighlightsPanel .reader-notes-panel-title {
+                font-size: 18px !important;
+                line-height: 1.25;
+                letter-spacing: -.025em;
+                color: #142536 !important;
+            }
+
+            #readerNotesHighlightsPanel .reader-notes-panel-subtitle {
+                margin-top: 5px !important;
+                font-size: 12px !important;
+                line-height: 1.45;
+                color: #71808d !important;
+            }
+
+            #readerNotesHighlightsPanel .reader-notes-panel-close {
+                flex: 0 0 38px;
+                width: 38px !important;
+                height: 38px !important;
+                display: inline-flex;
+                align-items: center;
+                justify-content: center;
+                border: 1px solid #e6ebef !important;
+                border-radius: 12px !important;
+                background: #f7f9fa !important;
+                color: #34495a !important;
+                font-size: 25px !important;
+                transition: background .18s ease, transform .18s ease;
+            }
+
+            #readerNotesHighlightsPanel .reader-notes-panel-close:hover {
+                background: #edf2f5 !important;
+                transform: translateY(-1px);
+            }
+
+            #readerNotesHighlightsPanel .reader-notes-panel-content {
+                padding: 20px 18px 28px !important;
+                scrollbar-width: thin;
+                scrollbar-color: #cbd5dc transparent;
+            }
+
+            #readerNotesHighlightsPanel .reader-notes-section {
+                margin: 0 0 28px !important;
+            }
+
+            #readerNotesHighlightsPanel .reader-notes-section-title {
+                display: flex;
+                align-items: center;
+                gap: 8px;
+                margin: 0 0 13px !important;
+                color: #435361 !important;
+                font-size: 12px !important;
+                font-weight: 800 !important;
+                letter-spacing: .11em !important;
+            }
+
+            #readerNotesHighlightsPanel .reader-notes-section-title::before {
+                content: "";
+                display: inline-block;
+                width: 4px;
+                height: 16px;
+                border-radius: 99px;
+                background: #16866a;
+            }
+
+            #readerNotesHighlightsPanel .reader-add-note-button,
+            #readerNotesHighlightsPanel .reader-clear-highlights-button {
+                min-height: 38px;
+                display: inline-flex;
+                align-items: center;
+                justify-content: center;
+                gap: 7px;
+                padding: 9px 13px;
+                border-radius: 10px;
+                font: 600 13px/1.2 Inter, Poppins, Arial, sans-serif;
+                cursor: pointer;
+                transition: background .18s ease, border-color .18s ease, transform .18s ease;
+            }
+
+            #readerNotesHighlightsPanel .reader-add-note-button {
+                margin: 0 0 10px;
+                color: #ffffff;
+                background: #16866a;
+                border: 1px solid #16866a;
+                box-shadow: 0 3px 8px rgba(22, 134, 106, .16);
+            }
+
+            #readerNotesHighlightsPanel .reader-add-note-button:hover {
+                background: #116e57;
+                border-color: #116e57;
+                transform: translateY(-1px);
+            }
+
+            #readerNotesHighlightsPanel .reader-clear-highlights-button {
+                margin: 0 0 10px;
+                color: #8c4b18;
+                background: #fff8ef;
+                border: 1px solid #f0dcc5;
+            }
+
+            #readerNotesHighlightsPanel .reader-clear-highlights-button:hover {
+                background: #ffefdc;
+                border-color: #e8c7a4;
+            }
+
+            #readerNotesHighlightsPanel .reader-note-editor {
+                margin: 4px 0 14px;
+                padding: 12px;
+                border: 1px solid #dce8e3;
+                border-radius: 14px;
+                background: #f8fcfa;
+            }
+
+            #readerNotesHighlightsPanel [data-note-input] {
+                box-sizing: border-box;
+                width: 100%;
+                min-height: 108px;
+                resize: vertical;
+                padding: 12px;
+                border: 1px solid #d5e0dc;
+                border-radius: 10px;
+                outline: none;
+                background: #ffffff;
+                color: #24323d;
+                font: 14px/1.55 Inter, Poppins, Arial, sans-serif;
+            }
+
+            #readerNotesHighlightsPanel [data-note-input]:focus {
+                border-color: #16866a;
+                box-shadow: 0 0 0 3px rgba(22, 134, 106, .12);
+            }
+
+            #readerNotesHighlightsPanel .reader-note-editor-actions {
+                display: flex;
+                flex-wrap: wrap;
+                gap: 8px;
+                margin-top: 10px;
+            }
+
+            #readerNotesHighlightsPanel .reader-note-editor-actions button {
+                min-height: 36px;
+                padding: 8px 12px;
+                border: 1px solid #dce5e1;
+                border-radius: 9px;
+                background: #ffffff;
+                color: #354650;
+                font: 600 12px/1.2 Inter, Poppins, Arial, sans-serif;
+                cursor: pointer;
+            }
+
+            #readerNotesHighlightsPanel .reader-note-editor-actions [data-save-note] {
+                color: #ffffff;
+                background: #16866a;
+                border-color: #16866a;
+            }
+
+            #readerNotesHighlightsPanel [data-notes-list] > div,
+            #readerNotesHighlightsPanel [data-highlights-list] > div {
+                box-sizing: border-box;
+                margin: 0 0 10px !important;
+                padding: 14px !important;
+                border: 1px solid #e5ebef !important;
+                border-radius: 13px !important;
+                background: #f8fafb !important;
+                box-shadow: 0 2px 7px rgba(20, 40, 55, .035);
+                overflow-wrap: anywhere;
+            }
+
+            #readerNotesHighlightsPanel [data-notes-list] > div:has(> div),
+            #readerNotesHighlightsPanel [data-highlights-list] > div:has(> div) {
+                background: #ffffff !important;
+            }
+
+            #readerNotesHighlightsPanel [data-highlights-list] > div:has(> div) {
+                border-left: 3px solid #e9bd4b !important;
+            }
+
+            #readerNotesHighlightsPanel [data-notes-list] > div > div:first-child,
+            #readerNotesHighlightsPanel [data-highlights-list] > div > div:first-child {
+                color: #253746 !important;
+                font-size: 13px !important;
+                line-height: 1.6 !important;
+            }
+
+            #readerNotesHighlightsPanel [data-notes-list] > div > div:nth-child(2) {
+                color: #52616c !important;
+                font-size: 13px !important;
+                line-height: 1.65 !important;
+            }
+
+            #readerNotesHighlightsPanel [data-notes-list] > div > div:last-child,
+            #readerNotesHighlightsPanel [data-highlights-list] > div > div:last-child {
+                display: inline-flex;
+                margin-top: 10px !important;
+                padding: 4px 8px;
+                border-radius: 7px;
+                background: #f0f4f6;
+                color: #6b7a86 !important;
+                font-size: 10px !important;
+                font-weight: 700;
+            }
+
+            #readerNotesHighlightsPanel [data-notes-list]:empty,
+            #readerNotesHighlightsPanel [data-highlights-list]:empty {
+                display: none;
+            }
+
+            #readerNotesHighlightsPanel .reader-clear-highlights-confirmation {
+                position: fixed;
+                inset: 0;
+                z-index: 10002;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                padding: 20px;
+                background: rgba(12, 24, 35, .48);
+                backdrop-filter: blur(3px);
+            }
+
+            #readerNotesHighlightsPanel .reader-clear-highlights-dialog {
+                width: min(100%, 360px);
+                padding: 22px;
+                border: 1px solid #e7edf0;
+                border-radius: 18px;
+                background: #ffffff;
+                box-shadow: 0 18px 55px rgba(0, 0, 0, .2);
+            }
+
+            @media (max-width: 480px) {
+                #readerNotesHighlightsPanel {
+                    width: 100% !important;
+                    max-width: 100% !important;
+                    height: 100dvh !important;
+                }
+
+                #readerNotesHighlightsPanel .reader-notes-panel-header {
+                    padding: 18px 16px 14px;
+                }
+
+                #readerNotesHighlightsPanel .reader-notes-panel-content {
+                    padding: 18px 16px 26px !important;
+                }
+
+                #readerNotesHighlightsPanel .reader-notes-panel-title {
+                    font-size: 17px !important;
+                }
+            }
+
+            @media (prefers-reduced-motion: reduce) {
+                #readerNotesHighlightsPanel *,
+                #readerNotesHighlightsPanel *::before,
+                #readerNotesHighlightsPanel *::after {
+                    transition: none !important;
+                    scroll-behavior: auto !important;
+                }
+            }
+        `;
+        document.head.appendChild(notesStyles);
+    }
+
 
     const addPageNoteButton =
     panel.querySelector(
