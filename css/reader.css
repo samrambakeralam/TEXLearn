@@ -961,7 +961,7 @@ margin:
         100%;
 
     height:
-        220px;
+        auto;
 
     margin:
         0;
@@ -1000,7 +1000,7 @@ margin:
 
     .reader-cover {
 
-        width:100%;
+        width:clamp(100px, 23vw, 115px);
         
         height: 100%;
              
