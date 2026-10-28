@@ -23,6 +23,70 @@
 (function () {
     "use strict";
 
+    /*
+     * Preserve the Library viewport when returning from reader.html.
+     * We restore the saved position ourselves after the catalogue renders.
+     */
+    if ("scrollRestoration" in window.history) {
+        window.history.scrollRestoration = "manual";
+    }
+
+    const LIBRARY_SCROLL_POSITION_KEY =
+        "samramba_library_return_scroll_y";
+
+    function saveLibraryScrollPosition() {
+        try {
+            sessionStorage.setItem(
+                LIBRARY_SCROLL_POSITION_KEY,
+                String(window.scrollY || window.pageYOffset || 0)
+            );
+        } catch (error) {
+            console.warn(
+                "Unable to save Library scroll position.",
+                error
+            );
+        }
+    }
+
+    function restoreLibraryScrollPosition() {
+        let savedPosition = null;
+
+        try {
+            savedPosition = sessionStorage.getItem(
+                LIBRARY_SCROLL_POSITION_KEY
+            );
+        } catch (error) {
+            console.warn(
+                "Unable to read saved Library scroll position.",
+                error
+            );
+        }
+
+        if (savedPosition === null) {
+            return;
+        }
+
+        try {
+            sessionStorage.removeItem(
+                LIBRARY_SCROLL_POSITION_KEY
+            );
+        } catch (error) {
+            // The saved value can still be used for this restoration.
+        }
+
+        const scrollY = Math.max(0, Number(savedPosition) || 0);
+
+        /*
+         * Wait until the browser has laid out the rendered Library.
+         * Two animation frames help avoid restoring before the grid exists.
+         */
+        window.requestAnimationFrame(function () {
+            window.requestAnimationFrame(function () {
+                window.scrollTo(0, scrollY);
+            });
+        });
+    }
+
     const LIBRARY_API_URL =
         "https://script.google.com/macros/s/" +
         "AKfycbzQFLeWMQAX7gbedsu859N8nEZnGoAFinj4dn1JgpX0La7GSy-2xGHK38MdjcHM2ckk/" +
@@ -2140,6 +2204,13 @@ catch (error) {
 
         }
 
+
+        /*
+         * Save the current Library viewport before leaving for the Reader.
+         * This works for both browser Back and Reader close links that
+         * navigate back to the Library in the same tab.
+         */
+        saveLibraryScrollPosition();
 
         window.location.href =
             "reader.html?" +
@@ -5524,6 +5595,12 @@ await Promise.all([
 
 
 renderBookSections();
+
+    /*
+     * Restore the viewport only after the Library cards have been rendered.
+     */
+    restoreLibraryScrollPosition();
+
     renderContinueReading();
     initialiseSearch();
     initialiseSectionViewAll();
