@@ -731,7 +731,9 @@ function ensureSelectionToolbar() {
                         : currentPageIndex + 1;
 
 
-                highlights.push({
+                const newHighlight = {
+
+                    highlightId: "highlight-" + Date.now() + "-" + Math.random().toString(36).slice(2, 8),
 
                     text: selectedText,
 
@@ -741,10 +743,11 @@ function ensureSelectionToolbar() {
 
                     page: currentPage,
 
-                    createdAt:
-                        new Date().toISOString()
+                    createdAt: new Date().toISOString()
 
-                });
+                };
+
+                highlights.push(newHighlight);
 
 
            try {
@@ -804,8 +807,7 @@ if (customerID) {
                                 latestHighlight.bookId,
 
                             highlightID:
-                                "highlight-" +
-                                Date.now(),
+                                latestHighlight.highlightId,
 
                             text:
                                 latestHighlight.text,
@@ -4510,40 +4512,58 @@ cancelButton.addEventListener(
 
 confirmButton.addEventListener(
     "click",
-    function () {
+    async function () {
 
-        confirmation.remove();
+        confirmButton.disabled = true;
+        confirmButton.textContent = "Clearing…";
 
-        const storedHighlights =
-            JSON.parse(
-                localStorage.getItem(
-                    "samramba_library_highlights"
-                ) || "[]"
-            );
+        try {
+            // Delete from the central library first. This book/version-scoped
+            // operation also handles older highlights that have no highlightId.
+            if (customerID) {
+                const response = await fetch(LIBRARY_API_URL, {
+                    method: "POST",
+                    headers: { "Content-Type": "text/plain;charset=utf-8" },
+                    body: JSON.stringify({
+                        action: "LIBRARY_HIGHLIGHT_DELETE",
+                        customerID: customerID,
+                        bookID: bookID,
+                        versionID: versionID
+                    })
+                });
 
-        const remainingHighlights =
-            storedHighlights.filter(
-                function (highlight) {
-
-                    return !(
-                        highlight.bookId === bookID &&
-                        highlight.versionId === versionID
-                    );
-
+                const result = await response.json();
+                if (!result || result.success !== true) {
+                    throw new Error((result && result.message) || "Server could not delete the highlights.");
                 }
+            }
+
+            const storedHighlights = JSON.parse(
+                localStorage.getItem("samramba_library_highlights") || "[]"
             );
 
-        localStorage.setItem(
-            "samramba_library_highlights",
-            JSON.stringify(
-                remainingHighlights
-            )
-        );
+            const remainingHighlights = storedHighlights.filter(function (highlight) {
+                return !(highlight.bookId === bookID && highlight.versionId === versionID);
+            });
 
-        renderNotesHighlightsPanel();
+            localStorage.setItem(
+                "samramba_library_highlights",
+                JSON.stringify(remainingHighlights)
+            );
 
-        renderPage();
+            confirmation.remove();
+            renderNotesHighlightsPanel();
+            renderPage();
 
+        } catch (error) {
+            console.error("Unable to clear saved highlights:", error);
+            confirmButton.disabled = false;
+            confirmButton.textContent = "Try Again";
+            const message = confirmation.querySelector(".reader-clear-highlights-message");
+            if (message) {
+                message.textContent = "Highlights were not cleared from the server. Please try again.";
+            }
+        }
     }
 );
 
