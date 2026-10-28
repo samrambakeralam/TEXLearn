@@ -4520,30 +4520,46 @@ confirmButton.addEventListener(
         try {
             // Delete from the central library first. This book/version-scoped
             // operation also handles older highlights that have no highlightId.
-            if (customerID) {
-                const response = await fetch(LIBRARY_API_URL, {
-                    method: "POST",
-                    headers: { "Content-Type": "text/plain;charset=utf-8" },
-                    body: JSON.stringify({
-                        action: "LIBRARY_HIGHLIGHT_DELETE",
-                        customerID: customerID,
-                        bookID: bookID,
-                        versionID: versionID
-                    })
-                });
+  
+if (!customerID || !bookID || !versionID) {
+    throw new Error(
+        "Customer ID, Book ID and Version ID are required to delete saved highlights."
+    );
+}
 
-                const result = await response.json();
-                if (!result || result.success !== true) {
-                    throw new Error((result && result.message) || "Server could not delete the highlights.");
-                }
-            }
+const response = await fetch(LIBRARY_API_URL, {
+    method: "POST",
+    headers: {
+        "Content-Type": "text/plain;charset=utf-8"
+    },
+    body: JSON.stringify({
+        action: "LIBRARY_HIGHLIGHT_DELETE",
+        customerID: customerID,
+        bookID: bookID,
+        versionID: versionID
+    })
+});
 
+const result = await response.json();
+
+if (!result || result.success !== true) {
+    throw new Error(
+        (result && result.message) ||
+        "Server could not delete the highlights."
+    );
+}
+
+
+       
             const storedHighlights = JSON.parse(
                 localStorage.getItem("samramba_library_highlights") || "[]"
             );
 
             const remainingHighlights = storedHighlights.filter(function (highlight) {
-                return !(highlight.bookId === bookID && highlight.versionId === versionID);
+                return !(
+                    highlight.bookId === bookID &&
+                    highlight.versionId === versionID
+                );
             });
 
             localStorage.setItem(
@@ -4557,52 +4573,27 @@ confirmButton.addEventListener(
 
         } catch (error) {
             console.error("Unable to clear saved highlights:", error);
+
             confirmButton.disabled = false;
             confirmButton.textContent = "Try Again";
-            const message = confirmation.querySelector(".reader-clear-highlights-message");
+
+            const message = confirmation.querySelector(
+                ".reader-clear-highlights-message"
+            );
+
             if (message) {
-                message.textContent = "Highlights were not cleared from the server. Please try again.";
+                message.textContent =
+                    "Highlights were not cleared from the server. Please try again.";
             }
+        
         }
     }
 );
 
-return;
-
-            const storedHighlights =
-                JSON.parse(
-                    localStorage.getItem(
-                        "samramba_library_highlights"
-                    ) || "[]"
-                );
-
-            const remainingHighlights =
-                storedHighlights.filter(
-                    function (highlight) {
-
-                        return !(
-                            highlight.bookId === bookID &&
-                            highlight.versionId === versionID
-                        );
-
-                    }
-                );
-
-            localStorage.setItem(
-                "samramba_library_highlights",
-                JSON.stringify(
-                    remainingHighlights
-                )
-            );
-
-            renderNotesHighlightsPanel();
-
-            renderPage();
-
         }
     );
-
 }
+
 
 
     const panelContent =
