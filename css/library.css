@@ -2485,7 +2485,7 @@ body.library-modal-is-open {
                 (100vw - 22px - 20px) / 3
             );
 
-        min-height: 95px;
+        min-height: 90px;
     }
 
     .library-category-name {
