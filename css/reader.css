@@ -1001,13 +1001,13 @@ margin:
     .reader-cover {
 
         width:
-            clamp(130px, 32vw, 140px);
+            clamp(115px, 27vw, 130px);
 
         max-width:
             100%;
 
         margin:
-            14px auto 24px;
+            12px auto 20px;
 
         padding:
             0;
@@ -1016,7 +1016,7 @@ margin:
             center;
 
         border-radius:
-            9px;
+            8px;
 
         overflow:
             hidden;
