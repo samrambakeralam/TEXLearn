@@ -5425,6 +5425,11 @@ const accessToken =
     "";
 
 
+const trialToken =
+    urlParams.get("trialToken") ||
+    "";
+
+
 /*
  * If the email link contains Customer ID,
  * use it for the initial authentication.
@@ -5441,6 +5446,54 @@ if (urlCustomerID) {
  * Create / validate Library session.
  */
 let librarySession = null;
+
+
+/*
+ * ---------------------------------------------------------
+ * PRINCIPAL TRIAL AUTHENTICATION
+ * ---------------------------------------------------------
+ */
+
+if (trialToken) {
+
+    try {
+
+        librarySession =
+            await LibraryAPI.request(
+                "session",
+                {
+                    trialToken: trialToken
+                }
+            );
+
+        if (
+            !librarySession ||
+            librarySession.success !== true ||
+            librarySession.authenticated !== true ||
+            !librarySession.sessionToken
+        ) {
+
+            console.error(
+                "Principal trial authentication failed.",
+                librarySession
+            );
+
+            librarySession = null;
+
+        }
+
+    } catch (error) {
+
+        console.error(
+            "Principal trial authentication error.",
+            error
+        );
+
+        librarySession = null;
+
+    }
+
+}
 
 
 /*
@@ -5466,6 +5519,7 @@ console.log(
 
 
 if (
+    !trialToken &&
     customerID &&
     accessToken
 ) {
@@ -5497,6 +5551,7 @@ if (
  */
 
 if (
+    !trialToken &&
     !urlCustomerID &&
     !accessToken &&
     !librarySession &&
@@ -5570,7 +5625,7 @@ if (librarySession) {
 if (
     librarySession &&
     librarySession.success &&
-    (urlCustomerID || accessToken)
+    (urlCustomerID || accessToken || trialToken)
 ) {
 
     window.history.replaceState(
@@ -5585,12 +5640,16 @@ if (
 
 
 
-await Promise.all([
-    loadCustomerFavourites(customerID),
-    loadCustomerBookmarks(customerID),
-    loadCustomerHighlights(customerID),
-    loadCustomerNotes(customerID)
-]);
+if (librarySession.accountType !== "TRIAL") {
+
+    await Promise.all([
+        loadCustomerFavourites(customerID),
+        loadCustomerBookmarks(customerID),
+        loadCustomerHighlights(customerID),
+        loadCustomerNotes(customerID)
+    ]);
+
+}
 
 
 

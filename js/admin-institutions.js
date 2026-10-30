@@ -61,6 +61,40 @@ const tableBody =
     );
 
 
+// ==========================================
+// PRINCIPAL TRIAL ELEMENTS
+// ==========================================
+
+const principalTrialForm =
+    document.getElementById(
+        "principalTrialForm"
+    );
+
+const activateTrialButton =
+    document.getElementById(
+        "activateTrialButton"
+    );
+
+const trialMessage =
+    document.getElementById(
+        "trialMessage"
+    );
+
+const trialResult =
+    document.getElementById(
+        "trialResult"
+    );
+
+const trialAccessLink =
+    document.getElementById(
+        "trialAccessLink"
+    );
+
+const copyTrialLinkButton =
+    document.getElementById(
+        "copyTrialLinkButton"
+    );
+
 let adminKey = "";
 
 
@@ -500,6 +534,262 @@ async function addInstitution(e) {
     }
 
 }
+
+
+// ==========================================
+// PRINCIPAL TRIAL ACTIVATION
+// ==========================================
+
+principalTrialForm.addEventListener(
+    "submit",
+    activatePrincipalTrial
+);
+
+
+async function activatePrincipalTrial(e) {
+
+    e.preventDefault();
+
+    const institutionName =
+        document.getElementById(
+            "trialInstitutionName"
+        ).value.trim();
+
+    const principalEmail =
+        document.getElementById(
+            "trialPrincipalEmail"
+        ).value.trim();
+
+
+    if (!adminKey) {
+
+        showTrialMessage(
+            "Admin access is required.",
+            "error"
+        );
+
+        return;
+
+    }
+
+
+    if (!institutionName || !principalEmail) {
+
+        showTrialMessage(
+            "Please complete both fields.",
+            "error"
+        );
+
+        return;
+
+    }
+
+
+    activateTrialButton.disabled = true;
+
+    activateTrialButton.textContent =
+        "Activating Trial...";
+
+    trialResult.style.display = "none";
+
+
+    try {
+
+        const response = await fetch(
+            WEB_APP_URL +
+            "?action=adminactivateprincipaltrial",
+            {
+
+                method: "POST",
+
+                headers: {
+
+                    "Content-Type":
+                        "text/plain;charset=utf-8"
+
+                },
+
+                body: JSON.stringify({
+
+                    key: adminKey,
+
+                    institutionName:
+                        institutionName,
+
+                    principalEmail:
+                        principalEmail
+
+                })
+
+            }
+        );
+
+
+        const responseText =
+            await response.text();
+
+
+        console.log(
+            "PRINCIPAL TRIAL RESPONSE:",
+            responseText
+        );
+
+
+        let result;
+
+        try {
+
+            result = JSON.parse(
+                responseText
+            );
+
+        } catch (parseError) {
+
+            console.error(
+                "TRIAL JSON PARSE ERROR:",
+                parseError
+            );
+
+            showTrialMessage(
+                "The server returned an invalid response.",
+                "error"
+            );
+
+            return;
+
+        }
+
+
+        if (
+            !result.success ||
+            !result.accessLink
+        ) {
+
+            showTrialMessage(
+                result.message ||
+                "Unable to activate principal trial.",
+                "error"
+            );
+
+            return;
+
+        }
+
+
+        // Display generated access link.
+
+        trialAccessLink.textContent =
+            result.accessLink;
+
+
+        trialResult.style.display =
+            "block";
+
+
+        showTrialMessage(
+            "Principal trial activated successfully. Trial ID: " +
+            result.trialId +
+            ". Expires: " +
+            new Date(
+                result.expiresAt
+            ).toLocaleString("en-IN"),
+            "success"
+        );
+
+
+        // Clear the form after successful activation.
+
+        principalTrialForm.reset();
+
+    }
+
+    catch (error) {
+
+        console.error(
+            "Principal trial activation error:",
+            error
+        );
+
+
+        showTrialMessage(
+            "Unable to connect to the server.",
+            "error"
+        );
+
+    }
+
+    finally {
+
+        activateTrialButton.disabled =
+            false;
+
+        activateTrialButton.textContent =
+            "Activate 72-Hour Trial";
+
+    }
+
+}
+
+
+// ==========================================
+// TRIAL MESSAGE
+// ==========================================
+
+function showTrialMessage(
+    text,
+    type
+) {
+
+    trialMessage.textContent = text;
+
+    trialMessage.className =
+        "message " + type;
+
+}
+
+
+// ==========================================
+// COPY PRINCIPAL ACCESS LINK
+// ==========================================
+
+copyTrialLinkButton.addEventListener(
+    "click",
+    async function () {
+
+        const link =
+            trialAccessLink.textContent.trim();
+
+        if (!link) {
+            return;
+        }
+
+        try {
+
+            await navigator.clipboard.writeText(
+                link
+            );
+
+            copyTrialLinkButton.textContent =
+                "Copied!";
+
+        }
+
+        catch (error) {
+
+            console.error(
+                "Copy link error:",
+                error
+            );
+
+            showTrialMessage(
+                "Unable to copy automatically. Please select and copy the link.",
+                "error"
+            );
+
+        }
+
+    }
+);
 
 
 // ==========================================

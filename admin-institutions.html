@@ -616,6 +616,54 @@
 
         }
 
+
+        /* ==========================================
+   PRINCIPAL TRIAL
+========================================== */
+
+.trial-result {
+    display: none;
+    margin-top: 18px;
+    padding: 16px;
+    border: 1px solid #d1fae5;
+    border-radius: 12px;
+    background: #ecfdf5;
+}
+
+.trial-result p {
+    margin: 0 0 10px;
+    color: #047857;
+    font-size: 13px;
+    line-height: 1.5;
+}
+
+.trial-link {
+    display: block;
+    width: 100%;
+    padding: 11px;
+    border: 1px solid #d1d5db;
+    border-radius: 8px;
+    background: #ffffff;
+    color: #172033;
+    font-size: 12px;
+    line-height: 1.5;
+    overflow-wrap: anywhere;
+    user-select: all;
+}
+
+.trial-copy-button {
+    margin-top: 10px;
+    padding: 11px 16px;
+    border: 0;
+    border-radius: 8px;
+    background: #172033;
+    color: #ffffff;
+    font-family: inherit;
+    font-size: 13px;
+    font-weight: 700;
+    cursor: pointer;
+}
+
     </style>
 
 </head>
@@ -888,6 +936,99 @@
 
 
         </div>
+
+                <!-- PRINCIPAL TRIAL ACTIVATION -->
+
+        <section class="card" style="margin-top: 24px;">
+
+            <h2>
+                Activate Principal Trial
+            </h2>
+
+            <p style="color:#6b7280; font-size:13px; line-height:1.6; margin-top:-10px; margin-bottom:20px;">
+                Generate a temporary 72-hour library access link
+                for an institution's principal.
+            </p>
+
+            <form id="principalTrialForm">
+
+                <div class="form-group">
+
+                    <label for="trialInstitutionName">
+                        Institution Name
+                    </label>
+
+                    <input
+                        type="text"
+                        id="trialInstitutionName"
+                        placeholder="Enter registered institution name"
+                        autocomplete="off"
+                        required>
+
+                </div>
+
+                <div class="form-group">
+
+                    <label for="trialPrincipalEmail">
+                        Principal's Email Address
+                    </label>
+
+                    <input
+                        type="email"
+                        id="trialPrincipalEmail"
+                        placeholder="Enter principal's email address"
+                        autocomplete="email"
+                        required>
+
+                </div>
+
+                <button
+                    type="submit"
+                    class="add-button"
+                    id="activateTrialButton">
+
+                    Activate 72-Hour Trial
+
+                </button>
+
+                <div
+                    id="trialMessage"
+                    class="message">
+                </div>
+
+            </form>
+
+            <div
+                id="trialResult"
+                class="trial-result">
+
+                <p>
+                    <strong>Trial activated successfully.</strong>
+                    Share this unique access link with the principal.
+                </p>
+
+                <div
+                    id="trialAccessLink"
+                    class="trial-link">
+                </div>
+
+                <button
+                    type="button"
+                    class="trial-copy-button"
+                    id="copyTrialLinkButton">
+
+                    Copy Access Link
+
+                </button>
+
+                <p style="margin-top:12px; margin-bottom:0;">
+                    Access duration: 72 hours.
+                    Library limit: First 200 books.
+                </p>
+
+            </div>
+
+        </section>
 
 
     </div>
