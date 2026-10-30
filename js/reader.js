@@ -39,6 +39,13 @@ const sessionToken =
     ) ||
     "";
 
+const accountType =
+    params.get("accountType") || "";
+
+const isPrincipalTrial =
+    accountType === "TRIAL";
+
+
 const bookID =
     params.get("bookId") ||
     sessionStorage.getItem(
@@ -151,7 +158,7 @@ if (versionID) {
     new URLSearchParams();
 
 
-if (customerID) {
+if (customerID && !isPrincipalTrial) {
     libraryParams.set(
         "cid",
         customerID
@@ -163,6 +170,14 @@ if (sessionToken) {
     libraryParams.set(
         "sessionToken",
         sessionToken
+    );
+}
+
+
+if (isPrincipalTrial) {
+    libraryParams.set(
+        "accountType",
+        "TRIAL"
     );
 }
 
@@ -774,7 +789,10 @@ function ensureSelectionToolbar() {
  * central personal library.
  */
 
-if (customerID) {
+if (
+    customerID &&
+    !isPrincipalTrial
+) {
 
     try {
 
@@ -1376,7 +1394,7 @@ async function loadBook() {
    LOAD SAVED READING PROGRESS
 ========================================================= */
 
-if (!preview) {
+if (!preview && !isPrincipalTrial) {
 
     savedProgress =
         await loadSavedProgress();
@@ -1428,7 +1446,7 @@ titleStylePromise.then(
    SAVE READING HISTORY
 ========================================================= */
 
-if (!preview) {
+if (!preview && !isPrincipalTrial) {
 
     await saveReadingHistory();
 
@@ -1446,7 +1464,7 @@ isInitialPageRender = false;
    SAVE INITIAL READING PROGRESS
 ========================================================= */
 
-if (!preview) {
+if (!preview && !isPrincipalTrial) {
 
     saveReadingProgress();
 
@@ -2064,7 +2082,10 @@ renderPage();
 /*
  * Save the new reading position.
  */
-if (!isInitialPageRender) {
+if (
+    !isInitialPageRender &&
+    !isPrincipalTrial
+) {
 
     saveReadingProgress();
 
@@ -4255,7 +4276,10 @@ const noteID =
         }
 
 
-        if (noteCustomerID) {
+        if (
+    noteCustomerID &&
+    !isPrincipalTrial
+) {
 
     try {
 
@@ -4518,35 +4542,39 @@ confirmButton.addEventListener(
         confirmButton.textContent = "Clearing…";
 
         try {
-            // Delete from the central library first. This book/version-scoped
-            // operation also handles older highlights that have no highlightId.
-  
-if (!customerID || !bookID || !versionID) {
-    throw new Error(
-        "Customer ID, Book ID and Version ID are required to delete saved highlights."
-    );
-}
+   // Paid users delete highlights from the central library.
+// Trial principals clear only their local highlights.
 
-const response = await fetch(LIBRARY_API_URL, {
-    method: "POST",
-    headers: {
-        "Content-Type": "text/plain;charset=utf-8"
-    },
-    body: JSON.stringify({
-        action: "LIBRARY_HIGHLIGHT_DELETE",
-        customerID: customerID,
-        bookID: bookID,
-        versionID: versionID
-    })
-});
+if (!isPrincipalTrial) {
 
-const result = await response.json();
+    if (!customerID || !bookID || !versionID) {
+        throw new Error(
+            "Customer ID, Book ID and Version ID are required to delete saved highlights."
+        );
+    }
 
-if (!result || result.success !== true) {
-    throw new Error(
-        (result && result.message) ||
-        "Server could not delete the highlights."
-    );
+    const response = await fetch(LIBRARY_API_URL, {
+        method: "POST",
+        headers: {
+            "Content-Type": "text/plain;charset=utf-8"
+        },
+        body: JSON.stringify({
+            action: "LIBRARY_HIGHLIGHT_DELETE",
+            customerID: customerID,
+            bookID: bookID,
+            versionID: versionID
+        })
+    });
+
+    const result = await response.json();
+
+    if (!result || result.success !== true) {
+        throw new Error(
+            (result && result.message) ||
+            "Server could not delete the highlights."
+        );
+    }
+
 }
 
 

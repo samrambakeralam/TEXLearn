@@ -1650,11 +1650,26 @@ function showBanner(index) {
 
     function getFilteredBooks() {
 
-        let books =
-            LIBRARY_BOOKS.slice();
+    let books =
+        LIBRARY_BOOKS.slice();
 
 
-        const searchTerm =
+    // Principal Trial: show only the first 200 catalogue books.
+    if (
+        librarySession &&
+        librarySession.accountType === "TRIAL"
+    ) {
+
+        const bookLimit =
+            Number(librarySession.bookLimit) || 200;
+
+        books =
+            books.slice(0, bookLimit);
+
+    }
+
+
+    const searchTerm =
             LIBRARY_STATE.searchTerm
                 .trim()
                 .toLowerCase();
@@ -2125,6 +2140,16 @@ catch (error) {
             "sessionToken",
             persistentSessionToken
         );
+
+        if (
+    librarySession &&
+    librarySession.accountType === "TRIAL"
+) {
+    params.set(
+        "accountType",
+        "TRIAL"
+    );
+}
 
         params.set(
             "bookId",
@@ -5640,7 +5665,10 @@ if (
 
 
 
-if (librarySession.accountType !== "TRIAL") {
+if (
+    librarySession &&
+    librarySession.accountType !== "TRIAL"
+) {
 
     await Promise.all([
         loadCustomerFavourites(customerID),
