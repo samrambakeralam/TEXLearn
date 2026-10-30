@@ -363,6 +363,7 @@ const LibraryAPI = {
 
     let LIBRARY_ACCESS_ACTIVE = false;
     let VERIFIED_LIBRARY_CUSTOMER_ID = "";
+    let librarySession = null;
 
     /*
      * Optional user state hook.
@@ -5470,7 +5471,7 @@ if (urlCustomerID) {
 /*
  * Create / validate Library session.
  */
-let librarySession = null;
+librarySession = null;
 
 
 /*
