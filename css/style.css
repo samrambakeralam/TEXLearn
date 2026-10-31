@@ -10758,6 +10758,10 @@ transform:translateY(0px);
         font-size: 4rem;
     }
 
+    .price-note{
+    font-size:
+        clamp(.40rem,2.8vw,.43rem);
+
 }
 
 
