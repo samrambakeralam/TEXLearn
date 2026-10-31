@@ -10895,6 +10895,10 @@ transform:translateY(0px);
     line-height:1.2;
 }
 
+.pricing-title-second-line {
+    display: block;
+}
+
     .price{
     margin:
         clamp(8px,2.5vw,10px)
