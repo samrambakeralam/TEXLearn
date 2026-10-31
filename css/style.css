@@ -10911,9 +10911,9 @@ transform:translateY(0px);
 
 .amount{
     font-size:
-        clamp(3.1rem,14vw,3.8rem);
+        clamp(2.7rem,14vw,3.4rem);
 
-    font-weight:800;
+    font-weight:700;
     line-height:1;
 }
 
