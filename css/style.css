@@ -10891,7 +10891,7 @@ transform:translateY(0px);
     .pricing-card h3{
     margin-top:clamp(2px,0.8vw,4px);
     margin-bottom:clamp(3px,1vw,5px);
-    font-size:clamp(1.05rem,4.5vw,1.3rem);
+    font-size:clamp(.95rem,4.5vw,1.1rem);
     line-height:1.2;
 }
 
