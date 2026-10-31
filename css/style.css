@@ -13463,3 +13463,39 @@ body.about-page-exit {
 }
 
 
+/* HOME PAGE WHATSAPP BUTTON */
+
+.home-whatsapp-button {
+    position: fixed;
+    right: 20px;
+    bottom: calc(20px + env(safe-area-inset-bottom));
+
+    width: 56px;
+    height: 56px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background: #25D366;
+    color: #ffffff;
+
+    border-radius: 50%;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.22);
+
+    z-index: 9999;
+
+    text-decoration: none;
+    transition: transform 0.25s ease;
+}
+
+.home-whatsapp-button i {
+    width: 29px;
+    height: 29px;
+    stroke-width: 2.2;
+}
+
+.home-whatsapp-button:hover {
+    transform: scale(1.08);
+}
+
