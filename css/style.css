@@ -10927,7 +10927,7 @@ transform:translateY(0px);
 
 .price-note{
     font-size:
-        clamp(.50rem,2.8vw,.55rem);
+        clamp(.46rem,2.8vw,.52rem);
 
     margin-bottom:
         clamp(8px,2.5vw,10px);
