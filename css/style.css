@@ -10760,7 +10760,7 @@ transform:translateY(0px);
 
     .price-note{
     font-size:
-        clamp(.42rem,2.8vw,.46rem);
+        clamp(.44rem,2.8vw,.48rem);
 
 }
 
@@ -10938,7 +10938,7 @@ transform:translateY(0px);
 
 .price-note{
     font-size:
-        clamp(.42rem,2.8vw,.46rem);
+        clamp(.44rem,2.8vw,.48rem);
 
     margin-bottom:
         clamp(8px,2.5vw,10px);
@@ -10962,7 +10962,7 @@ transform:translateY(0px);
         clamp(10px,3vw,12px);
 
     font-size:
-        clamp(.82rem,3.3vw,.92rem);
+        clamp(.84rem,3.3vw,.94rem);
 
     line-height:1.2;
 
