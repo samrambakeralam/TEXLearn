@@ -10698,6 +10698,10 @@ transform:translateY(0px);
 
 }
 
+.small-phone-break {
+    display: none;
+}
+
 
 /* ==========================================
    NORMAL MOBILE
@@ -10895,8 +10899,8 @@ transform:translateY(0px);
     line-height:1.2;
 }
 
-.pricing-title-second-line {
-    display: block;
+.small-phone-break {
+    display: initial;
 }
 
     .price{
