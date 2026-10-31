@@ -10741,7 +10741,7 @@ transform:translateY(0px);
    .pricing-card h3 {
     margin-top: -8px;
     margin-bottom: clamp(3px, 1vw, 5px);
-    font-size: clamp(1.2rem, 4.5vw, 1.7rem);
+    font-size: clamp(1.1rem, 4.5vw, 1.7rem);
     line-height: 1.2;
 }
 
@@ -10757,10 +10757,6 @@ transform:translateY(0px);
     .amount {
         font-size: 4rem;
     }
-
-    .price-note{
-    font-size:
-        clamp(.40rem,2.8vw,.43rem);
 
 }
 
@@ -10903,7 +10899,7 @@ transform:translateY(0px);
     line-height:1.2;
 }
 
-    .pricing-card h3 {
+    .pricing-card h3{
     margin-top:clamp(2px,0.8vw,4px);
     margin-bottom:clamp(3px,1vw,5px);
     font-size:clamp(.95rem,4.5vw,1.1rem);
