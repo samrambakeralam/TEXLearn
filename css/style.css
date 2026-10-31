@@ -10460,7 +10460,7 @@ transform:translateY(0px);
    TITLE
 ========================================== */
 
-.pricing-card h3{
+.pricing-card h3 {
 
     margin-top:14px;
 
@@ -10738,6 +10738,13 @@ transform:translateY(0px);
         
     }
 
+   .pricing-card h3 {
+    margin-top: -8px;
+    margin-bottom: clamp(3px, 1vw, 5px);
+    font-size: clamp(1.2rem, 4.5vw, 1.7rem);
+    line-height: 1.2;
+}
+
  .pricing-card:hover,
 .pricing-card:active {
     transform: translate3d(0, -4px, 0) !important;
@@ -10892,7 +10899,7 @@ transform:translateY(0px);
     line-height:1.2;
 }
 
-    .pricing-card h3{
+    .pricing-card h3 {
     margin-top:clamp(2px,0.8vw,4px);
     margin-bottom:clamp(3px,1vw,5px);
     font-size:clamp(.95rem,4.5vw,1.1rem);
