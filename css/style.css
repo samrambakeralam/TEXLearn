@@ -13499,3 +13499,23 @@ body.about-page-exit {
     transform: scale(1.08);
 }
 
+
+/* WHATSAPP BUTTON — SMALL PHONES */
+
+@media (max-width: 420px) {
+
+    .home-whatsapp-button {
+        width: 40px;
+        height: 40px;
+
+        right: 14px;
+        bottom: calc(14px + env(safe-area-inset-bottom));
+    }
+
+    .home-whatsapp-button i {
+        width: 21px;
+        height: 21px;
+    }
+
+}
+
