@@ -10562,7 +10562,7 @@ transform:translateY(0px);
    BUTTON
 ========================================== */
 
-#pricingButton{
+#pricingButton {
 
     width:100%;
 
@@ -10758,7 +10758,11 @@ transform:translateY(0px);
         font-size: 4rem;
     }
 
+    .price-note{
+    font-size:
+        clamp(.42rem,2.8vw,.46rem);
 
+}
 
 
 /* ==========================================
@@ -10934,7 +10938,7 @@ transform:translateY(0px);
 
 .price-note{
     font-size:
-        clamp(.44rem,2.8vw,.48rem);
+        clamp(.42rem,2.8vw,.46rem);
 
     margin-bottom:
         clamp(8px,2.5vw,10px);
@@ -10952,7 +10956,7 @@ transform:translateY(0px);
     line-height: 1.25;
 }
 
- #pricingButton{
+ #pricingButton {
     padding:
         clamp(9px,2.7vw,11px)
         clamp(10px,3vw,12px);
