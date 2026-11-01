@@ -743,53 +743,36 @@
 
     });
 
+
 window.addEventListener("message", function (event) {
 
-    console.log("AFFILIATE MESSAGE RECEIVED");
+    console.log("========== TEXLEARN AFFILIATE DEBUG ==========");
+
+    console.log("MESSAGE RECEIVED");
     console.log("ORIGIN:", event.origin);
-    console.log(
-        "SOURCE MATCH:",
-        event.source === iframe.contentWindow
-    );
+    console.log("SOURCE MATCH:", event.source === iframe.contentWindow);
     console.log("DATA:", event.data);
 
-    // Verify the sending frame
-    if (event.source !== iframe.contentWindow) {
-        console.log("Rejected: unexpected message source.");
-        return;
-    }
-
-    const data = event.data;
-
     if (
-        !data ||
-        data.type !== "TEXLEARN_AFFILIATE_RESPONSE"
+        event.data &&
+        event.data.type === "TEXLEARN_AFFILIATE_RESPONSE"
     ) {
-        console.log("Rejected: invalid response type.");
-        return;
-    }
 
-    clearTimeout(responseTimer);
+        console.log("AFFILIATE RESPONSE DETECTED");
 
-    submitting = false;
-
-    button.disabled = false;
-    button.textContent = "Submit Application";
-
-    message.textContent = data.message || "";
-
-    if (data.success) {
-
-        message.style.color = "#16a34a";
-        form.reset();
+        console.log("SUCCESS:", event.data.success);
+        console.log("MESSAGE:", event.data.message);
 
     } else {
 
-        message.style.color = "#dc2626";
+        console.log("NOT AN AFFILIATE RESPONSE");
 
     }
 
+    console.log("==============================================");
+
 });
+
 
 })();
 </script>
