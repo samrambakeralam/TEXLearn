@@ -743,46 +743,15 @@
 
     });
 
-    window.addEventListener("message", function (event) {
+   window.addEventListener("message", function (event) {
 
-    console.log("AFFILIATE RESPONSE RECEIVED");
-    console.log("Message origin:", event.origin);
-    console.log("Message source:", event.source);
-
-    if (event.source !== iframe.contentWindow) {
-        console.log("Message source did not match iframe.");
-        return;
-    }
-
-    const data = event.data;
-
-    if (
-        !data ||
-        data.type !== "TEXLEARN_AFFILIATE_RESPONSE"
-    ) {
-        console.log("Invalid affiliate response.");
-        return;
-    }
-
-    clearTimeout(responseTimer);
-
-    submitting = false;
-
-    button.disabled = false;
-    button.textContent = "Submit Application";
-
-    message.textContent = data.message || "";
-
-    if (data.success) {
-
-        message.style.color = "#16a34a";
-        form.reset();
-
-    } else {
-
-        message.style.color = "#dc2626";
-
-    }
+    console.log("MESSAGE RECEIVED");
+    console.log("ORIGIN:", event.origin);
+    console.log(
+        "SOURCE MATCH:",
+        event.source === iframe.contentWindow
+    );
+    console.log("DATA:", event.data);
 
 });
 
