@@ -1303,3 +1303,15 @@
     }
 
 }
+
+/* Affiliate form submit button */
+#affiliateSubmitButton {
+    pointer-events: auto !important;
+    cursor: pointer !important;
+    opacity: 1;
+}
+
+#affiliateSubmitButton:disabled {
+    cursor: wait !important;
+    opacity: 0.7;
+}
