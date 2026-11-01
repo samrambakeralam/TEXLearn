@@ -39,6 +39,164 @@ function clearPendingBrowserPayment() {
     }
 }
 
+
+// Android native checkout pending-payment marker
+const TEXLEARN_PENDING_NATIVE_PAYMENT_KEY =
+    "texlearn_pending_native_payment";
+
+function getPendingNativePayment() {
+    try {
+        const raw = sessionStorage.getItem(
+            TEXLEARN_PENDING_NATIVE_PAYMENT_KEY
+        );
+
+        return raw ? JSON.parse(raw) : null;
+
+    } catch (error) {
+        console.error("Unable to read pending native payment:", error);
+        return null;
+    }
+}
+
+function savePendingNativePayment(session) {
+    try {
+        sessionStorage.setItem(
+            TEXLEARN_PENDING_NATIVE_PAYMENT_KEY,
+            JSON.stringify({
+                customerID: session.customerID,
+                token: session.token,
+                orderID: session.razorpay.orderID,
+                startedAt: new Date().toISOString()
+            })
+        );
+
+    } catch (error) {
+        console.error("Unable to save pending native payment:", error);
+    }
+}
+
+function clearPendingNativePayment() {
+    try {
+        sessionStorage.removeItem(
+            TEXLEARN_PENDING_NATIVE_PAYMENT_KEY
+        );
+
+    } catch (error) {
+        console.error("Unable to clear pending native payment:", error);
+    }
+}
+
+
+async function recoverNativePayment(session, paymentButton) {
+
+    if (!session?.customerID || !session?.token) {
+        console.error("Native payment recovery: session incomplete.");
+        return false;
+    }
+
+    if (window.__texlearnNativeRecoveryInProgress) {
+        return false;
+    }
+
+    window.__texlearnNativeRecoveryInProgress = true;
+
+    setPaymentButtonBusy(
+        paymentButton,
+        "Checking Payment Status..."
+    );
+
+    try {
+
+        for (let attempt = 1; attempt <= 5; attempt++) {
+
+            try {
+
+                const response = await fetch(
+                    CONFIG.API_URL + "/payment-recovery",
+                    {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json"
+                        },
+                        body: JSON.stringify({
+                            customerID: session.customerID,
+                            token: session.token
+                        })
+                    }
+                );
+
+                const result = await response.json();
+
+                console.log(
+                    "Native payment recovery:",
+                    attempt,
+                    result
+                );
+
+                if (
+                    response.ok &&
+                    result.success === true &&
+                    result.paid === true &&
+                    result.paymentID
+                ) {
+
+                    clearPendingNativePayment();
+
+                    sessionStorage.setItem(
+                        "paymentResult",
+                        JSON.stringify({
+                            ...result,
+                            success: true,
+                            recovered: true
+                        })
+                    );
+
+                    window.location.href =
+                        "/TEXLearn/success.html";
+
+                    return true;
+                }
+
+            } catch (error) {
+
+                console.error(
+                    "Native recovery attempt failed:",
+                    attempt,
+                    error
+                );
+            }
+
+            if (attempt < 5) {
+                await new Promise(resolve =>
+                    setTimeout(resolve, 2000)
+                );
+            }
+        }
+
+        // Payment remains unconfirmed.
+        // Do not allow another checkout.
+
+        restorePaymentButton(
+            paymentButton,
+            "Check Payment Status"
+        );
+
+        alert(
+            "Your previous payment is still unconfirmed.\\n\\n" +
+            "Please check the payment status again or contact support. " +
+            "Do not start another payment until the previous attempt is resolved."
+        );
+
+        return false;
+
+    } finally {
+
+        window.__texlearnNativeRecoveryInProgress = false;
+    }
+}
+
+
+
 async function resumePendingBrowserRecovery(session, paymentButton) {
     if (window.__texlearnPendingRecoveryInProgress) return;
     if (!getPendingBrowserPayment()) return;
@@ -153,26 +311,45 @@ document.addEventListener("DOMContentLoaded", function () {
         }, 0);
     }
 
-    paymentButton.addEventListener("click", function () {
-        if (
-            window.TEXLearnNative &&
-            typeof window.TEXLearnNative.openCheckout === "function"
-        ) {
-            openNativeRazorpayCheckout(session, paymentButton);
+
+    // Resume unresolved Android native payment recovery.
+if (
+    getPendingNativePayment() &&
+    window.TEXLearnNative &&
+    typeof window.TEXLearnNative.openCheckout === "function"
+) {
+    setTimeout(function () {
+        recoverNativePayment(session, paymentButton);
+    }, 0);
+}
+
+
+   paymentButton.addEventListener("click", function () {
+
+    if (
+        window.TEXLearnNative &&
+        typeof window.TEXLearnNative.openCheckout === "function"
+    ) {
+
+        if (getPendingNativePayment()) {
+            recoverNativePayment(session, paymentButton);
             return;
         }
 
-        // An unresolved attempt must be checked with the server first; never
-        // open Razorpay again merely because the user returned to this page.
-        if (getPendingBrowserPayment()) {
-            resumePendingBrowserRecovery(session, paymentButton);
-            return;
-        }
+        openNativeRazorpayCheckout(session, paymentButton);
+        return;
+    }
 
-        openRazorpayCheckout(session, paymentButton);
-    });
+    if (getPendingBrowserPayment()) {
+        resumePendingBrowserRecovery(session, paymentButton);
+        return;
+    }
+
+    openRazorpayCheckout(session, paymentButton);
+});
 
 });
+
 
 
 /*************************************************
@@ -234,14 +411,20 @@ function openNativeRazorpayCheckout(session, paymentButton) {
     };
 
     try {
-        window.TEXLearnNative.openCheckout(
-            JSON.stringify(options)
-        );
-    } catch (error) {
+        savePendingNativePayment(session);
+
+window.TEXLearnNative.openCheckout(
+    JSON.stringify(options)
+);
+
+        } catch (error) {
+
         console.error("Native checkout launch failed:", error);
-        // Native checkout does not create a browser pending-payment marker.
-        // Leave browser recovery state untouched.
+
+        clearPendingNativePayment();
+
         restorePaymentButton(paymentButton);
+
         alert("Unable to open payment. Please try again.");
     }
 }
@@ -292,6 +475,7 @@ window.onNativeRazorpaySuccess = function (response) {
 
 
 window.onNativeRazorpayError = async function (message) {
+
     console.error("Native Razorpay checkout error:", message);
 
     const paymentButton =
@@ -303,87 +487,40 @@ window.onNativeRazorpayError = async function (message) {
     let session = null;
 
     try {
+
         session = storedSession
             ? JSON.parse(storedSession)
             : null;
+
     } catch (error) {
-        console.error("Unable to read checkout session:", error);
+
+        console.error(
+            "Unable to read checkout session:",
+            error
+        );
     }
 
     if (session && session.customerID && session.token) {
-        // Allow time for the webhook to update the payment record.
-        for (let attempt = 1; attempt <= 5; attempt++) {
-            try {
-                const response = await fetch(
-                    CONFIG.API_URL + "/payment-recovery",
-                    {
-                        method: "POST",
-                        headers: {
-                            "Content-Type": "application/json"
-                        },
-                        body: JSON.stringify({
-                            customerID: session.customerID,
-                            token: session.token
-                        })
-                    }
-                );
 
-                const result = await response.json();
+        await recoverNativePayment(
+            session,
+            paymentButton
+        );
 
-                console.log(
-                    "Payment recovery attempt:",
-                    attempt,
-                    {
-                        httpStatus: response.status,
-                        success: result.success,
-                        paid: result.paid,
-                        paymentIDPresent: Boolean(result.paymentID)
-                    }
-                );
-
-                if (
-                    response.ok &&
-                    result.success === true &&
-                    result.paid === true &&
-                    result.paymentID
-                ) {
-                    sessionStorage.setItem(
-                        "paymentResult",
-                        JSON.stringify({
-                            ...result,
-                            success: true,
-                            recovered: true
-                        })
-                    );
-
-                    window.location.href =
-                        "/TEXLearn/success.html";
-                    return;
-                }
-            } catch (error) {
-                console.error(
-                    "Payment recovery attempt failed:",
-                    attempt,
-                    error
-                );
-            }
-
-            if (attempt < 5) {
-                await new Promise(resolve =>
-                    setTimeout(resolve, 2000)
-                );
-            }
-        }
+        return;
     }
 
+    // Without a valid session, do not permit another payment.
     if (paymentButton) {
-        restorePaymentButton(paymentButton);
+        setPaymentButtonBusy(
+            paymentButton,
+            "Contact Support"
+        );
     }
 
     alert(
-        "We couldn't confirm your payment status yet. " +
-        "Please check your access email or contact support " +
-        "before attempting another payment."
+        "We couldn't verify your payment session. " +
+        "Please contact support before attempting another payment."
     );
 };
 
@@ -813,6 +950,7 @@ async function verifyPayment(response, session, paymentButton) {
             JSON.stringify(result)
         );
         clearPendingBrowserPayment();
+        clearPendingNativePayment();
 
         window.location.href = "/TEXLearn/success.html";
 

@@ -380,6 +380,21 @@ const institution =
     try {
 
         // ------------------------------------
+// Get Referral Partner ID
+// ------------------------------------
+
+const partnerID =
+    (localStorage.getItem("texlearn_partner_id") || "")
+        .trim()
+        .toUpperCase();
+
+console.log(
+    "REGISTRATION PARTNER ID:",
+    partnerID || "No referral"
+);
+
+
+        // ------------------------------------
         // Send Registration
         // ------------------------------------
 
@@ -414,6 +429,11 @@ formData.append(
 formData.append(
     "institution",
     institution
+);
+
+formData.append(
+    "partnerID",
+    partnerID
 );
 
 
