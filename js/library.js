@@ -288,11 +288,9 @@ const LibraryAPI = {
             id: "library",
             eyebrow: "YOUR ENTREPRENEURIAL LIBRARY",
             title: "Discover what you want to learn",
-            text:
-                "Explore 500+ books across " +
-                "Business • Wealth • Marketing • Psychology • ...",
+            text: "Explore 20000+ Business Lessons for future founders",
             action: "Explore Library",
-            href: "#explore-library"
+            href: "registration.html"
         },
         {
             id: "virtual-office",
@@ -1327,71 +1325,44 @@ async function loadCustomerHighlights(customerID) {
     }
 
 
-    /* =========================================================
-       05. DYNAMIC BANNER
-    ========================================================= */
+    
 
-    function renderBannerControls() {
+/* =========================================================
+   05. DYNAMIC BANNER
+========================================================= */
 
-        if (!bannerControls) {
-            return;
+function renderBannerControls() {
+
+    if (!bannerControls) return;
+
+    bannerControls.innerHTML = "";
+
+    LIBRARY_BANNERS.forEach(function (item, index) {
+
+        const button = document.createElement("button");
+
+        button.type = "button";
+        button.className = "library-banner-dot";
+        button.setAttribute("aria-label", "Show banner " + (index + 1));
+
+        if (index === LIBRARY_STATE.currentBanner) {
+            button.classList.add("is-active");
         }
 
-        bannerControls.innerHTML = "";
+        button.addEventListener("click", function () {
+            showBanner(index);
+            restartBannerTimer();
+        });
 
-        LIBRARY_BANNERS.forEach(
-            function (item, index) {
+        bannerControls.appendChild(button);
 
-                const button =
-                    document.createElement("button");
+    });
 
-                button.type = "button";
-
-                button.className =
-                    "library-banner-dot";
-
-                button.setAttribute(
-                    "aria-label",
-                    "Show banner " + (index + 1)
-                );
-
-                button.setAttribute(
-                    "data-banner-index",
-                    String(index)
-                );
-
-                if (
-                    index ===
-                    LIBRARY_STATE.currentBanner
-                ) {
-                    button.classList.add(
-                        "is-active"
-                    );
-                }
-
-                button.addEventListener(
-                    "click",
-                    function () {
-
-                        showBanner(index);
-
-                        restartBannerTimer();
-
-                    }
-                );
-
-                bannerControls.appendChild(
-                    button
-                );
-
-            }
-        );
-
-    }
+}
 
 
-    
 function showBanner(index) {
+
     if (!LIBRARY_BANNERS.length) return;
 
     const safeIndex =
@@ -1407,13 +1378,11 @@ function showBanner(index) {
     }
 
     window.setTimeout(function () {
+
         const isImageBanner = item.type === "image";
 
         if (banner) {
-            banner.classList.toggle(
-                "is-image-banner",
-                isImageBanner
-            );
+            banner.classList.toggle("is-image-banner", isImageBanner);
         }
 
         if (bannerEyebrow) {
@@ -1434,28 +1403,28 @@ function showBanner(index) {
         if (bannerAction) {
             bannerAction.hidden = isImageBanner;
             bannerAction.textContent = item.action || "";
-            bannerAction.setAttribute(
-                "href",
-                item.href || "#"
-            );
+            bannerAction.setAttribute("href", item.href || "#");
         }
 
         if (bannerVisual) {
-            bannerVisual.setAttribute(
-                "data-banner-type",
-                item.id
-            );
+
+            bannerVisual.setAttribute("data-banner-type", item.id);
 
             if (isImageBanner) {
+
                 const image = document.createElement("img");
+
                 image.src = item.image;
                 image.alt = item.alt || "";
                 image.className = "library-banner-image";
                 image.draggable = false;
 
                 bannerVisual.replaceChildren(image);
+
             } else {
+
                 bannerVisual.replaceChildren();
+
             }
         }
 
@@ -1466,89 +1435,445 @@ function showBanner(index) {
         }
 
         refreshIcons();
+
     }, 180);
+
 }
 
 
+function restartBannerTimer() {
 
-    function restartBannerTimer() {
+    if (LIBRARY_STATE.bannerTimer) {
+        window.clearInterval(LIBRARY_STATE.bannerTimer);
+    }
 
-        if (
-            LIBRARY_STATE.bannerTimer
-        ) {
-            window.clearInterval(
-                LIBRARY_STATE.bannerTimer
-            );
+    LIBRARY_STATE.bannerTimer = window.setInterval(function () {
+        showBanner(LIBRARY_STATE.currentBanner + 1);
+    }, 6500);
+
+}
+
+
+/* =========================================================
+   DESKTOP MULTI-BANNER CAROUSEL
+========================================================= */
+
+let desktopBannerTimer = null;
+let desktopBannerIndex = 0;
+let desktopBannerTrack = null;
+let desktopBannerDots = [];
+let desktopBannerTransitionHandler = null;
+
+
+function isWideDesktopBannerLayout() {
+    return window.matchMedia("(min-width: 1101px)").matches;
+}
+
+
+function stopDesktopBannerTimer() {
+
+    if (desktopBannerTimer) {
+        window.clearInterval(desktopBannerTimer);
+        desktopBannerTimer = null;
+    }
+
+}
+
+
+function updateDesktopBannerPosition(animate) {
+
+    if (!desktopBannerTrack) return;
+
+    const firstCard = desktopBannerTrack.children[0];
+
+    if (!firstCard) return;
+
+    const cardWidth = firstCard.getBoundingClientRect().width;
+
+    const gap = parseFloat(
+        window.getComputedStyle(desktopBannerTrack).columnGap
+    ) || 0;
+
+    desktopBannerTrack.style.transition = animate
+        ? "transform 520ms cubic-bezier(0.22, 1, 0.36, 1)"
+        : "none";
+
+    desktopBannerTrack.style.transform =
+        "translate3d(-" +
+        ((cardWidth + gap) * desktopBannerIndex) +
+        "px, 0, 0)";
+
+    const dotIndex =
+        desktopBannerDots.length
+            ? desktopBannerIndex % desktopBannerDots.length
+            : 0;
+
+    desktopBannerDots.forEach(function (dot, index) {
+
+        const active = index === dotIndex;
+
+        dot.classList.toggle("is-active", active);
+
+        dot.setAttribute(
+            "aria-current",
+            active ? "true" : "false"
+        );
+
+    });
+
+}
+
+
+function moveDesktopBanner(direction) {
+
+    const total = LIBRARY_BANNERS.length;
+
+    if (!total || !desktopBannerTrack) return;
+
+    desktopBannerIndex =
+        (desktopBannerIndex + direction + total) % total;
+
+    updateDesktopBannerPosition(true);
+
+}
+
+
+function startDesktopBannerTimer() {
+
+    stopDesktopBannerTimer();
+
+    if (LIBRARY_BANNERS.length < 2) return;
+
+    desktopBannerTimer = window.setInterval(function () {
+
+        moveDesktopBanner(1);
+
+    }, 6500);
+
+}
+
+
+/* Build either an image card or a text-based card. */
+
+function createDesktopBannerCard(item) {
+
+    const card = document.createElement("div");
+
+    card.className = "library-banner-desktop-card";
+
+    if (item.type === "image") {
+
+        card.classList.add("is-image-card");
+
+        const image = document.createElement("img");
+
+        image.src = item.image;
+        image.alt = item.alt || "";
+        image.draggable = false;
+
+        card.appendChild(image);
+
+    } else {
+
+        card.classList.add("is-text-card");
+
+        const content = document.createElement("div");
+
+        content.className = "library-banner-desktop-content";
+
+        const eyebrow = document.createElement("span");
+
+        eyebrow.className = "library-banner-desktop-eyebrow";
+        eyebrow.textContent = item.eyebrow || "";
+
+        const title = document.createElement("h2");
+
+        title.className = "library-banner-desktop-title";
+        title.textContent = item.title || "";
+
+        const description = document.createElement("p");
+
+        description.className = "library-banner-desktop-text";
+        description.textContent = item.text || "";
+
+        content.appendChild(eyebrow);
+        content.appendChild(title);
+        content.appendChild(description);
+
+        if (item.action) {
+
+            const action = document.createElement("a");
+
+            action.className = "library-banner-desktop-action";
+            action.href = item.href || "#";
+            action.textContent = item.action;
+
+            content.appendChild(action);
+
         }
 
-
-        LIBRARY_STATE.bannerTimer =
-            window.setInterval(
-                function () {
-
-                    showBanner(
-                        LIBRARY_STATE.currentBanner +
-                        1
-                    );
-
-                },
-                6500
-            );
+        card.appendChild(content);
 
     }
 
+    return card;
 
-    function initialiseBanner() {
+}
 
-        if (!banner) {
-            return;
+
+function removeDesktopBannerLayout() {
+
+    stopDesktopBannerTimer();
+
+    if (desktopBannerTransitionHandler && desktopBannerTrack) {
+        desktopBannerTrack.removeEventListener(
+            "transitionend",
+            desktopBannerTransitionHandler
+        );
+    }
+
+    const existing = banner.querySelector(
+        ".library-banner-desktop"
+    );
+
+    if (existing) {
+        existing.remove();
+    }
+
+    banner.classList.remove("is-desktop-multi-banner");
+
+    desktopBannerTrack = null;
+    desktopBannerDots = [];
+    desktopBannerIndex = 0;
+    desktopBannerTransitionHandler = null;
+
+}
+
+
+function createDesktopBannerLayout() {
+
+    if (!banner || !LIBRARY_BANNERS.length) return;
+
+    removeDesktopBannerLayout();
+
+    banner.classList.add("is-desktop-multi-banner");
+
+    const shell = document.createElement("div");
+
+    shell.className = "library-banner-desktop";
+
+    const viewport = document.createElement("div");
+
+    viewport.className = "library-banner-desktop-viewport";
+
+    const track = document.createElement("div");
+
+    track.className = "library-banner-desktop-track";
+
+
+    // Render all five original posters in their original order.
+
+    LIBRARY_BANNERS.forEach(function (item) {
+
+        track.appendChild(createDesktopBannerCard(item));
+
+    });
+
+
+    // Clone the first poster for continuous carousel movement.
+
+    track.appendChild(
+        createDesktopBannerCard(LIBRARY_BANNERS[0])
+    );
+
+    viewport.appendChild(track);
+    shell.appendChild(viewport);
+
+
+    // Previous arrow.
+
+    const previous = document.createElement("button");
+
+    previous.type = "button";
+    previous.className =
+        "library-banner-desktop-arrow is-previous";
+
+    previous.setAttribute("aria-label", "Previous poster");
+
+    previous.innerHTML = '<i data-lucide="chevron-left"></i>';
+
+    previous.addEventListener("click", function () {
+
+        moveDesktopBanner(-1);
+        startDesktopBannerTimer();
+
+    });
+
+    shell.appendChild(previous);
+
+
+    // Next arrow.
+
+    const next = document.createElement("button");
+
+    next.type = "button";
+    next.className =
+        "library-banner-desktop-arrow is-next";
+
+    next.setAttribute("aria-label", "Next poster");
+
+    next.innerHTML = '<i data-lucide="chevron-right"></i>';
+
+    next.addEventListener("click", function () {
+
+        moveDesktopBanner(1);
+        startDesktopBannerTimer();
+
+    });
+
+    shell.appendChild(next);
+
+
+    // Navigation dots.
+
+    const dots = document.createElement("div");
+
+    dots.className = "library-banner-desktop-dots";
+
+    LIBRARY_BANNERS.forEach(function (item, index) {
+
+        const dot = document.createElement("button");
+
+        dot.type = "button";
+        dot.className = "library-banner-desktop-dot";
+
+        dot.setAttribute(
+            "aria-label",
+            "Show poster " + (index + 1)
+        );
+
+        dot.addEventListener("click", function () {
+
+            desktopBannerIndex = index;
+
+            updateDesktopBannerPosition(true);
+
+            startDesktopBannerTimer();
+
+        });
+
+        dots.appendChild(dot);
+        desktopBannerDots.push(dot);
+
+    });
+
+    shell.appendChild(dots);
+
+    banner.appendChild(shell);
+
+    desktopBannerTrack = track;
+
+    desktopBannerIndex = 0;
+
+    updateDesktopBannerPosition(false);
+
+    startDesktopBannerTimer();
+
+    refreshIcons();
+
+
+    // Pause automatic rotation during interaction.
+
+    shell.addEventListener("mouseenter", stopDesktopBannerTimer);
+    shell.addEventListener("mouseleave", startDesktopBannerTimer);
+
+    shell.addEventListener("focusin", stopDesktopBannerTimer);
+    shell.addEventListener("focusout", startDesktopBannerTimer);
+
+
+    // Handle the cloned first card at the end of the carousel.
+
+    desktopBannerTransitionHandler = function () {
+
+        if (desktopBannerIndex === LIBRARY_BANNERS.length) {
+
+            desktopBannerIndex = 0;
+
+            updateDesktopBannerPosition(false);
+
         }
 
+    };
+
+    track.addEventListener(
+        "transitionend",
+        desktopBannerTransitionHandler
+    );
+
+}
+
+
+function syncBannerLayout() {
+
+    if (!banner) return;
+
+    if (isWideDesktopBannerLayout()) {
+
+        if (!banner.classList.contains("is-desktop-multi-banner")) {
+            createDesktopBannerLayout();
+        }
+
+    } else {
+
+        if (banner.classList.contains("is-desktop-multi-banner")) {
+            removeDesktopBannerLayout();
+        }
 
         showBanner(0);
 
         restartBannerTimer();
 
-
-        /*
-         * Pause automatic rotation while the user hovers
-         * over the banner on desktop.
-         */
-        banner.addEventListener(
-            "mouseenter",
-            function () {
-
-                if (!isMobileLayout()) {
-
-                    if (
-                        LIBRARY_STATE.bannerTimer
-                    ) {
-                        window.clearInterval(
-                            LIBRARY_STATE.bannerTimer
-                        );
-
-                        LIBRARY_STATE.bannerTimer =
-                            null;
-                    }
-
-                }
-
-            }
-        );
-
-
-        banner.addEventListener(
-            "mouseleave",
-            function () {
-
-                if (!isMobileLayout()) {
-                    restartBannerTimer();
-                }
-
-            }
-        );
-
     }
+
+}
+
+
+function initialiseBanner() {
+
+    if (!banner) return;
+
+    syncBannerLayout();
+
+    window.addEventListener("resize", syncBannerLayout);
+
+
+    // Retain original single-banner hover behaviour.
+
+    banner.addEventListener("mouseenter", function () {
+
+        if (!isWideDesktopBannerLayout() && !isMobileLayout()) {
+
+            if (LIBRARY_STATE.bannerTimer) {
+
+                window.clearInterval(LIBRARY_STATE.bannerTimer);
+
+                LIBRARY_STATE.bannerTimer = null;
+
+            }
+
+        }
+
+    });
+
+    banner.addEventListener("mouseleave", function () {
+
+        if (!isWideDesktopBannerLayout() && !isMobileLayout()) {
+            restartBannerTimer();
+        }
+
+    });
+
+}
 
 
     /* =========================================================
