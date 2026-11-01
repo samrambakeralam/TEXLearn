@@ -2285,6 +2285,10 @@ catch (error) {
      * Multiple versions:
      * show version selector.
      */
+
+    const isSmallPhone =
+    window.matchMedia("(max-width: 420px)").matches;
+
     const overlay =
         document.createElement("div");
 
@@ -2338,7 +2342,7 @@ catch (error) {
         "22px";
 
     dialog.style.padding =
-        "26px";
+    isSmallPhone ? "21px" : "26px";
 
     dialog.style.boxSizing =
         "border-box";
@@ -2401,7 +2405,7 @@ catch (error) {
         "Choose a Version";
 
     title.style.fontSize =
-        "22px";
+    isSmallPhone ? "20px" : "22px";
 
     title.style.fontWeight =
         "700";
@@ -2487,13 +2491,13 @@ catch (error) {
         "Select the version you want to read.";
 
     bookTitle.style.marginTop =
-        "8px";
+        "7px";
 
     bookTitle.style.marginBottom =
-        "20px";
+    isSmallPhone ? "14px" : "20px";
 
     bookTitle.style.fontSize =
-        "14px";
+    isSmallPhone ? "13px" : "14px";
 
     bookTitle.style.lineHeight =
         "1.45";
@@ -2515,7 +2519,7 @@ catch (error) {
         "column";
 
     options.style.gap =
-        "11px";
+    isSmallPhone ? "9px" : "11px";
 
 
     versions.forEach(
@@ -2551,7 +2555,7 @@ catch (error) {
                     <span
                         style="
                             display:block;
-                            font-size:16px;
+                            font-size:${isSmallPhone ? "15px" : "16px"};
                             font-weight:700;
                             color:#0f172a;
                             margin-bottom:4px;
@@ -2563,7 +2567,7 @@ catch (error) {
                     <span
                         style="
                             display:block;
-                            font-size:12px;
+                            font-size:${isSmallPhone ? "11px" : "12px"};
                             font-weight:400;
                             color:#64748b;
                         "
@@ -2576,11 +2580,11 @@ catch (error) {
             versionButton.style.width =
                 "100%";
 
-            versionButton.style.minHeight =
-                "70px";
+           versionButton.style.minHeight =
+           isSmallPhone ? "62px" : "70px";
 
             versionButton.style.padding =
-                "13px 16px";
+            isSmallPhone ? "10px 14px" : "13px 16px";
 
             versionButton.style.border =
                 "1px solid #dbe3ea";
@@ -2670,10 +2674,10 @@ catch (error) {
         "100%";
 
     cancelButton.style.height =
-        "46px";
+    isSmallPhone ? "42px" : "46px";
 
     cancelButton.style.marginTop =
-        "14px";
+    isSmallPhone ? "10px" : "14px";
 
     cancelButton.style.border =
         "0";
@@ -2688,7 +2692,7 @@ catch (error) {
         "#475569";
 
     cancelButton.style.fontSize =
-        "15px";
+    isSmallPhone ? "14px" : "15px";
 
     cancelButton.style.fontWeight =
         "600";
