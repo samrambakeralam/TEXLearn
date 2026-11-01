@@ -530,6 +530,12 @@
         value="affiliate_application"
     >
 
+    <input
+    type="hidden"
+    name="submission_token"
+    id="affiliateSubmissionToken"
+>
+
     <label for="partner-name">
         Full name
     </label>
@@ -686,6 +692,7 @@
 
     
 <script>
+
 (function () {
 
     const form = document.getElementById(
@@ -700,81 +707,289 @@
         "affiliateFormMessage"
     );
 
-    const iframe = document.getElementById(
-        "affiliate-submit-frame"
+    const tokenInput = document.getElementById(
+        "affiliateSubmissionToken"
     );
 
-    if (!form || !button || !message || !iframe) {
+    if (!form || !button || !message || !tokenInput) {
         return;
     }
 
+    const SCRIPT_URL =
+        "https://script.google.com/macros/s/AKfycbzQFLeWMQAX7gbedsu859N8nEZnGoAFinj4dn1JgpX0La7GSy-2xGHK38MdjcHM2ckk/exec";
+
     let submitting = false;
-    let responseTimer = null;
+let submissionToken = "";
+let pollAttempts = 0;
+let pollTimer = null;
+let awaitingConfirmation = false;
 
-    form.addEventListener("submit", function () {
-
-        if (submitting) {
-            return;
-        }
-
-        submitting = true;
-
-        button.disabled = true;
-        button.textContent = "Submitting...";
-
-        message.textContent =
-            "Please wait while we submit your application.";
-
-        message.style.color = "#64748b";
-
-        responseTimer = setTimeout(function () {
-
-            submitting = false;
-
-            button.disabled = false;
-            button.textContent = "Submit Application";
-
-            message.textContent =
-                "We could not confirm the submission. Please try again.";
-
-            message.style.color = "#dc2626";
-
-        }, 30000);
-
-    });
+    const MAX_POLLS = 45;
+    const POLL_INTERVAL = 2000;
 
 
-window.addEventListener("message", function (event) {
+    // Generate a unique token
+    function generateToken() {
 
-    console.log("========== TEXLEARN AFFILIATE DEBUG ==========");
+        const bytes = new Uint8Array(24);
 
-    console.log("MESSAGE RECEIVED");
-    console.log("ORIGIN:", event.origin);
-    console.log("SOURCE MATCH:", event.source === iframe.contentWindow);
-    console.log("DATA:", event.data);
+        window.crypto.getRandomValues(bytes);
 
-    if (
-        event.data &&
-        event.data.type === "TEXLEARN_AFFILIATE_RESPONSE"
-    ) {
-
-        console.log("AFFILIATE RESPONSE DETECTED");
-
-        console.log("SUCCESS:", event.data.success);
-        console.log("MESSAGE:", event.data.message);
-
-    } else {
-
-        console.log("NOT AN AFFILIATE RESPONSE");
+        return Array.from(bytes)
+            .map(function (byte) {
+                return byte.toString(16).padStart(2, "0");
+            })
+            .join("");
 
     }
 
-    console.log("==============================================");
+
+    function setMessage(text, color) {
+
+        message.textContent = text;
+        message.style.color = color;
+
+    }
+
+
+    function stopPolling() {
+
+        if (pollTimer) {
+            clearTimeout(pollTimer);
+            pollTimer = null;
+        }
+
+    }
+
+
+    function finishSubmission(data) {
+
+    stopPolling();
+
+    submitting = false;
+    awaitingConfirmation = false;
+
+    button.disabled = false;
+    button.textContent = "Submit Application";
+
+        if (data.success) {
+
+            setMessage(
+                data.message ||
+                "Your application has been submitted successfully.",
+                "#16a34a"
+            );
+
+            form.reset();
+            submissionToken = "";
+            tokenInput.value = "";
+
+        } else {
+
+            setMessage(
+                data.message ||
+                "Unable to submit your application.",
+                "#dc2626"
+            );
+
+            // A confirmed failure can be retried
+            submissionToken = "";
+            tokenInput.value = "";
+
+        }
+
+    }
+
+
+    // JSONP callback used by Apps Script
+    window.texlearnAffiliateStatus = function (data) {
+
+        if (!submitting || !data) {
+            return;
+        }
+
+        if (data.state === "complete") {
+
+            finishSubmission(data);
+            return;
+
+        }
+
+        if (data.state === "error") {
+
+            finishSubmission(data);
+            return;
+
+        }
+
+        // Still processing or not yet available
+        scheduleNextPoll();
+
+    };
+
+
+    function checkStatus() {
+
+        if (!submitting) {
+            return;
+        }
+
+        pollAttempts++;
+
+        const callbackName =
+            "texlearnAffiliateStatus";
+
+        const script = document.createElement("script");
+
+        const url = new URL(SCRIPT_URL);
+
+        url.searchParams.set(
+            "action",
+            "affiliate_status"
+        );
+
+        url.searchParams.set(
+            "token",
+            submissionToken
+        );
+
+        url.searchParams.set(
+            "callback",
+            callbackName
+        );
+
+        url.searchParams.set(
+            "_",
+            Date.now().toString()
+        );
+
+        script.src = url.toString();
+
+        script.onerror = function () {
+
+            script.remove();
+
+            scheduleNextPoll();
+
+        };
+
+        script.onload = function () {
+
+    script.remove();
+
+    // If the JSONP callback was not executed,
+    // continue checking the application status.
+    if (submitting) {
+        scheduleNextPoll();
+    }
+
+};
+
+        document.head.appendChild(script);
+
+    }
+
+
+    function scheduleNextPoll() {
+
+        if (!submitting) {
+            return;
+        }
+
+       if (pollAttempts >= MAX_POLLS) {
+
+    submitting = false;
+    awaitingConfirmation = true;
+
+    button.disabled = false;
+    button.textContent = "Retry Confirmation";
+
+    setMessage(
+        "We are still waiting for confirmation. Your application may already have been saved. Click Retry Confirmation to check again.",
+        "#b45309"
+    );
+
+    return;
+}
+
+        stopPolling();
+
+        pollTimer = setTimeout(
+            checkStatus,
+            POLL_INTERVAL
+        );
+
+    }
+
+
+   form.addEventListener("submit", function (event) {
+
+    event.preventDefault();
+
+    if (submitting) {
+        return;
+    }
+
+    // Retry confirmation without submitting the form again
+    if (awaitingConfirmation && submissionToken) {
+
+        submitting = true;
+        awaitingConfirmation = false;
+        pollAttempts = 0;
+
+        button.disabled = true;
+        button.textContent = "Checking...";
+
+        setMessage(
+            "Checking your application status. Please wait.",
+            "#64748b"
+        );
+
+        pollTimer = setTimeout(checkStatus, 500);
+
+        return;
+    }
+
+    // Generate a token for a new application
+    if (!submissionToken) {
+
+        try {
+            submissionToken = generateToken();
+
+        } catch (error) {
+
+            setMessage(
+                "Your browser could not create a secure submission token. Please refresh the page and try again.",
+                "#dc2626"
+            );
+
+            return;
+        }
+    }
+
+    tokenInput.value = submissionToken;
+
+    submitting = true;
+    pollAttempts = 0;
+
+    button.disabled = true;
+    button.textContent = "Submitting...";
+
+    setMessage(
+        "Please wait while we submit your application.",
+        "#64748b"
+    );
+
+    // Submit the application only once
+    HTMLFormElement.prototype.submit.call(form);
+
+    // Begin checking the saved result
+    pollTimer = setTimeout(checkStatus, 1500);
 
 });
 
-
 })();
+
 </script>
 
 
