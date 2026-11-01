@@ -745,42 +745,46 @@
 
     window.addEventListener("message", function (event) {
 
-        // Accept messages only from our submission iframe
-        if (event.source !== iframe.contentWindow) {
-            return;
-        }
+    console.log("AFFILIATE RESPONSE RECEIVED");
+    console.log("Message origin:", event.origin);
+    console.log("Message source:", event.source);
 
-        const data = event.data;
+    if (event.source !== iframe.contentWindow) {
+        console.log("Message source did not match iframe.");
+        return;
+    }
 
-        if (
-            !data ||
-            data.type !== "TEXLEARN_AFFILIATE_RESPONSE"
-        ) {
-            return;
-        }
+    const data = event.data;
 
-        clearTimeout(responseTimer);
+    if (
+        !data ||
+        data.type !== "TEXLEARN_AFFILIATE_RESPONSE"
+    ) {
+        console.log("Invalid affiliate response.");
+        return;
+    }
 
-        submitting = false;
+    clearTimeout(responseTimer);
 
-        button.disabled = false;
-        button.textContent = "Submit Application";
+    submitting = false;
 
-        message.textContent = data.message || "";
+    button.disabled = false;
+    button.textContent = "Submit Application";
 
-        if (data.success) {
+    message.textContent = data.message || "";
 
-            message.style.color = "#16a34a";
+    if (data.success) {
 
-            form.reset();
+        message.style.color = "#16a34a";
+        form.reset();
 
-        } else {
+    } else {
 
-            message.style.color = "#dc2626";
+        message.style.color = "#dc2626";
 
-        }
+    }
 
-    });
+});
 
 })();
 </script>
