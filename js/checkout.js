@@ -24,6 +24,7 @@ function savePendingBrowserPayment(session) {
             customerID: session.customerID,
             token: session.token,
             orderID: session.razorpay.orderID,
+            amount: Number(session.razorpay.amount),
             startedAt: new Date().toISOString()
         }));
     } catch (error) {
@@ -66,6 +67,7 @@ function savePendingNativePayment(session) {
                 customerID: session.customerID,
                 token: session.token,
                 orderID: session.razorpay.orderID,
+                amount: Number(session.razorpay.amount),
                 startedAt: new Date().toISOString()
             })
         );
@@ -87,12 +89,41 @@ function clearPendingNativePayment() {
 }
 
 
+
 async function recoverNativePayment(session, paymentButton) {
 
-    if (!session?.customerID || !session?.token) {
-        console.error("Native payment recovery: session incomplete.");
+    const pending = getPendingNativePayment();
+
+    if (!pending) return false;
+
+    // Require the original payment identity.
+    if (
+        !pending.customerID ||
+        !pending.token ||
+        !pending.orderID
+    ) {
+        console.error(
+            "Pending native payment marker is incomplete."
+        );
+
+        setPaymentButtonBusy(
+            paymentButton,
+            "Contact Support"
+        );
+
+        alert(
+            "Your previous payment session needs verification. " +
+            "Please contact support before attempting another payment."
+        );
+
         return false;
     }
+
+    // Always recover the original customer, not a newer checkout session.
+    const recoverySession = {
+        customerID: pending.customerID,
+        token: pending.token
+    };
 
     if (window.__texlearnNativeRecoveryInProgress) {
         return false;
@@ -119,8 +150,8 @@ async function recoverNativePayment(session, paymentButton) {
                             "Content-Type": "application/json"
                         },
                         body: JSON.stringify({
-                            customerID: session.customerID,
-                            token: session.token
+                            customerID: recoverySession.customerID,
+                            token: recoverySession.token
                         })
                     }
                 );
@@ -173,17 +204,14 @@ async function recoverNativePayment(session, paymentButton) {
             }
         }
 
-        // Payment remains unconfirmed.
-        // Do not allow another checkout.
-
         restorePaymentButton(
             paymentButton,
             "Check Payment Status"
         );
 
         alert(
-            "Your previous payment is still unconfirmed.\\n\\n" +
-            "Please check the payment status again or contact support. " +
+            "Your previous payment is still unconfirmed.\n\n" +
+            "Please check again or contact support. " +
             "Do not start another payment until the previous attempt is resolved."
         );
 
@@ -197,34 +225,95 @@ async function recoverNativePayment(session, paymentButton) {
 
 
 
+
+
 async function resumePendingBrowserRecovery(session, paymentButton) {
+
     if (window.__texlearnPendingRecoveryInProgress) return;
-    if (!getPendingBrowserPayment()) return;
+
+    const pendingPayment = getPendingBrowserPayment();
+
+    if (!pendingPayment) return;
+
+    // The saved pending attempt must contain its original identity.
+    if (
+        !pendingPayment.customerID ||
+        !pendingPayment.token ||
+        !pendingPayment.orderID
+    ) {
+        console.error(
+            "Pending payment marker is incomplete. Manual review required."
+        );
+
+        if (paymentButton) {
+            setPaymentButtonBusy(
+                paymentButton,
+                "Contact Support"
+            );
+        }
+
+        alert(
+            "We found an incomplete previous payment record. " +
+            "Please contact support before attempting another payment."
+        );
+
+        return;
+    }
+
+    // Use the original checkout identity, not the current session.
+    const recoverySession = {
+        customerID: pendingPayment.customerID,
+        token: pendingPayment.token
+    };
 
     window.__texlearnPendingRecoveryInProgress = true;
-    if (paymentButton) setPaymentButtonBusy(paymentButton, "Checking Payment Status...");
-    console.warn("An unresolved browser payment was found; checking server status before allowing another payment.");
+
+    if (paymentButton) {
+        setPaymentButtonBusy(
+            paymentButton,
+            "Checking Payment Status..."
+        );
+    }
+
+    console.warn(
+        "Checking the original pending payment:",
+        pendingPayment.customerID,
+        pendingPayment.orderID
+    );
 
     try {
-        const recovered = await recoverBrowserPayment(session);
-        if (recovered) return; // recoverBrowserPayment redirects on confirmed payment.
 
-        // Do not permit a second charge while the server cannot confirm the
-        // previous attempt. The same button becomes a safe status-check action.
+        const recovered = await recoverBrowserPayment(
+            recoverySession
+        );
+
+        if (recovered) return;
+
+        // Keep the unresolved marker.
+        // Do not permit a new payment while its status is unknown.
+
         if (paymentButton) {
             paymentButton.disabled = false;
             paymentButton.style.opacity = "1";
             paymentButton.style.cursor = "pointer";
             paymentButton.textContent = "Check Payment Status";
         }
+
         alert(
             "Your previous payment status is still unconfirmed.\n\n" +
-            "We have not confirmed whether it succeeded. Please use Check Payment Status or contact support before making another payment."
+            "We checked the original payment attempt, but could not " +
+            "confirm its result. Please check again or contact support " +
+            "before making another payment."
         );
+
     } finally {
+
         window.__texlearnPendingRecoveryInProgress = false;
+
     }
 }
+
+
 
 document.addEventListener("DOMContentLoaded", function () {
 
@@ -242,34 +331,96 @@ document.addEventListener("DOMContentLoaded", function () {
         sessionStorage.getItem("checkoutSession");
 
     if (!storedSession) {
-        console.error("checkoutSession not found.");
-        paymentButton.disabled = true;
+
+    console.error("checkoutSession not found.");
+
+    // Recover an unresolved native payment using its original marker.
+    if (getPendingNativePayment()) {
+        console.warn(
+            "Checkout session missing. Recovering pending native payment."
+        );
+
+        setTimeout(function () {
+            recoverNativePayment(null, paymentButton);
+        }, 0);
+
         return;
     }
+
+    // Recover an unresolved browser payment using its original marker.
+    if (getPendingBrowserPayment()) {
+        console.warn(
+            "Checkout session missing. Recovering pending browser payment."
+        );
+
+        setTimeout(function () {
+            resumePendingBrowserRecovery(null, paymentButton);
+        }, 0);
+
+        return;
+    }
+
+    // No pending payment exists, so disable checkout.
+    paymentButton.disabled = true;
+    return;
+}
 
     let session;
 
-    try {
-        session = JSON.parse(storedSession);
-    } catch (error) {
-        console.error("Invalid checkoutSession:", error);
-        paymentButton.disabled = true;
+  try {
+    session = JSON.parse(storedSession);
+
+} catch (error) {
+
+    console.error("Invalid checkoutSession:", error);
+
+    if (getPendingNativePayment()) {
+        setTimeout(function () {
+            recoverNativePayment(null, paymentButton);
+        }, 0);
         return;
     }
 
-    if (
-        !session.customerID ||
-        !session.token ||
-        !session.razorpay ||
-        !session.razorpay.orderID ||
-        !session.razorpay.key ||
-        !session.razorpay.amount ||
-        !session.razorpay.currency
-    ) {
-        console.error("Incomplete checkout session.");
-        paymentButton.disabled = true;
+    if (getPendingBrowserPayment()) {
+        setTimeout(function () {
+            resumePendingBrowserRecovery(null, paymentButton);
+        }, 0);
         return;
     }
+
+    paymentButton.disabled = true;
+    return;
+}
+
+  if (
+    !session.customerID ||
+    !session.token ||
+    !session.razorpay ||
+    !session.razorpay.orderID ||
+    !session.razorpay.key ||
+    !session.razorpay.amount ||
+    !session.razorpay.currency
+) {
+
+    console.error("Incomplete checkout session.");
+
+    if (getPendingNativePayment()) {
+        setTimeout(function () {
+            recoverNativePayment(null, paymentButton);
+        }, 0);
+        return;
+    }
+
+    if (getPendingBrowserPayment()) {
+        setTimeout(function () {
+            resumePendingBrowserRecovery(null, paymentButton);
+        }, 0);
+        return;
+    }
+
+    paymentButton.disabled = true;
+    return;
+}
 
     const customerName =
         document.getElementById("customerName");
@@ -357,6 +508,8 @@ if (
 *************************************************/
 
 function setPaymentButtonBusy(button, text) {
+    if (!button) return;
+
     button.disabled = true;
     button.style.opacity = "0.7";
     button.style.cursor = "not-allowed";
@@ -430,9 +583,6 @@ window.TEXLearnNative.openCheckout(
 }
 
 
-/*************************************************
- Native SDK Callbacks
-*************************************************/
 
 window.onNativeRazorpaySuccess = function (response) {
 
@@ -441,115 +591,212 @@ window.onNativeRazorpaySuccess = function (response) {
     const paymentButton =
         document.getElementById("paymentButton");
 
-    const storedSession =
-        sessionStorage.getItem("checkoutSession");
-
-    if (!storedSession) {
-        alert("Your checkout session has expired. Contact support before retrying.");
-        return;
-    }
-
-    let session;
-
-    try {
-        session = JSON.parse(storedSession);
-    } catch (error) {
-        alert("Unable to read your checkout session. Contact support.");
-        return;
-    }
-
     if (
         !response ||
         !response.razorpay_payment_id ||
         !response.razorpay_order_id ||
         !response.razorpay_signature
     ) {
-        restorePaymentButton(paymentButton);
-        alert("Payment response is incomplete. Please contact support before retrying.");
+        setPaymentButtonBusy(paymentButton, "Contact Support");
+
+        alert(
+            "Payment response is incomplete. " +
+            "Please contact support before retrying."
+        );
         return;
     }
 
-    verifyPayment(response, session, paymentButton);
+    const pending = getPendingNativePayment();
+
+    let verificationSession;
+
+    // Prefer the original pending-payment marker.
+    // It remains usable even if checkoutSession is missing.
+    if (pending) {
+
+        const pendingAmount = Number(pending.amount);
+
+        if (
+            !pending.customerID ||
+            !pending.token ||
+            !pending.orderID ||
+            !Number.isFinite(pendingAmount) ||
+            pendingAmount <= 0
+        ) {
+            setPaymentButtonBusy(paymentButton, "Contact Support");
+
+            alert(
+                "Your original payment details are incomplete. " +
+                "Please contact support before retrying."
+            );
+            return;
+        }
+
+        // Never verify against a different Razorpay order.
+        if (
+            String(response.razorpay_order_id) !==
+            String(pending.orderID)
+        ) {
+            console.error("Native payment order mismatch.", {
+                responseOrderID: response.razorpay_order_id,
+                pendingOrderID: pending.orderID
+            });
+
+            setPaymentButtonBusy(paymentButton, "Contact Support");
+
+            alert(
+                "The payment order does not match your original checkout. " +
+                "Your payment details have been preserved. " +
+                "Please contact support before retrying."
+            );
+            return;
+        }
+
+        // Reconstruct verification details from the original marker.
+        verificationSession = {
+            customerID: pending.customerID,
+            token: pending.token,
+            razorpay: {
+                orderID: pending.orderID,
+                amount: pendingAmount
+            }
+        };
+
+    } else {
+
+        // No pending marker: use the current checkout session.
+        const storedSession =
+            sessionStorage.getItem("checkoutSession");
+
+        if (!storedSession) {
+            setPaymentButtonBusy(paymentButton, "Contact Support");
+
+            alert(
+                "Your checkout session has expired and no original " +
+                "payment record is available. Please contact support."
+            );
+            return;
+        }
+
+        try {
+            verificationSession = JSON.parse(storedSession);
+        } catch (error) {
+            console.error("Unable to read checkout session:", error);
+
+            setPaymentButtonBusy(paymentButton, "Contact Support");
+
+            alert(
+                "Unable to read your checkout session. " +
+                "Please contact support."
+            );
+            return;
+        }
+
+        if (
+            !verificationSession.customerID ||
+            !verificationSession.razorpay ||
+            !verificationSession.razorpay.orderID ||
+            !verificationSession.razorpay.amount ||
+            String(response.razorpay_order_id) !==
+            String(verificationSession.razorpay.orderID)
+        ) {
+            setPaymentButtonBusy(paymentButton, "Contact Support");
+
+            alert(
+                "The payment does not match your current checkout session. " +
+                "Please contact support before retrying."
+            );
+            return;
+        }
+    }
+
+    // Continue through the existing server-side verification.
+    verifyPayment(
+        response,
+        verificationSession,
+        paymentButton
+    );
 };
 
 
 
 window.onNativeRazorpayError = async function (message) {
 
-    console.error("Native Razorpay checkout error:", message);
+    console.error(
+        "Native Razorpay checkout error:",
+        message
+    );
 
     const paymentButton =
         document.getElementById("paymentButton");
 
-    const storedSession =
-        sessionStorage.getItem("checkoutSession");
+    const pending = getPendingNativePayment();
 
-    let session = null;
-
-    try {
-
-        session = storedSession
-            ? JSON.parse(storedSession)
-            : null;
-
-    } catch (error) {
-
-        console.error(
-            "Unable to read checkout session:",
-            error
-        );
-    }
-
-    if (session && session.customerID && session.token) {
+    // If an original payment attempt exists,
+    // check its status before allowing another payment.
+    if (pending) {
 
         await recoverNativePayment(
-            session,
+            null,
             paymentButton
         );
 
         return;
     }
 
-    // Without a valid session, do not permit another payment.
-    if (paymentButton) {
-        setPaymentButtonBusy(
-            paymentButton,
-            "Contact Support"
-        );
-    }
+    // No pending payment exists.
+    restorePaymentButton(
+        paymentButton,
+        "Continue to Payment"
+    );
 
     alert(
-        "We couldn't verify your payment session. " +
-        "Please contact support before attempting another payment."
+        "The payment process could not be completed.\n\n" +
+        "If money was deducted, please contact support " +
+        "before attempting another payment.\n\n" +
+        "Details: " + String(message || "Unknown error")
     );
 };
-
-
 
 
 /*************************************************
  Browser UPI Return — Payment Recovery
 *************************************************/
 
+
 async function recoverBrowserPayment(session) {
 
-logBrowserPaymentEvent("RECOVERY_FUNCTION_ENTERED", {
-    hasCustomerID: Boolean(session?.customerID),
-    hasToken: Boolean(session?.token)
-});
+    const pending = getPendingBrowserPayment();
 
-    if (!session?.customerID || !session?.token) {
-        console.error("Browser recovery: checkout session incomplete.");
+    const recoverySession = pending
+        ? {
+            customerID: pending.customerID,
+            token: pending.token
+        }
+        : session;
+
+    logBrowserPaymentEvent("RECOVERY_FUNCTION_ENTERED", {
+        hasCustomerID: Boolean(recoverySession?.customerID),
+        hasToken: Boolean(recoverySession?.token),
+        recoveringPendingCustomer: Boolean(pending)
+    });
+
+    if (
+        !recoverySession?.customerID ||
+        !recoverySession?.token
+    ) {
+        console.error("Browser recovery: session incomplete.");
         return false;
     }
 
     for (let attempt = 1; attempt <= 10; attempt++) {
-        // Normal Razorpay verification always takes priority.
+
         if (window.__texlearnBrowserVerificationStarted) {
             return false;
         }
 
         try {
+
             const response = await fetch(
                 CONFIG.API_URL + "/payment-recovery",
                 {
@@ -558,33 +805,31 @@ logBrowserPaymentEvent("RECOVERY_FUNCTION_ENTERED", {
                         "Content-Type": "application/json"
                     },
                     body: JSON.stringify({
-                        customerID: session.customerID,
-                        token: session.token
+                        customerID: recoverySession.customerID,
+                        token: recoverySession.token
                     })
                 }
             );
 
             const result = await response.json();
 
-
             logBrowserPaymentEvent("RECOVERY_RESPONSE", {
-    attempt: attempt,
-    httpStatus: response.status,
-    success: result.success,
-    paid: result.paid,
-    hasPaymentID: Boolean(result.paymentID)
-});
+                attempt: attempt,
+                httpStatus: response.status,
+                success: result.success,
+                paid: result.paid,
+                hasPaymentID: Boolean(result.paymentID)
+            });
 
             console.log("Browser payment recovery:", {
                 attempt: attempt,
+                customerID: recoverySession.customerID,
                 httpStatus: response.status,
                 success: result.success,
                 paid: result.paid,
                 paymentIDPresent: Boolean(result.paymentID)
             });
 
-            // Check again because the normal Razorpay handler
-            // might have started while the request was in flight.
             if (window.__texlearnBrowserVerificationStarted) {
                 return false;
             }
@@ -595,7 +840,9 @@ logBrowserPaymentEvent("RECOVERY_FUNCTION_ENTERED", {
                 result.paid === true &&
                 result.paymentID
             ) {
+
                 clearPendingBrowserPayment();
+
                 sessionStorage.setItem(
                     "paymentResult",
                     JSON.stringify({
@@ -608,19 +855,25 @@ logBrowserPaymentEvent("RECOVERY_FUNCTION_ENTERED", {
                 logBrowserPaymentEvent("RECOVERY_REDIRECT_TO_SUCCESS");
 
                 window.location.href = "/TEXLearn/success.html";
+
                 return true;
             }
+
         } catch (error) {
+
             console.error(
                 "Browser recovery attempt failed:",
                 attempt,
                 error
             );
+
         }
 
         if (attempt < 10) {
-    await new Promise(resolve => setTimeout(resolve, 2000));
-}
+            await new Promise(resolve =>
+                setTimeout(resolve, 2000)
+            );
+        }
     }
 
     console.log(
@@ -629,6 +882,7 @@ logBrowserPaymentEvent("RECOVERY_FUNCTION_ENTERED", {
 
     return false;
 }
+
 
 
 function logBrowserPaymentEvent(event, details = {}) {

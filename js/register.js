@@ -79,9 +79,11 @@ institutionTypeSelect.addEventListener(
 
 document.addEventListener(
     "DOMContentLoaded",
-    function () {
+    async function () {
 
         hideInstitutionField();
+
+        await restoreRegistrationDraft();
 
     }
 );
@@ -117,6 +119,67 @@ function hideInstitutionField() {
     institutionSelect.value =
         "";
 
+}
+
+// ==========================================
+// Restore Previous Registration Details
+// ==========================================
+
+async function restoreRegistrationDraft() {
+
+    const savedDraft =
+        sessionStorage.getItem("texlearn_registration_draft");
+
+    if (!savedDraft) {
+        return;
+    }
+
+    try {
+
+        const draft = JSON.parse(savedDraft);
+
+        document.getElementById("name").value =
+            draft.name || "";
+
+        document.getElementById("contact").value =
+            draft.contact || "";
+
+        document.getElementById("email").value =
+            draft.email || "";
+
+        institutionTypeSelect.value =
+            draft.institutionType || "";
+
+        if (
+            draft.institutionType === "SCHOOL" ||
+            draft.institutionType === "COLLEGE"
+        ) {
+
+            showInstitutionField();
+
+            await loadInstitutions(draft.institutionType);
+
+            institutionSelect.value =
+                draft.institution || "";
+
+        } else {
+
+            hideInstitutionField();
+
+        }
+
+        console.log(
+            "Previous registration details restored."
+        );
+
+    } catch (error) {
+
+        console.error(
+            "Unable to restore registration details:",
+            error
+        );
+
+    }
 }
 
 
@@ -367,6 +430,22 @@ const institution =
 
 
     // ----------------------------------------
+// Save Registration Details for Recovery
+// ----------------------------------------
+
+sessionStorage.setItem(
+    "texlearn_registration_draft",
+    JSON.stringify({
+        name: name,
+        contact: contact,
+        email: email,
+        institutionType: institutionType,
+        institution: institution
+    })
+);
+
+
+    // ----------------------------------------
     // Disable Button
     // ----------------------------------------
 
@@ -379,89 +458,239 @@ const institution =
 
     try {
 
+        
         // ------------------------------------
-// Get Referral Partner ID
-// ------------------------------------
-
-const partnerID =
-    (localStorage.getItem("texlearn_partner_id") || "")
-        .trim()
-        .toUpperCase();
-
-console.log(
-    "REGISTRATION PARTNER ID:",
-    partnerID || "No referral"
-);
-
-
-        // ------------------------------------
-        // Send Registration
+        // Identify an Existing Checkout Session
         // ------------------------------------
 
-       const formData =
-    new URLSearchParams();
+        let retrySession = null;
 
-formData.append(
-    "action",
-    "register"
-);
+        const browserPendingRaw =
+            sessionStorage.getItem("texlearn_pending_browser_payment");
 
-formData.append(
-    "name",
-    name
-);
+        const nativePendingRaw =
+            sessionStorage.getItem("texlearn_pending_native_payment");
 
-formData.append(
-    "contact",
-    contact
-);
+        const checkoutSessionRaw =
+            sessionStorage.getItem("checkoutSession");
 
-formData.append(
-    "email",
-    email
-);
+        let browserPending = null;
+        let nativePending = null;
+        let previousCheckout = null;
 
-formData.append(
-    "institutionType",
-    institutionType
-);
+        try {
 
-formData.append(
-    "institution",
-    institution
-);
+            browserPending = browserPendingRaw
+                ? JSON.parse(browserPendingRaw)
+                : null;
 
-formData.append(
-    "partnerID",
-    partnerID
-);
+            nativePending = nativePendingRaw
+                ? JSON.parse(nativePendingRaw)
+                : null;
 
+            previousCheckout = checkoutSessionRaw
+                ? JSON.parse(checkoutSessionRaw)
+                : null;
 
-const response =
-    await fetch(
-        CONFIG.WEBAPP_URL,
-        {
-            method: "POST",
-            body: formData
+        } catch (error) {
+
+            alert(
+                "Previous checkout information could not be read. " +
+                "Please contact support before trying again."
+            );
+
+            button.disabled = false;
+            button.innerHTML = "Continue to Secure Checkout";
+
+            return;
         }
-    );
+
+
+        // ------------------------------------
+        // Check for Conflicting Pending Sessions
+        // ------------------------------------
+
+        if (
+            browserPending &&
+            nativePending &&
+            (
+                browserPending.customerID !== nativePending.customerID ||
+                browserPending.orderID !== nativePending.orderID
+            )
+        ) {
+
+            alert(
+                "More than one pending payment session was found. " +
+                "Please contact support before trying again."
+            );
+
+            button.disabled = false;
+            button.innerHTML = "Continue to Secure Checkout";
+
+            return;
+        }
+
+
+        // ------------------------------------
+        // Prefer the Original Pending Payment
+        // ------------------------------------
+
+        const pendingSession =
+            browserPending || nativePending;
+
+        if (pendingSession) {
+
+            if (
+                !pendingSession.customerID ||
+                !pendingSession.token ||
+                !pendingSession.orderID
+            ) {
+
+                alert(
+                    "The previous payment session is incomplete. " +
+                    "Please contact support before trying again."
+                );
+
+                button.disabled = false;
+                button.innerHTML = "Continue to Secure Checkout";
+
+                return;
+            }
+
+            retrySession = pendingSession;
+
+        } else if (previousCheckout) {
+
+            if (
+                previousCheckout.customerID &&
+                previousCheckout.token &&
+                previousCheckout.razorpay &&
+                previousCheckout.razorpay.orderID
+            ) {
+
+                retrySession = previousCheckout;
+
+            }
+
+        }
+
+
+        // ------------------------------------
+        // Get Referral Partner ID
+        // ------------------------------------
+
+        const partnerID =
+            (localStorage.getItem("texlearn_partner_id") || "")
+                .trim()
+                .toUpperCase();
+
+        console.log(
+            "REGISTRATION PARTNER ID:",
+            partnerID || "No referral"
+        );
+
+        console.log(
+            "EXISTING CHECKOUT SESSION:",
+            retrySession ? "Found" : "Not found"
+        );
+
+
+        // ------------------------------------
+        // Prepare Registration Request
+        // ------------------------------------
+
+        const formData =
+            new URLSearchParams();
+
+        formData.append(
+            "action",
+            retrySession
+                ? "update_pending_registration"
+                : "register"
+        );
+
+        formData.append("name", name);
+        formData.append("contact", contact);
+        formData.append("email", email);
+        formData.append("institutionType", institutionType);
+        formData.append("institution", institution);
+
+
+        // ------------------------------------
+        // Add Existing Customer Credentials
+        // Only for a payment retry
+        // ------------------------------------
+
+        if (retrySession) {
+
+            formData.append(
+                "customerID",
+                retrySession.customerID
+            );
+
+            formData.append(
+                "token",
+                retrySession.token
+            );
+
+        } else {
+
+            formData.append(
+                "partnerID",
+                partnerID
+            );
+
+        }
+
+
+        // ------------------------------------
+        // Send Registration Request
+        // ------------------------------------
+
+        const response =
+            await fetch(
+                CONFIG.WEBAPP_URL,
+                {
+                    method: "POST",
+                    body: formData
+                }
+            );
 
 
         const rawResponse =
-    await response.text();
+            await response.text();
 
-console.log(
-    "REGISTRATION HTTP STATUS:",
-    response.status
-);
+        console.log(
+            "REGISTRATION HTTP STATUS:",
+            response.status
+        );
 
-console.log(
-    "REGISTRATION RAW RESPONSE:",
-    rawResponse
-);
+        console.log(
+            "REGISTRATION RAW RESPONSE:",
+            rawResponse
+        );
 
-const result =
-    JSON.parse(rawResponse);
+        const result =
+            JSON.parse(rawResponse);
+
+
+        // ------------------------------------
+        // Payment Already Confirmed
+        // ------------------------------------
+
+        if (result.paid === true) {
+
+            alert(
+                "Your previous payment has already been confirmed. " +
+                "Please do not make another payment. " +
+                "If you have not received access, contact support."
+            );
+
+            button.disabled = false;
+            button.innerHTML = "Continue to Secure Checkout";
+
+            return;
+        }
 
 
         // ------------------------------------
@@ -471,16 +700,61 @@ const result =
         if (!result.success) {
 
             alert(
-                result.message
+                result.message ||
+                "Unable to continue registration. Please try again."
             );
 
-            button.disabled =
-                false;
+            button.disabled = false;
 
             button.innerHTML =
                 "Continue to Secure Checkout";
 
             return;
+        }
+
+
+        // ------------------------------------
+        // Validate Retry Checkout Details
+        // ------------------------------------
+
+        if (
+            retrySession &&
+            (
+                result.retryAllowed !== true ||
+                result.paymentState !== "RETRY_ALLOWED" ||
+                !result.razorpay ||
+                !result.razorpay.orderID ||
+                !Number(result.razorpay.amount)
+            )
+        ) {
+
+            alert(
+                result.message ||
+                "The previous payment cannot safely be retried yet. " +
+                "Please contact support."
+            );
+
+            button.disabled = false;
+            button.innerHTML = "Continue to Secure Checkout";
+
+            return;
+        }
+
+
+        // ------------------------------------
+        // Clear Old Pending Markers
+        // Only after Server Confirms Safe Retry
+        // ------------------------------------
+
+        if (retrySession) {
+
+            sessionStorage.removeItem(
+                "texlearn_pending_browser_payment"
+            );
+
+            sessionStorage.removeItem(
+                "texlearn_pending_native_payment"
+            );
 
         }
 
@@ -490,11 +764,8 @@ const result =
         // ------------------------------------
 
         sessionStorage.setItem(
-
             "checkoutSession",
-
             JSON.stringify(result)
-
         );
 
 
@@ -515,15 +786,11 @@ const result =
             error
         );
 
-
         alert(
             "Unable to connect to the server."
         );
 
-
-        button.disabled =
-            false;
-
+        button.disabled = false;
 
         button.innerHTML =
             "Continue to Secure Checkout";
