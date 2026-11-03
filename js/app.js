@@ -8,7 +8,7 @@ const CONFIG = {
     API_URL:
         "https://samramba-api.samrambakerala.workers.dev",
 
-    PRODUCT_PRICE: 899,
+    PRODUCT_PRICE: 499,
 
     CURRENCY: "INR"
 
