@@ -2311,11 +2311,15 @@ body.library-modal-is-open {
 
 
 
-   .library-banner-content {
+  .library-banner-content {
+    position: relative;
+    align-self: stretch;
     width: 100%;
+    height: 100%;
 
-    padding:
-        25px 18px 30px;
+    justify-content: flex-start;
+
+    padding: 25px 18px 62px;
 }
 
     .library-banner-eyebrow {
@@ -2331,23 +2335,27 @@ body.library-modal-is-open {
         line-height: 1.16;
     }
 
-    .library-banner p {
-        max-width: 300px;
+   .library-banner p {
+    max-width: 300px;
+    margin-bottom: 0;
 
-        margin-bottom: 17px;
-
-        font-size: 11px;
-        line-height: 1.55;
-    }
+    font-size: 11px;
+    line-height: 1.55;
+}
 
     .library-banner-action {
-        min-height: 34px;
+    position: absolute;
+    left: 18px;
+    bottom: 16px;
 
-        padding: 0 11px;
+    margin: 0;
 
-        font-size: 10px;
-        font-weight: 500;
-    }
+    min-height: 34px;
+    padding: 0 11px;
+
+    font-size: 10px;
+    font-weight: 500;
+}
 
     .library-banner-visual {
         width: 62%;
@@ -2676,9 +2684,15 @@ body.library-modal-is-open {
 
 
     .library-banner-content {
-        padding:
-            22px 17px 27px;
-    }
+    position: relative;
+    align-self: stretch;
+    width: 100%;
+    height: 100%;
+
+    justify-content: flex-start;
+
+    padding: 22px 17px 58px;
+}
 
    .library-banner-eyebrow {
     margin-bottom: 3px;
@@ -2688,17 +2702,23 @@ body.library-modal-is-open {
 
 .library-banner h1 {
     max-width: 270px;
-
     font-size: clamp(15px, 5.1vw, 17px);
 }
 
 .library-banner p {
     max-width: 255px;
+    margin-bottom: 0;
 
     font-size: clamp(8px, 2.5vw, 9px);
 }
 
 .library-banner-action {
+    position: absolute;
+    left: 17px;
+    bottom: 14px;
+
+    margin: 0;
+
     min-height: 32px;
 
     font-size: clamp(7px, 2.3vw, 8px);
