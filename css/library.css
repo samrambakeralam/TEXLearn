@@ -2697,12 +2697,12 @@ body.library-modal-is-open {
    .library-banner-eyebrow {
     margin-bottom: 3px;
 
-    font-size: clamp(6px, 1.7vw, 7px);
+    font-size: clamp(5px, 1.7vw, 6px);
 }
 
 .library-banner h1 {
     max-width: 270px;
-    font-size: clamp(15px, 5.1vw, 17px);
+    font-size: clamp(15px, 5.1vw, 16px);
 }
 
 .library-banner p {
@@ -2715,11 +2715,11 @@ body.library-modal-is-open {
 .library-banner-action {
     position: absolute;
     left: 17px;
-    bottom: 14px;
+    bottom: 12px;
 
     margin: 0;
 
-    min-height: 32px;
+    min-height: 30px;
 
     font-size: clamp(7px, 2.3vw, 8px);
 }
