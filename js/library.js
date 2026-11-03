@@ -302,8 +302,16 @@ const LibraryAPI = {
             action: "Explore Virtual Office",
             href: "#virtual-office"
         },
+        {
+            id: "image-banner",
+            type: "image",
+            image: "assets/Images/texlearn-android-banner.webp",
+            alt: "TEXLearn promotional banner",
+            action: "Download App",
+            href: "https://github.com/texlearn/TEXLearn-Android/releases/latest/download/TEXLearn.apk"
+        },
          {
-        id: "image-banner",
+        id: "image-banner-1",
         type: "image",
         image: "assets/Images/malappuram.webp",
         alt: "Library promotional banner"
