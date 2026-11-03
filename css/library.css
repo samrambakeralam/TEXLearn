@@ -989,8 +989,8 @@ body {
 /* Image banner action button */
 .library-banner-image-action {
     position: absolute;
-    left: 24px;
-    bottom: 16px;
+    left: 22px;
+    bottom: 17px;
     gap: 7px;
     transform: none;
     z-index: 6;
