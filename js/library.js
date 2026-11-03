@@ -299,7 +299,7 @@ const LibraryAPI = {
             text:
                 "Explore Virtual Office solutions designed for " +
                 "emerging entrepreneurs.",
-            action: "Explore Virtual Office",
+            action: "Virtual Office",
             href: "#virtual-office"
         },
         {
@@ -307,7 +307,7 @@ const LibraryAPI = {
             type: "image",
             image: "assets/Images/texlearn-android-banner.webp",
             alt: "TEXLearn promotional banner",
-            action: "Download App",
+            action: "Download",
             href: "https://github.com/texlearn/TEXLearn-Android/releases/latest/download/TEXLearn.apk"
         },
          {
@@ -1409,10 +1409,10 @@ function showBanner(index) {
         }
 
         if (bannerAction) {
-            bannerAction.hidden = isImageBanner;
+            bannerAction.hidden = isImageBanner || !item.action;
             bannerAction.textContent = item.action || "";
             bannerAction.setAttribute("href", item.href || "#");
-        }
+      }
 
         if (bannerVisual) {
 
@@ -1428,6 +1428,17 @@ function showBanner(index) {
                 image.draggable = false;
 
                 bannerVisual.replaceChildren(image);
+
+                // Add an action button only when an image banner has an action.
+if (item.action) {
+    const imageAction = document.createElement("a");
+
+    imageAction.className = "library-banner-image-action";
+    imageAction.href = item.href || "#";
+    imageAction.textContent = item.action;
+
+    bannerVisual.appendChild(imageAction);
+}
 
             } else {
 
@@ -1580,6 +1591,17 @@ function createDesktopBannerCard(item) {
         image.draggable = false;
 
         card.appendChild(image);
+
+// Add an action button only when the image banner has an action.
+if (item.action) {
+    const action = document.createElement("a");
+
+    action.className = "library-banner-image-action";
+    action.href = item.href || "#";
+    action.textContent = item.action;
+
+    card.appendChild(action);
+}
 
     } else {
 

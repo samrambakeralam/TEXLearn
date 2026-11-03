@@ -804,16 +804,21 @@ body {
     }
 
     .library-banner-desktop {
-        position: absolute;
-        inset: 0;
-        overflow: hidden;
-    }
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    overflow: hidden;
+}
 
-    .library-banner-desktop-viewport {
-        position: absolute;
-        inset: 0;
-        overflow: hidden;
-    }
+   .library-banner-desktop-viewport {
+    position: relative;
+    flex: 1;
+    min-height: 0;
+    width: 100%;
+    overflow: hidden;
+}
 
     .library-banner-desktop-track {
         display: flex;
@@ -891,19 +896,25 @@ body {
 
     /* Navigation dots */
 
-    .library-banner-desktop-dots {
-        position: absolute;
-        z-index: 5;
-        left: 50%;
-        bottom: 8px;
-        display: flex;
-        align-items: center;
-        gap: 6px;
-        padding: 5px 8px;
-        border-radius: 999px;
-        background: rgba(7,24,45,.42);
-        transform: translateX(-50%);
-    }
+.library-banner-desktop-dots {
+    position: relative;
+    z-index: 5;
+
+    flex: 0 0 14px;
+    align-self: center;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+
+    width: max-content;
+    margin: 6;
+    padding: 3px 8px;
+
+    border-radius: 999px;
+    background: rgba(7,24,45,.42);
+}
 
     .library-banner-desktop-dot {
         width: 6px;
@@ -973,6 +984,41 @@ body {
 /* Keep carousel navigation visible on image banners */
 .library-banner.is-image-banner .library-banner-controls {
     z-index: 5;
+}
+
+/* Image banner action button */
+.library-banner-image-action {
+    position: absolute;
+    left: 24px;
+    bottom: 16px;
+    gap: 7px;
+    transform: none;
+    z-index: 6;
+
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    
+    min-height: 32px;
+    padding: 0 14px;
+    border: none;
+    border-radius: 9px;
+
+    background: var(--library-green);
+    color: #FFFFFF;
+
+    font-size: 11px;
+    font-weight: 600;
+    text-decoration: none;
+    white-space: nowrap;
+
+    box-shadow: 0 5px 16px rgba(0, 0, 0, 0.2);
+    transition: background 0.2s ease, transform 0.2s ease;
+}
+
+.library-banner-image-action:hover {
+    background: var(--library-green-dark);
+    transform: translateY(-1px);
 }
 
 
@@ -1053,9 +1099,9 @@ body {
     align-items: center;
     gap: 7px;
 
-    min-height: 38px;
+    min-height: 32px;
 
-    padding: 0 15px;
+    padding: 0 13px;
 
     border-radius: 9px;
 
@@ -2350,7 +2396,7 @@ body.library-modal-is-open {
 
     margin: 0;
 
-    min-height: 34px;
+    min-height: 32px;
     padding: 0 11px;
 
     font-size: 10px;
