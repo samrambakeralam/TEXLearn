@@ -2799,6 +2799,35 @@ body.library-modal-is-open {
     font-size: clamp(7px, 2.3vw, 8px);
 }
 
+.library-banner-image-action {
+    position: absolute;
+    left: 17px;
+    bottom: 12px;
+    gap: 7px;
+    transform: none;
+    z-index: 6;
+
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    
+    min-height: 30px;
+    padding: 0 11px;
+    border: none;
+    border-radius: 9px;
+
+    background: var(--library-green);
+    color: #FFFFFF;
+
+    font-size: clamp(7px, 2.3vw, 8px);
+    font-weight: 500;
+    text-decoration: none;
+    white-space: nowrap;
+
+    box-shadow: 0 5px 16px rgba(0, 0, 0, 0.2);
+    transition: background 0.2s ease, transform 0.2s ease;
+}
+
     .library-section {
         margin-top: 28px;
     }
