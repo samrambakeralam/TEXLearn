@@ -820,6 +820,7 @@ function showLibrarySessionNotice() {
                 border-radius:11px;
                 background:#16834f;
                 color:white;
+                font-size:12px;
                 font-weight:700;
                 cursor:pointer;">
                 Refresh Library
