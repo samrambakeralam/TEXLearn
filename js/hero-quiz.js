@@ -140,9 +140,9 @@ function showCampaignImage(index = 0) {
     campaignMainLink.hidden = item.link !== campaignMainLink;
     campaignSupportingLink.hidden = item.link !== campaignSupportingLink;
 
-    item.image.src = new URL(
+  item.image.src = new URL(
     item.url,
-    window.location.origin + "/TEXLearn/"
+    document.baseURI
 ).href;
     item.image.alt = item.alt || "";
 
@@ -767,10 +767,13 @@ function loadHeroCampaign() {
                 link: campaignSupportingLink,
                 image: campaignSupportingImage
             }
-        ].filter(item =>
-            item.url &&
-            /^https?:\/\//i.test(item.url)
-        );
+       ].filter(item =>
+    item.url &&
+    (
+        /^https?:\/\//i.test(item.url) ||
+        !/^[a-z][a-z0-9+.-]*:/i.test(item.url)
+    )
+);
 
     } catch (error) {
         campaignImages = [];
