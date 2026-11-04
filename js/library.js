@@ -716,6 +716,139 @@ const libraryNotesGrid =
     }
 
 
+    
+function showLibrarySessionNotice() {
+
+    // Prevent duplicate notifications
+    if (document.getElementById("texlearnSessionNotice")) {
+        return;
+    }
+
+    const overlay = document.createElement("div");
+
+    overlay.id = "texlearnSessionNotice";
+    overlay.setAttribute("role", "alertdialog");
+    overlay.setAttribute("aria-modal", "true");
+
+    Object.assign(overlay.style, {
+        position: "fixed",
+        inset: "0",
+        zIndex: "100000",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        padding: "22px",
+        boxSizing: "border-box",
+        background: "rgba(5, 13, 25, 0.72)",
+        backdropFilter: "blur(5px)",
+        WebkitBackdropFilter: "blur(5px)"
+    });
+
+    const dialog = document.createElement("div");
+
+    Object.assign(dialog.style, {
+        width: "100%",
+        maxWidth: "390px",
+        padding: "26px",
+        boxSizing: "border-box",
+        borderRadius: "20px",
+        background: "linear-gradient(145deg, #0b1d30, #071321)",
+        boxShadow: "0 24px 70px rgba(0,0,0,0.38)",
+        color: "#ffffff",
+        fontFamily: "Inter, Poppins, Arial, sans-serif"
+    });
+
+    dialog.innerHTML = `
+        <div style="display:flex;align-items:center;gap:12px;margin-bottom:22px;">
+
+            <div style="
+                width:46px;height:46px;
+                display:grid;place-items:center;
+                border-radius:14px;
+                background:rgba(35,174,111,0.14);
+                color:#45cf91;
+                font-size:23px;">
+                <i data-lucide="shield-check"></i>
+            </div>
+
+            <div>
+                <div style="font-size:15px;font-weight:750;">
+                    TEXLearn
+                </div>
+                <div style="font-size:9px;font-weight:700;
+                    letter-spacing:1.5px;color:#75bd9b;margin-top:3px;">
+                    LEARNING MODULES
+                </div>
+            </div>
+
+        </div>
+
+        <h2 style="
+            margin:0 0 10px;
+            font-size:21px;
+            line-height:1.25;
+            color:#ffffff;">
+            Session Verification
+        </h2>
+
+        <p style="
+            margin:0 0 24px;
+            color:#c4d0dc;
+            font-size:14px;
+            line-height:1.65;">
+            Your library session could not be verified.
+            Please refresh the Library page and try again.
+        </p>
+
+        <div style="display:flex;justify-content:flex-end;gap:12px;">
+
+            <button id="texlearnNoticeClose" style="
+                padding:0 13px;
+                min-height:44px;
+                border:0;
+                background:transparent;
+                color:#b8c6d4;
+                font-weight:600;
+                cursor:pointer;">
+                Not now
+            </button>
+
+            <button id="texlearnNoticeRefresh" style="
+                padding:0 19px;
+                min-height:46px;
+                border:0;
+                border-radius:11px;
+                background:#16834f;
+                color:white;
+                font-weight:700;
+                cursor:pointer;">
+                Refresh Library
+            </button>
+
+        </div>
+    `;
+
+    overlay.appendChild(dialog);
+    document.body.appendChild(overlay);
+
+    if (window.lucide) {
+        window.lucide.createIcons();
+    }
+
+    document.getElementById("texlearnNoticeClose")
+        .addEventListener("click", function () {
+            overlay.remove();
+        });
+
+    document.getElementById("texlearnNoticeRefresh")
+        .addEventListener("click", function () {
+            window.location.reload();
+        });
+
+}
+
+
+
     function refreshIcons() {
         if (
             window.lucide &&
@@ -2477,9 +2610,9 @@ catch (error) {
                 "Cannot open Reader: verified Library session is missing."
             );
 
-            alert(
-                "Your library session could not be verified. Please refresh the Library page and try again."
-            );
+           
+showLibrarySessionNotice();
+
 
             return;
         }
