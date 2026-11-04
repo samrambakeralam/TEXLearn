@@ -341,7 +341,7 @@
             
 
 <!-- Hero quiz: two-frame experience -->
-<div class="tk-hero-quiz" id="tkHeroQuiz" aria-live="polite" hidden>
+<div class="tk-hero-quiz tk-hero-view" id="tkHeroQuiz" aria-live="polite" hidden>
 
     <!-- FRAME 1: INTRODUCTION -->
     <div class="tk-hero-quiz-frame tk-hero-quiz-intro" id="tkHeroQuizIntro">
@@ -386,10 +386,7 @@
 
 
 
-            <div
-                class="rc2-unboxing-stage"
-                id="rc2UnboxingStage"
-            >
+           <div class="rc2-unboxing-stage tk-hero-view" id="rc2UnboxingStage">
 
                 <!-- Ambient spotlight -->
 
@@ -495,17 +492,53 @@
 
             
 <!-- 100K FOUNDERS CAMPAIGN POSTER -->
-<div
-    class="tk-hero-founders"
-    id="tkHeroFounders"
-    aria-label="Building Foundation for 100K Founders"
-    hidden
->
+<div class="tk-hero-founders tk-hero-view" id="tkHeroFounders"
+     aria-label="Building Foundation for 100K Founders" hidden>
     <img
         src="assets/founders-100k.webp"
         alt="Building Foundation for 100K Founders"
         loading="eager"
     >
+</div>
+
+<!-- DYNAMIC HERO CAMPAIGN -->
+<div
+    class="tk-hero-campaign tk-hero-view"
+    id="tkHeroCampaign"
+    aria-label="Featured TEXLearn campaign"
+    hidden
+>
+
+    <!-- Main campaign image -->
+    <a
+        id="tkCampaignMainLink"
+        class="tk-campaign-main-link"
+        href="#"
+        target="_blank"
+        rel="noopener noreferrer"
+    >
+        <img
+            id="tkCampaignMainImage"
+            src=""
+            alt=""
+        >
+    </a>
+
+    <!-- Supporting campaign image -->
+    <a
+        id="tkCampaignSupportingLink"
+        class="tk-campaign-supporting-link"
+        href="#"
+        target="_blank"
+        rel="noopener noreferrer"
+    >
+        <img
+            id="tkCampaignSupportingImage"
+            src=""
+            alt=""
+        >
+    </a>
+
 </div>
 
 

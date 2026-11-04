@@ -10,6 +10,12 @@
 
     const API_BASE =
         "https://samramba-api.samrambakerala.workers.dev";
+        const HERO_CAMPAIGN_API =
+    "https://script.google.com/macros/s/AKfycbxpv1gaF3-kNWsB6Zn5weUkaSPp92m1Yln3xkQ4f_wcKa7JahoaUyKid2BkkuvoEi_X/exec";
+
+let campaignImages = [];
+let campaignLoadPromise = null;
+
 
     const quizBox = document.getElementById("tkHeroQuiz");
     const introFrame = document.getElementById("tkHeroQuizIntro");
@@ -19,6 +25,12 @@
     const quizContent = document.getElementById("tkHeroQuizContent");
     const bookStage = document.getElementById("rc2UnboxingStage");
     const foundersPoster = document.getElementById("tkHeroFounders");
+    // Dynamic hero campaign
+const campaignBox = document.getElementById("tkHeroCampaign");
+const campaignMainLink = document.getElementById("tkCampaignMainLink");
+const campaignMainImage = document.getElementById("tkCampaignMainImage");
+const campaignSupportingLink = document.getElementById("tkCampaignSupportingLink");
+const campaignSupportingImage = document.getElementById("tkCampaignSupportingImage");
 
    if (
     !quizBox || !introFrame || !voteFrame ||
@@ -52,10 +64,11 @@ function fadeToView(nextView) {
     if (isTransitioning || currentHeroView === nextView) return;
 
     const views = {
-        book: bookStage,
-        founders: foundersPoster,
-        quiz: quizBox
-    };
+    book: bookStage,
+    founders: foundersPoster,
+    campaign: campaignBox,
+    quiz: quizBox
+};
 
     const outgoing = views[currentHeroView];
     const incoming = views[nextView];
@@ -108,6 +121,60 @@ function showBook() {
     );
 }
 
+function showCampaignImage(index = 0) {
+    clearTimeout(transitionTimer);
+    clearTimeout(rotationTimer);
+
+    if (!campaignImages.length || !campaignBox) {
+        if (activeQuiz) {
+            showIntro();
+        } else {
+            showBook();
+        }
+        return;
+    }
+
+    const item = campaignImages[index];
+
+    // Display only one image at a time.
+    campaignMainLink.hidden = item.link !== campaignMainLink;
+    campaignSupportingLink.hidden = item.link !== campaignSupportingLink;
+
+    item.image.src = item.url;
+    item.image.alt = item.alt || "";
+
+    if (item.linkUrl) {
+        item.link.href = item.linkUrl;
+        item.link.target = "_blank";
+        item.link.rel = "noopener noreferrer";
+        item.link.style.pointerEvents = "auto";
+    } else {
+        item.link.removeAttribute("href");
+        item.link.removeAttribute("target");
+        item.link.style.pointerEvents = "none";
+    }
+
+    rotationPaused = false;
+
+    if (currentHeroView !== "campaign") {
+        fadeToView("campaign");
+    } else {
+        campaignBox.hidden = false;
+    }
+
+    // Move to the next image after 20 seconds.
+    rotationTimer = setTimeout(() => {
+        if (index + 1 < campaignImages.length) {
+            showCampaignImage(index + 1);
+        } else if (activeQuiz) {
+            showIntro();
+        } else {
+            showBook();
+        }
+    }, BOOK_DURATION);
+}
+
+
 function showFoundersPoster() {
     clearTimeout(transitionTimer);
     clearTimeout(rotationTimer);
@@ -120,11 +187,17 @@ function showFoundersPoster() {
 
     // Show the quiz after the poster, but only when
     // the backend has returned an active quiz.
-    if (activeQuiz) {
-        rotationTimer = setTimeout(showIntro, BOOK_DURATION);
+  rotationTimer = setTimeout(async () => {
+    await loadHeroCampaign();
+
+    if (campaignImages.length) {
+        showCampaignImage(0);
+    } else if (activeQuiz) {
+        showIntro();
     } else {
-        rotationTimer = setTimeout(showBook, BOOK_DURATION);
+        showBook();
     }
+}, BOOK_DURATION);
 }
 
 
@@ -642,6 +715,68 @@ function renderResults(result) {
 }
 
 
+function loadHeroCampaign() {
+    if (campaignLoadPromise) {
+        return campaignLoadPromise;
+    }
+
+    campaignLoadPromise = (async () => {
+    if (
+        !campaignBox ||
+        !campaignMainLink ||
+        !campaignMainImage ||
+        !campaignSupportingLink ||
+        !campaignSupportingImage
+    ) {
+        return;
+    }
+
+    try {
+        const response = await fetch(HERO_CAMPAIGN_API, {
+            method: "GET",
+            cache: "no-store"
+        });
+
+        if (!response.ok) {
+            throw new Error("Campaign service unavailable.");
+        }
+
+        const data = await response.json();
+
+        if (!data.success || !data.campaign) {
+            return;
+        }
+
+        const campaign = data.campaign;
+
+        campaignImages = [
+            {
+                url: campaign.mainImageUrl,
+                alt: campaign.mainImageAlt,
+                linkUrl: campaign.mainImageLink,
+                link: campaignMainLink,
+                image: campaignMainImage
+            },
+            {
+                url: campaign.supportingImageUrl,
+                alt: campaign.supportingImageAlt,
+                linkUrl: campaign.supportingImageLink,
+                link: campaignSupportingLink,
+                image: campaignSupportingImage
+            }
+        ].filter(item =>
+            item.url &&
+            /^https?:\/\//i.test(item.url)
+        );
+
+    } catch (error) {
+        campaignImages = [];
+        console.warn("Hero campaign unavailable:", error);
+    }
+    })();
+
+    return campaignLoadPromise;
+}
 
 
 
@@ -704,5 +839,6 @@ startButton.addEventListener("click", () => {
 
     // Begin with the original book visible until a quiz loads.
     showBook();
-    loadActiveQuiz();
+loadHeroCampaign();
+loadActiveQuiz();
 })();
