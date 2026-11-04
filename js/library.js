@@ -748,10 +748,10 @@ function showLibrarySessionNotice() {
 
     Object.assign(dialog.style, {
         width: "100%",
-        maxWidth: "390px",
-        padding: "26px",
+        maxWidth: "320px",
+        padding: "20px",
         boxSizing: "border-box",
-        borderRadius: "20px",
+        borderRadius: "16px",
         background: "linear-gradient(145deg, #0b1d30, #071321)",
         boxShadow: "0 24px 70px rgba(0,0,0,0.38)",
         color: "#ffffff",
@@ -762,7 +762,7 @@ function showLibrarySessionNotice() {
         <div style="display:flex;align-items:center;gap:12px;margin-bottom:22px;">
 
             <div style="
-                width:46px;height:46px;
+                width:38px;height:38px;
                 display:grid;place-items:center;
                 border-radius:14px;
                 background:rgba(35,174,111,0.14);
@@ -785,17 +785,17 @@ function showLibrarySessionNotice() {
 
         <h2 style="
             margin:0 0 10px;
-            font-size:21px;
+            font-size:18px;
             line-height:1.25;
             color:#ffffff;">
             Session Verification
         </h2>
 
         <p style="
-            margin:0 0 24px;
+            margin:0 0 18px;
             color:#c4d0dc;
-            font-size:14px;
-            line-height:1.65;">
+            font-size:12.5px;
+            line-height:1.55;">
             Your library session could not be verified.
             Please refresh the Library page and try again.
         </p>
@@ -814,8 +814,8 @@ function showLibrarySessionNotice() {
             </button>
 
             <button id="texlearnNoticeRefresh" style="
-                padding:0 19px;
-                min-height:46px;
+                padding:0 14px;
+                min-height:40px;
                 border:0;
                 border-radius:11px;
                 background:#16834f;
