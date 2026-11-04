@@ -140,7 +140,10 @@ function showCampaignImage(index = 0) {
     campaignMainLink.hidden = item.link !== campaignMainLink;
     campaignSupportingLink.hidden = item.link !== campaignSupportingLink;
 
-    item.image.src = item.url;
+    item.image.src = new URL(
+    item.url,
+    window.location.origin + "/TEXLearn/"
+).href;
     item.image.alt = item.alt || "";
 
     if (item.linkUrl) {
