@@ -316,7 +316,7 @@ const LibraryAPI = {
         image: "assets/Images/texlearn-join-movement-banner.webp",
         alt: "Join the TEXLearn Movement – Become a Partner",
         action: "Become a Partner",
-        href: "https://samrambakeralam.github.io/TEXLearn/affiliate.html"
+        href: "https://wa.me/916235700971?text=Interested%20to%20Partner%20with%20TEXLearn"
         },
 
 
