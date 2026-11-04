@@ -310,24 +310,34 @@ const LibraryAPI = {
             action: "Download",
             href: "https://github.com/texlearn/TEXLearn-Android/releases/latest/download/TEXLearn.apk"
         },
-         {
+        {
+        id: "join-movement",
+        type: "image",
+        image: "assets/Images/texlearn-join-movement-banner.webp",
+        alt: "Join the TEXLearn Movement – Become a Partner",
+        action: "Become a Partner",
+        href: "https://samrambakeralam.github.io/TEXLearn/affiliate.html"
+        },
+
+
+        {
         id: "image-banner-1",
         type: "image",
         image: "assets/Images/malappuram.webp",
         alt: "Library promotional banner"
-    },
-     {
+        },
+        {
         id: "image-banner-2",
         type: "image",
         image: "assets/Images/femaura.webp",
         alt: "Library promotional banner"
-    },
-    {
+        },
+        {
         id: "image-banner-3",
         type: "image",
         image: "assets/Images/sananaseer.webp",
         alt: "Library promotional banner"
-    }
+        }
         
     ];
 
