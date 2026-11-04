@@ -288,7 +288,7 @@ const LibraryAPI = {
             id: "library",
             eyebrow: "YOUR ENTREPRENEURIAL LIBRARY",
             title: "Discover what you want to learn",
-            text: "Explore 20000+ Business Lessons for future founders",
+            text: "Explore 20000+ Business Lessons for Future Founders",
             action: "Explore Library",
             href: "registration.html"
         },
