@@ -3575,7 +3575,7 @@ box-shadow:
 
    .rc2-unboxing-product {
 
-    width: min(92%, 340px);
+    width: min(52%, 220px);
 
     display:
         flex;
@@ -3589,7 +3589,7 @@ box-shadow:
         position:
         relative;
 
-    transform: translate3d(0, 0, 0);
+    transform: translate3d(60px, 10px, 0px);
 
     z-index:
         8;
