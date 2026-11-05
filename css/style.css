@@ -13288,6 +13288,7 @@ body.about-page-exit {
     justify-content: center;
     padding: 12px;
     box-sizing: border-box;
+    transition: opacity 1s ease-in-out;
 }
 
 #tkHeroCampaign img {
