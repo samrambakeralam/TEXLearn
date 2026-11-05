@@ -31,6 +31,7 @@ const campaignMainLink = document.getElementById("tkCampaignMainLink");
 const campaignMainImage = document.getElementById("tkCampaignMainImage");
 const campaignSupportingLink = document.getElementById("tkCampaignSupportingLink");
 const campaignSupportingImage = document.getElementById("tkCampaignSupportingImage");
+let activeCampaignLink = null;
 
    if (
     !quizBox || !introFrame || !voteFrame ||
@@ -121,7 +122,7 @@ function showBook() {
     );
 }
 
-function showCampaignImage(index = 0) {
+async function showCampaignImage(index = 0) {
     clearTimeout(transitionTimer);
     clearTimeout(rotationTimer);
 
@@ -135,45 +136,15 @@ function showCampaignImage(index = 0) {
     }
 
     const item = campaignImages[index];
+    const previousLink = activeCampaignLink;
+    const nextLink = item.link;
 
-    // Smooth crossfade between campaign images
-const previousLink = activeCampaignLink;
-const nextLink = item.link;
+    // Prepare the incoming image before displaying it.
+    item.image.src = new URL(
+        item.url,
+        document.baseURI
+    ).href;
 
-if (
-    currentHeroView === "campaign" &&
-    previousLink &&
-    previousLink !== nextLink
-) {
-    nextLink.hidden = false;
-    nextLink.style.opacity = "0";
-
-    requestAnimationFrame(() => {
-        requestAnimationFrame(() => {
-            previousLink.style.opacity = "0";
-            nextLink.style.opacity = "1";
-        });
-    });
-
-    setTimeout(() => {
-        previousLink.hidden = true;
-        previousLink.style.opacity = "";
-        nextLink.style.opacity = "";
-        activeCampaignLink = nextLink;
-    }, 1000);
-
-} else {
-    campaignMainLink.hidden = nextLink !== campaignMainLink;
-    campaignSupportingLink.hidden = nextLink !== campaignSupportingLink;
-
-    nextLink.style.opacity = "";
-    activeCampaignLink = nextLink;
-}
-
-  item.image.src = new URL(
-    item.url,
-    document.baseURI
-).href;
     item.image.alt = item.alt || "";
 
     if (item.linkUrl) {
@@ -185,6 +156,43 @@ if (
         item.link.removeAttribute("href");
         item.link.removeAttribute("target");
         item.link.style.pointerEvents = "none";
+    }
+
+    // Wait for the image to be decoded before revealing it.
+    if (item.image.decode) {
+        await item.image.decode().catch(() => {});
+    }
+
+    // Crossfade between the two campaign images.
+    if (
+        currentHeroView === "campaign" &&
+        previousLink &&
+        previousLink !== nextLink
+    ) {
+        nextLink.hidden = false;
+        nextLink.style.opacity = "0";
+
+        requestAnimationFrame(() => {
+            requestAnimationFrame(() => {
+                previousLink.style.opacity = "0";
+                nextLink.style.opacity = "1";
+            });
+        });
+
+        activeCampaignLink = nextLink;
+
+        setTimeout(() => {
+            previousLink.hidden = true;
+            previousLink.style.opacity = "";
+            nextLink.style.opacity = "";
+        }, 1000);
+
+    } else {
+        campaignMainLink.hidden = nextLink !== campaignMainLink;
+        campaignSupportingLink.hidden = nextLink !== campaignSupportingLink;
+
+        nextLink.style.opacity = "";
+        activeCampaignLink = nextLink;
     }
 
     rotationPaused = false;
