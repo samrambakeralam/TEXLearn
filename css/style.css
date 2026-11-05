@@ -13299,14 +13299,9 @@ body.about-page-exit {
 }
 
 /* Show only the active campaign image */
-#tkHeroCampaign .tk-campaign-main-link,
-#tkHeroCampaign .tk-campaign-supporting-link {
-    display: none;
-}
-
-#tkHeroCampaign .tk-campaign-main-link.active,
-#tkHeroCampaign .tk-campaign-supporting-link.active {
-    display: flex;
+/* Respect JavaScript image visibility */
+#tkHeroCampaign a[hidden] {
+    display: none !important;
 }
 
 
