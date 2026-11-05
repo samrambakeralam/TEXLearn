@@ -3575,8 +3575,7 @@ box-shadow:
 
    .rc2-unboxing-product {
 
-    width:
-         min(62%,250px);
+    width: min(92%, 340px);
 
     display:
         flex;
@@ -3590,8 +3589,7 @@ box-shadow:
         position:
         relative;
 
-    transform:
-        translate3d(65px, 0, 0);
+    transform: translate3d(0, 0, 0);
 
     z-index:
         8;
@@ -13258,7 +13256,8 @@ body.about-page-exit {
     position: relative;
 }
 
-.rc2-hero-product > .tk-hero-view {
+.rc2-hero-product > .tk-hero-view,
+.rc2-hero-product > #tkHeroCampaign {
     position: absolute;
     top: 50%;
     left: 50%;
@@ -13267,6 +13266,47 @@ body.about-page-exit {
     box-sizing: border-box;
     backface-visibility: hidden;
     transform: translate(-50%, -50%);
+}
+
+/* Dynamic campaign view */
+.rc2-hero-product > #tkHeroCampaign {
+    height: 520px;
+    min-height: 520px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    border-radius: 28px;
+    background: #07182D;
+}
+
+#tkHeroCampaign a {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 12px;
+    box-sizing: border-box;
+}
+
+#tkHeroCampaign img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    object-position: center;
+}
+
+/* Show only the active campaign image */
+#tkHeroCampaign .tk-campaign-main-link,
+#tkHeroCampaign .tk-campaign-supporting-link {
+    display: none;
+}
+
+#tkHeroCampaign .tk-campaign-main-link.active,
+#tkHeroCampaign .tk-campaign-supporting-link.active {
+    display: flex;
 }
 
 
@@ -13334,7 +13374,8 @@ body.about-page-exit {
         align-self: start;
     }
 
-    .rc2-hero-product > .tk-hero-view {
+.rc2-hero-product > .tk-hero-view,
+.rc2-hero-product > #tkHeroCampaign {
     top: 0;
     left: 0;
     width: 100%;
@@ -13350,9 +13391,16 @@ body.about-page-exit {
     transform: none;
 }
 
-    .rc2-hero-product > #rc2UnboxingStage {
-        aspect-ratio: 16 / 9;
-    }
+   .rc2-hero-product > #rc2UnboxingStage {
+    aspect-ratio: 16 / 9;
+    min-height: 0;
+    height: 100%;
+}
+
+.rc2-hero-product > #tkHeroFounders {
+    height: 100%;
+    min-height: 0;
+}
 
 }
 
