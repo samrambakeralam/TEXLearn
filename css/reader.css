@@ -2570,9 +2570,9 @@ margin:
 
 
 .reader-notes-button {
-    border: 1px solid rgba(0, 0, 0, 0.10);
-background: #ffffff;
-color: #222222;
+    border: 1px solid #142D50;
+background: #142D50;
+color: #ffffff;
 
     min-height: 36px;
     padding: 0 12px;
