@@ -136,9 +136,39 @@ function showCampaignImage(index = 0) {
 
     const item = campaignImages[index];
 
-    // Display only one image at a time.
-    campaignMainLink.hidden = item.link !== campaignMainLink;
-    campaignSupportingLink.hidden = item.link !== campaignSupportingLink;
+    // Smooth crossfade between campaign images
+const previousLink = activeCampaignLink;
+const nextLink = item.link;
+
+if (
+    currentHeroView === "campaign" &&
+    previousLink &&
+    previousLink !== nextLink
+) {
+    nextLink.hidden = false;
+    nextLink.style.opacity = "0";
+
+    requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+            previousLink.style.opacity = "0";
+            nextLink.style.opacity = "1";
+        });
+    });
+
+    setTimeout(() => {
+        previousLink.hidden = true;
+        previousLink.style.opacity = "";
+        nextLink.style.opacity = "";
+        activeCampaignLink = nextLink;
+    }, 1000);
+
+} else {
+    campaignMainLink.hidden = nextLink !== campaignMainLink;
+    campaignSupportingLink.hidden = nextLink !== campaignSupportingLink;
+
+    nextLink.style.opacity = "";
+    activeCampaignLink = nextLink;
+}
 
   item.image.src = new URL(
     item.url,
