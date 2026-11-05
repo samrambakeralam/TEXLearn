@@ -2571,8 +2571,8 @@ margin:
 
 .reader-notes-button {
     border: 1px solid #142D50;
-background: #ffffff;
-color: #142D50;
+background: #142D50;
+color: #ffffff;
 
     min-height: 36px;
     padding: 0 12px;
@@ -2586,7 +2586,7 @@ color: #142D50;
         sans-serif;
 
     font-size: 12px;
-    font-weight: 600;
+    font-weight: 500;
 
     cursor: pointer;
 
@@ -2701,8 +2701,8 @@ color: #142D50;
 @media (max-width: 767px) {
 
     .reader-notes-button {
-        min-height: clamp(27px, 7vw, 28px);
-        height: clamp(27px, 7vw, 28px);
+        min-height: clamp(26px, 7vw, 27px);
+        height: clamp(26px, 7vw, 27px);
 
         padding: 0 8px;
 
@@ -2723,14 +2723,13 @@ color: #142D50;
     .reader-notes-button {
 
         margin-top: 4px;
-        min-height: clamp(24px, 7vw, 25px);
-        height: clamp(24px, 7vw, 25px);
-
+        min-height: clamp(23px, 7vw, 24px);
+        height: clamp(23px, 7vw, 24px);
         padding: 0 7px;
 
         border-radius: 6px;
 
-        font-size: clamp(9px, 2.6vw, 10px);
+        font-size: clamp(8px, 2.6vw, 9px);
     }
 
 }
