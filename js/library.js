@@ -326,18 +326,33 @@ const LibraryAPI = {
         image: "assets/Images/malappuram.webp",
         alt: "Library promotional banner"
         },
-        {
+
+         {
         id: "image-banner-2",
+        type: "image",
+        image: "assets/Images/hashbahamza.webp",
+        alt: "Library promotional banner"
+        },
+
+        {
+        id: "image-banner-3",
         type: "image",
         image: "assets/Images/femaura.webp",
         alt: "Library promotional banner"
         },
         {
-        id: "image-banner-3",
+        id: "image-banner-4",
         type: "image",
         image: "assets/Images/sananaseer.webp",
         alt: "Library promotional banner"
+        },
+         {
+        id: "image-banner-5",
+        type: "image",
+        image: "assets/Images/ihsanaparari.webp",
+        alt: "Library promotional banner"
         }
+
         
     ];
 
