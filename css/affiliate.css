@@ -1058,13 +1058,13 @@
 
     /* HEADER */
 
-    .affiliate-header-inner {
-  min-height: 66px;
-  display: grid;
-  grid-template-columns: 1fr auto;
-  grid-template-rows: 38px 18px;
-  align-content: center;
-  gap: 0 12px;
+.affiliate-header-inner {
+    min-height: 66px;
+    display: grid;
+    grid-template-columns: 1fr auto;
+    grid-template-rows: 34px 18px;
+    align-content: center;
+    gap: 20px 12px;
 }
 
 .affiliate-brand {
@@ -1077,13 +1077,14 @@
         max-height: 43px;
     }
 
- .affiliate-nav {
-  grid-column: 1 / -1;
-  grid-row: 2;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 34px;
+.affiliate-nav {
+    grid-column: 1 / -1;
+    grid-row: 2;
+    display: flex;
+    width: 100%;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 30px;
 }
 
 .affiliate-nav a {
