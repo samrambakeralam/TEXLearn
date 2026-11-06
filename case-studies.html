@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#0B1F3A">
+  <title>Brand Case Studies — TEXLearn LEARNING MODULES</title>
+  <meta name="description" content="Explore real business journeys, strategies, turning points and lessons from leading brands and startups.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/case-studies.css">
+  <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body>
+<div class="case-app" id="caseApp">
+  <div class="case-backdrop" id="caseBackdrop"></div>
+
+  <aside class="case-sidebar" id="caseSidebar" aria-label="Main navigation">
+    <div class="case-brand">
+      <a href="index.html" aria-label="TEXLearn home"><img src="assets/logo.webp" alt="TEXLearn Learning Modules"></a>
+      <button class="case-icon-button case-close" id="caseClose" aria-label="Close navigation"><i data-lucide="x"></i></button>
+    </div>
+    <nav class="case-nav">
+      <span class="case-nav-label">TEXLEARN</span>
+      <a class="case-nav-item" href="index.html"><i data-lucide="home"></i><span>Home</span></a>
+      <a class="case-nav-item" href="library.html"><i data-lucide="library"></i><span>Explore Library</span></a>
+      <a class="case-nav-item active" href="case-studies.html"><i data-lucide="briefcase-business"></i><span>Brand Case Studies</span></a>
+      <a class="case-nav-item" href="index.html#community"><i data-lucide="users"></i><span>Community</span></a>
+      <a class="case-nav-item" href="index.html#about"><i data-lucide="info"></i><span>About TEXLearn</span></a>
+    </nav>
+    <div class="case-sidebar-note">
+      <span class="note-icon"><i data-lucide="lightbulb"></i></span>
+      <strong>Learn from the real world.</strong>
+      <p>Explore the decisions, strategies and lessons behind businesses.</p>
+    </div>
+  </aside>
+
+  <main class="case-main">
+    <header class="case-topbar">
+      <button class="case-icon-button case-menu" id="caseMenu" aria-label="Open navigation" aria-expanded="false"><i data-lucide="menu"></i></button>
+      <a class="case-mobile-brand" href="index.html"><img src="assets/logo.webp" alt="TEXLearn"></a>
+      <div class="case-breadcrumb"><span>Explore</span><i data-lucide="chevron-right"></i><strong>Case Studies</strong></div>
+      <div class="case-top-actions">
+        <a class="case-library-link" href="library.html"><i data-lucide="book-open"></i><span>Explore Library</span></a>
+        <button class="case-icon-button" aria-label="Your profile" type="button"><i data-lucide="user-round"></i></button>
+      </div>
+    </header>
+
+    <div class="case-content">
+      <section class="case-hero">
+        <div class="case-hero-copy">
+          <span class="eyebrow">TEXLEARN · LEARN FROM THE REAL WORLD</span>
+          <h1>Brand <em>Case Studies</em></h1>
+          <p>Understand the businesses. Discover the strategies. Learn from their journeys.</p>
+          <div class="case-hero-points">
+            <span><i data-lucide="book-open"></i> Real business stories</span>
+            <span><i data-lucide="chart-no-axes-combined"></i> Strategic insights</span>
+            <span><i data-lucide="lightbulb"></i> Practical lessons</span>
+          </div>
+        </div>
+        <div class="case-hero-art" aria-hidden="true">
+          <div class="hero-orbit orbit-one"></div><div class="hero-orbit orbit-two"></div>
+          <div class="hero-building"><span>BUSINESS</span><b>IN<br>FOCUS.</b><small>IDEAS · STRATEGY · GROWTH</small></div>
+          <div class="hero-glow"></div>
+        </div>
+      </section>
+
+      <section class="case-toolbar" aria-label="Find case studies">
+        <label class="case-search"><i data-lucide="search"></i><input id="caseSearch" type="search" placeholder="Search brands, industries or lessons..." autocomplete="off"></label>
+        <label class="case-sort"><span class="sr-only">Sort case studies</span><i data-lucide="arrow-down-wide-narrow"></i>
+          <select id="caseSort"><option value="featured">Featured first</option><option value="az">Name: A–Z</option></select>
+        </label>
+      </section>
+
+      <section class="case-library-section">
+        <div class="case-section-heading">
+          <div><span class="eyebrow green">EXPLORE THE COLLECTION</span><h2>Business stories worth studying</h2><p>Explore how companies found opportunities, built brands and navigated challenges.</p></div>
+          <span class="case-count" id="caseCount">10 case studies</span>
+        </div>
+        <div class="case-filters" id="caseFilters" aria-label="Filter by category">
+          <button class="filter-chip selected" data-filter="All">All case studies</button>
+          <button class="filter-chip" data-filter="Startup Stories">Startup stories</button>
+          <button class="filter-chip" data-filter="Global Brands">Global brands</button>
+          <button class="filter-chip" data-filter="Marketing">Marketing</button>
+          <button class="filter-chip" data-filter="Indian Startups">Indian startups</button>
+          <button class="filter-chip" data-filter="Business Failures">Business failures</button>
+        </div>
+        <div class="case-grid" id="caseGrid" aria-live="polite"></div>
+        <div class="case-empty" id="caseEmpty" hidden><i data-lucide="search-x"></i><h3>No matching case studies</h3><p>Try another brand name or category.</p><button id="clearFilters">Clear filters</button></div>
+      </section>
+
+      <section class="case-feature-strip">
+        <div class="feature-mark"><i data-lucide="graduation-cap"></i></div>
+        <div><span class="eyebrow">MORE THAN A COMPANY STORY</span><h2>Read the story. Understand the strategy. Apply the lesson.</h2><p>Every case study is designed to turn real business journeys into practical learning.</p></div>
+      </section>
+
+      <footer class="case-footer"><span>© TEXLearn LEARNING MODULES</span><span>Empowering the Next Gen Entrepreneurs</span></footer>
+    </div>
+  </main>
+</div>
+
+<!-- Case-study preview / reader panel -->
+<div class="case-modal" id="caseModal" aria-hidden="true" hidden>
+  <div class="case-modal-backdrop" data-close-modal></div>
+  <article class="case-reader" role="dialog" aria-modal="true" aria-labelledby="readerTitle">
+    <button class="case-reader-close" data-close-modal aria-label="Close case study"><i data-lucide="x"></i></button>
+    <div class="reader-cover" id="readerCover">
+      <div class="reader-cover-content"><span id="readerCategory">STARTUP STORY</span><h2 id="readerTitle">Brand name</h2><p id="readerSubtitle"></p><small id="readerId">CASE-001</small></div>
+    </div>
+    <div class="reader-body">
+      <div class="reader-meta" id="readerMeta"></div>
+      <div class="reader-layout">
+        <nav class="reader-toc" aria-label="Case study chapters"><strong>IN THIS CASE STUDY</strong><a href="#readerOverview" class="toc-active">Overview</a><a href="#readerOrigin">The origin story</a><a href="#readerModel">Business model</a><a href="#readerStrategy">Growth strategy</a><a href="#readerLessons">Key lessons</a><a href="#readerQuestions">Think like a founder</a></nav>
+        <div class="reader-article">
+          <section id="readerOverview"><span class="eyebrow green">THE BIG PICTURE</span><h3>Overview</h3><p id="readerDescription"></p></section>
+          <section id="readerOrigin"><span class="chapter-number">01</span><h3>The origin story</h3><p id="readerOriginText"></p></section>
+          <section id="readerModel"><span class="chapter-number">02</span><h3>Business model</h3><p id="readerModelText"></p></section>
+          <section id="readerStrategy"><span class="chapter-number">03</span><h3>Growth strategy</h3><p id="readerStrategyText"></p></section>
+          <section id="readerLessons"><span class="chapter-number">04</span><h3>Key lessons</h3><ul id="readerLessonsList"></ul></section>
+          <section class="founder-question" id="readerQuestions"><span class="eyebrow green">THINK LIKE A FOUNDER</span><h3>What would you do?</h3><p id="readerQuestion"></p></section>
+          <p class="reader-disclaimer">This is an introductory learning preview. Detailed case studies should be supported by reliable sources, dated figures and further research before publication.</p>
+        </div>
+      </div>
+    </div>
+  </article>
+</div>
+
+<script src="js/case-studies.js"></script>
+<script>
+  if (window.lucide) lucide.createIcons();
+  document.addEventListener("DOMContentLoaded", () => {
+    document.body.classList.add("case-page-transition");
+    requestAnimationFrame(() => requestAnimationFrame(() => document.body.classList.add("case-page-ready")));
+    document.querySelectorAll('a[href="index.html"], a[href="library.html"]').forEach(link => {
+      link.addEventListener("click", event => {
+        if (event.ctrlKey || event.metaKey || event.shiftKey || event.altKey || link.target === "_blank") return;
+        event.preventDefault();
+        document.body.classList.remove("case-page-ready");
+        setTimeout(() => window.location.href = link.href, 850);
+      });
+    });
+  });
+</script>
+</body>
+</html>
