@@ -1,115 +1,37 @@
-const caseStudies = [
-  {
-    id:"CASE-001",name:"Luckin Coffee",category:"Startup Stories",tag:"Retail · Coffee",
-    subtitle:"How a technology-led coffee startup challenged an established market.",
-    description:"Luckin Coffee offers a useful study of digital-first retail, convenience, rapid expansion and the risks that can arise when growth targets outpace governance.",
-    origin:"Founded in China in 2017, Luckin Coffee set out to build a technology-driven coffee business with a strong emphasis on mobile ordering and convenient pickup locations.",
-    model:"The company used mobile ordering, delivery and smaller store formats to serve customers. Its approach placed technology and convenience at the centre of the customer experience.",
-    strategy:"Luckin expanded rapidly through technology-enabled customer acquisition, promotions and a dense store network. Its accounting scandal also demonstrates why governance and trustworthy reporting matter.",
-    lessons:["Convenience can be a powerful competitive advantage.","Technology can simplify customer interactions and operations.","Rapid growth needs strong internal controls.","Trust and transparent reporting are essential to long-term business success."],
-    question:"If you were launching a coffee brand in your town, how would you make the buying experience more convenient than existing competitors?",
-    color:"#164B3A",wordmark:"luckin",caption:"RETAIL · COFFEE"
-  },
-  {
-    id:"CASE-002",name:"Netflix",category:"Global Brands",tag:"Entertainment · Technology",
-    subtitle:"From DVD rentals to a global streaming and entertainment business.",
-    description:"Netflix demonstrates how a company can evolve its business model as technology, customer behaviour and distribution channels change.",
-    origin:"Netflix began in 1997 as a DVD rental business. It later introduced subscription-based DVD services and moved into online streaming as broadband internet became more widespread.",
-    model:"Its subscription model gives customers access to a library of entertainment content. Over time, Netflix expanded into producing and distributing original content.",
-    strategy:"Netflix invested in streaming technology, customer recommendations, international expansion and original programming. Its evolution shows the importance of adapting before a business model becomes outdated.",
-    lessons:["A business model can evolve as technology changes.","Customer convenience can reshape an industry.","Data can help improve product recommendations.","Adaptation requires investment and a willingness to change."],
-    question:"What traditional service in your area could be redesigned around a subscription or digital-access model?",
-    color:"#D81F26",wordmark:"NETFLIX",caption:"ENTERTAINMENT · STREAMING"
-  },
-  {
-    id:"CASE-003",name:"Airbnb",category:"Startup Stories",tag:"Travel · Marketplace",
-    subtitle:"How a simple accommodation idea grew into a global marketplace.",
-    description:"Airbnb is a case study in identifying unused resources, building trust between strangers and creating a marketplace that connects supply with demand.",
-    origin:"Airbnb began in 2007 when its founders offered accommodation in their home to visitors. The idea developed into a platform where hosts could list spaces for travellers.",
-    model:"The platform connects hosts and guests and earns revenue through service fees. Reviews, identity features and platform policies help support transactions between people who may not know each other.",
-    strategy:"Airbnb focused on improving listings, photography, reviews, user experience and international reach. It built a recognisable brand around belonging and local travel experiences.",
-    lessons:["An unused resource can become a business opportunity.","Trust is central to peer-to-peer marketplaces.","Good presentation can improve customer confidence.","A platform becomes more useful as its network grows."],
-    question:"What unused resources in your community could be connected to people who need them?",
-    color:"#FF5A5F",wordmark:"airbnb",caption:"TRAVEL · MARKETPLACE"
-  },
-  {
-    id:"CASE-004",name:"Tesla",category:"Global Brands",tag:"Automotive · Energy",
-    subtitle:"How a company built a brand around electric mobility and energy.",
-    description:"Tesla provides a case for studying product positioning, technology investment, brand identity and the challenges of scaling manufacturing.",
-    origin:"Tesla was founded in 2003 with a mission centred on electric vehicles. The company entered the automotive market by initially focusing on premium electric cars.",
-    model:"Tesla sells electric vehicles and related products and services, including energy storage and charging solutions. Its model also includes software features and direct customer relationships.",
-    strategy:"The company used performance-led positioning, a distinctive brand, charging infrastructure and investment in battery and vehicle technology to build its market presence.",
-    lessons:["A strong mission can help shape brand identity.","New products can enter a market through a focused segment.","Infrastructure can strengthen a product ecosystem.","Scaling manufacturing presents challenges beyond product innovation."],
-    question:"If you wanted to introduce an unfamiliar technology to your local market, which customer group would you target first and why?",
-    color:"#C92A35",wordmark:"TESLA",caption:"MOBILITY · ENERGY"
-  },
-  {
-    id:"CASE-005",name:"Amazon",category:"Global Brands",tag:"E-commerce · Technology",
-    subtitle:"The evolution of an online bookstore into a broad digital commerce ecosystem.",
-    description:"Amazon is useful for understanding customer obsession, logistics, platform development, experimentation and long-term investment.",
-    origin:"Amazon started in 1994 as an online bookstore. It gradually expanded into many product categories and developed technology and logistics capabilities to support its growth.",
-    model:"Its business includes online retail, third-party seller services, subscriptions, advertising and cloud computing. Multiple business lines support a broad ecosystem.",
-    strategy:"Amazon focused on selection, convenience and customer experience. It invested in fulfilment infrastructure and technology, while experimenting with new products and services.",
-    lessons:["Start with a clear customer problem.","Operational systems can become a competitive advantage.","A business can expand into adjacent opportunities over time.","Experimentation should be supported by disciplined execution."],
-    question:"What is one customer inconvenience in your town that a better ordering or delivery system could solve?",
-    color:"#172B4D",wordmark:"amazon",caption:"COMMERCE · TECHNOLOGY"
-  },
-  {
-    id:"CASE-006",name:"Nike",category:"Marketing",tag:"Sportswear · Branding",
-    subtitle:"How a sports brand built an identity beyond the products it sells.",
-    description:"Nike is a strong example of emotional branding, athlete partnerships, storytelling and building a recognisable identity around a customer aspiration.",
-    origin:"Nike's roots trace back to Blue Ribbon Sports, founded in 1964. The Nike brand emerged in 1971 and grew through product innovation and sports marketing.",
-    model:"Nike sells footwear, apparel and equipment through direct channels and wholesale partners. Its brand and product ecosystem connect with athletes and everyday consumers.",
-    strategy:"Nike built its identity through athlete endorsements, memorable campaigns, product innovation and storytelling that connects sport with personal achievement.",
-    lessons:["People often connect with what a brand represents.","Consistent messaging strengthens brand recognition.","Partnerships can help a brand reach new audiences.","Product quality and brand promise need to support each other."],
-    question:"If you were building a youth-focused brand, what identity or aspiration would you want customers to associate with it?",
-    color:"#111827",wordmark:"NIKE",caption:"SPORTS · BRANDING"
-  },
-  {
-    id:"CASE-007",name:"Zerodha",category:"Indian Startups",tag:"Fintech · Investing",
-    subtitle:"How a bootstrapped Indian company challenged traditional brokerage pricing.",
-    description:"Zerodha is an example of a focused business that used technology and a clear pricing proposition to simplify access to financial markets.",
-    origin:"Zerodha was founded in India in 2010 by Nithin and Nikhil Kamath. It entered a brokerage market where pricing and service structures were often complex for retail customers.",
-    model:"The company offers online trading and investing services, supported by technology platforms and related financial education.",
-    strategy:"Zerodha focused on transparent pricing, product usability, educational resources and a relatively capital-efficient approach to growth.",
-    lessons:["A clear pricing proposition can challenge established expectations.","Simple digital experiences can reduce customer friction.","Education can support trust in complex categories.","Focused growth can be an alternative to growth at any cost."],
-    question:"What service in India could be made more accessible by simplifying pricing and improving its digital experience?",
-    color:"#174A88",wordmark:"ZERODHA",caption:"FINTECH · INDIA"
-  },
-  {
-    id:"CASE-008",name:"Zomato",category:"Indian Startups",tag:"Food · Technology",
-    subtitle:"From restaurant discovery to a major food delivery and commerce platform.",
-    description:"Zomato illustrates marketplace development, local network effects, delivery operations, customer acquisition and the economics of convenience.",
-    origin:"Zomato began in 2008 as Foodiebay, a restaurant information and menu discovery service. It later expanded into food ordering and delivery.",
-    model:"Its platform connects customers, restaurants and delivery partners. Revenue streams and operating economics have evolved as the business expanded into adjacent services.",
-    strategy:"The company built brand awareness, expanded city by city, invested in app experience and developed delivery capabilities. Its history also shows how difficult unit economics and competition can be.",
-    lessons:["A focused discovery product can open a path to a larger marketplace.","Local density matters in delivery businesses.","Convenience must be balanced against operating costs.","Market expansion requires adapting to local conditions."],
-    question:"How would you test whether a food-delivery service could work sustainably in a smaller town?",
-    color:"#E43D35",wordmark:"zomato",caption:"FOOD · MARKETPLACE"
-  },
-  {
-    id:"CASE-009",name:"Canva",category:"Startup Stories",tag:"Software · Design",
-    subtitle:"How an accessible design platform helped more people create visual content.",
-    description:"Canva is a case in product-led growth, simplifying complex tools, freemium distribution, templates and collaboration.",
-    origin:"Canva grew from the idea that design software could be easier for everyday users. Its founders first explored the concept through a yearbook design product before expanding the platform.",
-    model:"A freemium software model gives users access to core design tools, with paid plans offering additional features, content and collaboration capabilities.",
-    strategy:"Canva reduced the learning curve through templates, browser-based access, sharing and a broad content ecosystem. Product usability helped users discover and recommend the platform.",
-    lessons:["Removing complexity can unlock a much larger audience.","Templates help users reach a useful outcome faster.","Freemium can support product discovery and adoption.","Collaboration can increase the value of a digital product."],
-    question:"Which complicated task could you make easier for students, small businesses or local organisations with a simple digital tool?",
-    color:"#16A6A1",wordmark:"Canva",caption:"SOFTWARE · DESIGN"
-  },
-  {
-    id:"CASE-010",name:"Kodak",category:"Business Failures",tag:"Photography · Strategy",
-    subtitle:"What the photography pioneer can teach us about technology shifts and organisational change.",
-    description:"Kodak is frequently studied in discussions of disruption and adaptation. A careful case study should avoid the oversimplified claim that the company simply failed to invent digital photography; the deeper questions concern strategy, incentives and transition.",
-    origin:"Kodak became a major photography company by making cameras and film accessible to consumers. It also developed important digital imaging technology, while its established film business remained highly significant.",
-    model:"Its historic model relied heavily on cameras, film, processing and printing. Digital photography changed the economics and customer behaviour underpinning that model.",
-    strategy:"The shift to digital imaging challenged established revenue streams and required a different business model. Kodak's experience highlights the difficulty of moving resources and incentives away from a profitable legacy business.",
-    lessons:["Inventing a technology is not the same as building a successful business around it.","Established revenue streams can make change difficult.","Disruption changes customer behaviour and industry economics.","A transition strategy needs timely investment and organisational commitment."],
-    question:"If a new technology threatens your most profitable product, how would you decide what to protect, transform or replace?",
-    color:"#D7A72D",wordmark:"KODAK",caption:"PHOTOGRAPHY · TRANSFORMATION"
-  }
+/*************************************************
+ * TEXLEARN — CASE STUDIES
+ * API-DRIVEN FRONTEND
+ *
+ * Uses the existing Google Apps Script Web App:
+ *   ?action=casestudycatalogue
+ *   ?action=casestudycontent&id=...&version=...
+ *
+ * The page HTML keeps its existing card, modal and
+ * navigation structure. The reader itself is dynamic.
+ *************************************************/
+
+const CASE_STUDY_API =
+  "https://script.google.com/macros/s/AKfycbzQFLeWMQAX7gbedsu859N8nEZnGoAFinj4dn1JgpX0La7GSy-2xGHK38MdjcHM2ckk/exec";
+
+// Keep true while testing the Luckin Coffee draft.
+// Change to false before public launch.
+const SHOW_DRAFT_STUDIES = true;
+
+const CASE_STUDY_REQUEST_TIMEOUT = 20000;
+
+const CASE_CARD_COLORS = [
+  "#0B1F3A",
+  "#164B3A",
+  "#173B63",
+  "#3B315F",
+  "#6B3A32",
+  "#28545A"
 ];
+
+
+/* -----------------------------------------------
+   DOM REFERENCES
+------------------------------------------------ */
 
 const grid = document.getElementById("caseGrid");
 const search = document.getElementById("caseSearch");
@@ -119,56 +41,318 @@ const count = document.getElementById("caseCount");
 const empty = document.getElementById("caseEmpty");
 const modal = document.getElementById("caseModal");
 
+const readerToc = document.getElementById("readerToc");
+const readerArticle = document.getElementById("readerArticle");
+
+let caseStudies = [];
 let activeFilter = "All";
 let lastFocused = null;
+let activeReaderRequest = 0;
+
+
+/* -----------------------------------------------
+   SMALL UTILITIES
+------------------------------------------------ */
+
+function escapeHTML(value) {
+  return String(value ?? "").replace(/[&<>"']/g, character => ({
+    "&": "&amp;",
+    "<": "&lt;",
+    ">": "&gt;",
+    '"': "&quot;",
+    "'": "&#39;"
+  })[character]);
+}
+
+function normalise(value) {
+  return String(value ?? "").trim();
+}
+
+function splitCategories(value) {
+  if (Array.isArray(value)) {
+    return value.map(normalise).filter(Boolean);
+  }
+
+  return String(value ?? "")
+    .split(/[;,|]/)
+    .map(item => item.trim())
+    .filter(Boolean);
+}
+
+function categoryLabel(value) {
+  return value
+    .split(/\s+/)
+    .map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
+    .join(" ");
+}
+
+function hashString(value) {
+  let hash = 0;
+
+  for (let index = 0; index < value.length; index++) {
+    hash = ((hash << 5) - hash) + value.charCodeAt(index);
+    hash |= 0;
+  }
+
+  return Math.abs(hash);
+}
+
+function cardColor(item) {
+  return CASE_CARD_COLORS[
+    hashString(item.id || item.name) % CASE_CARD_COLORS.length
+  ];
+}
+
+function safeAssetURL(value) {
+  const candidate = normalise(value);
+
+  if (/^https:\/\/[^\s"'<>]+$/i.test(candidate)) {
+    return candidate;
+  }
+
+  return "";
+}
+
+
+/* -----------------------------------------------
+   JSONP API REQUEST
+   Apps Script returns JSONP when callback is given.
+------------------------------------------------ */
+
+function apiJSONP(params) {
+  return new Promise((resolve, reject) => {
+    const callbackName =
+      "texlearnCaseStudyCallback_" +
+      Date.now() + "_" +
+      Math.random().toString(36).slice(2);
+
+    const script = document.createElement("script");
+    const url = new URL(CASE_STUDY_API);
+
+    Object.entries(params).forEach(([key, value]) => {
+      url.searchParams.set(key, value);
+    });
+
+    url.searchParams.set("callback", callbackName);
+
+    let settled = false;
+
+    const cleanup = () => {
+      if (script.parentNode) {
+        script.parentNode.removeChild(script);
+      }
+
+      delete window[callbackName];
+      clearTimeout(timeout);
+    };
+
+    const finish = (callback, value) => {
+      if (settled) return;
+      settled = true;
+      cleanup();
+      callback(value);
+    };
+
+    const timeout = setTimeout(() => {
+      finish(
+        reject,
+        new Error("The case study server took too long to respond.")
+      );
+    }, CASE_STUDY_REQUEST_TIMEOUT);
+
+    window[callbackName] = data => {
+      finish(resolve, data);
+    };
+
+    script.onerror = () => {
+      finish(
+        reject,
+        new Error("Unable to connect to the case study server.")
+      );
+    };
+
+    script.src = url.toString();
+    document.head.appendChild(script);
+  });
+}
+
+
+/* -----------------------------------------------
+   CATALOGUE API
+------------------------------------------------ */
+
+function mapCatalogueRecord(record) {
+  const categories = splitCategories(record.Category);
+  const company = normalise(record.Company);
+  const title = normalise(record.Title);
+
+  return {
+    id: normalise(record.CaseStudyID),
+    versionId: normalise(record.VersionID),
+    name: company || title,
+    title: title || company,
+    category: categories[0] || "Business",
+    categories,
+    tag: categories.join(" · "),
+    subtitle: normalise(record.Subtitle),
+    description: normalise(record.Description),
+    pageCount: Number(record.PageCount || 0),
+    readingTime: normalise(record.EstimatedReadingTime),
+    coverAssetKey: normalise(record.CoverAssetKey),
+    publicationStatus: normalise(record.PublicationStatus),
+    researchCutoff: normalise(record.ResearchCutoff),
+    color: CASE_CARD_COLORS[
+      hashString(record.CaseStudyID || company || title) %
+      CASE_CARD_COLORS.length
+    ],
+    wordmark: company || title,
+    caption: categories.slice(0, 2).join(" · ").toUpperCase()
+  };
+}
+
+async function loadCatalogue() {
+  grid.innerHTML = `
+    <div class="case-loading">
+      Loading case studies...
+    </div>
+  `;
+
+  try {
+    const response = await apiJSONP({
+      action: "casestudycatalogue"
+    });
+
+    if (!response || response.success !== true) {
+      throw new Error(
+        response?.message || "The catalogue could not be loaded."
+      );
+    }
+
+    let records = Array.isArray(response.caseStudies)
+      ? response.caseStudies
+      : [];
+
+    if (!SHOW_DRAFT_STUDIES) {
+      records = records.filter(record =>
+        normalise(record.PublicationStatus).toLowerCase() === "published"
+      );
+    }
+
+    caseStudies = records
+      .filter(record => record.CaseStudyID && record.VersionID)
+      .map(mapCatalogueRecord);
+
+    renderFilters();
+    render();
+
+  } catch (error) {
+    console.error("TEXLearn case study catalogue:", error);
+
+    grid.innerHTML = `
+      <div class="case-load-error">
+        <h3>Unable to load case studies</h3>
+        <p>${escapeHTML(error.message)}</p>
+        <button type="button" id="retryCaseCatalogue">Try again</button>
+      </div>
+    `;
+
+    count.textContent = "Catalogue unavailable";
+
+    const retryButton = document.getElementById("retryCaseCatalogue");
+    if (retryButton) {
+      retryButton.addEventListener("click", loadCatalogue);
+    }
+  }
+}
+
+
+/* -----------------------------------------------
+   DYNAMIC CATEGORY FILTERS
+------------------------------------------------ */
+
+function renderFilters() {
+  const categories = [
+    ...new Set(caseStudies.flatMap(item => item.categories))
+  ].sort((a, b) => a.localeCompare(b));
+
+  filters.innerHTML = `
+    <button
+      class="filter-chip ${activeFilter === "All" ? "selected" : ""}"
+      data-filter="All"
+      type="button"
+    >All case studies</button>
+
+    ${categories.map(category => `
+      <button
+        class="filter-chip ${activeFilter === category ? "selected" : ""}"
+        data-filter="${escapeHTML(category)}"
+        type="button"
+      >${escapeHTML(categoryLabel(category))}</button>
+    `).join("")}
+  `;
+}
+
+
+/* -----------------------------------------------
+   CASE STUDY CARDS
+------------------------------------------------ */
 
 function cardTemplate(item) {
-  const safe = s => String(s).replace(/[&<>"']/g, c => ({
-    "&":"&amp;",
-    "<":"&lt;",
-    ">":"&gt;",
-    '"':"&quot;",
-    "'":"&#39;"
-  }[c]));
+  const safeName = escapeHTML(item.name);
+  const safeCategory = escapeHTML(item.category);
+  const safeSubtitle = escapeHTML(item.subtitle);
+  const safeID = escapeHTML(item.id);
+  const safeWordmark = escapeHTML(item.wordmark);
+  const safeCaption = escapeHTML(item.caption);
 
   return `
-    <article class="case-card"
+    <article
+      class="case-card"
       tabindex="0"
       role="button"
-      aria-label="Open ${safe(item.name)} case study"
-      data-id="${item.id}">
+      aria-label="Open ${safeName} case study"
+      data-id="${safeID}"
+    >
       <div class="case-card-art" style="--card-bg:${item.color}">
-        <span class="case-card-tag">${safe(item.category)}</span>
-        <span class="brand-wordmark">${safe(item.wordmark)}</span>
-        <span class="brand-caption">${safe(item.caption)}</span>
+        <span class="case-card-tag">${safeCategory}</span>
+        <span class="brand-wordmark">${safeWordmark}</span>
+        <span class="brand-caption">${safeCaption}</span>
       </div>
+
       <div class="case-card-body">
-        <h3>${safe(item.name)}</h3>
-        <p>${safe(item.subtitle)}</p>
+        <h3>${safeName}</h3>
+        <p>${safeSubtitle}</p>
+
         <div class="case-card-foot">
-          <span>${item.id}</span>
+          <span>${safeID}</span>
           <i data-lucide="arrow-up-right"></i>
         </div>
       </div>
-    </article>`;
+    </article>
+  `;
 }
 
 function render() {
+  if (!grid || !search || !sort) return;
+
   const term = search.value.trim().toLowerCase();
 
   let items = caseStudies.filter(item => {
     const categoryMatch =
-      activeFilter === "All" || item.category === activeFilter;
+      activeFilter === "All" ||
+      item.categories.includes(activeFilter);
 
-    const searchMatch =
-      !term ||
-      [
-        item.name,
-        item.category,
-        item.tag,
-        item.subtitle,
-        item.description
-      ].join(" ").toLowerCase().includes(term);
+    const searchText = [
+      item.name,
+      item.title,
+      item.category,
+      item.tag,
+      item.subtitle,
+      item.description,
+      item.publicationStatus
+    ].join(" ").toLowerCase();
+
+    const searchMatch = !term || searchText.includes(term);
 
     return categoryMatch && searchMatch;
   });
@@ -184,144 +368,545 @@ function render() {
 
   empty.hidden = items.length !== 0;
 
-  if (window.lucide) lucide.createIcons();
+  if (window.lucide) {
+    window.lucide.createIcons();
+  }
 }
 
+
+/* -----------------------------------------------
+   CONTENT BLOCK RENDERING
+------------------------------------------------ */
+
+function blockType(block) {
+  return normalise(block.BlockType).toLowerCase().replace(/[\s_-]+/g, "");
+}
+
+function blockContent(block) {
+  return normalise(block.Content);
+}
+
+function blockLabel(block) {
+  return normalise(block.BlockLabel);
+}
+
+function renderTextParagraph(content) {
+  return escapeHTML(content).replace(/\r?\n/g, "<br>");
+}
+
+function renderList(content) {
+  const items = content
+    .split(/\r?\n/)
+    .map(item => item.replace(/^\s*(?:[-•●▪◦]|\d+[.)])\s*/, "").trim())
+    .filter(Boolean);
+
+  if (items.length <= 1) {
+    return `<p>${renderTextParagraph(content)}</p>`;
+  }
+
+  return `
+    <ul class="reader-content-list">
+      ${items.map(item => `<li>${escapeHTML(item)}</li>`).join("")}
+    </ul>
+  `;
+}
+
+function renderBlock(block) {
+  const type = blockType(block);
+  const content = blockContent(block);
+  const label = blockLabel(block);
+  const safeContent = escapeHTML(content);
+
+  if (!content && type !== "heading") {
+    return "";
+  }
+
+  switch (type) {
+    case "heading":
+    case "title":
+    case "subheading": {
+      const headingText = content || label;
+      return `<h3 class="reader-block-heading">${escapeHTML(headingText)}</h3>`;
+    }
+
+    case "paragraph":
+    case "text":
+    case "body":
+      return `<p class="reader-block-paragraph">${renderTextParagraph(content)}</p>`;
+
+    case "list":
+    case "bulletlist":
+    case "numberedlist":
+      return renderList(content);
+
+    case "lesson":
+    case "keylesson":
+      return `
+        <div class="reader-insight reader-lesson">
+          <span class="reader-insight-label">${escapeHTML(label || "KEY LESSON")}</span>
+          <p>${renderTextParagraph(content)}</p>
+        </div>
+      `;
+
+    case "highlight":
+    case "callout":
+      return `
+        <div class="reader-insight reader-highlight">
+          ${label ? `<strong>${escapeHTML(label)}</strong>` : ""}
+          <p>${renderTextParagraph(content)}</p>
+        </div>
+      `;
+
+    case "stat":
+    case "metric":
+      return `
+        <div class="reader-stat">
+          ${label ? `<span>${escapeHTML(label)}</span>` : ""}
+          <strong>${safeContent.replace(/\r?\n/g, "<br>")}</strong>
+        </div>
+      `;
+
+    case "comparison":
+      return `
+        <div class="reader-comparison">
+          ${label ? `<h4>${escapeHTML(label)}</h4>` : ""}
+          <p>${renderTextParagraph(content)}</p>
+        </div>
+      `;
+
+    case "question":
+    case "founderquestion":
+      return `
+        <div class="reader-insight reader-question">
+          <span class="reader-insight-label">THINK LIKE A FOUNDER</span>
+          ${label ? `<h4>${escapeHTML(label)}</h4>` : ""}
+          <p>${renderTextParagraph(content)}</p>
+        </div>
+      `;
+
+    case "image": {
+      const imageURL = safeAssetURL(content);
+
+      if (imageURL) {
+        return `
+          <figure class="reader-image">
+            <img src="${escapeHTML(imageURL)}" alt="${escapeHTML(label || "Case study image")}" loading="lazy">
+            ${label ? `<figcaption>${escapeHTML(label)}</figcaption>` : ""}
+          </figure>
+        `;
+      }
+
+      return `
+        <div class="reader-image-placeholder">
+          <i data-lucide="image"></i>
+          <span>${escapeHTML(label || "Visual asset to be added")}</span>
+        </div>
+      `;
+    }
+
+    default:
+      // Unknown block types are displayed as readable text
+      // rather than silently discarded.
+      return `
+        <p class="reader-block-paragraph">
+          ${renderTextParagraph(content)}
+        </p>
+      `;
+  }
+}
+
+
+/* -----------------------------------------------
+   PAGE TITLES AND READER NAVIGATION
+------------------------------------------------ */
+
+function pageTitle(page, index) {
+  const headingBlock = (page.blocks || []).find(block => {
+    const type = blockType(block);
+    return ["heading", "title", "subheading"].includes(type);
+  });
+
+  const titleFromContent = headingBlock
+    ? blockContent(headingBlock) || blockLabel(headingBlock)
+    : "";
+
+  return titleFromContent || `Page ${page.page || index + 1}`;
+}
+
+function renderReaderPages(data) {
+  const pages = Array.isArray(data.pages) ? data.pages : [];
+
+  if (!pages.length) {
+    throw new Error("This case study does not contain any pages.");
+  }
+
+  readerToc.innerHTML = `
+    <strong>IN THIS CASE STUDY</strong>
+    ${pages.map((page, index) => {
+      const pageNumber = Number(page.page || index + 1);
+      const title = pageTitle(page, index);
+
+      return `
+        <a
+          href="#readerPage-${pageNumber}"
+          class="${index === 0 ? "toc-active" : ""}"
+          data-reader-page="${pageNumber}"
+        >
+          <span class="toc-page-number">${String(pageNumber).padStart(2, "0")}</span>
+          <span>${escapeHTML(title)}</span>
+        </a>
+      `;
+    }).join("")}
+  `;
+
+  readerArticle.innerHTML = pages.map((page, index) => {
+    const pageNumber = Number(page.page || index + 1);
+    const title = pageTitle(page, index);
+    const blocks = Array.isArray(page.blocks) ? page.blocks : [];
+
+    return `
+      <section
+        class="reader-page"
+        id="readerPage-${pageNumber}"
+        data-reader-page-section="${pageNumber}"
+      >
+        <div class="reader-page-heading">
+          <span class="chapter-number">${String(pageNumber).padStart(2, "0")}</span>
+          <span class="reader-page-label">PAGE ${pageNumber}</span>
+        </div>
+
+        <div class="reader-page-content">
+          ${blocks.map(renderBlock).join("")}
+        </div>
+      </section>
+    `;
+  }).join("");
+
+  if (window.lucide) {
+    window.lucide.createIcons();
+  }
+
+  setupReaderNavigation();
+}
+
+
+/* -----------------------------------------------
+   READER NAVIGATION INTERACTIONS
+------------------------------------------------ */
+
+function setupReaderNavigation() {
+  const links = [...readerToc.querySelectorAll("[data-reader-page]")];
+  const sections = [...readerArticle.querySelectorAll("[data-reader-page-section]")];
+
+  links.forEach(link => {
+    link.addEventListener("click", event => {
+      event.preventDefault();
+
+      const target = document.getElementById(
+        `readerPage-${link.dataset.readerPage}`
+      );
+
+      if (target) {
+        target.scrollIntoView({
+          behavior: "smooth",
+          block: "start"
+        });
+      }
+
+      setActiveReaderLink(link);
+    });
+  });
+
+  if (!("IntersectionObserver" in window)) return;
+
+  const observer = new IntersectionObserver(entries => {
+    const visible = entries
+      .filter(entry => entry.isIntersecting)
+      .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
+
+    if (!visible) return;
+
+    const pageNumber = visible.target.dataset.readerPageSection;
+    const activeLink = links.find(link =>
+      link.dataset.readerPage === pageNumber
+    );
+
+    if (activeLink) {
+      setActiveReaderLink(activeLink);
+    }
+  }, {
+    root: document.querySelector(".case-reader"),
+    rootMargin: "-15% 0px -65% 0px",
+    threshold: [0, 0.15, 0.35, 0.6]
+  });
+
+  sections.forEach(section => observer.observe(section));
+
+  // Keep the observer alive while the reader is open.
+  modal._readerPageObserver?.disconnect();
+  modal._readerPageObserver = observer;
+}
+
+function setActiveReaderLink(activeLink) {
+  readerToc.querySelectorAll("a").forEach(link => {
+    const isActive = link === activeLink;
+    link.classList.toggle("toc-active", isActive);
+
+    if (isActive) {
+      link.setAttribute("aria-current", "location");
+    } else {
+      link.removeAttribute("aria-current");
+    }
+  });
+}
+
+
+/* -----------------------------------------------
+   INDIVIDUAL CASE STUDY CONTENT API
+------------------------------------------------ */
+
+async function loadCaseStudyContent(item) {
+  const requestId = ++activeReaderRequest;
+
+  readerToc.innerHTML = "<strong>IN THIS CASE STUDY</strong>";
+  readerArticle.innerHTML = `
+    <div class="reader-loading">
+      Loading ${escapeHTML(item.name)}...
+    </div>
+  `;
+
+  try {
+    const response = await apiJSONP({
+      action: "casestudycontent",
+      id: item.id,
+      version: item.versionId
+    });
+
+    // Ignore a late response if another study has been opened.
+    if (requestId !== activeReaderRequest || modal.hidden) return;
+
+    if (!response || response.success !== true) {
+      throw new Error(
+        response?.error ||
+        response?.message ||
+        "Unable to load this case study."
+      );
+    }
+
+    const study = response.caseStudy || {};
+
+    document.getElementById("readerCategory").textContent =
+      splitCategories(study.Category || item.categories.join("; "))
+        .join(" · ")
+        .toUpperCase();
+
+    document.getElementById("readerTitle").textContent =
+      normalise(study.Title) || item.title || item.name;
+
+    document.getElementById("readerSubtitle").textContent =
+      normalise(study.Subtitle) || item.subtitle;
+
+    document.getElementById("readerId").textContent =
+      `${item.id} · ${normalise(study.EstimatedReadingTime || item.readingTime)}`;
+
+    document.getElementById("readerMeta").innerHTML = `
+      <span>${escapeHTML(item.name)}</span>
+      <span>${escapeHTML(item.tag)}</span>
+      <span>${escapeHTML(item.readingTime || "Case study")}</span>
+    `;
+
+    renderReaderPages(response);
+
+    const reader = document.querySelector(".case-reader");
+    if (reader) reader.scrollTop = 0;
+
+  } catch (error) {
+    if (requestId !== activeReaderRequest || modal.hidden) return;
+
+    console.error("TEXLearn case study content:", error);
+
+    readerToc.innerHTML = "<strong>IN THIS CASE STUDY</strong>";
+
+    readerArticle.innerHTML = `
+      <div class="reader-load-error">
+        <h3>Unable to load this case study</h3>
+        <p>${escapeHTML(error.message)}</p>
+        <button type="button" id="retryReaderContent">Try again</button>
+      </div>
+    `;
+
+    document.getElementById("retryReaderContent")
+      ?.addEventListener("click", () => loadCaseStudyContent(item));
+  }
+}
+
+
+/* -----------------------------------------------
+   OPEN AND CLOSE READER
+------------------------------------------------ */
+
 function openReader(item) {
+  if (!item) return;
+
   lastFocused = document.activeElement;
 
-  document.getElementById("readerCategory").textContent =
-    `${item.category.toUpperCase()} · ${item.tag.toUpperCase()}`;
+  const cover = document.getElementById("readerCover");
 
-  document.getElementById("readerTitle").textContent = item.name;
+  cover.style.background =
+    `linear-gradient(105deg, ${item.color}, #07182D)`;
+
+  document.getElementById("readerCategory").textContent =
+    item.categories.join(" · ").toUpperCase();
+
+  document.getElementById("readerTitle").textContent = item.title || item.name;
   document.getElementById("readerSubtitle").textContent = item.subtitle;
   document.getElementById("readerId").textContent = item.id;
 
-  document.getElementById("readerDescription").textContent = item.description;
-  document.getElementById("readerOriginText").textContent = item.origin;
-  document.getElementById("readerModelText").textContent = item.model;
-  document.getElementById("readerStrategyText").textContent = item.strategy;
-  document.getElementById("readerQuestion").textContent = item.question;
-
-  document.getElementById("readerLessonsList").innerHTML =
-    item.lessons.map(x => `<li>${x}</li>`).join("");
-
-  document.getElementById("readerMeta").innerHTML = `
-    <span>${item.category}</span>
-    <span>${item.tag}</span>
-    <span>${item.id}</span>`;
-
-  const cover = document.getElementById("readerCover");
-  cover.style.background = `linear-gradient(105deg, ${item.color}, #07182D)`;
+  document.getElementById("readerMeta").innerHTML = "";
 
   modal.hidden = false;
   modal.setAttribute("aria-hidden", "false");
   document.body.classList.add("case-modal-open");
 
-  document.querySelector(".case-reader").scrollTop = 0;
-  document.querySelector(".case-reader-close").focus();
+  const reader = document.querySelector(".case-reader");
+  if (reader) reader.scrollTop = 0;
+
+  document.querySelector(".case-reader-close")?.focus();
+
+  loadCaseStudyContent(item);
 }
 
 function closeReader() {
+  activeReaderRequest++;
+
+  modal._readerPageObserver?.disconnect();
+  modal._readerPageObserver = null;
+
   modal.hidden = true;
   modal.setAttribute("aria-hidden", "true");
   document.body.classList.remove("case-modal-open");
 
-  if (lastFocused) lastFocused.focus();
+  if (lastFocused && typeof lastFocused.focus === "function") {
+    lastFocused.focus();
+  }
 }
 
-/* Open a case study */
-grid.addEventListener("click", e => {
-  const card = e.target.closest(".case-card");
+
+/* -----------------------------------------------
+   CARD EVENTS
+------------------------------------------------ */
+
+grid.addEventListener("click", event => {
+  const card = event.target.closest(".case-card");
   if (!card) return;
 
-  const item = caseStudies.find(x => x.id === card.dataset.id);
+  const item = caseStudies.find(study => study.id === card.dataset.id);
   if (item) openReader(item);
 });
 
-/* Keyboard support for case cards */
-grid.addEventListener("keydown", e => {
+grid.addEventListener("keydown", event => {
   if (
-    (e.key === "Enter" || e.key === " ") &&
-    e.target.classList.contains("case-card")
+    (event.key === "Enter" || event.key === " ") &&
+    event.target.classList.contains("case-card")
   ) {
-    e.preventDefault();
+    event.preventDefault();
 
-    const item = caseStudies.find(x => x.id === e.target.dataset.id);
+    const item = caseStudies.find(study =>
+      study.id === event.target.dataset.id
+    );
+
     if (item) openReader(item);
   }
 });
 
-/* Search and sorting */
+
+/* -----------------------------------------------
+   SEARCH, SORT AND FILTER EVENTS
+------------------------------------------------ */
+
 search.addEventListener("input", render);
 sort.addEventListener("change", render);
 
-/* Category filters */
-filters.addEventListener("click", e => {
-  const chip = e.target.closest("[data-filter]");
+filters.addEventListener("click", event => {
+  const chip = event.target.closest("[data-filter]");
   if (!chip) return;
 
   activeFilter = chip.dataset.filter;
 
-  filters.querySelectorAll(".filter-chip").forEach(x => {
-    x.classList.toggle("selected", x === chip);
+  filters.querySelectorAll(".filter-chip").forEach(button => {
+    button.classList.toggle("selected", button === chip);
   });
 
   render();
 });
 
-/* Clear filters */
 document.getElementById("clearFilters").addEventListener("click", () => {
   activeFilter = "All";
   search.value = "";
 
-  filters.querySelectorAll(".filter-chip").forEach(x => {
-    x.classList.toggle("selected", x.dataset.filter === "All");
+  filters.querySelectorAll(".filter-chip").forEach(button => {
+    button.classList.toggle(
+      "selected",
+      button.dataset.filter === "All"
+    );
   });
 
   render();
 });
 
-/* Close reader */
-modal.addEventListener("click", e => {
-  if (e.target.matches("[data-close-modal]")) {
+
+/* -----------------------------------------------
+   MODAL CLOSE EVENTS
+------------------------------------------------ */
+
+modal.addEventListener("click", event => {
+  if (event.target.matches("[data-close-modal]")) {
     closeReader();
   }
 });
 
-document.addEventListener("keydown", e => {
-  if (e.key === "Escape" && !modal.hidden) {
+document.addEventListener("keydown", event => {
+  if (event.key === "Escape" && !modal.hidden) {
     closeReader();
   }
 });
 
-/* Mobile sidebar */
+
+/* -----------------------------------------------
+   MOBILE SIDEBAR
+------------------------------------------------ */
+
 const app = document.getElementById("caseApp");
 const sidebar = document.getElementById("caseSidebar");
+const menuButton = document.getElementById("caseMenu");
 
 const openMenu = () => {
   app.classList.add("sidebar-open");
   document.body.classList.add("case-sidebar-open");
-
-  document.getElementById("caseMenu")
-    .setAttribute("aria-expanded", "true");
+  menuButton.setAttribute("aria-expanded", "true");
 };
 
 const closeMenu = () => {
   app.classList.remove("sidebar-open");
   document.body.classList.remove("case-sidebar-open");
-
-  document.getElementById("caseMenu")
-    .setAttribute("aria-expanded", "false");
+  menuButton.setAttribute("aria-expanded", "false");
 };
 
-document.getElementById("caseMenu").addEventListener("click", openMenu);
+menuButton.addEventListener("click", openMenu);
 document.getElementById("caseClose").addEventListener("click", closeMenu);
 document.getElementById("caseBackdrop").addEventListener("click", closeMenu);
 
-document.addEventListener("keydown", e => {
-  if (e.key === "Escape") closeMenu();
+document.addEventListener("keydown", event => {
+  if (event.key === "Escape") closeMenu();
 });
 
-/* Initial rendering */
-render();
+
+/* -----------------------------------------------
+   INITIALISE
+------------------------------------------------ */
+
+loadCatalogue();
+
+if (window.lucide) {
+  window.lucide.createIcons();
+}

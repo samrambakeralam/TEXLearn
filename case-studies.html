@@ -10,6 +10,8 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/case-studies.css">
+  <link rel="stylesheet" href="css/case-studies.css">
+<link rel="stylesheet" href="css/case-studies-reader-enhancements.css">
   <script src="https://unpkg.com/lucide@latest"></script>
 </head>
 <body>
@@ -109,21 +111,29 @@
       <div class="reader-cover-content"><span id="readerCategory">STARTUP STORY</span><h2 id="readerTitle">Brand name</h2><p id="readerSubtitle"></p><small id="readerId">CASE-001</small></div>
     </div>
     <div class="reader-body">
-      <div class="reader-meta" id="readerMeta"></div>
-      <div class="reader-layout">
-        <nav class="reader-toc" aria-label="Case study chapters"><strong>IN THIS CASE STUDY</strong><a href="#readerOverview" class="toc-active">Overview</a><a href="#readerOrigin">The origin story</a><a href="#readerModel">Business model</a><a href="#readerStrategy">Growth strategy</a><a href="#readerLessons">Key lessons</a><a href="#readerQuestions">Think like a founder</a></nav>
-        <div class="reader-article">
-          <section id="readerOverview"><span class="eyebrow green">THE BIG PICTURE</span><h3>Overview</h3><p id="readerDescription"></p></section>
-          <section id="readerOrigin"><span class="chapter-number">01</span><h3>The origin story</h3><p id="readerOriginText"></p></section>
-          <section id="readerModel"><span class="chapter-number">02</span><h3>Business model</h3><p id="readerModelText"></p></section>
-          <section id="readerStrategy"><span class="chapter-number">03</span><h3>Growth strategy</h3><p id="readerStrategyText"></p></section>
-          <section id="readerLessons"><span class="chapter-number">04</span><h3>Key lessons</h3><ul id="readerLessonsList"></ul></section>
-          <section class="founder-question" id="readerQuestions"><span class="eyebrow green">THINK LIKE A FOUNDER</span><h3>What would you do?</h3><p id="readerQuestion"></p></section>
-          <p class="reader-disclaimer">This is an introductory learning preview. Detailed case studies should be supported by reliable sources, dated figures and further research before publication.</p>
-        </div>
-      </div>
+    <div class="reader-meta" id="readerMeta"></div>
+
+<div class="reader-layout">
+
+  <!-- Dynamic chapter navigation -->
+  <nav
+    class="reader-toc"
+    id="readerToc"
+    aria-label="Case study pages"
+  >
+    <strong>IN THIS CASE STUDY</strong>
+  </nav>
+
+  <!-- Dynamic case study content -->
+  <div class="reader-article" id="readerArticle">
+    <div class="reader-loading" id="readerLoading">
+      Loading case study...
     </div>
-  </article>
+  </div>
+
+</div>
+</div>
+</article>
 </div>
 
 <script src="js/case-studies.js"></script>
