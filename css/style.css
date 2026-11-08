@@ -1438,13 +1438,13 @@ box-shadow:
     
 .tk-hero-quiz {
     width: 100%;
-    height: auto;
+    height: 100%;
     min-height: 0;
     padding: 10px 10px 20px;
     gap: 0;
     box-sizing: border-box;
     border-radius: 20px;
-    overflow: visible;
+    overflow-y: auto;
 }
 
 
@@ -13256,7 +13256,9 @@ body.about-page-exit {
     position: relative;
 }
 
-.rc2-hero-product > .tk-hero-view,
+.rc2-hero-product > #rc2UnboxingStage,
+.rc2-hero-product > #tkHeroQuiz,
+.rc2-hero-product > #tkHeroFounders,
 .rc2-hero-product > #tkHeroCampaign {
     position: absolute;
     top: 50%;
@@ -13373,7 +13375,9 @@ body.about-page-exit {
         align-self: start;
     }
 
-.rc2-hero-product > .tk-hero-view,
+.rc2-hero-product > #rc2UnboxingStage,
+.rc2-hero-product > #tkHeroQuiz,
+.rc2-hero-product > #tkHeroFounders,
 .rc2-hero-product > #tkHeroCampaign {
     top: 0;
     left: 0;
