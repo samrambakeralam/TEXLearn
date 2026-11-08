@@ -13,7 +13,7 @@
 
 const FEATURED_BOOK_IDS = [
     "book-323",
-    "book-250",
+    "book-232",
     "book-277",
     "book-150",
     "book-238"
@@ -22,7 +22,7 @@ const FEATURED_BOOK_IDS = [
 
 const FEATURED_BOOK_CATEGORIES = {
     "book-323": "Entrepreneurship • Wealth",
-    "book-250": "Marketing • Psychology",
+    "book-232": "Storytelling",
     "book-277": "Purpose • Entrepreneurship",
     "book-150": "Startup • Business",
     "book-238": "Money • Mindset"
