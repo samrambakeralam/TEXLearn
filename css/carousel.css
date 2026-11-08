@@ -441,7 +441,7 @@
     }
 
     .rc2-carousel-content h3 {
-        font-size: clamp(11px, 3.3vw, 12px);
+        font-size: clamp(9px, 3.3vw, 10px);
         line-height: 1.3;
     }
 
@@ -503,7 +503,7 @@
     }
 
     .rc2-carousel-content h3 {
-        font-size: clamp(10px, 3.05vw, 11px);
+        font-size: clamp(9px, 3.05vw, 10px);
     }
 
     .rc2-carousel-content p {
