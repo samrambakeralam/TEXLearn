@@ -22,7 +22,7 @@ const FEATURED_BOOK_IDS = [
 
 const FEATURED_BOOK_CATEGORIES = {
     "book-323": "Entrepreneurship • Wealth",
-    "book-232": "Storytelling",
+    "book-232": "Storytelling • Persuasion",
     "book-277": "Purpose • Entrepreneurship",
     "book-150": "Startup • Business",
     "book-385": "Branding • Marketing"
