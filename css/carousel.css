@@ -268,11 +268,11 @@
     z-index: 2;
     top: 12px;
     left: 12px;
-    padding: 6px 9px;
+    padding: 5px 8px;
     border-radius: 999px;
     background: rgba(11, 31, 58, .88);
     color: white;
-    font-size: 9px;
+    font-size: 8px;
     font-weight: 800;
     letter-spacing: .06em;
     backdrop-filter: blur(8px);
