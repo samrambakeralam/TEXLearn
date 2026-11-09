@@ -299,13 +299,13 @@ async function resumePendingBrowserRecovery(session, paymentButton) {
             paymentButton.textContent = "Check Payment Status";
         }
 
-        alert(
-            "Your previous payment status is still unconfirmed.\n\n" +
-            "We checked the original payment attempt, but could not " +
-            "confirm its result. Please check again or contact support " +
-            "before making another payment."
-        );
-
+      alert(
+    "PAYMENT RECOVERY DIAGNOSTIC\n\n" +
+    (
+        window.__texlearnLastRecoveryMessage ||
+        "No response received from recovery server."
+    )
+);
     } finally {
 
         window.__texlearnPendingRecoveryInProgress = false;
@@ -812,6 +812,11 @@ async function recoverBrowserPayment(session) {
             );
 
             const result = await response.json();
+
+            window.__texlearnLastRecoveryMessage =
+    result.message || "No message returned by server";
+
+console.log("PAYMENT RECOVERY SERVER RESPONSE:", result);
 
             logBrowserPaymentEvent("RECOVERY_RESPONSE", {
                 attempt: attempt,
