@@ -182,8 +182,8 @@ async function recoverNativePayment(session, paymentButton) {
                         })
                     );
 
-                    window.location.href =
-                        "/TEXLearn/success.html";
+                    window.location.href = "/success.html";
+                        
 
                     return true;
                 }
@@ -859,7 +859,7 @@ console.log("PAYMENT RECOVERY SERVER RESPONSE:", result);
 
                 logBrowserPaymentEvent("RECOVERY_REDIRECT_TO_SUCCESS");
 
-                window.location.href = "/TEXLearn/success.html";
+                window.location.href = "/success.html";
 
                 return true;
             }
@@ -1211,7 +1211,7 @@ async function verifyPayment(response, session, paymentButton) {
         clearPendingBrowserPayment();
         clearPendingNativePayment();
 
-        window.location.href = "/TEXLearn/success.html";
+        window.location.href = "/success.html";
 
     } catch (error) {
         console.error("Payment verification error:", error);
