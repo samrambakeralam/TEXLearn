@@ -11215,6 +11215,11 @@ transform:translateY(0px);
         margin-left: auto;
         margin-right: auto;
     }
+
+    .final-cta-action-group {
+    width: 100%;
+    align-items: center;
+    }
 }
 
 
