@@ -11259,7 +11259,7 @@ transform:translateY(0px);
     }
 
     .final-cta-note {
-        font-size: 0.72rem;
+        font-size: 0.60rem;
     }
 }
 
@@ -11337,10 +11337,10 @@ transform:translateY(0px);
 }
 
 
-    .final-cta-note{
+    .final-cta-note {
     margin-top:clamp(6px,2vw,9px);
 
-    font-size:clamp(0.52rem,2vw,0.62rem);
+    font-size:clamp(0.52rem,2vw,0.60rem);
 
     line-height:1.2;
     font-weight:500;
