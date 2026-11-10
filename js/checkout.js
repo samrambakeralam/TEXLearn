@@ -45,8 +45,28 @@ function clearPendingBrowserPayment() {
 const TEXLEARN_PENDING_NATIVE_PAYMENT_KEY =
     "texlearn_pending_native_payment";
 
+function isNativeAndroidCheckout() {
+    return !!(
+        window.TEXLearnNative &&
+        typeof window.TEXLearnNative.openCheckout === "function" &&
+        typeof window.TEXLearnNative.savePendingPayment === "function" &&
+        typeof window.TEXLearnNative.getPendingPayment === "function" &&
+        typeof window.TEXLearnNative.clearPendingPayment === "function"
+    );
+}
+
 function getPendingNativePayment() {
     try {
+        // Android: retrieve the encrypted persistent payment record.
+        if (isNativeAndroidCheckout()) {
+            const raw = window.TEXLearnNative.getPendingPayment();
+
+            if (raw) {
+                return JSON.parse(raw);
+            }
+        }
+
+        // Browser / legacy fallback.
         const raw = sessionStorage.getItem(
             TEXLEARN_PENDING_NATIVE_PAYMENT_KEY
         );
@@ -54,37 +74,76 @@ function getPendingNativePayment() {
         return raw ? JSON.parse(raw) : null;
 
     } catch (error) {
-        console.error("Unable to read pending native payment:", error);
+        console.error(
+            "Unable to read pending native payment:",
+            error
+        );
         return null;
     }
 }
 
 function savePendingNativePayment(session) {
+
+    const pending = {
+        customerID: session.customerID,
+        token: session.token,
+        orderID: session.razorpay.orderID,
+        amount: Number(session.razorpay.amount),
+        startedAt: new Date().toISOString()
+    };
+
     try {
+        // Android: save through encrypted native storage.
+        if (isNativeAndroidCheckout()) {
+
+            const saved =
+                window.TEXLearnNative.savePendingPayment(
+                    JSON.stringify(pending)
+                );
+
+            if (saved !== true) {
+                throw new Error(
+                    "Android could not persist the pending payment."
+                );
+            }
+
+            return true;
+        }
+
+        // Browser / legacy fallback.
         sessionStorage.setItem(
             TEXLEARN_PENDING_NATIVE_PAYMENT_KEY,
-            JSON.stringify({
-                customerID: session.customerID,
-                token: session.token,
-                orderID: session.razorpay.orderID,
-                amount: Number(session.razorpay.amount),
-                startedAt: new Date().toISOString()
-            })
+            JSON.stringify(pending)
         );
 
+        return true;
+
     } catch (error) {
-        console.error("Unable to save pending native payment:", error);
+        console.error(
+            "Unable to save pending native payment:",
+            error
+        );
+
+        throw error;
     }
 }
 
 function clearPendingNativePayment() {
     try {
+        if (isNativeAndroidCheckout()) {
+            window.TEXLearnNative.clearPendingPayment();
+        }
+
+        // Also remove any legacy browser marker.
         sessionStorage.removeItem(
             TEXLEARN_PENDING_NATIVE_PAYMENT_KEY
         );
 
     } catch (error) {
-        console.error("Unable to clear pending native payment:", error);
+        console.error(
+            "Unable to clear pending native payment:",
+            error
+        );
     }
 }
 
