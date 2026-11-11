@@ -1,0 +1,170 @@
+
+/* =========================================================
+   TEXLEARN — READER IMAGE ZOOM
+========================================================= */
+
+.reader-zoom-trigger {
+    cursor: zoom-in;
+    -webkit-tap-highlight-color: transparent;
+}
+
+/* Fullscreen viewer */
+
+.reader-image-zoom-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 20000;
+
+    display: flex;
+    flex-direction: column;
+
+    background: rgba(5, 12, 22, 0.97);
+
+    opacity: 0;
+    visibility: hidden;
+
+    transition:
+        opacity 220ms ease,
+        visibility 220ms ease;
+
+    overscroll-behavior: contain;
+}
+
+.reader-image-zoom-overlay.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+/* Top toolbar */
+
+.reader-zoom-toolbar {
+    flex: 0 0 64px;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    padding: 0 18px;
+
+    color: #ffffff;
+}
+
+.reader-zoom-title {
+    font-size: 13px;
+    color: rgba(255,255,255,.75);
+}
+
+.reader-zoom-close {
+    width: 42px;
+    height: 42px;
+
+    border: 0;
+    border-radius: 12px;
+
+    background: rgba(255,255,255,.10);
+
+    color: #ffffff;
+    font-size: 27px;
+
+    cursor: pointer;
+}
+
+/* Image viewing area */
+
+.reader-zoom-stage {
+    flex: 1;
+    min-height: 0;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    overflow: hidden;
+
+    padding: 12px;
+
+    touch-action: none;
+}
+
+.reader-zoom-image {
+    display: block;
+
+    max-width: 100%;
+    max-height: 100%;
+
+    width: auto;
+    height: auto;
+
+    object-fit: contain;
+
+    transform-origin: center center;
+
+    user-select: none;
+    -webkit-user-drag: none;
+
+    touch-action: none;
+    will-change: transform;
+}
+
+/* Bottom zoom controls */
+
+.reader-zoom-controls {
+    flex: 0 0 76px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    gap: 18px;
+
+    padding:
+        8px 16px
+        calc(12px + env(safe-area-inset-bottom));
+
+}
+
+.reader-zoom-controls button {
+    min-width: 42px;
+    height: 42px;
+
+    border: 0;
+    border-radius: 12px;
+
+    background: rgba(255,255,255,.12);
+
+    color: #ffffff;
+    font-size: 21px;
+
+    cursor: pointer;
+}
+
+.reader-zoom-level {
+    min-width: 58px;
+
+    color: #ffffff;
+
+    font-size: 13px;
+    font-weight: 600;
+
+    text-align: center;
+}
+
+/* Mobile adjustments */
+
+@media (max-width: 767px) {
+
+    .reader-zoom-toolbar {
+        flex-basis: 58px;
+        padding: 0 14px;
+    }
+
+    .reader-zoom-stage {
+        padding: 8px;
+    }
+
+    .reader-zoom-controls {
+        flex-basis: 70px;
+        gap: 14px;
+    }
+
+}
