@@ -6052,15 +6052,6 @@ if (trialToken) {
  * browser session.
  */
 
-console.log(
-    "LIBRARY AUTH INPUT:",
-    {
-        customerID: customerID,
-        hasAccessToken: !!accessToken,
-        url: window.location.href
-    }
-);
-
 
 if (
     !trialToken &&
@@ -6074,11 +6065,6 @@ if (
             accessToken,
             null
         );
-
-        console.log(
-    "LIBRARY AUTH RESULT:",
-    librarySession
-);
 
 }
 
@@ -6179,6 +6165,27 @@ if (
     );
 
 }
+
+}
+
+/*
+ * ---------------------------------------------------------
+ * GAMIFICATION AUTHENTICATION
+ * Paid Library accounts only.
+ * ---------------------------------------------------------
+ */
+
+if (
+    librarySession &&
+    librarySession.success === true &&
+    librarySession.authenticated === true &&
+    librarySession.accountType !== "TRIAL" &&
+    window.TEXLearnGamification
+) {
+
+    await window.TEXLearnGamification.initialise(
+        librarySession
+    );
 
 }
 
