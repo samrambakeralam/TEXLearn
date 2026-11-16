@@ -769,24 +769,18 @@ a {
 
 .rc2-hero-actions {
 
-    display:
-        flex;
-
-    align-items:
-        center;
-
-    flex-wrap:
-        wrap;
-
-    gap:
-        12px;
-
-    margin-top:
-        16px;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    align-items: stretch;
+    gap: 12px;
+    width: 100%;
+    margin-top: 16px;
 
 }
 
 .rc2-primary-cta {
+    grid-column: 1 / -1;
+    width: calc(100% - 175px);
 
     display:
         inline-flex;
@@ -796,6 +790,8 @@ a {
 
     justify-content:
         center;
+
+         justify-self: start;
 
     min-height:
         48px;
@@ -884,26 +880,29 @@ a {
 
 .rc2-secondary-cta {
 
-    display:
-        inline-flex;
+    display: flex;
+
+    width: 68%;  
 
     align-items:
         center;
+
+        text-align: center;
 
     justify-content:
         center;
 
     gap:
-        7px;
+        3px;
 
     min-height:
-        48px;
+        36px;
 
     padding:
         0 4px;
 
-    border:
-        none;
+    border: 1px solid #E2E8F0;
+    border-radius: 9px;
 
     background:
         transparent;
@@ -916,7 +915,7 @@ a {
         sans-serif;
 
     font-size:
-        14px;
+        12px;
 
     font-weight:
         700;
@@ -956,23 +955,37 @@ a {
 
 }
 
-.rc2-secondary-cta svg {
-    width: 19px;
-    height: 19px;
-    flex: 0 0 auto;
-    stroke-width: 1.7;
-    transition: transform .25s ease, stroke-width .25s ease;
+/* Explore Library */
+.home-library-link {
+    background: #FFFFFF;
+    border: 1px solid #E2E8F0;
+    color: #0B1F3A;
+    margin-left: 8px;
 }
 
-.rc2-secondary-cta:hover svg {
-    transform: translateX(3px);
-    stroke-width: 1.9;
+/* ASCEND */
+.home-ascend-link {
+    background: #FFFFFF;
+    border: 1px solid #E2E8F0;
+    color: #0B1F3A;
+    justify-self: end;
+    margin-right: 175px;
 }
 
-.rc2-secondary-cta:active svg {
-    transform: translateX(3px);
+/* Hover and touch states */
+.home-library-link:hover,
+.home-library-link:active {
+    background: #0B1F3A;
+    border-color: #0B1F3A;
+    color: #FFFFFF;
 }
 
+.home-ascend-link:hover,
+.home-ascend-link:active {
+    background: #6600FF;
+    border-color: #6600FF;
+    color: #FFFFFF;
+}
 
 /* =========================================================
    19. HERO TRUST LINE
@@ -2694,7 +2707,7 @@ box-shadow:
     .rc2-hero {
 
         padding:
-            80px 0 22px;
+            58px 0 22px;
 
     }
 
@@ -2703,27 +2716,18 @@ box-shadow:
 
         width:
         calc(100% - 16px);
-
-        display:
-            grid;
-
-        grid-template-columns:
-            1fr;
+        display: grid;
+        grid-template-columns: 1fr;
 
         grid-template-areas:
-            "badge"
-            "heading"
-            "description"
-            "product"
-            "values"
-            "actions"
-            "trust";
+        "product"
+        "badge"
+        "heading"
+        "description"
+        "actions"; 
 
-        gap:
-            0;
-
-        text-align:
-            center;
+        gap: 0px;    
+        text-align: center;      
 
     }
 
@@ -2733,15 +2737,8 @@ box-shadow:
         display:
             contents;
 
-        margin:
-            0;
-
-        padding:
-            0;
-
         transform:
             none;
-
     }
 
 
@@ -3037,80 +3034,34 @@ box-shadow:
 
     /* CTA */
 
-    .rc2-hero-actions {
-
-        grid-area:
-            actions;
-
-        width:
-            100%;
-
-        display:
-            grid;
-
-        grid-template-columns:
-            1fr 1fr;
-
-        gap:
-            7px;
-
-        margin:
-            22px 0 12px;
-
-        transform:
-            none;
-
-    }
+.rc2-primary-cta,
+.rc2-secondary-cta {
+    grid-column: auto;
+    width: 100%;
+    min-width: 0;
+    height: 46px;
+    min-height: 46px;
+    margin: 0;
+    padding: 0 5px;
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    white-space: nowrap;
+}
 
 
-    .rc2-primary-cta,
-    .rc2-secondary-cta {
+    .rc2-primary-cta {
 
-        width:
-            100%;
-
-        min-width:
-            0;
-
-        height:
-            clamp(46px, 11.8vw, 50px);
-
-        min-height:
-            clamp(46px, 11.8vw, 50px);
-
-        margin:
-            0;
-
-        padding:
-            0 7px;
-
-        box-sizing:
-            border-box;
-
-        display:
-            flex;
-
-        align-items:
-            center;
-
-        justify-content:
-            center;
-
-        white-space:
-            nowrap;
-
-        border-radius:
-            11px;
-
-    }
-
-
-       .rc2-primary-cta {
-
-        font-size:
+    grid-column: auto;
+    width: fit-content;
+    min-width: 0;
+    justify-self: center;
+    padding: 0 16px;
+    font-size:
             clamp(15px, 3.6vw, 16px);
 
-        font-weight:
+    font-weight:
             600;
 
     }
@@ -3124,89 +3075,9 @@ box-shadow:
         font-weight:
             600;
 
-         gap:
-            clamp(3px, 0.8vw, 4px);
-
-            transform: translateX(-32px);
+         gap: clamp(2px, 0.8vw, 3px);          
 
     }
-
-
-    .rc2-secondary-cta svg {
-
-        width:
-            clamp(13px, 3.3vw, 15px);
-
-        height:
-            clamp(13px, 3.3vw, 15px);
-
-    }
-
-
-    /* Trust */
-
-    .rc2-trust-line {
-
-        grid-area:
-            trust;
-
-        width:
-            100%;
-
-        display:
-            flex;
-
-        align-items:
-            center;
-
-        justify-content:
-            flex-start;
-
-        flex-wrap:
-            nowrap;
-
-        gap:
-            8px;
-
-        margin-top:
-            5px;
-
-        transform:
-            none;
-
-    }
-
-
-    .rc2-trust-line span {
-
-        display:
-            inline-flex;
-
-        align-items:
-            center;
-
-        gap:
-            3px;
-
-        white-space:
-            nowrap;
-
-    }
-
-
-    .rc2-trust-line svg {
-
-        width:
-            12px;
-
-        height:
-            12px;
-
-        flex:
-            0 0 auto;
-
-    }
-
 
     /* Mobile menu */
 
@@ -3376,7 +3247,7 @@ box-shadow:
     .rc2-hero {
 
         padding:
-            80px 0 22px;
+            58px 0 22px;
 
     }
 
@@ -3386,23 +3257,21 @@ box-shadow:
     width:
         calc(100% - 16px);
 
-    display:
-        grid;
+    display: grid;
+        
 
     grid-template-columns:
         1fr;
 
     grid-template-areas:
+        "product"
         "badge"
         "heading"
         "description"
-        "product"
-        "values"
-        "actions"
-        "trust";
+        "actions"; 
 
     gap:
-        0;
+        0px;
 
     text-align:
         center;
@@ -3632,136 +3501,49 @@ box-shadow:
 
     }
 
-/* Value points */
+    /* CTA — all three buttons in one row */
 
-.rc2-value-points {
-
-    grid-area:
-        values;
-
-    width:
-        85%;
-
-    display:
-        grid;
-
-    grid-template-columns:
-        repeat(2, minmax(0, 1fr));
-
-    gap:
-        7px;
-
-    margin:
-        0;
-
-    transform:
-        none;
-
+.rc2-hero-actions {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 6px;
+    width: 100%;
+    margin: 16px 0 12px;
+    transform: none;
 }
 
-
-.rc2-value-points div {
-
-    min-width:
-        0;
-
-    min-height:
-        26px;
-
-    padding: clamp(2.5px, 0.8vw, 3.5px) clamp(1.5px, 0.6vw, 2.5px);
-
-    box-sizing:
-        border-box;
-
-    display:
-        inline-flex;
-
-    align-items:
-        center;
-
-    justify-content:
-        center;
-
-    gap:
-            clamp(2px, 0.8vw, 3px);
-
-    white-space:
-        nowrap;
-
-     font-size:
-            clamp(7.5px, 2.15vw, 8.5px);
-
-    font-weight:
-        600;
-
+.rc2-primary-cta {
+    grid-column: auto;
+    width: fit-content;
+    min-width: 0;
+    max-width: 100%;
+    justify-self: start;
+    height: clamp(40px, 11vw, 42px);
+    min-height: clamp(40px, 11vw, 42px);
+    margin: 0;
+    padding: 0 24px;
+    box-sizing: border-box;
+    font-size: clamp(13px, 3vw, 15px);
+    white-space: nowrap;
 }
 
-
-.rc2-value-points svg {
-
-    width:
-            clamp(11px, 3.1vw, 12px);
-
-    height:
-            clamp(11px, 3.1vw, 12px);
-
-    flex:
-        0 0 auto;
-
-}
-
-.rc2-primary-cta,
-    .rc2-secondary-cta {
-
-        height:
-            clamp(36px, 11vw, 38px);
-
-        min-height:
-            clamp(36px, 11vw, 38px);
-
-    }
-
-
-    .rc2-primary-cta {
-
-        font-size:
-            clamp(12px, 3.6vw, 14px);
-
-    }
-
-
-    .rc2-secondary-cta {
-
-        font-size:
-            clamp(10.5px, 3vw, 12px);
-
-        gap:
-            clamp(2px, 0.8vw, 4px);
-
-    }
-
-
-    .rc2-secondary-cta svg {
-
-        width:
-            clamp(12px, 3.1vw, 14px);
-
-        height:
-            clamp(12px, 3.1vw, 14px);
-
-    }
-
-
-
-.rc2-trust-line {
-    font-size: 7px;
-    line-height: 1;
-    gap: 1px;
-}
-
-.rc2-trust-line svg {
-    width: 8px;
-    height: 8px;
+.rc2-secondary-cta {
+    flex: 0 0 auto;
+    width: auto;
+    min-width: 0;
+    height: clamp(36px, 11vw, 38px);
+    min-height: clamp(34px, 11vw, 36px);
+    margin: 0;
+    padding: 0 9px;
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 9px;
+    font-size: clamp(10px, 2.8vw, 11px);
+    white-space: nowrap;
+    transform: none;
 }
 
 
@@ -12862,7 +12644,20 @@ body.about-page-exit {
         aspect-ratio: 16 / 9;
         min-height: 0;
         align-self: start;
+        width: 100vw;
+        max-width: 100vw;
+        margin-left: calc(50% - 50vw);
+        margin-right: calc(50% - 50vw);
+        border-radius: 0;
     }
+    .rc2-hero-product > #rc2UnboxingStage,
+    .rc2-hero-product > #tkHeroQuiz,
+    .rc2-hero-product > #tkHeroFounders,
+    .rc2-hero-product > #tkHeroCampaign,
+    .rc2-hero-product .rc2-unboxing-stage {
+        border-radius: 0 !important;
+    }
+    
 
 .rc2-hero-product > #rc2UnboxingStage,
 .rc2-hero-product > #tkHeroQuiz,
