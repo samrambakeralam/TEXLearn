@@ -794,7 +794,7 @@ a {
     flex-direction: column;
     align-items: center;
     justify-content: flex-start;
-    gap: 10px;
+    gap: 9px;
 
     width: 100%;
     padding: 0;
@@ -2339,6 +2339,42 @@ a {
     box-sizing: border-box;
 }
 
+.rc2-icon-action {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 9px;
+
+    width: 100%;
+    padding: 0;
+
+    border: none;
+    background: transparent;
+    color: var(--rc2-navy);
+
+    font-family: "Inter", sans-serif;
+    text-decoration: none;
+    text-align: center;
+
+    cursor: pointer;
+    box-sizing: border-box;
+    -webkit-tap-highlight-color: transparent;
+
+    transition: transform .25s ease;
+}
+
+.rc2-icon-tile-label {
+    display: block;
+    width: 100%;
+
+    color: var(--rc2-navy);
+    font-size: 10px;
+    font-weight: 600;
+    line-height: .55;
+    text-align: center;
+}
+
 /* Subtle centred section divider */
 
 .rc2-hero-actions::before {
@@ -2383,10 +2419,6 @@ a {
     height: 90%;
     object-fit: contain;
 }
-
-   .rc2-icon-tile-label {
-        font-size: 9px;
-    }
 
     /* Mobile menu */
 
