@@ -1,888 +1,391 @@
 
 /* =====================================================
-   TEXLEARN — TWO-FRAME HERO QUIZ
-   Frame 1: Introduction
-   Frame 2: Question, voting and results
+   TEXLEARN — HERO ROTATION
+   Book → Founders → Campaign → repeat
+   Quiz functionality removed
 ===================================================== */
 
 (() => {
     "use strict";
 
-    const API_BASE =
-        "https://samramba-api.samrambakerala.workers.dev";
-        const HERO_CAMPAIGN_API =
-    "https://script.google.com/macros/s/AKfycbxpv1gaF3-kNWsB6Zn5weUkaSPp92m1Yln3xkQ4f_wcKa7JahoaUyKid2BkkuvoEi_X/exec";
+    const HERO_CAMPAIGN_API =
+        "https://script.google.com/macros/s/AKfycbxpv1gaF3-kNWsB6Zn5weUkaSPp92m1Yln3xkQ4f_wcKa7JahoaUyKid2BkkuvoEi_X/exec";
 
-let campaignImages = [];
-let campaignLoadPromise = null;
+    const BOOK_DURATION = 20000;
+    const FIRST_BOOK_DURATION = 30000;
+    const FADE_DURATION = 1500;
 
+    const bookStage =
+        document.getElementById("rc2UnboxingStage");
 
-    const quizBox = document.getElementById("tkHeroQuiz");
-    const introFrame = document.getElementById("tkHeroQuizIntro");
-    const voteFrame = document.getElementById("tkHeroQuizVote");
-    const startButton = document.getElementById("tkHeroQuizStart");
-    const quizStatus = document.getElementById("tkHeroQuizStatus");
-    const quizContent = document.getElementById("tkHeroQuizContent");
-    const bookStage = document.getElementById("rc2UnboxingStage");
-    const foundersPoster = document.getElementById("tkHeroFounders");
-    // Dynamic hero campaign
-const campaignBox = document.getElementById("tkHeroCampaign");
-const campaignMainLink = document.getElementById("tkCampaignMainLink");
-const campaignMainImage = document.getElementById("tkCampaignMainImage");
-const campaignSupportingLink = document.getElementById("tkCampaignSupportingLink");
-const campaignSupportingImage = document.getElementById("tkCampaignSupportingImage");
-let activeCampaignLink = null;
+    const foundersPoster =
+        document.getElementById("tkHeroFounders");
 
-   if (
-    !quizBox || !introFrame || !voteFrame ||
-    !startButton || !quizStatus || !quizContent ||
-    !bookStage || !foundersPoster
-) {
-    return;
-}
+    const campaignBox =
+        document.getElementById("tkHeroCampaign");
 
-    
-let activeQuiz = null;
-let selectedAnswer = null;
-let submitting = false;
-let transitionTimer = null;
+    const campaignMainLink =
+        document.getElementById("tkCampaignMainLink");
 
-// Automatic book–quiz rotation
-const BOOK_DURATION = 20000;
-const QUIZ_DURATION = 20000;
-const FADE_DURATION = 1500;
-const FIRST_BOOK_DURATION = 30000;
+    const campaignMainImage =
+        document.getElementById("tkCampaignMainImage");
 
-let rotationTimer = null;
-let rotationPaused = false;
-let currentHeroView = "book";
+    const campaignSupportingLink =
+        document.getElementById("tkCampaignSupportingLink");
 
-let isTransitioning = false;
+    const campaignSupportingImage =
+        document.getElementById("tkCampaignSupportingImage");
 
-
-
-function fadeToView(nextView) {
-    if (isTransitioning || currentHeroView === nextView) return;
-
-    const views = {
-    book: bookStage,
-    founders: foundersPoster,
-    campaign: campaignBox,
-    quiz: quizBox
-};
-
-    const outgoing = views[currentHeroView];
-    const incoming = views[nextView];
-
-    if (!outgoing || !incoming) return;
-
-    isTransitioning = true;
-
-    incoming.hidden = false;
-    incoming.classList.add("tk-hero-fading");
-
-    requestAnimationFrame(() => {
-        requestAnimationFrame(() => {
-            outgoing.classList.add("tk-hero-fading");
-            incoming.classList.remove("tk-hero-fading");
-
-            setTimeout(() => {
-                outgoing.hidden = true;
-                outgoing.classList.remove("tk-hero-fading");
-
-                currentHeroView = nextView;
-                isTransitioning = false;
-            }, FADE_DURATION);
-        });
-    });
-}
-
-
-
-
-
-function showBook() {
-    clearTimeout(transitionTimer);
-    clearTimeout(rotationTimer);
-
-    if (currentHeroView !== "book") {
-        fadeToView("book");
-    } else {
-        bookStage.hidden = false;
-        quizBox.hidden = true;
-        foundersPoster.hidden = true;
-    }
-
-    rotationPaused = false;
-
-    // Show the poster after the book.
-    rotationTimer = setTimeout(
-        showFoundersPoster,
-        BOOK_DURATION
-    );
-}
-
-async function showCampaignImage(index = 0) {
-    clearTimeout(transitionTimer);
-    clearTimeout(rotationTimer);
-
-    if (!campaignImages.length || !campaignBox) {
-        if (activeQuiz) {
-            showIntro();
-        } else {
-            showBook();
-        }
+    if (!bookStage || !foundersPoster || !campaignBox) {
+        console.warn(
+            "TEXLearn hero: Required hero elements not found."
+        );
         return;
     }
 
-    const item = campaignImages[index];
-    const previousLink = activeCampaignLink;
-    const nextLink = item.link;
+    const views = {
+        book: bookStage,
+        founders: foundersPoster,
+        campaign: campaignBox
+    };
 
-    // Prepare the incoming image before displaying it.
-    item.image.src = new URL(
-        item.url,
-        document.baseURI
-    ).href;
+    let currentHeroView = "book";
+    let rotationTimer = null;
+    let transitionTimer = null;
+    let isTransitioning = false;
 
-    item.image.alt = item.alt || "";
+    let campaignImages = [];
+    let campaignLoadPromise = null;
+    let activeCampaignLink = null;
 
-    if (item.linkUrl) {
-        item.link.href = item.linkUrl;
-        item.link.target = "_blank";
-        item.link.rel = "noopener noreferrer";
-        item.link.style.pointerEvents = "auto";
-    } else {
-        item.link.removeAttribute("href");
-        item.link.removeAttribute("target");
-        item.link.style.pointerEvents = "none";
-    }
+    /* -----------------------------------------
+       HERO VIEW TRANSITION
+    ----------------------------------------- */
 
-    // Wait for the image to be decoded before revealing it.
-    if (item.image.decode) {
-        await item.image.decode().catch(() => {});
-    }
+    function fadeToView(nextView) {
+        if (!views[nextView]) return;
 
-    // Crossfade between the two campaign images.
-    if (
-        currentHeroView === "campaign" &&
-        previousLink &&
-        previousLink !== nextLink
-    ) {
-        nextLink.hidden = false;
-        nextLink.style.opacity = "0";
+        if (isTransitioning) return;
+
+        if (currentHeroView === nextView) {
+            views[nextView].hidden = false;
+            return;
+        }
+
+        const outgoing = views[currentHeroView];
+        const incoming = views[nextView];
+
+        if (!outgoing || !incoming) return;
+
+        isTransitioning = true;
+
+        incoming.hidden = false;
+        incoming.classList.add("tk-hero-fading");
 
         requestAnimationFrame(() => {
             requestAnimationFrame(() => {
-                previousLink.style.opacity = "0";
-                nextLink.style.opacity = "1";
+                outgoing.classList.add("tk-hero-fading");
+                incoming.classList.remove("tk-hero-fading");
+
+                transitionTimer = setTimeout(() => {
+                    outgoing.hidden = true;
+                    outgoing.classList.remove("tk-hero-fading");
+
+                    currentHeroView = nextView;
+                    isTransitioning = false;
+                    transitionTimer = null;
+
+                }, FADE_DURATION);
             });
         });
-
-        activeCampaignLink = nextLink;
-
-        setTimeout(() => {
-            previousLink.hidden = true;
-            previousLink.style.opacity = "";
-            nextLink.style.opacity = "";
-        }, 1000);
-
-    } else {
-        campaignMainLink.hidden = nextLink !== campaignMainLink;
-        campaignSupportingLink.hidden = nextLink !== campaignSupportingLink;
-
-        nextLink.style.opacity = "";
-        activeCampaignLink = nextLink;
     }
 
-    rotationPaused = false;
+    /* -----------------------------------------
+       BOOK VIEW
+    ----------------------------------------- */
 
-    if (currentHeroView !== "campaign") {
-        fadeToView("campaign");
-    } else {
-        campaignBox.hidden = false;
+    function showBook(duration = BOOK_DURATION) {
+        clearTimeout(rotationTimer);
+        rotationTimer = null;
+
+        fadeToView("book");
+
+        rotationTimer = setTimeout(() => {
+            showFoundersPoster();
+        }, duration);
     }
 
-    // Move to the next image after 20 seconds.
-    rotationTimer = setTimeout(() => {
-        if (index + 1 < campaignImages.length) {
-            showCampaignImage(index + 1);
-        } else if (activeQuiz) {
-            showIntro();
-        } else {
-            showBook();
-        }
-    }, BOOK_DURATION);
-}
+    /* -----------------------------------------
+       FOUNDERS POSTER
+    ----------------------------------------- */
 
+    function showFoundersPoster() {
+        clearTimeout(rotationTimer);
+        rotationTimer = null;
 
-function showFoundersPoster() {
-    clearTimeout(transitionTimer);
-    clearTimeout(rotationTimer);
-
-    rotationPaused = false;
-
-    if (currentHeroView !== "founders") {
         fadeToView("founders");
+
+        rotationTimer = setTimeout(async () => {
+            await loadHeroCampaign();
+
+            if (campaignImages.length) {
+                showCampaignImage(0);
+            } else {
+                showBook();
+            }
+
+        }, BOOK_DURATION);
     }
 
-    // Show the quiz after the poster, but only when
-    // the backend has returned an active quiz.
-  rotationTimer = setTimeout(async () => {
-    await loadHeroCampaign();
+    /* -----------------------------------------
+       CAMPAIGN IMAGE LOADING
+    ----------------------------------------- */
 
-    if (campaignImages.length) {
-        showCampaignImage(0);
-    } else if (activeQuiz) {
-        showIntro();
-    } else {
-        showBook();
-    }
-}, BOOK_DURATION);
-}
-
-
-
-
-function showIntro() {
-    clearTimeout(transitionTimer);
-    clearTimeout(rotationTimer);
-
-    rotationPaused = false;
-
-    // Desktop: skip the intro and show the question directly.
-    if (window.matchMedia("(min-width: 768px)").matches) {
-        introFrame.hidden = true;
-        voteFrame.hidden = false;
-        startButton.disabled = false;
-
-        if (currentHeroView === "quiz" && !isTransitioning) {
-            quizBox.hidden = false;
-        } else {
-            fadeToView("quiz");
+    function loadHeroCampaign() {
+        if (campaignLoadPromise) {
+            return campaignLoadPromise;
         }
 
-        if (!rotationPaused) {
-            rotationTimer = setTimeout(showBook, QUIZ_DURATION);
-        }
+        campaignLoadPromise = (async () => {
 
-        return;
-    }
+            if (
+                !campaignMainLink ||
+                !campaignMainImage ||
+                !campaignSupportingLink ||
+                !campaignSupportingImage
+            ) {
+                return;
+            }
 
-    // Phone: retain the existing intro frame.
-    introFrame.hidden = false;
-    voteFrame.hidden = true;
-    startButton.disabled = false;
+            try {
+                const response = await fetch(HERO_CAMPAIGN_API, {
+                    method: "GET",
+                    cache: "no-store"
+                });
 
-    if (currentHeroView === "quiz" && !isTransitioning) {
-        quizBox.hidden = false;
-    } else {
-        fadeToView("quiz");
-    }
-
-    transitionTimer = setTimeout(showVoteFrame, 6000);
-}
-
-
-
-   
-
-
-
-
-function showVoteFrame() {
-    clearTimeout(transitionTimer);
-
-    if (!activeQuiz) return;
-
-    clearTimeout(rotationTimer);
-
-    // Prepare the question frame before fading it in.
-    voteFrame.hidden = false;
-    voteFrame.classList.add("tk-frame-fading");
-
-    requestAnimationFrame(() => {
-        requestAnimationFrame(() => {
-            // Fade out the intro while fading in the question.
-            introFrame.classList.add("tk-frame-fading");
-            voteFrame.classList.remove("tk-frame-fading");
-
-            // Remove the intro after the crossfade completes.
-            transitionTimer = setTimeout(() => {
-                introFrame.hidden = true;
-                introFrame.classList.remove("tk-frame-fading");
-
-                // Keep the question visible for 20 seconds
-                // unless the student is actively participating.
-                if (!rotationPaused) {
-                    rotationTimer = setTimeout(showBook, QUIZ_DURATION);
+                if (!response.ok) {
+                    throw new Error(
+                        "Campaign service unavailable."
+                    );
                 }
-            }, FADE_DURATION);
-        });
-    });
-}
 
+                const data = await response.json();
 
+                if (!data.success || !data.campaign) {
+                    return;
+                }
 
+                const campaign = data.campaign;
 
+                const candidates = [
+                    {
+                        url: campaign.mainImageUrl,
+                        alt: campaign.mainImageAlt,
+                        linkUrl: campaign.mainImageLink,
+                        link: campaignMainLink,
+                        image: campaignMainImage
+                    },
+                    {
+                        url: campaign.supportingImageUrl,
+                        alt: campaign.supportingImageAlt,
+                        linkUrl: campaign.supportingImageLink,
+                        link: campaignSupportingLink,
+                        image: campaignSupportingImage
+                    }
+                ];
 
-    function createElement(tag, className, text) {
-        const element = document.createElement(tag);
+                campaignImages = candidates.filter(item => {
 
-        if (className) element.className = className;
-        if (text !== undefined) element.textContent = text;
+                    if (!item.url) return false;
 
-        return element;
+                    try {
+                        const parsed = new URL(
+                            item.url,
+                            document.baseURI
+                        );
+
+                        return (
+                            parsed.protocol === "https:" ||
+                            parsed.protocol === "http:"
+                        );
+
+                    } catch (error) {
+                        return false;
+                    }
+                });
+
+            } catch (error) {
+                campaignImages = [];
+
+                console.warn(
+                    "Hero campaign unavailable:",
+                    error
+                );
+            }
+        })();
+
+        return campaignLoadPromise;
     }
 
-    
+    /* -----------------------------------------
+       VERIFY CAMPAIGN IMAGE
+    ----------------------------------------- */
 
-function renderQuestion(quiz) {
-    activeQuiz = quiz;
-    selectedAnswer = null;
-    submitting = false;
+    async function isCampaignImageUsable(item) {
+        const testImage = new Image();
 
-    quizStatus.textContent = "";
-    quizContent.replaceChildren();
-    quizContent.hidden = false;
-
-    const question = createElement(
-        "h3",
-        "tk-hero-quiz-question",
-        quiz.question
-    );
-
-    const instruction = createElement(
-        "p",
-        "tk-hero-quiz-instruction",
-        "Choose what you think is right."
-    );
-
-    const optionsBox = createElement(
-        "div",
-        "tk-hero-quiz-options"
-    );
-
-    const letters = ["A", "B", "C", "D"];
-    const optionButtons = [];
-
-    const voteKey = "tk_quiz_voted_" + quiz.quizId;
-
-    function hasVotedLocally() {
         try {
-            return localStorage.getItem(voteKey) === "true";
+            testImage.src = new URL(
+                item.url,
+                document.baseURI
+            ).href;
+
+            if (testImage.decode) {
+                await testImage.decode();
+            } else {
+                await new Promise((resolve, reject) => {
+                    testImage.onload = resolve;
+                    testImage.onerror = reject;
+                });
+            }
+
+            return testImage.naturalWidth > 0;
+
         } catch (error) {
             return false;
         }
     }
 
-    async function submitAnswer(letter) {
-        if (submitting || selectedAnswer) return;
+    /* -----------------------------------------
+       DISPLAY CAMPAIGN IMAGE
+    ----------------------------------------- */
 
+    async function showCampaignImage(index = 0) {
         clearTimeout(rotationTimer);
-        rotationPaused = true;
+        rotationTimer = null;
 
-        selectedAnswer = letter;
-        submitting = true;
-
-        optionButtons.forEach((button) => {
-            button.disabled = true;
-            button.classList.toggle(
-                "is-selected",
-                button.dataset.answer === letter
-            );
-            button.setAttribute(
-                "aria-pressed",
-                String(button.dataset.answer === letter)
-            );
-        });
-
-        quizStatus.textContent = "Submitting your answer…";
-
-        try {
-            const response = await fetch(`${API_BASE}/quiz/vote`, {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify({
-                    quizId: quiz.quizId,
-                    selectedAnswer: letter,
-                    sessionId: getSessionId()
-                })
-            });
-
-            const result = await response.json();
-
-           
-if (!response.ok || !result.success) {
-    const alreadyRecorded =
-        (result.message || "").toLowerCase().includes(
-            "already been recorded"
-        );
-
-    if (alreadyRecorded) {
-        try {
-            localStorage.setItem(voteKey, "true");
-        } catch (error) {
-            console.warn(
-                "Could not save quiz vote status:",
-                error
-            );
-        }
-
-        selectedAnswer = "already-voted";
-        submitting = true;
-
-        const resultsResponse = await fetch(
-            `${API_BASE}/quiz/results?quizId=${encodeURIComponent(quiz.quizId)}`
-        );
-
-        const latestResults = await resultsResponse.json();
-
-        if (!resultsResponse.ok || !latestResults.success) {
-            throw new Error("Could not load the latest poll results.");
-        }
-
-        renderResults(latestResults);
-
-        rotationPaused = false;
-        clearTimeout(rotationTimer);
-        rotationTimer = setTimeout(showBook, QUIZ_DURATION);
-
-        return;
-    }
-
-    throw new Error(
-        result.message ||
-        "Your answer could not be recorded."
-    );
-}
-
-
-            try {
-                localStorage.setItem(voteKey, "true");
-            } catch (error) {
-                console.warn(
-                    "Could not save quiz vote status:",
-                    error
-                );
-            }
-
-            renderResults(result);
-
-            rotationPaused = false;
-            clearTimeout(rotationTimer);
-            rotationTimer = setTimeout(
-                showBook,
-                QUIZ_DURATION
-            );
-
-        } catch (error) {
-            selectedAnswer = null;
-            submitting = false;
-
-            optionButtons.forEach((button) => {
-                button.disabled = false;
-                button.classList.remove("is-selected");
-                button.setAttribute("aria-pressed", "false");
-            });
-
-            quizStatus.textContent =
-                error.message ||
-                "Unable to submit. Please try again.";
-
-            rotationPaused = false;
-            clearTimeout(rotationTimer);
-            rotationTimer = setTimeout(
-                showBook,
-                QUIZ_DURATION
-            );
-        }
-    }
-
-    letters.forEach((letter) => {
-        const optionText = quiz.options?.[letter];
-        if (!optionText) return;
-
-        const button = createElement(
-            "button",
-            "tk-hero-quiz-option"
-        );
-
-        button.type = "button";
-        button.dataset.answer = letter;
-        button.setAttribute("aria-pressed", "false");
-
-        const badge = createElement(
-            "span",
-            "tk-hero-quiz-option-letter",
-            letter
-        );
-
-        const label = createElement(
-            "span",
-            "tk-hero-quiz-option-text",
-            optionText
-        );
-
-        button.append(badge, label);
-
-        button.addEventListener("click", () => {
-            submitAnswer(letter);
-        });
-
-        optionButtons.push(button);
-        optionsBox.appendChild(button);
-    });
-
-    quizContent.append(
-        question,
-        instruction,
-        optionsBox
-    );
-
-    // Returning voters see results instead of being asked to vote again.
-    if (hasVotedLocally()) {
-        selectedAnswer = "already-voted";
-        submitting = true;
-
-        optionButtons.forEach((button) => {
-            button.disabled = true;
-            button.setAttribute("aria-disabled", "true");
-        });
-
-        instruction.textContent = "Current poll results";
-
-        fetch(
-            `${API_BASE}/quiz/results?quizId=${encodeURIComponent(quiz.quizId)}`
-        )
-            .then((response) => {
-                if (!response.ok) {
-                    throw new Error("Could not load poll results.");
-                }
-                return response.json();
-            })
-        
-.then((data) => {
-    if (!data.success) {
-        throw new Error(
-            data.message || "Could not load poll results."
-        );
-    }
-
-    renderResults(data);
-
-    rotationPaused = false;
-    clearTimeout(rotationTimer);
-    rotationTimer = setTimeout(
-        showBook,
-        QUIZ_DURATION
-    );
-})
-
-            .catch((error) => {
-                console.error("Quiz results error:", error);
-                quizStatus.textContent =
-                    "Poll results are temporarily unavailable.";
-            });
-    }
-}
-
-
-
-    function getSessionId() {
-        const key = "tk_quiz_session_id";
-
-        try {
-            let id = localStorage.getItem(key);
-
-            if (!id) {
-                id = window.crypto?.randomUUID
-                    ? window.crypto.randomUUID()
-                    : "tk-" + Date.now() + "-" +
-                      Math.random().toString(36).slice(2);
-
-                localStorage.setItem(key, id);
-            }
-
-            return id;
-        } catch (error) {
-            return "tk-" + Date.now() + "-" +
-                Math.random().toString(36).slice(2);
-        }
-    }
-
-   
-
-function renderResults(result) {
-    const data = result.results || result;
-
-    const counts = data.optionCounts || {};
-    const percentages = data.optionPercentages || {};
-    const letters = ["A", "B", "C", "D"];
-
-    const colours = {
-        A: "#D81B83",
-        B: "#7025A8",
-        C: "#E53935",
-        D: "#F28C28"
-    };
-
-    quizStatus.textContent = "";
-
-    // Preserve the existing question and option labels.
-    const question = quizContent.querySelector(
-        ".tk-hero-quiz-question"
-    );
-
-    const instruction = quizContent.querySelector(
-        ".tk-hero-quiz-instruction"
-    );
-
-    const optionsBox = quizContent.querySelector(
-        ".tk-hero-quiz-options"
-    );
-
-    if (!optionsBox) {
-        console.warn("Quiz options container was not found.");
-        return;
-    }
-
-    if (instruction) {
-        instruction.textContent = "Current poll results";
-    }
-
-    const optionButtons = Array.from(
-        optionsBox.querySelectorAll(".tk-hero-quiz-option")
-    );
-
-    optionButtons.forEach((button) => {
-        const letter = button.dataset.answer;
-        const optionText =
-            activeQuiz?.options?.[letter] || letter;
-
-        const rawPercentage = Number(percentages[letter]);
-        const percentage = Number.isFinite(rawPercentage)
-            ? Math.max(0, Math.min(100, rawPercentage))
-            : 0;
-
-        const count = Number(counts[letter]) || 0;
-
-        button.replaceChildren();
-        button.disabled = true;
-        button.setAttribute("aria-disabled", "true");
-        button.setAttribute("aria-pressed", "false");
-        button.classList.remove("is-selected");
-        button.classList.add("is-results");
-        button.style.position = "relative";
-        button.style.overflow = "hidden";
-        button.style.width = "100%";
-        button.style.cursor = "default";
-        button.style.pointerEvents = "none";
-        button.style.background = "#FFFFFF";
-        button.style.border = "1px solid #E2E6EB";
-        button.style.minHeight = "0";
-        button.style.padding = "2px 7px";
-        button.style.display = "flex";
-        button.style.alignItems = "center";
-        button.style.gap = "8px";
-        button.style.textAlign = "left";
-
-        // Coloured progress fill.
-        const fill = createElement("span", "");
-        fill.setAttribute("aria-hidden", "true");
-        fill.style.position = "absolute";
-        fill.style.left = "0";
-        fill.style.top = "0";
-        fill.style.bottom = "0";
-        fill.style.width = percentage + "%";
-        fill.style.background = colours[letter];
-        fill.style.opacity = "0.24";
-        fill.style.transition = "width 450ms ease";
-        fill.style.pointerEvents = "none";
-
-        // Keep the option letter visible.
-        const badge = createElement(
-            "span",
-            "tk-hero-quiz-option-letter",
-            letter
-        );
-        badge.style.position = "relative";
-        badge.style.zIndex = "1";
-        badge.style.flex = "0 0 auto";
-
-        // Keep the full option text visible.
-        const label = createElement(
-            "span",
-            "tk-hero-quiz-option-text",
-            optionText
-        );
-        label.style.position = "relative";
-        label.style.zIndex = "1";
-        label.style.flex = "1";
-        label.style.minWidth = "0";
-        label.style.color = "#172B4D";
-
-        // Percentage at the right edge.
-        const percentLabel = createElement(
-            "span",
-            "tk-hero-quiz-percentage",
-            percentage + "%"
-        );
-        percentLabel.style.position = "relative";
-        percentLabel.style.zIndex = "1";
-        percentLabel.style.flex = "0 0 auto";
-        percentLabel.style.fontWeight = "700";
-        percentLabel.style.color = colours[letter];
-        percentLabel.style.whiteSpace = "nowrap";
-
-        button.append(
-            fill,
-            badge,
-            label,
-            percentLabel
-        );
-
-        button.setAttribute(
-            "aria-label",
-            `${letter}: ${optionText}. ${percentage}% of votes, ${count} votes.`
-        );
-    });
-    
-    optionsBox.classList.add("tk-hero-quiz-results");
-
-    // No correct answer or explanation is displayed.
-}
-
-
-function loadHeroCampaign() {
-    if (campaignLoadPromise) {
-        return campaignLoadPromise;
-    }
-
-    campaignLoadPromise = (async () => {
-    if (
-        !campaignBox ||
-        !campaignMainLink ||
-        !campaignMainImage ||
-        !campaignSupportingLink ||
-        !campaignSupportingImage
-    ) {
-        return;
-    }
-
-    try {
-        const response = await fetch(HERO_CAMPAIGN_API, {
-            method: "GET",
-            cache: "no-store"
-        });
-
-        if (!response.ok) {
-            throw new Error("Campaign service unavailable.");
-        }
-
-        const data = await response.json();
-
-        if (!data.success || !data.campaign) {
+        if (!campaignImages.length) {
+            showBook();
             return;
         }
 
-        const campaign = data.campaign;
+        const item = campaignImages[index];
 
-        campaignImages = [
-            {
-                url: campaign.mainImageUrl,
-                alt: campaign.mainImageAlt,
-                linkUrl: campaign.mainImageLink,
-                link: campaignMainLink,
-                image: campaignMainImage
-            },
-            {
-                url: campaign.supportingImageUrl,
-                alt: campaign.supportingImageAlt,
-                linkUrl: campaign.supportingImageLink,
-                link: campaignSupportingLink,
-                image: campaignSupportingImage
+        if (!item) {
+            showBook();
+            return;
+        }
+
+        /* Verify image before displaying it */
+
+        const imageUsable =
+            await isCampaignImageUsable(item);
+
+        if (!imageUsable) {
+            console.warn(
+                "Hero campaign image failed to load:",
+                item.url
+            );
+
+            campaignImages.splice(index, 1);
+
+            if (campaignImages.length) {
+                showCampaignImage(
+                    Math.min(index, campaignImages.length - 1)
+                );
+            } else {
+                showBook();
             }
-       ].filter(item =>
-    item.url &&
-    (
-        /^https?:\/\//i.test(item.url) ||
-        !/^[a-z][a-z0-9+.-]*:/i.test(item.url)
-    )
-);
 
-    } catch (error) {
-        campaignImages = [];
-        console.warn("Hero campaign unavailable:", error);
-    }
-    })();
+            return;
+        }
 
-    return campaignLoadPromise;
-}
+        const previousLink = activeCampaignLink;
 
+        item.image.src = new URL(
+            item.url,
+            document.baseURI
+        ).href;
 
+        item.image.alt = item.alt || "";
 
-    async function loadActiveQuiz() {
-        try {
-            const response = await fetch(`${API_BASE}/quiz/active`, {
-                method: "GET",
-                cache: "no-store"
+        if (item.linkUrl) {
+            item.link.href = item.linkUrl;
+            item.link.target = "_blank";
+            item.link.rel = "noopener noreferrer";
+            item.link.style.pointerEvents = "auto";
+
+        } else {
+            item.link.removeAttribute("href");
+            item.link.removeAttribute("target");
+            item.link.removeAttribute("rel");
+            item.link.style.pointerEvents = "none";
+        }
+
+        if (
+            currentHeroView === "campaign" &&
+            previousLink &&
+            previousLink !== item.link
+        ) {
+            item.link.hidden = false;
+            item.link.style.opacity = "0";
+
+            requestAnimationFrame(() => {
+                requestAnimationFrame(() => {
+                    previousLink.style.opacity = "0";
+                    item.link.style.opacity = "1";
+                });
             });
 
-            if (!response.ok) {
-                throw new Error("Quiz service unavailable.");
-            }
+            activeCampaignLink = item.link;
 
-            const data = await response.json();
+            setTimeout(() => {
+                previousLink.hidden = true;
+                previousLink.style.opacity = "";
+                item.link.style.opacity = "";
 
-            if (
-                !data.success ||
-                !data.quiz ||
-                !data.quiz.quizId ||
-                !data.quiz.question ||
-                !data.quiz.options
-            ) {
-                showBook();
-                return;
-            }
+            }, 1000);
 
-           
-activeQuiz = data.quiz;
-renderQuestion(activeQuiz);
+        } else {
+            campaignMainLink.hidden =
+                item.link !== campaignMainLink;
 
-// Keep the book visible when the homepage first loads.
-clearTimeout(rotationTimer);
+            campaignSupportingLink.hidden =
+                item.link !== campaignSupportingLink;
 
-bookStage.hidden = false;
-quizBox.hidden = true;
-
-currentHeroView = "book";
-rotationPaused = false;
-
-// Show the book for 30 seconds before the poster appears.
-rotationTimer = setTimeout(showFoundersPoster, FIRST_BOOK_DURATION);
-
-
-        } catch (error) {
-            showBook();
-            console.warn("Hero quiz unavailable:", error);
+            item.link.style.opacity = "";
+            activeCampaignLink = item.link;
         }
+
+        fadeToView("campaign");
+
+        rotationTimer = setTimeout(() => {
+
+            if (index + 1 < campaignImages.length) {
+                showCampaignImage(index + 1);
+            } else {
+                showBook();
+            }
+
+        }, BOOK_DURATION);
     }
 
-   
-startButton.addEventListener("click", () => {
-    clearTimeout(rotationTimer);
-    clearTimeout(transitionTimer);
+    /* -----------------------------------------
+       INITIALISE HERO
+    ----------------------------------------- */
 
-    rotationPaused = true;
-    showVoteFrame();
-});
+    bookStage.hidden = false;
+    foundersPoster.hidden = true;
+    campaignBox.hidden = true;
 
+    bookStage.classList.remove("tk-hero-fading");
+    foundersPoster.classList.remove("tk-hero-fading");
+    campaignBox.classList.remove("tk-hero-fading");
 
-    // Begin with the original book visible until a quiz loads.
-    showBook();
-loadHeroCampaign();
-loadActiveQuiz();
+    currentHeroView = "book";
+
+    loadHeroCampaign();
+
+    showBook(FIRST_BOOK_DURATION);
+
 })();

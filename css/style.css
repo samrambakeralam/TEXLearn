@@ -1080,593 +1080,10 @@ a {
     transform:
         translateY(40px);
 
-}
-
-
-/* =====================================================
-   TEXLEARN — HERO QUIZ VIEW
-===================================================== */
-
-.tk-hero-quiz {
-    width: 100%;
-    min-height: 420px;
-    padding: 30px;
-    box-sizing: border-box;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    gap: 22px;
-   
-
-
-
-
-background:
-    radial-gradient(
-        ellipse at top left,
-        rgba(96, 165, 250, 0.22) 0%,
-        rgba(147, 197, 253, 0.10) 24%,
-        transparent 48%
-    ),
-    radial-gradient(
-        ellipse at bottom right,
-        rgba(52, 211, 153, 0.24) 0%,
-        rgba(110, 231, 183, 0.10) 25%,
-        transparent 50%
-    ),
-    linear-gradient(
-        135deg,
-        #FFFFFF 0%,
-        #FBFDFF 52%,
-        #F8FFFB 100%
-    );
-
-border: 1px solid rgba(143, 211, 226, 0.65);
-
-border-radius: 28px;
-
-box-shadow:
-    0 12px 32px rgba(52, 125, 180, 0.10),
-    0 5px 16px rgba(16, 185, 129, 0.08),
-    inset 0 1px 0 rgba(255, 255, 255, 0.90);
-
-    font-family: Inter, sans-serif;
-}
-
-.tk-hero-quiz[hidden],
-.tk-hero-quiz-content[hidden] {
-    display: none !important;
-}
-
-.tk-hero-quiz-heading {
-    display: flex;
-    align-items: center;
-    gap: 13px;
-}
-
-.tk-hero-quiz-icon {
-    width: 44px;
-    height: 44px;
-    flex: 0 0 44px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: #16866A;
-    background: #E7F5EF;
-    border-radius: 13px;
-}
-
-.tk-hero-quiz-icon svg {
-    width: 23px;
-    height: 23px;
-}
-
-.tk-hero-quiz-heading h2 {
-    margin: 0 0 4px;
-    color: #172B4D;
-    font-family: Poppins, sans-serif;
-    font-size: clamp(21px, 2.2vw, 27px);
-    font-weight: 700;
-    line-height: 1.2;
-    letter-spacing: -0.03em;
-}
-
-.tk-hero-quiz-heading p {
-    margin: 0;
-    color: #64748B;
-    font-size: 13px;
-    line-height: 1.5;
-}
-
-.tk-hero-quiz-status {
-    color: #64748B;
-    font-size: 14px;
-    line-height: 1.6;
-}
-
-.tk-hero-quiz-question {
-    margin: 0 0 9px;
-    color: #172B4D;
-    font-family: Poppins, sans-serif;
-    font-size: clamp(18px, 1.8vw, 22px);
-    font-weight: 600;
-    line-height: 1.4;
-}
-
-.tk-hero-quiz-instruction {
-    margin: 0 0 16px;
-    color: #64748B;
-    font-size: 13px;
-    line-height: 1.6;
-}
-
-.tk-hero-quiz-options {
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: 9px;
-}
-
-.tk-hero-quiz-option {
-    width: 100%;
-    min-height: 49px;
-    display: flex;
-    align-items: center;
-    gap: 11px;
-    padding: 9px 12px;
-    border: 1px solid #E5EAF0;
-    border-radius: 12px;
-    background: #FFFFFF;
-    color: #25364D;
-    font-family: Inter, sans-serif;
-    font-size: 13px;
-    font-weight: 500;
-    line-height: 1.45;
-    text-align: left;
-    cursor: pointer;
-    transition: background 180ms ease, border-color 180ms ease;
-}
-
-.tk-hero-quiz-option:hover {
-    background: #F7FCF9;
-    border-color: #91CDB8;
-}
-
-.tk-hero-quiz-option.is-selected {
-    background: #EFF9F4;
-    border-color: #16866A;
-    box-shadow: inset 0 0 0 1px #16866A;
-}
-
-.tk-hero-quiz-option-letter {
-    width: 29px;
-    height: 29px;
-    flex: 0 0 29px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 9px;
-    background: #EAF2FF;
-    color: #315BB5;
-    font-size: 12px;
-    font-weight: 700;
-}
-
-.tk-hero-quiz-option:nth-child(2) .tk-hero-quiz-option-letter {
-    background: #E7F5EF;
-    color: #16866A;
-}
-
-.tk-hero-quiz-option:nth-child(3) .tk-hero-quiz-option-letter {
-    background: #FFF2DF;
-    color: #B45309;
-}
-
-.tk-hero-quiz-option:nth-child(4) .tk-hero-quiz-option-letter {
-    background: #F3EAFE;
-    color: #8553B5;
-}
-
-.tk-hero-quiz-option:focus-visible  {
-    outline: 3px solid rgba(22, 134, 106, 0.25);
-    outline-offset: 3px;
-}
-
-
-.tk-hero-quiz-feedback {
-    margin-top: 15px;
-    padding: 13px;
-    border: 1px solid #D6EEE3;
-    border-radius: 12px;
-    background: #F1F8F5;
-    color: #25364D;
-    font-size: 13px;
-    line-height: 1.65;
-}
-
-.tk-hero-quiz-feedback h3 {
-    margin: 0 0 5px;
-    color: #16866A;
-    font-family: Poppins, sans-serif;
-    font-size: 16px;
-}
-
-.tk-hero-quiz-feedback p {
-    margin: 0;
-}
-
-.tk-hero-quiz-options.tk-hero-quiz-results {
-    gap: 20px;
-}
-
-
-/* Compact hero quiz — preserve original mobile dimensions */
-@media (max-width: 767px) {
-
-    .rc2-hero-product:has(.tk-hero-quiz:not([hidden])) {
-        aspect-ratio: 16 / 9;
-        min-height: 0;
-        align-self: start;
-    }
-
-    .tk-hero-quiz {
-        width: 100%;
-        height: 100%;
-        min-height: 0;
-        padding: 7px 9px;
-        box-sizing: border-box;
-        gap: 4px;
-        overflow: hidden;
-        border-radius: 20px;
-        overflow-y: auto;
-    }
-
-
-
-
-    /* Compact but fully visible heading */
-    .tk-hero-quiz-heading {
-        display: flex;
-        align-items: center;
-        gap: 7px;
-        flex: 0 0 auto;
-    }
-
-    .tk-hero-quiz-icon {
-        width: 27px;
-        height: 27px;
-        flex: 0 0 27px;
-        border-radius: 8px;
-    }
-
-    .tk-hero-quiz-icon svg {
-        width: 16px;
-        height: 16px;
-    }
-
-    .tk-hero-quiz-heading h2 {
-        margin: 0 0 1px;
-        font-size: 14px;
-        line-height: 1.15;
-        letter-spacing: -0.02em;
-    }
-
-    .tk-hero-quiz-heading p {
-        font-size: 9px;
-        line-height: 1.2;
-    }
-
-    .tk-hero-quiz-status {
-        font-size: 9px;
-        line-height: 1.2;
-    }
-
-   .tk-hero-quiz-question {
-      width: calc(100% - 24px);
-    margin: 4px 8px 3px;
-    padding: 0 4px;
-    font-size: 14px;
-    line-height: 1.4;
-    overflow-wrap: anywhere;
-    white-space: normal;
-    box-sizing: border-box;
-}
-
-    .tk-hero-quiz-instruction {
-        margin: 0 0 3px;
-        font-size: 9px;
-        line-height: 1.2;
-        display: none;
-    }
-
-    .tk-hero-quiz-options {
-        display: grid;
-        grid-template-columns: 1fr;
-        gap: 10px;
-        margin: 2px 20px 0 20px;
-     transform: translateY(10px);
-    }
-
-    .tk-hero-quiz-option {
-    width: 100%;
-    min-width: 0;
-    min-height: 30px;
-    height: auto;
-    padding: 6px 9px;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    box-sizing: border-box;
-    font-size: 12px;
-    line-height: 1.2;
-    text-align: left;
-    white-space: normal;
-    overflow-wrap: anywhere;
-}
-
-    .tk-hero-quiz-option-letter {
-    width: 23px;
-    height: 23px;
-    flex: 0 0 23px;
-}
-
-    .tk-hero-quiz-feedback {
-        margin-top: 4px;
-        padding: 6px;
-        font-size: 10px;
-        line-height: 1.25;
-    }
-
-    .tk-hero-quiz-feedback h3 {
-        margin-bottom: 2px;
-        font-size: 12px;
-    }
-
-    .tk-hero-quiz-vote {
-    justify-content: flex-start;
-    padding-top: 10px;
-    box-sizing: border-box;
-}
-
-.tk-hero-quiz-options.tk-hero-quiz-results {
-    gap: 14px;
-}
+    position:
+        relative;
 
 }
-
-@media (prefers-reduced-motion: reduce) {
-    .tk-hero-quiz-option {
-        transition: none;
-    }
-}
-
-
-
-/* =====================================================
-   HERO QUIZ — SMALL PHONE
-   420px and below
-===================================================== */
-
-@media (max-width: 420px) {
-
-    
-.tk-hero-quiz {
-    width: 100%;
-    height: 100%;
-    min-height: 0;
-    padding: 10px 10px 20px;
-    gap: 0;
-    box-sizing: border-box;
-    border-radius: 20px;
-    overflow-y: auto;
-}
-
-
-    /* Keep each frame inside the existing hero area */
-    .tk-hero-quiz-frame {
-        width: 100%;
-        height: 100%;
-        min-height: 0;
-        box-sizing: border-box;
-    }
-
-    /* INTRO FRAME */
-    .tk-hero-quiz-intro {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        gap: 7px;
-        padding: 8px;
-        text-align: center;
-    }
-
-    .tk-hero-quiz-intro[hidden],
-    .tk-hero-quiz-vote[hidden],
-    .tk-hero-quiz-content[hidden] {
-        display: none !important;
-    }
-
-    .tk-hero-quiz-intro-icon {
-        width: 40px;
-        height: 40px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        border-radius: 12px;
-        background: #E5F6EF;
-        color: #16866A;
-        flex-shrink: 0;
-    }
-
-    .tk-hero-quiz-intro-icon svg {
-        width: 24px;
-        height: 24px;
-    }
-
-    .tk-hero-quiz-intro h2 {
-        margin: 0;
-        font-size: 19px;
-        line-height: 1.12;
-        letter-spacing: -0.5px;
-        color: #142D3A;
-    }
-
-    .tk-hero-quiz-intro p {
-        margin: 0;
-        font-size: 11px;
-        line-height: 1.3;
-        color: #64748B;
-    }
-
-    .tk-hero-quiz-start {
-        min-height: 36px;
-        margin-top: 2px;
-        padding: 0 12px;
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        gap: 7px;
-        border: 0;
-        border-radius: 9px;
-        background: #16866A;
-        color: #FFFFFF;
-        font-size: 12px;
-        font-weight: 600;
-        cursor: pointer;
-    }
-
-    .tk-hero-quiz-start svg {
-        width: 15px;
-        height: 15px;
-    }
-
-    .tk-hero-quiz-dots {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        gap: 5px;
-        margin-top: 4px;
-    }
-
-    .tk-hero-quiz-dots span {
-        width: 6px;
-        height: 6px;
-        border-radius: 50%;
-        background: #D4DCE3;
-    }
-
-    .tk-hero-quiz-dots span.is-active {
-        width: 17px;
-        border-radius: 10px;
-        background: #16866A;
-    }
-
-    /* QUESTION FRAME */
-    .tk-hero-quiz-vote {
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        gap: 5px;
-        overflow: hidden;
-         padding: 5px 2px;
-         box-sizing: border-box;
-    }
-
-    .tk-hero-quiz-status {
-        font-size: 9px;
-        line-height: 1.2;
-    }
-
- .tk-hero-quiz-question {
-     width: calc(100% - 24px);
-     min-height: 29px;
-     margin: 0 8px 3px;
-      padding: 0 4px;
-     transform: translateY(-7px);
-    font-size: 11px;
-    line-height: 1.2;
-    text-align: center;
-    overflow-wrap: anywhere;
-    white-space: normal;
-     box-sizing: border-box;
-}
-
-    .tk-hero-quiz-instruction {
-        margin: 0 0 4px;
-    font-size: 9px;
-    line-height: 1.2;
-    display: none;
-    }
-
-    .tk-hero-quiz-options {
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: 8px;
-     margin: 2px 18px 0 18px;
-     transform: translateY(0px);
-    }
-
-
-.tk-hero-quiz-option {
-    width: 100%;
-    min-width: 0;
-    min-height: 27px;
-    height: auto;
-    padding: 3px 7px;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    box-sizing: border-box;
-    border-radius: 9px;
-    font-size: 9px;
-    line-height: 1;
-    text-align: left;
-    white-space: normal;
-    overflow-wrap: anywhere;
-}
-
-
-   .tk-hero-quiz-option-letter {
-    width: 20px;
-    height: 20px;
-    flex: 0 0 20px;
-    display: flex;
-    border-radius: 7px;
-    align-items: center;
-    justify-content: center;
-    font-size: 9px;
-    line-height: 1;
-}
-
-    .tk-hero-quiz-feedback {
-    margin-top: 3px;
-    padding: 5px 6px;
-    font-size: 9px;
-    line-height: 1.2;
-    box-sizing: border-box;
-}
-
-.tk-hero-quiz-feedback h3 {
-    margin: 0 0 4px;
-    padding: 2px 0;
-    font-size: 11px;
-    line-height: 1.3;
-}
-
-.tk-hero-quiz-feedback p {
-    margin: 0;
-    line-height: 1.2;
-}
-
-.tk-hero-quiz-options.tk-hero-quiz-results {
-    gap: 6px;
-}
-
-}
-
-
-
-
 
 
 /* ---------------------------------------------------------
@@ -1732,7 +1149,7 @@ box-shadow:
 
 }
 
-/* Hide the original book display while the quiz is active */
+/* Hide the book display when its view is inactive */
 .rc2-unboxing-stage[hidden] {
     display: none !important;
 }
@@ -2047,6 +1464,111 @@ box-shadow:
 }
 
 
+/* =====================================================
+   TEXLEARN — SHARED HERO VIEW TRANSITIONS
+===================================================== */
+
+.tk-hero-view {
+    transition: opacity 1.5s cubic-bezier(0.4, 0, 0.2, 1);
+    will-change: opacity;
+}
+
+.tk-hero-view.tk-hero-fading {
+    opacity: 0;
+    pointer-events: none;
+}
+
+
+/* =====================================================
+   TEXLEARN — SHARED HERO VIEW POSITIONING
+===================================================== */
+
+.rc2-hero-product > #rc2UnboxingStage,
+.rc2-hero-product > #tkHeroFounders,
+.rc2-hero-product > #tkHeroCampaign {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: min(100%, 560px);
+    margin: 0;
+    box-sizing: border-box;
+    backface-visibility: hidden;
+    transform: translate(-50%, -50%);
+}
+
+/* Dynamic campaign view */
+.rc2-hero-product > #tkHeroCampaign {
+    height: 520px;
+    min-height: 520px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    border-radius: 28px;
+    background: #07182D;
+}
+
+#tkHeroCampaign a {
+    position: absolute;
+    inset: 0;
+    opacity: 1;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 12px;
+    box-sizing: border-box;
+    transition: opacity 1s ease-in-out;
+}
+
+#tkHeroCampaign img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    object-position: center;
+}
+
+/* Show only the active campaign image */
+/* Respect JavaScript image visibility */
+#tkHeroCampaign a[hidden] {
+    display: none !important;
+}
+
+
+/* Founders poster — unique styling */
+.rc2-hero-product > #tkHeroFounders {
+    height: 520px;
+    min-height: 520px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    border-radius: 28px;
+    background: #07182D;
+}
+
+
+/* Founders poster image */
+#tkHeroFounders img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    object-position: center;
+    border-radius: inherit;
+}
+
+
+/* Keep inactive views hidden */
+.tk-hero-view[hidden] {
+    display: none !important;
+}
+
+
+
+
 /* =========================================================
    21. OVERHEAD VELVET CURTAIN
 ========================================================= */
@@ -2221,13 +1743,17 @@ box-shadow:
     }
 
 
+    /* Shared hero views — tablet dimensions */
+    .rc2-hero-product > .tk-hero-view {
+        min-height: 480px;
+        height: 480px;
+    }
+
+
     .rc2-unboxing-stage {
 
         width:
             min(100%, 520px);
-
-        min-height:
-            480px;
 
     }
 
@@ -2706,25 +2232,26 @@ box-shadow:
 
     .rc2-hero {
 
-        padding:
-            58px 0 22px;
+    padding: 58px 0 22px;
 
     }
 
 
     .rc2-hero-inner {
 
-        width:
-        calc(100% - 16px);
-        display: grid;
+    width: calc(100% - 16px);
+    
+    display: grid;
+    border-radius: 24px;
+    overflow: hidden;
         grid-template-columns: 1fr;
 
-        grid-template-areas:
-        "product"
-        "badge"
-        "heading"
-        "description"
-        "actions"; 
+     grid-template-areas:
+    "badge badge badge"
+    "heading heading heading"
+    "description description description"
+    "product product product";
+    
 
         gap: 0px;    
         text-align: center;      
@@ -2825,8 +2352,8 @@ box-shadow:
         grid-row:
             auto;
 
-        width:
-            100%;
+        width: 100%;
+        max-width: 100%;;
 
         min-height:
             0;
@@ -2835,24 +2362,42 @@ box-shadow:
             0 0 17px;
 
         overflow:
-            visible;
+            hidden;
 
         transform:
             none;
 
+        position: relative;
+        aspect-ratio: 16 / 9;
+        align-self: start;
+        margin-left: 0;
+        margin-right: 0;
+        border-radius: 24px;
+}
+
+    /* Shared hero views — mobile dimensions and positioning */
+    .rc2-hero-product > #rc2UnboxingStage,
+    .rc2-hero-product > #tkHeroFounders,
+    .rc2-hero-product > #tkHeroCampaign {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        min-height: 0;
+        transform: none;
+        border-radius: inherit;
     }
 
+    /* Book view keeps its own 16:9 content ratio */
+    .rc2-hero-product > #rc2UnboxingStage {
+        aspect-ratio: 16 / 9;
+    }
 
     .rc2-unboxing-stage {
 
     width:
         100%;
-
-    min-height:
-        0;
-
-    aspect-ratio:
-        16 / 9;
 
     border-radius:
         24px;
@@ -2953,131 +2498,60 @@ box-shadow:
     }
 
 
+   .rc2-hero-actions {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    align-items: stretch;
+    gap: 8px;
+    width: calc(100% - 32px);
+    margin: 0 auto 12px;
+    box-sizing: border-box;
+}
 
-    /* Value points */
-
-    .rc2-value-points {
-
-        grid-area:
-            values;
-
-        width:
-            80%;
-
-        display:
-            grid;
-
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-
-        gap:
-            9px;
-
-        margin:
-            0;
-
-        transform:
-            none;
-
-            justify-self: left;
-
-    }
-
-
-    .rc2-value-points div {
-
-        min-height:
-            34px;
-
-       padding: 4px 5px;
-
-        box-sizing:
-            border-box;
-
-        display:
-            inline-flex;
-
-        align-items:
-            center;
-
-        justify-content:
-            center;
-
-         gap:
-            clamp(3px, 0.8vw, 5px);
-
-        white-space:
-            nowrap;
-
-         font-size:
-            clamp(8.5px, 2.2vw, 10px);
-
-        font-weight:
-            600;
-
-    }
-
-
-    .rc2-value-points svg {
-
-         width:
-            clamp(13px, 3.3vw, 15px);
-
-        
-        height:
-            clamp(13px, 3.3vw, 15px);
-
-        flex:
-            0 0 auto;
-
-    }
-
-
-    /* CTA */
+/* Equal-sized buttons */
 
 .rc2-primary-cta,
 .rc2-secondary-cta {
     grid-column: auto;
+    justify-self: stretch;
+
     width: 100%;
     min-width: 0;
-    height: 46px;
-    min-height: 46px;
+    max-width: 100%;
+
+    height: 44px;
+    min-height: 44px;
+
     margin: 0;
-    padding: 0 5px;
+    padding: 0 3px;
+
     box-sizing: border-box;
+
     display: flex;
     align-items: center;
     justify-content: center;
+
+    font-size: 10px;
+    font-weight: 600;
     white-space: nowrap;
 }
 
+/* Primary button */
 
-    .rc2-primary-cta {
+.rc2-primary-cta {
+    font-size: 11px;
+}
 
-    grid-column: auto;
-    width: fit-content;
-    min-width: 0;
-    justify-self: center;
-    padding: 0 16px;
-    font-size:
-            clamp(15px, 3.6vw, 16px);
+.rc2-secondary-cta {
+    font-size: 10px;
+}
 
-    font-weight:
-            600;
-
-    }
-
-
-    .rc2-secondary-cta {
-
-        font-size:
-            clamp(13px, 3.1vw, 14px);
-
-        font-weight:
-            600;
-
-         gap: clamp(2px, 0.8vw, 3px);          
-
-    }
+.home-library-link,
+.home-ascend-link {
+    width: 100%;
+    margin: 0;
+    justify-self: stretch;
+}
 
     /* Mobile menu */
 
@@ -3177,63 +2651,7 @@ box-shadow:
             hidden;
 
     }
-
-
     
-    /* NORMAL PHONE — POLL INTRO FRAME */
-   #tkHeroQuizIntro {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: 6px;
-    padding: 10px 14px;
-    padding: 14px;
-    box-sizing: border-box;
-    text-align: center;
-}
-
-    #tkHeroQuizIntro .tk-hero-quiz-intro-icon {
-        width: 44px;
-        height: 44px;
-        flex-shrink: 0;
-        border-radius: 13px;
-    }
-
-    #tkHeroQuizIntro h2 {
-    margin: 0;
-    transform: translateY(-12px);
-    font-size: 22px;
-    line-height: 1.15;
-    letter-spacing: -0.5px;
-}
-
-    #tkHeroQuizIntro p {
-        margin: 0;
-        font-size: 13px;
-        line-height: 1.4;
-    }
-
-   #tkHeroQuizIntro .tk-hero-quiz-start {
-    min-height: 42px;
-    margin-top: 4px;
-    padding: 0 16px;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
-
-    border: 1px solid #16866A;
-    border-radius: 10px;
-    background: #16866A;
-    color: #FFFFFF;
-
-    font-size: 13px;
-    font-weight: 600;
-    cursor: pointer;
-}
-
-
 }
 
 
@@ -3246,8 +2664,7 @@ box-shadow:
 
     .rc2-hero {
 
-        padding:
-            58px 0 22px;
+    padding: 58px 0 22px;
 
     }
 
@@ -3258,17 +2675,19 @@ box-shadow:
         calc(100% - 16px);
 
     display: grid;
+     border-radius: 24px;
+    overflow: hidden;
         
 
     grid-template-columns:
         1fr;
 
-    grid-template-areas:
-        "product"
-        "badge"
-        "heading"
-        "description"
-        "actions"; 
+  grid-template-areas:
+    "badge badge badge"
+    "heading heading heading"
+    "description description description"
+    "product product product";
+   
 
     gap:
         0px;
@@ -3317,6 +2736,7 @@ box-shadow:
 
     .rc2-hero h1 {
 
+        grid-area: heading;
          margin-top: 6px;
 
         text-align: left;
@@ -3366,8 +2786,7 @@ box-shadow:
     grid-row:
         auto;
 
-    width:
-        100%;
+    width: 100%;
 
     min-height:
         0;
@@ -3376,7 +2795,7 @@ box-shadow:
         0 0 17px;
 
     overflow:
-        visible;
+        hidden;
 
     transform:
         none;
@@ -3384,7 +2803,34 @@ box-shadow:
     grid-area:
         product;
 
+
+        aspect-ratio: 16 / 9;
+        align-self: start;
+        width: 100%;
+        margin-left: 0;
+        margin-right: 0;
+        border-radius: 22px;
 }
+
+    /* Shared hero views — mobile dimensions and positioning */
+    .rc2-hero-product > #rc2UnboxingStage,
+    .rc2-hero-product > #tkHeroFounders,
+    .rc2-hero-product > #tkHeroCampaign {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        min-height: 0;
+        transform: none;
+        border-radius: 22px;
+    }
+
+    /* Book view keeps its own 16:9 content ratio */
+    .rc2-hero-product > #rc2UnboxingStage {
+        aspect-ratio: 16 / 9;
+    }
+
 
 
     .rc2-unboxing-stage {
@@ -3392,14 +2838,7 @@ box-shadow:
     width:
         100%;
 
-    min-height:
-        0;
-
-    aspect-ratio:
-        16 / 9;
-
-    border-radius:
-        24px;
+     border-radius: inherit;
 
     transform:
         none;
@@ -3501,49 +2940,62 @@ box-shadow:
 
     }
 
-    /* CTA — all three buttons in one row */
+
+/* Independent hero button section */
 
 .rc2-hero-actions {
-    display: flex;
-    align-items: center;
-    justify-content: flex-start;
-    gap: 6px;
-    width: 100%;
-    margin: 16px 0 12px;
-    transform: none;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    align-items: stretch;
+    gap: 8px;
+    width: calc(100% - 32px);
+    margin: 0 auto 12px;
+    box-sizing: border-box;
 }
 
-.rc2-primary-cta {
+/* Equal-sized buttons */
+
+.rc2-primary-cta,
+.rc2-secondary-cta {
     grid-column: auto;
-    width: fit-content;
+    justify-self: stretch;
+
+    width: 100%;
     min-width: 0;
     max-width: 100%;
-    justify-self: start;
-    height: clamp(40px, 11vw, 42px);
-    min-height: clamp(40px, 11vw, 42px);
-    margin: 0;
-    padding: 0 24px;
-    box-sizing: border-box;
-    font-size: clamp(13px, 3vw, 15px);
-    white-space: nowrap;
-}
 
-.rc2-secondary-cta {
-    flex: 0 0 auto;
-    width: auto;
-    min-width: 0;
-    height: clamp(36px, 11vw, 38px);
-    min-height: clamp(34px, 11vw, 36px);
+    height: 44px;
+    min-height: 44px;
+
     margin: 0;
-    padding: 0 9px;
+    padding: 0 3px;
+
     box-sizing: border-box;
+
     display: flex;
     align-items: center;
     justify-content: center;
-    border-radius: 9px;
-    font-size: clamp(10px, 2.8vw, 11px);
+
+    font-size: 10px;
+    font-weight: 600;
     white-space: nowrap;
-    transform: none;
+}
+
+/* Primary button */
+
+.rc2-primary-cta {
+    font-size: 11px;
+}
+
+.rc2-secondary-cta {
+    font-size: 10px;
+}
+
+.home-library-link,
+.home-ascend-link {
+    width: 100%;
+    margin: 0;
+    justify-self: stretch;
 }
 
 
@@ -12383,10 +11835,6 @@ body.about-page-exit {
 
 @media (max-width: 767px) {
 
-    .rc2-hero-product {
-        transform: translate3d(0, 0, 0);
-    }
-
     .rc2-trust-line {
         width: 100%;
         max-width: none;
@@ -12496,319 +11944,6 @@ body.about-page-exit {
 /* =========================================================
    END — FINAL MOBILE HORIZONTAL SPACE SYSTEM
 ========================================================= */
-
-
-/* =====================================================
-   TEXLEARN — SHARED HERO VIEW TRANSITIONS
-===================================================== */
-
-.tk-hero-view {
-    transition: opacity 1.5s cubic-bezier(0.4, 0, 0.2, 1);
-    will-change: opacity;
-}
-
-.tk-hero-view.tk-hero-fading {
-    opacity: 0;
-    pointer-events: none;
-}
-
-@media (prefers-reduced-motion: reduce) {
-    .tk-hero-view {
-        transition-duration: 0.01ms;
-    }
-}
-
-
-/* =====================================================
-   TEXLEARN — SHARED HERO VIEW POSITIONING
-===================================================== */
-
-.rc2-hero-product {
-    position: relative;
-}
-
-.rc2-hero-product > #rc2UnboxingStage,
-.rc2-hero-product > #tkHeroQuiz,
-.rc2-hero-product > #tkHeroFounders,
-.rc2-hero-product > #tkHeroCampaign {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    width: min(100%, 560px);
-    margin: 0;
-    box-sizing: border-box;
-    backface-visibility: hidden;
-    transform: translate(-50%, -50%);
-}
-
-/* Dynamic campaign view */
-.rc2-hero-product > #tkHeroCampaign {
-    height: 520px;
-    min-height: 520px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    overflow: hidden;
-    border-radius: 28px;
-    background: #07182D;
-}
-
-#tkHeroCampaign a {
-    position: absolute;
-    inset: 0;
-    opacity: 1;
-    width: 100%;
-    height: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 12px;
-    box-sizing: border-box;
-    transition: opacity 1s ease-in-out;
-}
-
-#tkHeroCampaign img {
-    display: block;
-    width: 100%;
-    height: 100%;
-    object-fit: contain;
-    object-position: center;
-}
-
-/* Show only the active campaign image */
-/* Respect JavaScript image visibility */
-#tkHeroCampaign a[hidden] {
-    display: none !important;
-}
-
-
-/* Book view */
-.rc2-hero-product > #rc2UnboxingStage {
-    min-height: 520px;
-}
-
-
-/* Quiz view */
-.rc2-hero-product > #tkHeroQuiz {
-    height: 520px;
-    min-height: 520px;
-}
-
-
-/* Founders poster — unique styling */
-.rc2-hero-product > #tkHeroFounders {
-    height: 520px;
-    min-height: 520px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    overflow: hidden;
-    border-radius: 28px;
-    background: #07182D;
-}
-
-
-/* Founders poster image */
-#tkHeroFounders img {
-    display: block;
-    width: 100%;
-    height: 100%;
-    object-fit: contain;
-    object-position: center;
-    border-radius: inherit;
-}
-
-
-/* Keep inactive views hidden */
-.tk-hero-view[hidden] {
-    display: none !important;
-}
-
-
-/* Tablet */
-@media (min-width: 768px) and (max-width: 900px) {
-
-    .rc2-hero-product > .tk-hero-view {
-        min-height: 480px;
-        height: 480px;
-    }
-
-}
-
-
-/* Normal phones and small phones */
-@media (max-width: 767px) {
-
-    .rc2-hero-product {
-        position: relative;
-        aspect-ratio: 16 / 9;
-        min-height: 0;
-        align-self: start;
-        width: 100vw;
-        max-width: 100vw;
-        margin-left: calc(50% - 50vw);
-        margin-right: calc(50% - 50vw);
-        border-radius: 0;
-    }
-    .rc2-hero-product > #rc2UnboxingStage,
-    .rc2-hero-product > #tkHeroQuiz,
-    .rc2-hero-product > #tkHeroFounders,
-    .rc2-hero-product > #tkHeroCampaign,
-    .rc2-hero-product .rc2-unboxing-stage {
-        border-radius: 0 !important;
-    }
-    
-
-.rc2-hero-product > #rc2UnboxingStage,
-.rc2-hero-product > #tkHeroQuiz,
-.rc2-hero-product > #tkHeroFounders,
-.rc2-hero-product > #tkHeroCampaign {
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    min-height: 0;
-    transform: none;
-}
-
-/* Align Book and Founders with the campaign position */
-.rc2-hero-product > #rc2UnboxingStage,
-.rc2-hero-product > #tkHeroFounders {
-    top: 0;
-    transform: none;
-}
-
-   .rc2-hero-product > #rc2UnboxingStage {
-    aspect-ratio: 16 / 9;
-    min-height: 0;
-    height: 100%;
-}
-
-.rc2-hero-product > #tkHeroFounders {
-    height: 100%;
-    min-height: 0;
-}
-
-}
-
-
-/* Smooth crossfade between poll intro and question */
-.tk-hero-quiz-frame {
-    transition: opacity 1.5s cubic-bezier(0.4, 0, 0.2, 1);
-    will-change: opacity;
-}
-
-.tk-hero-quiz-frame.tk-frame-fading {
-    opacity: 0;
-    pointer-events: none;
-}
-
-@media (prefers-reduced-motion: reduce) {
-    .tk-hero-quiz-frame {
-        transition-duration: 0.01ms;
-    }
-}
-
-
-
-
-/* TEXLEARN — Refined desktop poll spacing */
-@media (min-width: 768px) {
-
-    /* Keep the intro content available on desktop */
-    #tkHeroQuizIntro .tk-hero-quiz-intro-icon,
-    #tkHeroQuizIntro h2,
-    #tkHeroQuizIntro p {
-        display: none;
-    }
-
-    /* Compact question frame */
-    #tkHeroQuizVote {
-        position: relative;
-        padding-top: 88px;
-        padding-bottom: 16px;
-    }
-
-    /* Heading */
-    #tkHeroQuizVote::before {
-        content: "💡  Think you know?";
-        display: block;
-        position: absolute;
-        top: 12px;
-        left: 0;
-        width: 100%;
-        text-align: center;
-        font-size: 27px;
-        font-weight: 700;
-        line-height: 1.2;
-        color: inherit;
-    }
-
-    /* Subtitle */
-    #tkHeroQuizVote::after {
-        content: "Let's see what you think.";
-        position: absolute;
-        top: 48px;
-        left: 0;
-        width: 100%;
-        text-align: center;
-        font-size: 14px;
-        line-height: 1.35;
-        color: inherit;
-        opacity: 0.8;
-    }
-
-    /* No intro button on desktop */
-    #tkHeroQuizStart {
-        display: none !important;
-    }
-
-    /* Slightly tighten spacing between question elements */
-    #tkHeroQuizContent {
-        margin-top: 0;
-    }
-}
-
-
-
-/* =====================================================
-   TEXLEARN — POLL INTRO / QUESTION FRAME OVERLAP
-   Keep both phone frames in the same position.
-===================================================== */
-
-@media (max-width: 767px) {
-
-    #tkHeroQuiz {
-        position: relative;
-        display: block;
-        overflow: hidden;
-    }
-
-    #tkHeroQuiz > #tkHeroQuizIntro,
-    #tkHeroQuiz > #tkHeroQuizVote {
-        position: absolute;
-        inset: 0;
-        width: 100%;
-        height: 100%;
-        min-height: 0;
-        box-sizing: border-box;
-        margin: 0;
-    }
-
-    #tkHeroQuiz > #tkHeroQuizIntro:not([hidden]) {
-        z-index: 2;
-    }
-
-    #tkHeroQuiz > #tkHeroQuizVote:not([hidden]) {
-        z-index: 1;
-    }
-
-    #tkHeroQuiz > #tkHeroQuizIntro[hidden],
-    #tkHeroQuiz > #tkHeroQuizVote[hidden] {
-        display: none !important;
-    }
-
-}
 
 
 /* HOME PAGE WHATSAPP BUTTON */
