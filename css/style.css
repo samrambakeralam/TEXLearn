@@ -2499,6 +2499,8 @@ a {
 
 
    .rc2-hero-actions {
+    position: relative;
+    padding-top: 22px;
     display: grid;
     grid-template-columns: repeat(3, minmax(0, 1fr));
     align-items: stretch;
@@ -2506,6 +2508,29 @@ a {
     width: calc(100% - 32px);
     margin: 0 auto 12px;
     box-sizing: border-box;
+}
+
+/* Subtle centred section divider */
+
+.rc2-hero-actions::before {
+    content: "";
+    position: absolute;
+
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+
+    width: 76%;
+    height: 1px;
+
+    background: linear-gradient(
+        90deg,
+        transparent 0%,
+        rgba(148, 163, 184, 0.12) 15%,
+        rgba(148, 163, 184, 0.38) 50%,
+        rgba(148, 163, 184, 0.12) 85%,
+        transparent 100%
+    );
 }
 
 /* Equal-sized buttons */
@@ -2944,6 +2969,8 @@ a {
 /* Independent hero button section */
 
 .rc2-hero-actions {
+    position: relative;
+    padding-top: 22px;
     display: grid;
     grid-template-columns: repeat(3, minmax(0, 1fr));
     align-items: stretch;
@@ -2951,6 +2978,29 @@ a {
     width: calc(100% - 32px);
     margin: 0 auto 12px;
     box-sizing: border-box;
+}
+
+/* Subtle centred section divider */
+
+.rc2-hero-actions::before {
+    content: "";
+    position: absolute;
+
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+
+    width: 76%;
+    height: 1px;
+
+    background: linear-gradient(
+        90deg,
+        transparent 0%,
+        rgba(148, 163, 184, 0.12) 15%,
+        rgba(148, 163, 184, 0.38) 50%,
+        rgba(148, 163, 184, 0.12) 85%,
+        transparent 100%
+    );
 }
 
 /* Equal-sized buttons */
