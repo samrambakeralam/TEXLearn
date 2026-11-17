@@ -768,21 +768,23 @@ a {
    18. HERO ACTIONS — 3D ICON TILES
 ========================================================= */
 
-/* Desktop positioning: below the left hero introduction */
-
 .rc2-hero-actions {
     position: relative;
     z-index: 2;
 
     display: grid;
     grid-template-columns: repeat(3, 100px);
-    justify-content: center;
+    justify-content: start;
     justify-items: center;
     align-items: start;
     gap: 24px;
 
-    width: 100%;
-    margin: 24px auto 12px;
+    width: fit-content;
+    margin:
+            -80px
+            0
+            12px
+            max(20px, calc((100% - var(--rc2-container)) / 2));
 }
 
 /* Clickable icon and label unit */
