@@ -692,79 +692,6 @@ a {
 
 
 /* =========================================================
-   17. HERO VALUE POINTS
-========================================================= */
-
-
-.rc2-value-points {
-
-    display: flex;
-
-    flex-wrap: nowrap;
-
-    gap: 10px;
-
-    margin-top: 14px;
-
-    width: 100%;
-
-    max-width: 520px;
-
-}
-
-
-.rc2-value-points > div {
-
-    flex: 1 1 0;
-
-    min-width: 0;
-
-    display: inline-flex;
-
-    align-items: center;
-
-    justify-content: center;
-
-    gap: 6px;
-
-    padding: 7px 7px;
-
-    box-sizing: border-box;
-
-    background: #FFFFFF;
-
-    border: 1px solid var(--rc2-border);
-
-    border-radius: 8px;
-
-    color: var(--rc2-text);
-
-    font-size: 11px;
-
-    font-weight: 600;
-
-    white-space: nowrap;
-
-}
-
-
-
-.rc2-value-points svg {
-
-    width: 14px;
-
-    height: 14px;
-
-    flex-shrink: 0;
-
-    color: var(--rc2-green);
-
-}
-
-
-
-
-/* =========================================================
    18. HERO ACTIONS — 3D ICON TILES
 ========================================================= */
 
@@ -777,7 +704,7 @@ a {
     justify-content: start;
     justify-items: center;
     align-items: start;
-    gap: 24px;
+    gap: 36px;
 
     width: fit-content;
     margin:
@@ -817,8 +744,8 @@ a {
 /* Rounded-square tile */
 
 .rc2-icon-tile-visual {
-    width: 88px;
-    height: 88px;
+    width: 80px;
+    height: 80px;
 
     display: flex;
     align-items: center;
@@ -850,9 +777,9 @@ a {
     width: 100%;
 
     color: var(--rc2-navy);
-    font-size: 13px;
+    font-size: 11px;
     font-weight: 700;
-    line-height: 1.3;
+    line-height: 1;
     text-align: center;
 }
 
