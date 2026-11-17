@@ -763,289 +763,116 @@ a {
 
 
 
+
 /* =========================================================
-   18. HERO ACTIONS
+   18. HERO ACTIONS — 3D ICON TILES
 ========================================================= */
+
+/* Desktop positioning: below the left hero introduction */
 
 .rc2-hero-actions {
+    position: relative;
+    z-index: 2;
 
     display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    align-items: stretch;
-    gap: 12px;
+    grid-template-columns: repeat(3, 100px);
+    justify-content: center;
+    justify-items: center;
+    align-items: start;
+    gap: 24px;
+
     width: 100%;
-    margin-top: 16px;
-
+    margin: 24px auto 12px;
 }
 
-.rc2-primary-cta {
-    grid-column: 1 / -1;
-    width: calc(100% - 175px);
+/* Clickable icon and label unit */
 
-    display:
-        inline-flex;
+.rc2-icon-action {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 10px;
 
-    align-items:
-        center;
+    width: 100%;
+    padding: 0;
 
-    justify-content:
-        center;
+    border: none;
+    background: transparent;
+    color: var(--rc2-navy);
 
-         justify-self: start;
+    font-family: "Inter", sans-serif;
+    text-decoration: none;
+    text-align: center;
 
-    min-height:
-        48px;
+    cursor: pointer;
+    box-sizing: border-box;
+    -webkit-tap-highlight-color: transparent;
 
-    padding:
-        0 20px;
-
-    border:
-        none;
-
-    border-radius:
-        10px;
-
-    background:
-        linear-gradient(
-            135deg,
-            #16A34A,
-            #0A8754
-        );
-
-    color:
-        #FFFFFF;
-
-    font-family:
-        "Inter",
-        sans-serif;
-
-    font-size:
-        14px;
-
-    font-weight:
-        700;
-
-    line-height:
-        1;
-
-    text-decoration:
-        none;
-
-    cursor:
-        pointer;
-
-    box-shadow:
-        0 8px 20px
-        rgba(22,163,74,.18);
-
-      transition:
-        background .25s ease,
-        transform .25s ease,
-        box-shadow .25s ease;
+    transition: transform .25s ease;
 }
 
+/* Rounded-square tile */
 
-.rc2-primary-cta:hover {
-
-       background:
-        linear-gradient(
-            135deg,
-            #0A8754,
-            #06703F
-        );
-
-    transform:
-        translateY(-1px);
-
-    box-shadow:
-        0 10px 24px
-        rgba(22,163,74,.24);
-
-}
-
-.rc2-primary-cta:active {
-
-    background:
-        linear-gradient(
-            135deg,
-            #06703F,
-            #055A33
-        );
-
-    transform:
-        translateY(1px);
-
-}
-
-
-.rc2-secondary-cta {
+.rc2-icon-tile-visual {
+    width: 88px;
+    height: 88px;
 
     display: flex;
+    align-items: center;
+    justify-content: center;
 
-    width: 68%;  
+    background: #102D50;
+    border: 1px solid rgba(34, 197, 94, 0.35);
+    border-radius: 22px;
 
-    align-items:
-        center;
+    box-shadow:
+        0 5px 14px rgba(0, 0, 0, 0.18),
+        inset 0 1px 2px rgba(255, 255, 255, 0.10);
 
-        text-align: center;
-
-    justify-content:
-        center;
-
-    gap:
-        3px;
-
-    min-height:
-        36px;
-
-    padding:
-        0 4px;
-
-    border: 1px solid #E2E8F0;
-    border-radius: 9px;
-
-    background:
-        transparent;
-
-    color:
-        var(--rc2-navy);
-
-    font-family:
-        "Inter",
-        sans-serif;
-
-    font-size:
-        12px;
-
-    font-weight:
-        700;
-
-    line-height:
-        1;
-
-    text-decoration:
-        none;
-
-    cursor:
-        pointer;
-
-    transition:
-        color .25s ease,
-        transform .25s ease;
+    box-sizing: border-box;
+    overflow: hidden;
 }
 
-
-.rc2-secondary-cta:hover {
-
-    color:
-        var(--rc2-green);
-
-    transform:
-        translateX(2px);
-
+.rc2-icon-tile-visual img {
+    display: block;
+    width: 90%;
+    height: 90%;
+    object-fit: contain;
 }
 
-.rc2-secondary-cta:active {
+/* Labels */
 
-    color:
-        var(--rc2-green);
+.rc2-icon-tile-label {
+    display: block;
+    width: 100%;
 
-    transform:
-        translateX(2px);
-
+    color: var(--rc2-navy);
+    font-size: 13px;
+    font-weight: 700;
+    line-height: 1.3;
+    text-align: center;
 }
 
-/* Explore Library */
-.home-library-link {
-    background: #FFFFFF;
-    border: 1px solid #E2E8F0;
-    color: #0B1F3A;
-    margin-left: 8px;
+/* Interaction */
+
+.rc2-icon-action:hover {
+    transform: translateY(-3px);
 }
 
-/* ASCEND */
-.home-ascend-link {
-    background: #FFFFFF;
-    border: 1px solid #E2E8F0;
-    color: #0B1F3A;
-    justify-self: end;
-    margin-right: 175px;
+.rc2-icon-action:hover .rc2-icon-tile-visual {
+    border-color: rgba(34, 197, 94, 0.75);
+
+    box-shadow:
+        0 9px 20px rgba(0, 0, 0, 0.20),
+        inset 0 1px 3px rgba(255, 255, 255, 0.14);
 }
 
-/* Hover and touch states */
-.home-library-link:hover,
-.home-library-link:active {
-    background: #0B1F3A;
-    border-color: #0B1F3A;
-    color: #FFFFFF;
+.rc2-icon-action:focus-visible {
+    outline: 3px solid rgba(22, 163, 74, 0.35);
+    outline-offset: 5px;
 }
 
-.home-ascend-link:hover,
-.home-ascend-link:active {
-    background: #6600FF;
-    border-color: #6600FF;
-    color: #FFFFFF;
-}
-
-/* =========================================================
-   19. HERO TRUST LINE
-========================================================= */
-
-.rc2-trust-line {
-
-    display:
-        flex;
-
-    flex-wrap:
-        wrap;
-
-    gap:
-        15px;
-
-    margin-top:
-        14px;
-
-    color:
-        var(--rc2-text-muted);
-
-    font-size:
-        11px;
-
-}
-
-
-.rc2-trust-line span {
-
-    display:
-        inline-flex;
-
-    align-items:
-        center;
-
-    gap:
-        5px;
-
-    white-space:
-        nowrap;
-
-}
-
-
-.rc2-trust-line svg {
-
-    width:
-        14px;
-
-    height:
-        14px;
-
-    flex:
-        0 0 auto;
-
-    color:
-        var(--rc2-green);
-
-}
 
 
 /* =========================================================
@@ -2533,49 +2360,26 @@ a {
     );
 }
 
-/* Equal-sized buttons */
-
-.rc2-primary-cta,
-.rc2-secondary-cta {
-    grid-column: auto;
-    justify-self: stretch;
-
-    width: 100%;
-    min-width: 0;
-    max-width: 100%;
-
-    height: 44px;
-    min-height: 44px;
-
-    margin: 0;
-    padding: 0 3px;
-
-    box-sizing: border-box;
-
+.rc2-icon-tile-visual {
+    width: 76px;
+    height: 76px;
     display: flex;
     align-items: center;
     justify-content: center;
 
-    font-size: 10px;
-    font-weight: 600;
-    white-space: nowrap;
+    background: #102D50;
+    border: 1px solid rgba(34, 197, 94, 0.35);
+    border-radius: 20px;
+
+    box-shadow:
+        0 5px 14px rgba(0, 0, 0, 0.22),
+        inset 0 1px 2px rgba(255, 255, 255, 0.10);
 }
 
-/* Primary button */
-
-.rc2-primary-cta {
-    font-size: 11px;
-}
-
-.rc2-secondary-cta {
-    font-size: 10px;
-}
-
-.home-library-link,
-.home-ascend-link {
-    width: 100%;
-    margin: 0;
-    justify-self: stretch;
+.rc2-icon-tile-visual img {
+    width: 90%;
+    height: 90%;
+    object-fit: contain;
 }
 
     /* Mobile menu */
@@ -3003,49 +2807,26 @@ a {
     );
 }
 
-/* Equal-sized buttons */
-
-.rc2-primary-cta,
-.rc2-secondary-cta {
-    grid-column: auto;
-    justify-self: stretch;
-
-    width: 100%;
-    min-width: 0;
-    max-width: 100%;
-
-    height: 44px;
-    min-height: 44px;
-
-    margin: 0;
-    padding: 0 3px;
-
-    box-sizing: border-box;
-
+.rc2-icon-tile-visual {
+    width: 76px;
+    height: 76px;
     display: flex;
     align-items: center;
     justify-content: center;
 
-    font-size: 10px;
-    font-weight: 600;
-    white-space: nowrap;
+    background: #102D50;
+    border: 1px solid rgba(34, 197, 94, 0.35);
+    border-radius: 20px;
+
+    box-shadow:
+        0 5px 14px rgba(0, 0, 0, 0.22),
+        inset 0 1px 2px rgba(255, 255, 255, 0.10);
 }
 
-/* Primary button */
-
-.rc2-primary-cta {
-    font-size: 11px;
-}
-
-.rc2-secondary-cta {
-    font-size: 10px;
-}
-
-.home-library-link,
-.home-ascend-link {
-    width: 100%;
-    margin: 0;
-    justify-self: stretch;
+.rc2-icon-tile-visual img {
+    width: 90%;
+    height: 90%;
+    object-fit: contain;
 }
 
 
