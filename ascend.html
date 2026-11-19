@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#061522">
+<title>ASCEND — TEXLearn</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Poppins:wght@600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/ascend.css">
+<script src="https://unpkg.com/lucide@latest"></script>
+<script src="js/config.js"></script>
+<script defer src="js/ascend-modules.js"></script>
+<script defer src="js/ascend.js"></script>
+</head>
+<body>
+<div class="shell">
+<aside class="sidebar" id="sidebar">
+<a class="brand" href="index.html"><span class="brand-mark">T</span><span><b>TEXLearn</b><small>LEARNING MODULES</small></span></a>
+<div class="wordmark"><span>▲</span> ASCEND</div>
+<nav id="mainNav">
+<a class="nav-link active" href="#journey"><i data-lucide="house"></i>My Journey</a>
+<a class="nav-link" href="#challenges"><i data-lucide="target"></i>Challenges</a>
+<a class="nav-link" href="#quiz-arena"><i data-lucide="gamepad-2"></i>Quiz Arena</a>
+<a class="nav-link" href="#achievements"><i data-lucide="award"></i>Achievements</a>
+<a class="nav-link" href="#leaderboards"><i data-lucide="chart-no-axes-column-increasing"></i>Leaderboards</a>
+<a class="nav-link muted" href="#community"><i data-lucide="users"></i>Community · Coming later</a>
+</nav>
+<div class="promo"><div class="trophy">✦</div><b>FUTURE FOUNDER</b><p>Learn consistently. Build your edge. Create your future.</p><a href="library.html">Explore Library ↗</a></div>
+<a class="back" href="index.html">← Back to TEXLearn</a>
+</aside>
+<main>
+<header class="topbar"><button id="mobileMenu" aria-label="Open menu">☰</button><div><small>TEXLEARN LEARNING & ACHIEVEMENT PLATFORM</small><b>ASCEND</b></div><div class="user"><span class="online"></span><span id="userName">Learner</span><small id="userRank">Explorer</small></div></header>
+<div class="content">
+<section class="hero" id="journey"><div class="hero-copy"><small>THE TEXLEARN ADVANTAGE</small><h1>YOUR LEARNING.<br>YOUR JOURNEY.<br><em>YOUR LEGACY.</em></h1><p>A gamified learning experience to build knowledge, earn achievements and grow as a future founder.</p><a class="primary" href="#my-journey">View My Journey →</a> <a class="secondary" href="library.html">Explore Library</a></div><div class="hero-art"><div class="peak p1"></div><div class="peak p2"></div><div class="trail"></div><div class="avatar"><span class="hair"></span><span class="face"></span><span class="body"></span><b>✦</b></div><div class="caption">EVERY STEP<br><strong>MOVES YOU FORWARD</strong></div></div></section>
+<section class="journey panel" id="my-journey"><div class="identity"><div class="profile" id="profileInitial">L</div><div><small>MY JOURNEY</small><h2 id="profileName">Welcome, Learner</h2><span class="rank" id="rankChip">Explorer I · Level 1</span></div></div><div class="xp"><strong id="totalXp">—</strong><small>TOTAL XP</small></div><div class="progress"><div><b id="nextLevelText">Your next level</b><strong id="progressPercent">—</strong></div><div class="bar"><span id="progressBar"></span></div><small><span id="progressCurrent">Loading progress…</span><span id="xpRemaining"></span></small></div></section>
+<section class="stats"><article><b>♨</b><strong id="streakValue">—</strong><small>DAY STREAK</small></article><article><b>✧</b><strong id="badgeValue">—</strong><small>BADGES EARNED</small></article><article><b>↗</b><strong id="activityValue">—</strong><small>RECENT ACTIVITIES</small></article><article><b>◎</b><strong id="remainingValue">—</strong><small>XP TO NEXT LEVEL</small></article></section>
+<section class="modules"><div class="heading"><div><small>EXPLORE YOUR POTENTIAL</small><h2>Your ASCEND universe</h2></div><span>More experiences will unlock over time</span></div><div class="module-grid" id="moduleGrid"></div></section>
+<section class="lower"><article class="panel"><div class="heading"><div><small>YOUR PROGRESS</small><h2>Recent activity</h2></div><span class="live">LIVE DATA</span></div><div id="activityList">Loading your activity…</div></article><article class="panel" id="achievements"><div class="heading"><div><small>MILESTONES</small><h2>Achievements</h2></div></div><div id="achievementSummary" class="achievement"><div>🏅</div><b>Your next achievement awaits</b><p>Keep learning to unlock milestones and collect badges.</p></div></article></section>
+<section class="panel leaderboard" id="leaderboards"><div><small>LEARN · PROGRESS · RISE</small><h2>Your next milestone is waiting.</h2><p>Keep building your knowledge and climb the TEXLearn leaderboard.</p></div><a class="primary" href="#leaderboards">Explore Leaderboards →</a></section>
+<footer>© TEXLearn LEARNING MODULES <span>ASCEND · LEVEL UP. LEARN MORE. GO FURTHER.</span></footer>
+<div id="pageNotice" class="notice" hidden></div>
+</div></main></div>
+</body></html>
