@@ -10,6 +10,7 @@
 <script src="https://unpkg.com/lucide@latest"></script>
 <script src="js/config.js"></script>
 <script defer src="js/ascend-modules.js"></script>
+<script defer src="js/ascend-quiz-categories.js"></script>
 <script defer src="js/ascend.js"></script>
 </head>
 <body>
@@ -35,6 +36,21 @@
 <section class="journey panel" id="my-journey"><div class="identity"><div class="profile" id="profileInitial">L</div><div><small>MY JOURNEY</small><h2 id="profileName">Welcome, Learner</h2><span class="rank" id="rankChip">Explorer I · Level 1</span></div></div><div class="xp"><strong id="totalXp">—</strong><small>TOTAL XP</small></div><div class="progress"><div><b id="nextLevelText">Your next level</b><strong id="progressPercent">—</strong></div><div class="bar"><span id="progressBar"></span></div><small><span id="progressCurrent">Loading progress…</span><span id="xpRemaining"></span></small></div></section>
 <section class="stats"><article><b>♨</b><strong id="streakValue">—</strong><small>DAY STREAK</small></article><article><b>✧</b><strong id="badgeValue">—</strong><small>BADGES EARNED</small></article><article><b>↗</b><strong id="activityValue">—</strong><small>RECENT ACTIVITIES</small></article><article><b>◎</b><strong id="remainingValue">—</strong><small>XP TO NEXT LEVEL</small></article></section>
 <section class="modules"><div class="heading"><div><small>EXPLORE YOUR POTENTIAL</small><h2>Your ASCEND universe</h2></div><span>More experiences will unlock over time</span></div><div class="module-grid" id="moduleGrid"></div></section>
+
+<section class="quiz-arena-section" id="quiz-arena">
+  <div class="quiz-arena-heading">
+    <div><small class="quiz-eyebrow">PLAY · DISCOVER · LEVEL UP</small><h2>Enter the Quiz Arena</h2><p>Choose a learning track. Challenge your thinking. Earn your next achievement.</p></div>
+    <span class="quiz-arena-mark">✦ ASCEND</span>
+  </div>
+  <div class="quiz-subheading"><div><small>12 CORE LEARNING TRACKS</small><h3>What would you like to explore?</h3></div><span>More tracks can be added as TEXLearn grows</span></div>
+  <div class="quiz-category-grid" id="quizCategoryGrid"><p class="quiz-loading">Preparing your learning tracks…</p></div>
+  <div class="quiz-collections">
+    <div class="quiz-subheading"><div><small>LEARN WITH PURPOSE</small><h3>Explore curated journeys</h3></div><span>Different tracks. One bigger ambition.</span></div>
+    <div class="quiz-collection-grid" id="quizCollectionGrid"></div>
+  </div>
+  <div class="quiz-coming-note"><span>✦</span><div><b>Your next challenge is taking shape.</b><p>Quiz collections and playable challenges will appear here as they are added.</p></div></div>
+</section>
+
 <section class="lower"><article class="panel"><div class="heading"><div><small>YOUR PROGRESS</small><h2>Recent activity</h2></div><span class="live">LIVE DATA</span></div><div id="activityList">Loading your activity…</div></article><article class="panel" id="achievements"><div class="heading"><div><small>MILESTONES</small><h2>Achievements</h2></div></div><div id="achievementSummary" class="achievement"><div>🏅</div><b>Your next achievement awaits</b><p>Keep learning to unlock milestones and collect badges.</p></div></article></section>
 <section class="panel leaderboard" id="leaderboards"><div><small>LEARN · PROGRESS · RISE</small><h2>Your next milestone is waiting.</h2><p>Keep building your knowledge and climb the TEXLearn leaderboard.</p></div><a class="primary" href="#leaderboards">Explore Leaderboards →</a></section>
 <footer>© TEXLearn LEARNING MODULES <span>ASCEND · LEVEL UP. LEARN MORE. GO FURTHER.</span></footer>
