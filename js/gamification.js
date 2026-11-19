@@ -16,6 +16,9 @@
     const TOKEN_KEY =
         "texlearn_gamification_session_token";
 
+    const IDENTITY_KEY =
+    "texlearn_gamification_library_customer_id";    
+
     let dashboard = null;
 
 
@@ -101,42 +104,52 @@
        EXCHANGE LIBRARY SESSION
     ----------------------------------------------------- */
 
-    async function authenticateWithLibrary(
-        librarySessionToken
-    ) {
+   async function authenticateWithLibrary(
+    librarySessionToken,
+    customerID
+) {
 
-        if (!librarySessionToken) {
-            throw new Error(
-                "Verified Library session is required."
-            );
-        }
-
-        const result = await request(
-            "/api/auth/library",
-            {
-                method: "POST",
-
-                body: JSON.stringify({
-                    librarySessionToken:
-                        librarySessionToken
-                })
-            }
+    if (!librarySessionToken) {
+        throw new Error(
+            "Verified Library session is required."
         );
-
-        if (
-            result.success !== true ||
-            !result.sessionToken
-        ) {
-            throw new Error(
-                "Gamification authentication failed."
-            );
-        }
-
-        saveToken(result.sessionToken);
-
-        return result;
-
     }
+
+    if (!customerID) {
+        throw new Error(
+            "Verified Library customer ID is required."
+        );
+    }
+
+    const result = await request(
+        "/api/auth/library",
+        {
+            method: "POST",
+
+            body: JSON.stringify({
+                librarySessionToken: librarySessionToken
+            })
+        }
+    );
+
+    if (
+        result.success !== true ||
+        !result.sessionToken
+    ) {
+        throw new Error(
+            "Gamification authentication failed."
+        );
+    }
+
+    saveToken(result.sessionToken);
+
+    localStorage.setItem(
+        IDENTITY_KEY,
+        customerID
+    );
+
+    return result;
+}
 
 
     /* -----------------------------------------------------
@@ -176,51 +189,75 @@
 
         dashboard = null;
 
-        if (
-            !librarySession ||
-            librarySession.success !== true ||
-            librarySession.authenticated !== true ||
-            librarySession.accountType === "TRIAL" ||
-            !librarySession.sessionToken
-        ) {
-            return {
-                success: false,
-                reason: "INELIGIBLE_LIBRARY_SESSION"
-            };
-        }
+   if (
+    !librarySession ||
+    librarySession.success !== true ||
+    librarySession.authenticated !== true ||
+    librarySession.accountType === "TRIAL" ||
+    !librarySession.sessionToken
+) {
+    return {
+        success: false,
+        reason: "INELIGIBLE_LIBRARY_SESSION"
+    };
+}
+
+const customerID = String(
+    librarySession.customerID || ""
+).trim();
+
+if (!customerID) {
+    return {
+        success: false,
+        reason: "MISSING_LIBRARY_CUSTOMER_ID"
+    };
+}
 
         try {
 
-            // First try the existing Gamification session.
-            if (getToken()) {
+            // Reuse the existing session only for the same Library customer.
+const storedCustomerID =
+    localStorage.getItem(IDENTITY_KEY) || "";
 
-                try {
+if (
+    getToken() &&
+    storedCustomerID === customerID
+) {
 
-                    dashboard = await loadDashboard();
+    try {
 
-                    return {
-                        success: true,
-                        authenticated: true,
-                        dashboard: dashboard
-                    };
+        dashboard = await loadDashboard();
 
-                } catch (error) {
+        return {
+            success: true,
+            authenticated: true,
+            dashboard: dashboard
+        };
 
-                    // Re-authenticate only when the token
-                    // is rejected by the backend.
-                    if (error.status !== 401) {
-                        throw error;
-                    }
+    } catch (error) {
 
-                    localStorage.removeItem(TOKEN_KEY);
+        if (error.status !== 401) {
+            throw error;
+        }
 
-                }
+        localStorage.removeItem(TOKEN_KEY);
+        localStorage.removeItem(IDENTITY_KEY);
 
-            }
+    }
+
+} else {
+
+    // Different customer or no identity association:
+    // discard the old Gamification session.
+    localStorage.removeItem(TOKEN_KEY);
+    localStorage.removeItem(IDENTITY_KEY);
+
+}
 
             // Exchange the verified Library session.
             await authenticateWithLibrary(
-                librarySession.sessionToken
+                librarySession.sessionToken,
+                customerID
             );
 
             dashboard = await loadDashboard();
