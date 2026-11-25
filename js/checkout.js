@@ -476,11 +476,6 @@ async function recoverNativePayment(session, paymentButton) {
                         "Continue to Payment"
                     );
 
-                    alert(
-                        "Your previous checkout has no successful payment.\n\n" +
-                        "You can safely continue with the same payment order."
-                    );
-
                     return true;
                 }
 
@@ -1611,6 +1606,7 @@ function openRazorpayCheckout(session, paymentButton) {
             verifyPayment(response, session, paymentButton);
         },
 
+     
         modal: {
             ondismiss: function () {
                 logBrowserPaymentEvent("RAZORPAY_MODAL_DISMISSED", {
@@ -1620,21 +1616,57 @@ function openRazorpayCheckout(session, paymentButton) {
                     visibilityState: document.visibilityState
                 });
 
-                // Intentionally keep the single shared lifecycle listeners.
-                // Chrome may deliver the app-switch visibility event late.
-                if (!state.verificationStarted && !state.recoveryStarted) {
-                    // A dismissal does not prove the payment failed: the UPI
-                    // app may have completed payment before Razorpay dismissed.
-                    // Keep the pending marker and label the next action clearly.
-                    restorePaymentButton(
-                        paymentButton,
-                        getPendingBrowserPayment() ? "Check Payment Status" : "Continue to Payment"
-                    );
-                    logBrowserPaymentEvent("DISMISS_BUTTON_RESTORED_LISTENERS_KEPT", {
-                        visibilityState: document.visibilityState,
-                        pageWasHidden: state.pageWasHidden
-                    });
+                if (
+                    state.verificationStarted ||
+                    state.recoveryStarted ||
+                    window.__texlearnBrowserVerificationStarted
+                ) {
+                    return;
                 }
+
+                // Automatically check the original order after dismissal.
+                state.recoveryStarted = true;
+
+                setPaymentButtonBusy(
+                    paymentButton,
+                    "Checking Payment Status..."
+                );
+
+                logBrowserPaymentEvent(
+                    "AUTOMATIC_DISMISS_RECOVERY_STARTED"
+                );
+
+                recoverBrowserPayment(session)
+                    .then(function (recovered) {
+                        if (recovered) {
+                            return;
+                        }
+
+                        restorePaymentButton(
+                            paymentButton,
+                            getPendingBrowserPayment()
+                                ? "Check Payment Status"
+                                : "Continue to Payment"
+                        );
+
+                        logBrowserPaymentEvent(
+                            "AUTOMATIC_DISMISS_RECOVERY_UNRESOLVED"
+                        );
+                    })
+                    .catch(function (error) {
+                        console.error(
+                            "Automatic dismissal recovery failed:",
+                            error
+                        );
+
+                        restorePaymentButton(
+                            paymentButton,
+                            "Check Payment Status"
+                        );
+                    })
+                    .finally(function () {
+                        state.recoveryStarted = false;
+                    });
             }
         }
     };
