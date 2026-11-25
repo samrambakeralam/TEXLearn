@@ -1,0 +1,140 @@
+
+/* =====================================================
+   TEXLEARN ANDROID APP — HOMEPAGE
+   Website styles remain unchanged.
+===================================================== */
+
+html.texlearn-app {
+    scroll-behavior: smooth;
+}
+
+html.texlearn-app body {
+    padding-bottom: 76px;
+}
+
+/* Hide website-only navigation and content */
+
+html.texlearn-app .rc2-desktop-nav,
+html.texlearn-app #rc2HeaderCTA,
+html.texlearn-app #rc2MobileMenu,
+html.texlearn-app .why-bundle,
+html.texlearn-app .topics-section,
+html.texlearn-app .pricing-section,
+html.texlearn-app .final-cta,
+html.texlearn-app .site-footer,
+html.texlearn-app .home-whatsapp-button {
+    display: none !important;
+}
+
+/* =====================================================
+   APP BOTTOM NAVIGATION
+===================================================== */
+
+html.texlearn-app .app-bottom-nav {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 9999;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+
+    height: 68px;
+    padding: 6px 12px calc(6px + env(safe-area-inset-bottom));
+
+    background: #071b35;
+    border-top: 1px solid rgba(255, 255, 255, 0.10);
+}
+
+html.texlearn-app .app-nav-item {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+
+    color: rgba(255, 255, 255, 0.65);
+    text-decoration: none;
+    font-size: 11px;
+    font-weight: 500;
+}
+
+html.texlearn-app .app-nav-item i {
+    width: 21px;
+    height: 21px;
+    stroke-width: 1.8;
+}
+
+html.texlearn-app .app-nav-item.active {
+    color: #35d07f;
+}
+
+html.texlearn-app .app-profile-placeholder {
+    opacity: 0.45;
+    pointer-events: none;
+}
+
+/* Hide app-only content on the website */
+.app-quick-access {
+    display: none;
+}
+
+/* =====================================================
+   APP QUICK ACCESS
+===================================================== */
+
+html.texlearn-app .app-quick-access {
+    display: flex;
+    align-items: center;
+    gap: 22px;
+
+    width: 100%;
+    padding: 18px 20px;
+
+    overflow-x: auto;
+    overflow-y: hidden;
+    white-space: nowrap;
+
+    scrollbar-width: none;
+    -webkit-overflow-scrolling: touch;
+}
+
+html.texlearn-app .app-quick-access::-webkit-scrollbar {
+    display: none;
+}
+
+html.texlearn-app .app-quick-item {
+    flex: 0 0 auto;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+
+    color: #071b35;
+    text-decoration: none;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+html.texlearn-app .app-quick-icon {
+    width: 58px;
+    height: 58px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 50%;
+    background: #eaf7f0;
+    border: 1px solid rgba(53, 208, 127, 0.35);
+    color: #07894c;
+}
+
+html.texlearn-app .app-quick-icon i {
+    width: 26px;
+    height: 26px;
+    stroke-width: 1.8;
+}
