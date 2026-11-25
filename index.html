@@ -8,6 +8,18 @@
     <!-- TEXLearn Referral Tracking -->
     <script src="js/referral-tracking.js"></script>
 
+    <!-- TEXLearn Android App Mode -->
+<script>
+    if (/TEXLearnAndroid\/1\.0/i.test(navigator.userAgent)) {
+        document.documentElement.classList.add("texlearn-app");
+    }
+</script>
+
+console.log(
+    "TEXLearn App Mode:",
+    document.documentElement.classList.contains("texlearn-app")
+);
+
     <title>TEXLearn Learning Modules</title>
 
     
