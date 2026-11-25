@@ -8,6 +8,127 @@
 // page reload/app switch, unlike window.__texlearnBrowserReturnState.
 const TEXLEARN_PENDING_BROWSER_PAYMENT_KEY = "texlearn_pending_browser_payment";
 
+
+/*************************************************
+ TEXLearn Asynchronous Android Payment Bridge
+*************************************************/
+
+const TEXLEARN_BRIDGE_TIMEOUT_MS = 15000;
+
+const texlearnBridgeRequests = new Map();
+
+let texlearnBridgeRequestCounter = 0;
+
+function handleTEXLearnBridgeMessage(event) {
+    try {
+        const response = JSON.parse(event.data);
+
+        if (!response || !response.requestId) {
+            return;
+        }
+
+        const pending = texlearnBridgeRequests.get(
+            response.requestId
+        );
+
+        if (!pending) {
+            return;
+        }
+
+        clearTimeout(pending.timeout);
+
+        texlearnBridgeRequests.delete(response.requestId);
+
+        if (response.success !== true) {
+            pending.reject(
+                new Error(
+                    response.error ||
+                    "Android payment bridge request failed."
+                )
+            );
+            return;
+        }
+
+        pending.resolve(response.result ?? null);
+
+    } catch (error) {
+        console.error(
+            "Invalid Android bridge response:",
+            error
+        );
+    }
+}
+
+function requestTEXLearnBridge(action, payload = {}) {
+    return new Promise((resolve, reject) => {
+
+        const bridge = window.TEXLearnBridge;
+
+        if (
+            !bridge ||
+            typeof bridge.postMessage !== "function"
+        ) {
+            reject(
+                new Error("Android payment bridge is unavailable.")
+            );
+            return;
+        }
+
+        const requestId =
+    window.crypto &&
+    typeof window.crypto.randomUUID === "function"
+        ? window.crypto.randomUUID()
+        : `${Date.now()}-${++texlearnBridgeRequestCounter}`;
+
+        const timeout = setTimeout(() => {
+            texlearnBridgeRequests.delete(requestId);
+
+            reject(
+                new Error(
+                    `Android bridge timed out: ${action}`
+                )
+            );
+        }, TEXLEARN_BRIDGE_TIMEOUT_MS);
+
+        texlearnBridgeRequests.set(requestId, {
+            resolve,
+            reject,
+            timeout
+        });
+
+        try {
+            bridge.postMessage(
+                JSON.stringify({
+                    requestId,
+                    action,
+                    payload
+                })
+            );
+
+        } catch (error) {
+            clearTimeout(timeout);
+            texlearnBridgeRequests.delete(requestId);
+            reject(error);
+        }
+    });
+}
+
+// Register the Android response listener once.
+if (
+    window.TEXLearnBridge &&
+    typeof window.TEXLearnBridge.addEventListener === "function"
+) {
+    window.TEXLearnBridge.addEventListener(
+        "message",
+        handleTEXLearnBridgeMessage
+    );
+
+    console.log(
+        "TEXLearn asynchronous Android bridge listener registered."
+    );
+}
+
+
 function getPendingBrowserPayment() {
     try {
         const raw = sessionStorage.getItem(TEXLEARN_PENDING_BROWSER_PAYMENT_KEY);
@@ -33,56 +154,53 @@ function savePendingBrowserPayment(session) {
 }
 
 function clearPendingBrowserPayment() {
-    try {
-        sessionStorage.removeItem(TEXLEARN_PENDING_BROWSER_PAYMENT_KEY);
-    } catch (error) {
-        console.error("Unable to clear pending browser payment marker:", error);
-    }
+    sessionStorage.removeItem(
+        TEXLEARN_PENDING_BROWSER_PAYMENT_KEY
+    );
+
+    return !sessionStorage.getItem(
+        TEXLEARN_PENDING_BROWSER_PAYMENT_KEY
+    );
 }
 
 
-// Android native checkout pending-payment marker
+
+// Android checkout pending-payment marker
 const TEXLEARN_PENDING_NATIVE_PAYMENT_KEY =
     "texlearn_pending_native_payment";
 
 function isNativeAndroidCheckout() {
     return !!(
-        window.TEXLearnNative &&
-        typeof window.TEXLearnNative.openCheckout === "function" &&
-        typeof window.TEXLearnNative.savePendingPayment === "function" &&
-        typeof window.TEXLearnNative.getPendingPayment === "function" &&
-        typeof window.TEXLearnNative.clearPendingPayment === "function"
+        window.TEXLearnBridge &&
+        typeof window.TEXLearnBridge.postMessage === "function" &&
+        typeof window.TEXLearnBridge.addEventListener === "function"
     );
 }
 
-function getPendingNativePayment() {
-    try {
-        // Android: retrieve the encrypted persistent payment record.
-        if (isNativeAndroidCheckout()) {
-            const raw = window.TEXLearnNative.getPendingPayment();
+async function getPendingNativePayment() {
 
-            if (raw) {
-                return JSON.parse(raw);
-            }
+    if (isNativeAndroidCheckout()) {
+        // A bridge failure must throw, never be treated as no pending payment.
+        const result = await requestTEXLearnBridge(
+            "getPendingPayment"
+        );
+
+        if (result !== null && result !== undefined) {
+            return typeof result === "string"
+                ? JSON.parse(result)
+                : result;
         }
-
-        // Browser / legacy fallback.
-        const raw = sessionStorage.getItem(
-            TEXLEARN_PENDING_NATIVE_PAYMENT_KEY
-        );
-
-        return raw ? JSON.parse(raw) : null;
-
-    } catch (error) {
-        console.error(
-            "Unable to read pending native payment:",
-            error
-        );
-        return null;
     }
+
+    // Browser / legacy fallback.
+    const raw = sessionStorage.getItem(
+        TEXLEARN_PENDING_NATIVE_PAYMENT_KEY
+    );
+
+    return raw ? JSON.parse(raw) : null;
 }
 
-function savePendingNativePayment(session) {
+async function savePendingNativePayment(session) {
 
     const pending = {
         customerID: session.customerID,
@@ -92,70 +210,71 @@ function savePendingNativePayment(session) {
         startedAt: new Date().toISOString()
     };
 
-    try {
-        // Android: save through encrypted native storage.
-        if (isNativeAndroidCheckout()) {
+    if (isNativeAndroidCheckout()) {
 
-            const saved =
-                window.TEXLearnNative.savePendingPayment(
-                    JSON.stringify(pending)
-                );
-
-            if (saved !== true) {
-                throw new Error(
-                    "Android could not persist the pending payment."
-                );
-            }
-
-            return true;
-        }
-
-        // Browser / legacy fallback.
-        sessionStorage.setItem(
-            TEXLEARN_PENDING_NATIVE_PAYMENT_KEY,
-            JSON.stringify(pending)
+        await requestTEXLearnBridge(
+            "savePendingPayment",
+            pending
         );
 
         return true;
-
-    } catch (error) {
-        console.error(
-            "Unable to save pending native payment:",
-            error
-        );
-
-        throw error;
     }
+
+    // Browser / legacy fallback.
+    sessionStorage.setItem(
+        TEXLEARN_PENDING_NATIVE_PAYMENT_KEY,
+        JSON.stringify(pending)
+    );
+
+    return true;
 }
 
-function clearPendingNativePayment() {
-    try {
-        if (isNativeAndroidCheckout()) {
-            window.TEXLearnNative.clearPendingPayment();
-        }
+async function clearPendingNativePayment() {
 
-        // Also remove any legacy browser marker.
-        sessionStorage.removeItem(
-            TEXLEARN_PENDING_NATIVE_PAYMENT_KEY
-        );
-
-    } catch (error) {
-        console.error(
-            "Unable to clear pending native payment:",
-            error
+    if (isNativeAndroidCheckout()) {
+        await requestTEXLearnBridge(
+            "clearPendingPayment"
         );
     }
+
+    // Remove the browser / legacy marker only after native success.
+    sessionStorage.removeItem(
+        TEXLEARN_PENDING_NATIVE_PAYMENT_KEY
+    );
 }
 
 
 
 async function recoverNativePayment(session, paymentButton) {
 
-    const pending = getPendingNativePayment();
+    let pending;
+
+    try {
+        pending = await getPendingNativePayment();
+
+    } catch (error) {
+
+        console.error(
+            "Unable to retrieve pending native payment:",
+            error
+        );
+
+        setPaymentButtonBusy(
+            paymentButton,
+            "Check Payment Status"
+        );
+
+        alert(
+            "We could not retrieve your previous payment details.\n\n" +
+            "Please check your connection and try checking the payment status again. " +
+            "Do not start another payment until this is resolved."
+        );
+
+        return false;
+    }
 
     if (!pending) return false;
 
-    // Require the original payment identity.
     if (
         !pending.customerID ||
         !pending.token ||
@@ -178,7 +297,6 @@ async function recoverNativePayment(session, paymentButton) {
         return false;
     }
 
-    // Always recover the original customer, not a newer checkout session.
     const recoverySession = {
         customerID: pending.customerID,
         token: pending.token
@@ -223,14 +341,16 @@ async function recoverNativePayment(session, paymentButton) {
                     result
                 );
 
+                // ------------------------------------
+                // PAYMENT ALREADY CONFIRMED
+                // ------------------------------------
+
                 if (
                     response.ok &&
                     result.success === true &&
                     result.paid === true &&
                     result.paymentID
                 ) {
-
-                    clearPendingNativePayment();
 
                     sessionStorage.setItem(
                         "paymentResult",
@@ -241,8 +361,125 @@ async function recoverNativePayment(session, paymentButton) {
                         })
                     );
 
+                    try {
+                        await clearPendingNativePayment();
+
+                    } catch (clearError) {
+
+                        console.error(
+                            "Payment confirmed, but pending marker cleanup failed:",
+                            clearError
+                        );
+                    }
+
                     window.location.href = "/success.html";
-                        
+
+                    return true;
+                }
+
+                // ------------------------------------
+                // SERVER CONFIRMS SAFE PAYMENT RETRY
+                // ------------------------------------
+
+                if (
+                    response.ok &&
+                    result.success === true &&
+                    result.paid === false &&
+                    result.retryAllowed === true &&
+                    result.paymentState === "RETRY_ALLOWED"
+                ) {
+
+                    const retryRazorpay = result.razorpay;
+
+                    const retryAmount = Number(
+                        retryRazorpay?.amount
+                    );
+
+                    if (
+                        !retryRazorpay ||
+                        !retryRazorpay.orderID ||
+                        !retryRazorpay.key ||
+                        !retryRazorpay.currency ||
+                        String(retryRazorpay.orderID) !==
+                            String(pending.orderID) ||
+                        !Number.isFinite(retryAmount) ||
+                        retryAmount <= 0 ||
+                        retryAmount !== Number(pending.amount)
+                    ) {
+
+                        throw new Error(
+                            "Server retry details do not match the original payment order."
+                        );
+                    }
+
+                    // Preserve the existing checkout information when available.
+                    const updatedSession =
+                        session && typeof session === "object"
+                            ? session
+                            : {};
+
+                    updatedSession.customerID =
+                        pending.customerID;
+
+                    updatedSession.token =
+                        pending.token;
+
+                    updatedSession.razorpay = retryRazorpay;
+
+                    // Save the confirmed retry session before removing
+                    // the original pending-payment marker.
+                    sessionStorage.setItem(
+                        "checkoutSession",
+                        JSON.stringify(updatedSession)
+                    );
+
+                    try {
+
+                        await clearPendingNativePayment();
+
+                    } catch (clearError) {
+
+                        console.error(
+                            "Safe retry confirmed, but pending marker cleanup failed:",
+                            clearError
+                        );
+
+                        restorePaymentButton(
+                            paymentButton,
+                            "Check Payment Status"
+                        );
+
+                        alert(
+                            "The server confirmed that payment can be retried, " +
+                            "but we could not clear the previous payment record. " +
+                            "Please check payment status again."
+                        );
+
+                        return false;
+                    }
+
+                    console.log(
+                        "Safe payment retry confirmed. Original Razorpay order retained:",
+                        retryRazorpay.orderID
+                    );
+
+                    // If checkoutSession was missing, initialization
+                    // previously stopped before attaching the click handler.
+                    // Reload so checkout initializes normally.
+                    if (!session) {
+                        window.location.reload();
+                        return true;
+                    }
+
+                    restorePaymentButton(
+                        paymentButton,
+                        "Continue to Payment"
+                    );
+
+                    alert(
+                        "Your previous checkout has no successful payment.\n\n" +
+                        "You can safely continue with the same payment order."
+                    );
 
                     return true;
                 }
@@ -281,9 +518,6 @@ async function recoverNativePayment(session, paymentButton) {
         window.__texlearnNativeRecoveryInProgress = false;
     }
 }
-
-
-
 
 
 async function resumePendingBrowserRecovery(session, paymentButton) {
@@ -374,7 +608,8 @@ async function resumePendingBrowserRecovery(session, paymentButton) {
 
 
 
-document.addEventListener("DOMContentLoaded", function () {
+
+document.addEventListener("DOMContentLoaded", async function () {
 
     console.log("CHECKOUT.JS LOADED");
 
@@ -386,100 +621,113 @@ document.addEventListener("DOMContentLoaded", function () {
         return;
     }
 
+    const nativeCheckout = isNativeAndroidCheckout();
+
+    // Retrieve the pending native payment before deciding whether
+    // another payment can be started.
+    let pendingNativePayment = null;
+
+    try {
+        pendingNativePayment = await getPendingNativePayment();
+
+    } catch (error) {
+
+        console.error(
+            "Unable to check pending native payment during initialization:",
+            error
+        );
+
+        setPaymentButtonBusy(
+            paymentButton,
+            "Check Payment Status"
+        );
+
+        alert(
+            "We could not check your previous payment status.\n\n" +
+            "Please try again. Do not start another payment until " +
+            "the previous payment status has been checked."
+        );
+
+        return;
+    }
+
     const storedSession =
         sessionStorage.getItem("checkoutSession");
 
     if (!storedSession) {
 
-    console.error("checkoutSession not found.");
+        console.error("checkoutSession not found.");
 
-    // Recover an unresolved native payment using its original marker.
-    if (getPendingNativePayment()) {
-        console.warn(
-            "Checkout session missing. Recovering pending native payment."
-        );
+        if (pendingNativePayment) {
+            console.warn(
+                "Checkout session missing. Recovering pending native payment."
+            );
 
-        setTimeout(function () {
-            recoverNativePayment(null, paymentButton);
-        }, 0);
+            await recoverNativePayment(null, paymentButton);
+            return;
+        }
 
+        if (getPendingBrowserPayment()) {
+            console.warn(
+                "Checkout session missing. Recovering pending browser payment."
+            );
+
+            await resumePendingBrowserRecovery(null, paymentButton);
+            return;
+        }
+
+        paymentButton.disabled = true;
         return;
     }
-
-    // Recover an unresolved browser payment using its original marker.
-    if (getPendingBrowserPayment()) {
-        console.warn(
-            "Checkout session missing. Recovering pending browser payment."
-        );
-
-        setTimeout(function () {
-            resumePendingBrowserRecovery(null, paymentButton);
-        }, 0);
-
-        return;
-    }
-
-    // No pending payment exists, so disable checkout.
-    paymentButton.disabled = true;
-    return;
-}
 
     let session;
 
-  try {
-    session = JSON.parse(storedSession);
+    try {
+        session = JSON.parse(storedSession);
 
-} catch (error) {
+    } catch (error) {
 
-    console.error("Invalid checkoutSession:", error);
+        console.error("Invalid checkoutSession:", error);
 
-    if (getPendingNativePayment()) {
-        setTimeout(function () {
-            recoverNativePayment(null, paymentButton);
-        }, 0);
+        if (pendingNativePayment) {
+            await recoverNativePayment(null, paymentButton);
+            return;
+        }
+
+        if (getPendingBrowserPayment()) {
+            await resumePendingBrowserRecovery(null, paymentButton);
+            return;
+        }
+
+        paymentButton.disabled = true;
         return;
     }
 
-    if (getPendingBrowserPayment()) {
-        setTimeout(function () {
-            resumePendingBrowserRecovery(null, paymentButton);
-        }, 0);
+    if (
+        !session.customerID ||
+        !session.token ||
+        !session.razorpay ||
+        !session.razorpay.orderID ||
+        !session.razorpay.key ||
+        !session.razorpay.amount ||
+        !session.razorpay.currency
+    ) {
+
+        console.error("Incomplete checkout session.");
+
+        if (pendingNativePayment) {
+            await recoverNativePayment(null, paymentButton);
+            return;
+        }
+
+        if (getPendingBrowserPayment()) {
+            await resumePendingBrowserRecovery(null, paymentButton);
+            return;
+        }
+
+        paymentButton.disabled = true;
         return;
     }
-
-    paymentButton.disabled = true;
-    return;
-}
-
-  if (
-    !session.customerID ||
-    !session.token ||
-    !session.razorpay ||
-    !session.razorpay.orderID ||
-    !session.razorpay.key ||
-    !session.razorpay.amount ||
-    !session.razorpay.currency
-) {
-
-    console.error("Incomplete checkout session.");
-
-    if (getPendingNativePayment()) {
-        setTimeout(function () {
-            recoverNativePayment(null, paymentButton);
-        }, 0);
-        return;
-    }
-
-    if (getPendingBrowserPayment()) {
-        setTimeout(function () {
-            resumePendingBrowserRecovery(null, paymentButton);
-        }, 0);
-        return;
-    }
-
-    paymentButton.disabled = true;
-    return;
-}
 
     const customerName =
         document.getElementById("customerName");
@@ -512,54 +760,86 @@ document.addEventListener("DOMContentLoaded", function () {
         customerID.textContent = session.customerID;
     }
 
-    // If this page was recreated during a UPI handoff, resume status recovery
-    // from the persisted marker instead of relying on lost in-memory state.
+    // Resume browser payment recovery only outside native Android.
     const pendingBrowserPayment = getPendingBrowserPayment();
-    if (pendingBrowserPayment && !(window.TEXLearnNative && typeof window.TEXLearnNative.openCheckout === "function")) {
-        setTimeout(function () {
-            resumePendingBrowserRecovery(session, paymentButton);
-        }, 0);
+
+    if (pendingBrowserPayment && !nativeCheckout) {
+        await resumePendingBrowserRecovery(
+            session,
+            paymentButton
+        );
     }
 
+    // Resume unresolved Android payment recovery.
+    if (pendingNativePayment && nativeCheckout) {
+        await recoverNativePayment(
+            session,
+            paymentButton
+        );
+    }
 
-    // Resume unresolved Android native payment recovery.
-if (
-    getPendingNativePayment() &&
-    window.TEXLearnNative &&
-    typeof window.TEXLearnNative.openCheckout === "function"
-) {
-    setTimeout(function () {
-        recoverNativePayment(session, paymentButton);
-    }, 0);
-}
+    paymentButton.addEventListener("click", async function () {
 
+        if (nativeCheckout) {
 
-   paymentButton.addEventListener("click", function () {
+            let pending;
 
-    if (
-        window.TEXLearnNative &&
-        typeof window.TEXLearnNative.openCheckout === "function"
-    ) {
+            try {
+                pending = await getPendingNativePayment();
 
-        if (getPendingNativePayment()) {
-            recoverNativePayment(session, paymentButton);
+            } catch (error) {
+
+                console.error(
+                    "Unable to check pending native payment before checkout:",
+                    error
+                );
+
+                setPaymentButtonBusy(
+                    paymentButton,
+                    "Check Payment Status"
+                );
+
+                alert(
+                    "We could not check your previous payment status. " +
+                    "Please try again before starting another payment."
+                );
+
+                return;
+            }
+
+            if (pending) {
+                await recoverNativePayment(
+                    session,
+                    paymentButton
+                );
+
+                return;
+            }
+
+            openNativeRazorpayCheckout(
+                session,
+                paymentButton
+            );
+
             return;
         }
 
-        openNativeRazorpayCheckout(session, paymentButton);
-        return;
-    }
+        if (getPendingBrowserPayment()) {
+            await resumePendingBrowserRecovery(
+                session,
+                paymentButton
+            );
 
-    if (getPendingBrowserPayment()) {
-        resumePendingBrowserRecovery(session, paymentButton);
-        return;
-    }
+            return;
+        }
 
-    openRazorpayCheckout(session, paymentButton);
+        openRazorpayCheckout(
+            session,
+            paymentButton
+        );
+    });
+
 });
-
-});
-
 
 
 /*************************************************
@@ -588,7 +868,8 @@ function restorePaymentButton(button, label = "Continue to Payment") {
  Native Android Checkout
 *************************************************/
 
-function openNativeRazorpayCheckout(session, paymentButton) {
+
+async function openNativeRazorpayCheckout(session, paymentButton) {
 
     setPaymentButtonBusy(
         paymentButton,
@@ -623,27 +904,50 @@ function openNativeRazorpayCheckout(session, paymentButton) {
     };
 
     try {
-        savePendingNativePayment(session);
 
-window.TEXLearnNative.openCheckout(
-    JSON.stringify(options)
-);
+        // Persist the original payment identity before opening Razorpay.
+        await savePendingNativePayment(session);
 
-        } catch (error) {
+        setPaymentButtonBusy(
+            paymentButton,
+            "Opening Secure Payment..."
+        );
 
-        console.error("Native checkout launch failed:", error);
+        // Send the Razorpay options through the asynchronous Android bridge.
+        await requestTEXLearnBridge(
+            "openCheckout",
+            options
+        );
 
-        clearPendingNativePayment();
+        console.log(
+            "Native Razorpay checkout launch acknowledged by Android."
+        );
 
-        restorePaymentButton(paymentButton);
+    } catch (error) {
 
-        alert("Unable to open payment. Please try again.");
+        console.error(
+            "Native checkout launch or bridge communication failed:",
+            error
+        );
+
+        // Preserve the pending marker. A timeout does not prove that
+        // Razorpay was never opened or that payment was not completed.
+        setPaymentButtonBusy(
+            paymentButton,
+            "Check Payment Status"
+        );
+
+        alert(
+            "We could not confirm that the payment window opened.\n\n" +
+            "Your payment attempt has been preserved. " +
+            "Please check its status before attempting another payment."
+        );
     }
 }
 
 
 
-window.onNativeRazorpaySuccess = function (response) {
+window.onNativeRazorpaySuccess = async function (response) {
 
     console.log("Native Razorpay success callback:", response);
 
@@ -665,7 +969,26 @@ window.onNativeRazorpaySuccess = function (response) {
         return;
     }
 
-    const pending = getPendingNativePayment();
+    let pending;
+
+    try {
+        pending = await getPendingNativePayment();
+    } catch (error) {
+        console.error(
+            "Unable to retrieve original native payment record:",
+            error
+        );
+
+        setPaymentButtonBusy(paymentButton, "Check Payment Status");
+
+        alert(
+            "We received a payment response, but could not retrieve " +
+            "your original payment record.\n\n" +
+            "Your payment details have not been cleared. " +
+            "Please check payment status or contact support before retrying."
+        );
+        return;
+    }
 
     let verificationSession;
 
@@ -770,13 +1093,12 @@ window.onNativeRazorpaySuccess = function (response) {
     }
 
     // Continue through the existing server-side verification.
-    verifyPayment(
+    await verifyPayment(
         response,
         verificationSession,
         paymentButton
     );
 };
-
 
 
 window.onNativeRazorpayError = async function (message) {
@@ -789,7 +1111,25 @@ window.onNativeRazorpayError = async function (message) {
     const paymentButton =
         document.getElementById("paymentButton");
 
-    const pending = getPendingNativePayment();
+    let pending;
+
+    try {
+        pending = await getPendingNativePayment();
+    } catch (error) {
+        console.error(
+            "Unable to retrieve pending payment after native checkout error:",
+            error
+        );
+
+        setPaymentButtonBusy(paymentButton, "Check Payment Status");
+
+        alert(
+            "We could not retrieve your original payment record.\n\n" +
+            "If money was deducted, do not attempt another payment. " +
+            "Please check payment status or contact support."
+        );
+        return;
+    }
 
     // If an original payment attempt exists,
     // check its status before allowing another payment.
@@ -817,10 +1157,10 @@ window.onNativeRazorpayError = async function (message) {
     );
 };
 
-
 /*************************************************
  Browser UPI Return — Payment Recovery
 *************************************************/
+
 
 
 async function recoverBrowserPayment(session) {
@@ -833,6 +1173,9 @@ async function recoverBrowserPayment(session) {
             token: pending.token
         }
         : session;
+
+    const paymentButton =
+        document.getElementById("paymentButton");
 
     logBrowserPaymentEvent("RECOVERY_FUNCTION_ENTERED", {
         hasCustomerID: Boolean(recoverySession?.customerID),
@@ -873,31 +1216,25 @@ async function recoverBrowserPayment(session) {
             const result = await response.json();
 
             window.__texlearnLastRecoveryMessage =
-    result.message || "No message returned by server";
+                result.message || "No message returned by server";
 
-console.log("PAYMENT RECOVERY SERVER RESPONSE:", result);
+            console.log("PAYMENT RECOVERY SERVER RESPONSE:", result);
 
             logBrowserPaymentEvent("RECOVERY_RESPONSE", {
-                attempt: attempt,
+                attempt,
                 httpStatus: response.status,
                 success: result.success,
                 paid: result.paid,
+                retryAllowed: result.retryAllowed,
+                paymentState: result.paymentState,
                 hasPaymentID: Boolean(result.paymentID)
-            });
-
-            console.log("Browser payment recovery:", {
-                attempt: attempt,
-                customerID: recoverySession.customerID,
-                httpStatus: response.status,
-                success: result.success,
-                paid: result.paid,
-                paymentIDPresent: Boolean(result.paymentID)
             });
 
             if (window.__texlearnBrowserVerificationStarted) {
                 return false;
             }
 
+            // PAYMENT ALREADY CONFIRMED
             if (
                 response.ok &&
                 result.success === true &&
@@ -916,9 +1253,131 @@ console.log("PAYMENT RECOVERY SERVER RESPONSE:", result);
                     })
                 );
 
-                logBrowserPaymentEvent("RECOVERY_REDIRECT_TO_SUCCESS");
+                logBrowserPaymentEvent(
+                    "RECOVERY_REDIRECT_TO_SUCCESS"
+                );
 
                 window.location.href = "/success.html";
+
+                return true;
+            }
+
+            // SERVER CONFIRMS THAT THE ORIGINAL ORDER CAN BE RETRIED
+            if (
+                response.ok &&
+                result.success === true &&
+                result.paid === false &&
+                result.retryAllowed === true &&
+                result.paymentState === "RETRY_ALLOWED"
+            ) {
+
+                const retryRazorpay = result.razorpay;
+
+                const retryAmount = Number(
+                    retryRazorpay?.amount
+                );
+
+                const pendingAmount = Number(
+                    pending?.amount
+                );
+
+                if (
+                    !pending ||
+                    !pending.orderID ||
+                    !Number.isFinite(pendingAmount) ||
+                    pendingAmount <= 0 ||
+                    !retryRazorpay?.orderID ||
+                    !retryRazorpay?.key ||
+                    !retryRazorpay?.currency ||
+                    String(retryRazorpay.orderID) !==
+                        String(pending.orderID) ||
+                    !Number.isFinite(retryAmount) ||
+                    retryAmount !== pendingAmount
+                ) {
+                    throw new Error(
+                        "Retry details do not match the original pending order."
+                    );
+                }
+
+                // Restore the complete original checkout session.
+                const storedSession =
+                    sessionStorage.getItem("checkoutSession");
+
+                if (!storedSession) {
+                    throw new Error(
+                        "Original checkout session is missing. Safe retry cannot be restored."
+                    );
+                }
+
+                let updatedSession;
+
+                try {
+                    updatedSession = JSON.parse(storedSession);
+                } catch (error) {
+                    throw new Error(
+                        "Original checkout session is invalid."
+                    );
+                }
+
+                if (
+                    String(updatedSession.customerID) !==
+                        String(pending.customerID) ||
+                    updatedSession.token !== pending.token ||
+                    !updatedSession.razorpay ||
+                    String(updatedSession.razorpay.orderID) !==
+                        String(pending.orderID) ||
+                    Number(updatedSession.razorpay.amount) !==
+                        pendingAmount
+                ) {
+                    throw new Error(
+                        "Stored checkout session does not match the original pending order."
+                    );
+                }
+
+                // Keep the same order; update only verified Razorpay details.
+                updatedSession.razorpay = retryRazorpay;
+
+                sessionStorage.setItem(
+                    "checkoutSession",
+                    JSON.stringify(updatedSession)
+                );
+
+                                if (!clearPendingBrowserPayment()) {
+                    console.error(
+                        "Safe retry confirmed, but pending payment marker could not be cleared."
+                    );
+
+                    logBrowserPaymentEvent(
+                        "SAFE_RETRY_MARKER_CLEANUP_FAILED",
+                        {
+                            orderID: retryRazorpay.orderID
+                        }
+                    );
+
+                    restorePaymentButton(
+                        paymentButton,
+                        "Check Payment Status"
+                    );
+
+                    return false;
+                }
+
+                logBrowserPaymentEvent(
+                    "SAFE_RETRY_CONFIRMED",
+                    {
+                        orderID: retryRazorpay.orderID
+                    }
+                );
+
+                restorePaymentButton(
+                    paymentButton,
+                    "Continue to Payment"
+                );
+
+                alert(
+                    "Your previous checkout has no successful payment.\n\n" +
+                    "You can safely continue with the same payment order."
+                );
 
                 return true;
             }
@@ -931,6 +1390,8 @@ console.log("PAYMENT RECOVERY SERVER RESPONSE:", result);
                 error
             );
 
+            window.__texlearnLastRecoveryMessage =
+                error.message || "Payment recovery failed.";
         }
 
         if (attempt < 10) {
@@ -946,7 +1407,6 @@ console.log("PAYMENT RECOVERY SERVER RESPONSE:", result);
 
     return false;
 }
-
 
 
 function logBrowserPaymentEvent(event, details = {}) {
@@ -1226,6 +1686,7 @@ function openRazorpayCheckout(session, paymentButton) {
  Verify Payment — Existing Cloudflare Endpoint
 *************************************************/
 
+
 async function verifyPayment(response, session, paymentButton) {
 
     setPaymentButtonBusy(
@@ -1263,22 +1724,41 @@ async function verifyPayment(response, session, paymentButton) {
             );
         }
 
+        // Server has confirmed the payment.
         sessionStorage.setItem(
             "paymentResult",
             JSON.stringify(result)
         );
+
+        // Clear the browser recovery marker.
         clearPendingBrowserPayment();
-        clearPendingNativePayment();
+
+        // Native marker cleanup is separate from payment verification.
+        // A cleanup failure must not undo or misreport a verified payment.
+        try {
+            await clearPendingNativePayment();
+
+        } catch (clearError) {
+            console.error(
+                "Payment verified, but pending native marker cleanup failed:",
+                clearError
+            );
+        }
 
         window.location.href = "/success.html";
 
     } catch (error) {
         console.error("Payment verification error:", error);
 
-        restorePaymentButton(
-            paymentButton,
-            getPendingBrowserPayment() ? "Check Payment Status" : "Continue to Payment"
-        );
+    restorePaymentButton(
+    paymentButton,
+    (
+        isNativeAndroidCheckout() ||
+        getPendingBrowserPayment()
+    )
+        ? "Check Payment Status"
+        : "Continue to Payment"
+);
 
         alert(
             (error.message || "Payment verification failed.") +
@@ -1286,3 +1766,4 @@ async function verifyPayment(response, session, paymentButton) {
         );
     }
 }
+
