@@ -1369,11 +1369,6 @@ async function recoverBrowserPayment(session) {
                     "Continue to Payment"
                 );
 
-                alert(
-                    "Your previous checkout has no successful payment.\n\n" +
-                    "You can safely continue with the same payment order."
-                );
-
                 return true;
             }
 
