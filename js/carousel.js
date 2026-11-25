@@ -4,48 +4,100 @@
 ========================================================= */
 
 
-/* =========================================================
-   CAROUSEL DATA
 
-   Images can later be replaced without changing
-   the carousel engine.
+/* =========================================================
+   FEATURED MODULES — GOOGLE SHEET DATA SOURCE
 ========================================================= */
 
-const FEATURED_BOOK_IDS = [
-    "book-323",
-    "book-232",
-    "book-277",
-    "book-150",
-    "book-385"
-];
+const FEATURED_MODULES_API_URL =
+    "https://script.google.com/macros/s/" +
+    "AKfycbzQFLeWMQAX7gbedsu859N8nEZnGoAFinj4dn1JgpX0La7GSy-2xGHK38MdjcHM2ckk/" +
+    "exec";
 
 
-const FEATURED_BOOK_CATEGORIES = {
-    "book-323": "Entrepreneurship • Wealth",
-    "book-232": "Storytelling • Persuasion",
-    "book-277": "Purpose • Entrepreneurship",
-    "book-150": "Startup • Business",
-    "book-385": "Branding • Marketing"
-};
+function loadFeaturedModules() {
+
+    return new Promise(function(resolve, reject) {
+
+        const callbackName =
+            "texlearnFeaturedModulesCallback_" +
+            Date.now() +
+            "_" +
+            Math.floor(Math.random() * 100000);
+
+        const script = document.createElement("script");
+
+        const requestURL =
+            FEATURED_MODULES_API_URL +
+            "?action=featuredmodules" +
+            "&callback=" +
+            encodeURIComponent(callbackName);
+
+        window[callbackName] = function(response) {
+
+            delete window[callbackName];
+            script.remove();
+
+            if (
+                !response ||
+                response.success !== true ||
+                !Array.isArray(response.modules)
+            ) {
+                reject(
+                    new Error("Featured modules response is invalid.")
+                );
+                return;
+            }
+
+            resolve(response.modules);
+        };
+
+        script.onerror = function() {
+
+            delete window[callbackName];
+            script.remove();
+
+            reject(
+                new Error("Unable to load featured modules.")
+            );
+        };
+
+        script.src = requestURL;
+
+        document.head.appendChild(script);
+
+    });
+}
 
 
-function getFeaturedCarouselData() {
+/* =========================================================
+   BUILD FEATURED CAROUSEL DATA
+========================================================= */
+
+function getFeaturedCarouselData(featuredModules) {
 
     if (!Array.isArray(window.LIBRARY_BOOKS)) {
         return [];
     }
 
-    return FEATURED_BOOK_IDS
-        .map(function (bookId) {
+    return featuredModules
+        .slice()
+        .sort(function(a, b) {
+            return a.displayOrder - b.displayOrder;
+        })
+        .map(function(module) {
 
-            const book =
-                window.LIBRARY_BOOKS.find(
-                    function (item) {
-                        return item.id === bookId;
-                    }
-                );
+            const book = window.LIBRARY_BOOKS.find(
+                function(item) {
+                    return item.id === module.bookID;
+                }
+            );
 
             if (!book) {
+                console.warn(
+                    "Featured book missing from catalogue:",
+                    module.bookID
+                );
                 return null;
             }
 
@@ -53,119 +105,29 @@ function getFeaturedCarouselData() {
                 id: book.id,
                 type: "book",
                 title: book.title,
-                category: FEATURED_BOOK_CATEGORIES[book.id] || book.category,
+                category: book.category,
                 image: book.cover,
-                badge: "FEATURED",
-                buttonText: "Explore",
-                link: "#learning-modules",
+                badge: "FREE PREVIEW",
+                buttonText: "Read Preview",
+                link:
+                    "reader.html?bookId=" +
+                    encodeURIComponent(module.bookID) +
+                    "&versionId=" +
+                    encodeURIComponent(module.versionID) +
+                    "&preview=1",
                 active: true
             };
 
         })
         .filter(Boolean);
-
 }
 
-
-/* =========================================================
-   FEATURED LEARNING MODULE DATA
-========================================================= */
-
-const FEATURED_MODULE_DATA = [
-
-    {
-        id: "book-039",
-        bookId: "book-039",
-        versionId: "book-039-v1",
-
-        number: "MODULE 01",
-
-        category: "Entrepreneurship",
-
-        title: "500 Tips for Startup Folks",
-
-        description:
-            "A practical roadmap covering idea validation, product development, branding, sales, leadership, finance, and business growth.",
-
-        pages: "7 Pages",
-
-        readTime: "15–20 min read",
-
-        badge: "FREE PREVIEW",
-
-        buttonText: "Read Preview",
-
-        link:
-            "reader.html?bookId=book-039&versionId=book-039-v1&preview=1",
-
-        active: true
-    },
-
-
-    {
-        id: "book-379",
-        bookId: "book-379",
-        versionId: "book-379-v1",
-
-        number: "MODULE 02",
-
-        category: "Marketing Strategy",
-
-        title: "Contagious",
-
-        description:
-            "Discover why certain ideas, products, and messages spread naturally, and learn practical principles to make your own ideas more memorable and shareable.",
-
-        pages: "9 Pages",
-
-        readTime: "20–25 min read",
-
-        badge: "PREVIEW EDITION",
-
-        buttonText: "Read Preview",
-
-        link:
-            "reader.html?bookId=book-379&versionId=book-379-v1&preview=1",
-
-        active: true
-    },
-
-
-    {
-        id: "book-086",
-        bookId: "book-086",
-        versionId: "book-086-v1",
-
-        number: "MODULE 03",
-
-        category: "Sales Mastery",
-
-        title: "The Psychology of Selling",
-
-        description:
-            "Learn the mindset, communication techniques, and customer psychology behind successful selling, negotiation, and long-term relationship building.",
-
-        pages: "7 Pages",
-
-        readTime: "15–20 min read",
-
-        badge: "PREVIEW EDITION",
-
-        buttonText: "Read Preview",
-
-        link:
-            "reader.html?bookId=book-086&versionId=book-086-v1&preview=1",
-
-        active: true
-    }
-
-];
 
 /* =========================================================
    CAROUSEL INITIALISATION
 ========================================================= */
 
-function initialiseCarousel() {
+function initialiseCarouselControls() {
 
     const carousel =
         document.getElementById("rc2Carousel");
@@ -197,27 +159,6 @@ function initialiseCarousel() {
         return;
 
     }
-
-
-    const items =
-    getFeaturedCarouselData().filter(
-        item => item.active
-    );
-
-
-    if (!items.length) {
-        return;
-    }
-
-
-    /* =====================================================
-       RENDER CARDS
-    ===================================================== */
-
-    renderCarousel(
-        track,
-        items
-    );
 
 
     /* =====================================================
@@ -481,116 +422,6 @@ function renderCarousel(
 
 }
 
-/* =========================================================
-   FEATURED MODULES — DYNAMIC RENDERER
-========================================================= */
-
-function renderFeaturedModules() {
-
-    const track =
-        document.getElementById(
-            "featuredModulesTrack"
-        );
-
-    if (!track) {
-
-        console.warn(
-            "Featured Modules track not found."
-        );
-
-        return;
-
-    }
-
-    const items =
-        FEATURED_MODULE_DATA.filter(
-            item => item.active
-        );
-
-    track.innerHTML = "";
-
-    items.forEach(
-        (item, index) => {
-
-            const card =
-                document.createElement("article");
-
-            card.className =
-                "module-card";
-
-            card.dataset.index =
-                index;
-
-            card.innerHTML = `
-
-                <div class="module-cover">
-
-                    <div class="module-cover-content">
-
-                        <div class="module-cover-text">
-
-                            <span class="module-number">
-                                ${item.number}
-                            </span>
-
-                            <h4>
-                                ${item.category}
-                            </h4>
-
-                        </div>
-
-                        <span class="preview-badge">
-                            ${item.badge}
-                        </span>
-
-                    </div>
-
-                </div>
-
-
-                <h3>
-                    ${item.title}
-                </h3>
-
-
-                <p>
-                    ${item.description}
-                </p>
-
-
-                <div class="module-footer">
-
-                    <div class="module-meta">
-
-                        <span>
-                            📄 ${item.pages}
-                        </span>
-
-                        <span>
-                            ⏱ ${item.readTime}
-                        </span>
-
-                    </div>
-
-
-                    <a
-                        href="${item.link}"
-                        class="module-button"
-                    >
-                        📖 ${item.buttonText}
-                    </a>
-
-                </div>
-
-            `;
-
-            track.appendChild(card);
-
-        }
-    );
-
-}
-
 
 /* =========================================================
    VISION • MISSION • PROMISE
@@ -718,119 +549,63 @@ function initialiseMissionValuesCarousel() {
 }
 
 
-/* =========================================================
-   FEATURED MODULES — CAROUSEL CONTROLS
-========================================================= */
+async function initialiseFeaturedBookCarouselWhenReady() {
 
-function initialiseFeaturedModulesCarousel() {
+    try {
 
-    const track =
-        document.getElementById(
-            "featuredModulesTrack"
-        );
+        // Wait until the live library catalogue is available.
+        if (
+            !Array.isArray(window.LIBRARY_BOOKS) ||
+            !window.LIBRARY_BOOKS.length
+        ) {
 
-    const previousButton =
-        document.getElementById(
-            "featuredModulesPrev"
-        );
+            await new Promise(function(resolve) {
 
-    const nextButton =
-        document.getElementById(
-            "featuredModulesNext"
-        );
-
-
-    if (
-        !track ||
-        !previousButton ||
-        !nextButton
-    ) {
-
-        console.warn(
-            "Featured Modules carousel controls not found."
-        );
-
-        return;
-
-    }
-
-
-    const getScrollAmount = () => {
-
-        const card =
-            track.querySelector(
-                ".module-card"
-            );
-
-        if (!card) {
-            return 0;
-        }
-
-
-        const gap =
-            parseFloat(
-                getComputedStyle(track).gap
-            ) || 0;
-
-
-        return card.offsetWidth + gap;
-
-    };
-
-
-    previousButton.addEventListener(
-        "click",
-        () => {
-
-            track.scrollBy({
-
-                left:
-                    -getScrollAmount(),
-
-                behavior:
-                    "smooth"
+                window.addEventListener(
+                    "samrambaLibraryCatalogueLoaded",
+                    resolve,
+                    { once: true }
+                );
 
             });
 
         }
-    );
 
+        // Load active featured modules from Google Sheets.
+        const featuredModules = await loadFeaturedModules();
 
-    nextButton.addEventListener(
-        "click",
-        () => {
+        const items =
+            getFeaturedCarouselData(featuredModules)
+                .filter(function(item) {
+                    return item.active;
+                });
 
-            track.scrollBy({
+        const carousel =
+            document.getElementById("rc2Carousel");
 
-                left:
-                    getScrollAmount(),
+        const track = carousel
+            ? carousel.querySelector(".rc2-carousel-track")
+            : null;
 
-                behavior:
-                    "smooth"
-
-            });
-
+        if (!track || !items.length) {
+            console.warn("No featured carousel items available.");
+            return;
         }
-    );
 
-}
+        renderCarousel(track, items);
 
-function initialiseFeaturedBookCarouselWhenReady() {
+        initialiseCarouselControls();
 
-    if (
-        Array.isArray(window.LIBRARY_BOOKS) &&
-        window.LIBRARY_BOOKS.length
-    ) {
-        initialiseCarousel();
-        return;
+    } catch (error) {
+
+        console.error(
+            "Featured carousel initialization failed:",
+            error
+        );
+
     }
-
-    window.addEventListener(
-        "samrambaLibraryCatalogueLoaded",
-        initialiseCarousel,
-        { once: true }
-    );
 }
+
 
 /* =========================================================
    START CAROUSEL
@@ -843,10 +618,6 @@ function initialiseFeaturedBookCarouselWhenReady() {
 function startAllCarousels() {
 
     initialiseFeaturedBookCarouselWhenReady();
-
-    renderFeaturedModules();
-
-    initialiseFeaturedModulesCarousel();
 
     initialiseMissionValuesCarousel();
 
