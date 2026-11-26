@@ -1,8 +1,8 @@
 
 /* =====================================================
    TEXLEARN — HERO ROTATION
-   Book → Founders → Campaign → repeat
-   Quiz functionality removed
+   Website: Book → Campaign Posters → repeat
+   Android: Campaign Posters → repeat
 ===================================================== */
 
 (() => {
@@ -11,32 +11,39 @@
     const HERO_CAMPAIGN_API =
         "https://script.google.com/macros/s/AKfycbxpv1gaF3-kNWsB6Zn5weUkaSPp92m1Yln3xkQ4f_wcKa7JahoaUyKid2BkkuvoEi_X/exec";
 
+    const POSTER_DURATION = 7000;
     const BOOK_DURATION = 20000;
     const FIRST_BOOK_DURATION = 30000;
     const FADE_DURATION = 1500;
 
+    const isAppMode =
+        document.documentElement.classList.contains("texlearn-app");
+
     const bookStage =
         document.getElementById("rc2UnboxingStage");
-
-    const foundersPoster =
-        document.getElementById("tkHeroFounders");
 
     const campaignBox =
         document.getElementById("tkHeroCampaign");
 
-    const campaignMainLink =
-        document.getElementById("tkCampaignMainLink");
+    const foundersPoster =
+        document.getElementById("tkHeroFounders");
 
-    const campaignMainImage =
-        document.getElementById("tkCampaignMainImage");
+    const campaignSlots = [
+        {
+            link: document.getElementById("tkCampaignMainLink"),
+            image: document.getElementById("tkCampaignMainImage")
+        },
+        {
+            link: document.getElementById("tkCampaignSupportingLink"),
+            image: document.getElementById("tkCampaignSupportingImage")
+        }
+    ];
 
-    const campaignSupportingLink =
-        document.getElementById("tkCampaignSupportingLink");
-
-    const campaignSupportingImage =
-        document.getElementById("tkCampaignSupportingImage");
-
-    if (!bookStage || !foundersPoster || !campaignBox) {
+    if (
+        !campaignBox ||
+        campaignSlots.some(slot => !slot.link || !slot.image) ||
+        (!isAppMode && !bookStage)
+    ) {
         console.warn(
             "TEXLearn hero: Required hero elements not found."
         );
@@ -45,37 +52,46 @@
 
     const views = {
         book: bookStage,
-        founders: foundersPoster,
         campaign: campaignBox
     };
 
-    let currentHeroView = "book";
+    let currentHeroView = null;
     let rotationTimer = null;
     let transitionTimer = null;
     let isTransitioning = false;
 
     let campaignImages = [];
     let campaignLoadPromise = null;
-    let activeCampaignLink = null;
+    let activeSlotIndex = -1;
 
     /* -----------------------------------------
        HERO VIEW TRANSITION
     ----------------------------------------- */
 
     function fadeToView(nextView) {
-        if (!views[nextView]) return;
+
+        const incoming = views[nextView];
+
+        if (!incoming) return;
 
         if (isTransitioning) return;
 
         if (currentHeroView === nextView) {
-            views[nextView].hidden = false;
+            incoming.hidden = false;
             return;
         }
 
         const outgoing = views[currentHeroView];
-        const incoming = views[nextView];
 
-        if (!outgoing || !incoming) return;
+        if (!outgoing) {
+
+            incoming.hidden = false;
+            incoming.classList.remove("tk-hero-fading");
+
+            currentHeroView = nextView;
+
+            return;
+        }
 
         isTransitioning = true;
 
@@ -84,10 +100,12 @@
 
         requestAnimationFrame(() => {
             requestAnimationFrame(() => {
+
                 outgoing.classList.add("tk-hero-fading");
                 incoming.classList.remove("tk-hero-fading");
 
                 transitionTimer = setTimeout(() => {
+
                     outgoing.hidden = true;
                     outgoing.classList.remove("tk-hero-fading");
 
@@ -96,72 +114,54 @@
                     transitionTimer = null;
 
                 }, FADE_DURATION);
+
             });
         });
     }
 
     /* -----------------------------------------
-       BOOK VIEW
+       BOOK VIEW — WEBSITE ONLY
     ----------------------------------------- */
 
     function showBook(duration = BOOK_DURATION) {
+
+        if (isAppMode || !bookStage) return;
+
         clearTimeout(rotationTimer);
         rotationTimer = null;
+
+        campaignSlots.forEach(slot => {
+            slot.link.hidden = true;
+        });
 
         fadeToView("book");
 
         rotationTimer = setTimeout(() => {
-            showFoundersPoster();
+            showCampaignImage(0);
         }, duration);
     }
 
     /* -----------------------------------------
-       FOUNDERS POSTER
-    ----------------------------------------- */
-
-    function showFoundersPoster() {
-        clearTimeout(rotationTimer);
-        rotationTimer = null;
-
-        fadeToView("founders");
-
-        rotationTimer = setTimeout(async () => {
-            await loadHeroCampaign();
-
-            if (campaignImages.length) {
-                showCampaignImage(0);
-            } else {
-                showBook();
-            }
-
-        }, BOOK_DURATION);
-    }
-
-    /* -----------------------------------------
-       CAMPAIGN IMAGE LOADING
+       LOAD CAMPAIGN POSTERS
     ----------------------------------------- */
 
     function loadHeroCampaign() {
+
         if (campaignLoadPromise) {
             return campaignLoadPromise;
         }
 
         campaignLoadPromise = (async () => {
 
-            if (
-                !campaignMainLink ||
-                !campaignMainImage ||
-                !campaignSupportingLink ||
-                !campaignSupportingImage
-            ) {
-                return;
-            }
-
             try {
-                const response = await fetch(HERO_CAMPAIGN_API, {
-                    method: "GET",
-                    cache: "no-store"
-                });
+
+                const response = await fetch(
+                    HERO_CAMPAIGN_API,
+                    {
+                        method: "GET",
+                        cache: "no-store"
+                    }
+                );
 
                 if (!response.ok) {
                     throw new Error(
@@ -171,57 +171,64 @@
 
                 const data = await response.json();
 
-                if (!data.success || !data.campaign) {
-                    return;
+                if (
+                    !data.success ||
+                    !Array.isArray(data.posters)
+                ) {
+                    throw new Error(
+                        "Invalid hero campaign response."
+                    );
                 }
 
-                const campaign = data.campaign;
+                campaignImages = data.posters
+                    .filter(item => {
 
-                const candidates = [
-                    {
-                        url: campaign.mainImageUrl,
-                        alt: campaign.mainImageAlt,
-                        linkUrl: campaign.mainImageLink,
-                        link: campaignMainLink,
-                        image: campaignMainImage
-                    },
-                    {
-                        url: campaign.supportingImageUrl,
-                        alt: campaign.supportingImageAlt,
-                        linkUrl: campaign.supportingImageLink,
-                        link: campaignSupportingLink,
-                        image: campaignSupportingImage
-                    }
-                ];
+                        if (
+                            !item.posterId ||
+                            !item.imageUrl
+                        ) {
+                            return false;
+                        }
 
-                campaignImages = candidates.filter(item => {
+                        try {
 
-                    if (!item.url) return false;
+                            const parsed = new URL(
+                                item.imageUrl,
+                                document.baseURI
+                            );
 
-                    try {
-                        const parsed = new URL(
-                            item.url,
-                            document.baseURI
-                        );
+                            return (
+                                parsed.protocol === "https:" ||
+                                parsed.protocol === "http:"
+                            );
+
+                        } catch (error) {
+                            return false;
+                        }
+
+                    })
+                    .sort((a, b) => {
 
                         return (
-                            parsed.protocol === "https:" ||
-                            parsed.protocol === "http:"
+                            Number(a.displayOrder || 999) -
+                            Number(b.displayOrder || 999) ||
+                            Number(a.posterOrder || 999) -
+                            Number(b.posterOrder || 999)
                         );
 
-                    } catch (error) {
-                        return false;
-                    }
-                });
+                    });
 
             } catch (error) {
+
                 campaignImages = [];
 
                 console.warn(
                     "Hero campaign unavailable:",
                     error
                 );
+
             }
+
         })();
 
         return campaignLoadPromise;
@@ -232,160 +239,232 @@
     ----------------------------------------- */
 
     async function isCampaignImageUsable(item) {
+
         const testImage = new Image();
 
         try {
+
             testImage.src = new URL(
-                item.url,
+                item.imageUrl,
                 document.baseURI
             ).href;
 
             if (testImage.decode) {
+
                 await testImage.decode();
+
             } else {
+
                 await new Promise((resolve, reject) => {
+
                     testImage.onload = resolve;
                     testImage.onerror = reject;
+
                 });
+
             }
 
             return testImage.naturalWidth > 0;
 
         } catch (error) {
+
             return false;
+
         }
     }
 
     /* -----------------------------------------
-       DISPLAY CAMPAIGN IMAGE
+       DISPLAY CAMPAIGN POSTER
     ----------------------------------------- */
 
     async function showCampaignImage(index = 0) {
+
         clearTimeout(rotationTimer);
         rotationTimer = null;
 
         if (!campaignImages.length) {
-            showBook();
+
+            if (!isAppMode) {
+                showBook();
+            }
+
             return;
+        }
+
+        if (index >= campaignImages.length) {
+
+            if (isAppMode) {
+                index = 0;
+            } else {
+                showBook();
+                return;
+            }
+
         }
 
         const item = campaignImages[index];
-
-        if (!item) {
-            showBook();
-            return;
-        }
-
-        /* Verify image before displaying it */
 
         const imageUsable =
             await isCampaignImageUsable(item);
 
         if (!imageUsable) {
+
             console.warn(
                 "Hero campaign image failed to load:",
-                item.url
+                item.imageUrl
             );
 
             campaignImages.splice(index, 1);
 
             if (campaignImages.length) {
+
                 showCampaignImage(
                     Math.min(index, campaignImages.length - 1)
                 );
-            } else {
+
+            } else if (!isAppMode) {
+
                 showBook();
+
             }
 
             return;
         }
 
-        const previousLink = activeCampaignLink;
+        const nextSlotIndex =
+            activeSlotIndex === 0 ? 1 : 0;
 
-        item.image.src = new URL(
-            item.url,
+        const nextSlot =
+            campaignSlots[nextSlotIndex];
+
+        const previousSlot =
+            activeSlotIndex >= 0
+                ? campaignSlots[activeSlotIndex]
+                : null;
+
+        nextSlot.link.hidden = false;
+
+        nextSlot.image.src = new URL(
+            item.imageUrl,
             document.baseURI
         ).href;
 
-        item.image.alt = item.alt || "";
+        nextSlot.image.alt = item.imageAlt || "";
 
-        if (item.linkUrl) {
-            item.link.href = item.linkUrl;
-            item.link.target = "_blank";
-            item.link.rel = "noopener noreferrer";
-            item.link.style.pointerEvents = "auto";
+        if (item.imageLink) {
+
+            nextSlot.link.href = item.imageLink;
+            nextSlot.link.target = "_blank";
+            nextSlot.link.rel = "noopener noreferrer";
+            nextSlot.link.style.pointerEvents = "auto";
 
         } else {
-            item.link.removeAttribute("href");
-            item.link.removeAttribute("target");
-            item.link.removeAttribute("rel");
-            item.link.style.pointerEvents = "none";
+
+            nextSlot.link.removeAttribute("href");
+            nextSlot.link.removeAttribute("target");
+            nextSlot.link.removeAttribute("rel");
+            nextSlot.link.style.pointerEvents = "none";
+
         }
 
-        if (
-            currentHeroView === "campaign" &&
-            previousLink &&
-            previousLink !== item.link
-        ) {
-            item.link.hidden = false;
-            item.link.style.opacity = "0";
+        if (previousSlot && currentHeroView === "campaign") {
+
+            nextSlot.link.style.opacity = "0";
 
             requestAnimationFrame(() => {
                 requestAnimationFrame(() => {
-                    previousLink.style.opacity = "0";
-                    item.link.style.opacity = "1";
+
+                    previousSlot.link.style.opacity = "0";
+                    nextSlot.link.style.opacity = "1";
+
                 });
             });
 
-            activeCampaignLink = item.link;
-
             setTimeout(() => {
-                previousLink.hidden = true;
-                previousLink.style.opacity = "";
-                item.link.style.opacity = "";
+
+                previousSlot.link.hidden = true;
+                previousSlot.link.style.opacity = "";
+
+                nextSlot.link.style.opacity = "";
 
             }, 1000);
 
         } else {
-            campaignMainLink.hidden =
-                item.link !== campaignMainLink;
 
-            campaignSupportingLink.hidden =
-                item.link !== campaignSupportingLink;
+            campaignSlots.forEach((slot, slotIndex) => {
 
-            item.link.style.opacity = "";
-            activeCampaignLink = item.link;
+                slot.link.hidden =
+                    slotIndex !== nextSlotIndex;
+
+                slot.link.style.opacity = "";
+
+            });
+
         }
+
+        activeSlotIndex = nextSlotIndex;
 
         fadeToView("campaign");
 
         rotationTimer = setTimeout(() => {
 
-            if (index + 1 < campaignImages.length) {
-                showCampaignImage(index + 1);
-            } else {
-                showBook();
-            }
+            showCampaignImage(index + 1);
 
-        }, BOOK_DURATION);
+        }, POSTER_DURATION);
     }
 
     /* -----------------------------------------
        INITIALISE HERO
     ----------------------------------------- */
 
-    bookStage.hidden = false;
-    foundersPoster.hidden = true;
-    campaignBox.hidden = true;
+    campaignSlots.forEach(slot => {
 
-    bookStage.classList.remove("tk-hero-fading");
-    foundersPoster.classList.remove("tk-hero-fading");
+        slot.link.hidden = true;
+        slot.link.style.opacity = "";
+
+    });
+
+    campaignBox.hidden = true;
     campaignBox.classList.remove("tk-hero-fading");
 
-    currentHeroView = "book";
+    if (foundersPoster) {
+        foundersPoster.hidden = true;
+    }
 
-    loadHeroCampaign();
+    if (bookStage) {
 
-    showBook(FIRST_BOOK_DURATION);
+        bookStage.classList.remove("tk-hero-fading");
+
+        if (isAppMode) {
+            bookStage.hidden = true;
+        } else {
+            bookStage.hidden = false;
+        }
+
+    }
+
+    currentHeroView = null;
+
+    loadHeroCampaign().then(() => {
+
+        if (campaignImages.length) {
+
+            if (isAppMode) {
+
+                showCampaignImage(0);
+
+            } else {
+
+                showBook(FIRST_BOOK_DURATION);
+
+            }
+
+        } else if (!isAppMode) {
+
+            showBook(FIRST_BOOK_DURATION);
+
+        }
+
+    });
 
 })();
