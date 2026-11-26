@@ -2628,6 +2628,8 @@ transform:translateY(0px);
     z-index:
         1;
 
+        border-top: none;
+
     }
 
 
