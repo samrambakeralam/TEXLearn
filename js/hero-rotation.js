@@ -1,8 +1,12 @@
 
 /* =====================================================
-   TEXLEARN — HERO ROTATION
-   Website: Book → Campaign Posters → repeat
-   Android: Campaign Posters → repeat
+   TEXLEARN — HERO CAMPAIGN CAROUSEL
+
+   Desktop: Multiple horizontal campaign cards
+   Tablet/Phone: One campaign banner at a time
+   Android: Same sequence and timing
+
+   Rotation interval: 7 seconds
 ===================================================== */
 
 (() => {
@@ -13,137 +17,95 @@
 
     const POSTER_DURATION = 7000;
 
-    const isAppMode =
-        document.documentElement.classList.contains("texlearn-app");
-
     const campaignBox =
         document.getElementById("tkHeroCampaign");
 
-    const campaignSlots = [
-        {
-            link: document.getElementById("tkCampaignMainLink"),
-            image: document.getElementById("tkCampaignMainImage")
-        },
-        {
-            link: document.getElementById("tkCampaignSupportingLink"),
-            image: document.getElementById("tkCampaignSupportingImage")
-        }
-    ];
+    const viewport =
+        campaignBox?.querySelector(".tk-hero-viewport");
 
-  if (
-    !campaignBox ||
-    campaignSlots.some(slot => !slot.link || !slot.image)
-) {
-    console.warn(
-        "TEXLearn hero: Required hero elements not found."
-    );
-    return;
-}
+    const track =
+        document.getElementById("tkHeroTrack");
 
-    let currentHeroView = null;
-    let rotationTimer = null;
+    if (!campaignBox || !viewport || !track) {
+        console.warn(
+            "TEXLearn hero: Required carousel elements not found."
+        );
+        return;
+    }
 
     let campaignImages = [];
-    let campaignLoadPromise = null;
-    let activeSlotIndex = -1;
+    let currentIndex = 0;
+    let rotationTimer = null;
+    let resizeTimer = null;
 
- function fadeToView() {
-    campaignBox.hidden = false;
-    campaignBox.classList.remove("tk-hero-fading");
-    currentHeroView = "campaign";
-}
+    let isTransitioning = false;
 
     /* -----------------------------------------
        LOAD CAMPAIGN POSTERS
     ----------------------------------------- */
 
-    function loadHeroCampaign() {
-
-        if (campaignLoadPromise) {
-            return campaignLoadPromise;
-        }
-
-        campaignLoadPromise = (async () => {
-
-            try {
-
-                const response = await fetch(
-                    HERO_CAMPAIGN_API,
-                    {
-                        method: "GET",
-                        cache: "no-store"
-                    }
-                );
-
-                if (!response.ok) {
-                    throw new Error(
-                        "Campaign service unavailable."
-                    );
+    async function loadHeroCampaign() {
+        try {
+            const response = await fetch(
+                HERO_CAMPAIGN_API,
+                {
+                    method: "GET",
+                    cache: "no-store"
                 }
+            );
 
-                const data = await response.json();
-
-                if (
-                    !data.success ||
-                    !Array.isArray(data.posters)
-                ) {
-                    throw new Error(
-                        "Invalid hero campaign response."
-                    );
-                }
-
-                campaignImages = data.posters
-                    .filter(item => {
-
-                        if (
-                            !item.posterId ||
-                            !item.imageUrl
-                        ) {
-                            return false;
-                        }
-
-                        try {
-
-                            const parsed = new URL(
-                                item.imageUrl,
-                                document.baseURI
-                            );
-
-                            return (
-                                parsed.protocol === "https:" ||
-                                parsed.protocol === "http:"
-                            );
-
-                        } catch (error) {
-                            return false;
-                        }
-
-                    })
-                    .sort((a, b) => {
-
-                        return (
-                            Number(a.displayOrder || 999) -
-                            Number(b.displayOrder || 999) ||
-                            Number(a.posterOrder || 999) -
-                            Number(b.posterOrder || 999)
-                        );
-
-                    });
-
-            } catch (error) {
-
-                campaignImages = [];
-
-                console.warn(
-                    "Hero campaign unavailable:",
-                    error
+            if (!response.ok) {
+                throw new Error(
+                    "Campaign service unavailable."
                 );
-
             }
 
-        })();
+            const data = await response.json();
 
-        return campaignLoadPromise;
+            if (
+                !data.success ||
+                !Array.isArray(data.posters)
+            ) {
+                throw new Error(
+                    "Invalid hero campaign response."
+                );
+            }
+
+            campaignImages = data.posters
+                .filter(item => {
+                    if (!item.posterId || !item.imageUrl) {
+                        return false;
+                    }
+
+                    try {
+                        const parsed = new URL(
+                            item.imageUrl,
+                            document.baseURI
+                        );
+
+                        return (
+                            parsed.protocol === "https:" ||
+                            parsed.protocol === "http:"
+                        );
+                    } catch (error) {
+                        return false;
+                    }
+                })
+                .sort((a, b) => (
+                    Number(a.displayOrder || 999) -
+                    Number(b.displayOrder || 999) ||
+                    Number(a.posterOrder || 999) -
+                    Number(b.posterOrder || 999)
+                ));
+
+        } catch (error) {
+            campaignImages = [];
+
+            console.warn(
+                "Hero campaign unavailable:",
+                error
+            );
+        }
     }
 
     /* -----------------------------------------
@@ -151,240 +113,263 @@
     ----------------------------------------- */
 
     async function isCampaignImageUsable(item) {
-
         const testImage = new Image();
 
         try {
-
             testImage.src = new URL(
                 item.imageUrl,
                 document.baseURI
             ).href;
 
             if (testImage.decode) {
-
                 await testImage.decode();
-
             } else {
-
                 await new Promise((resolve, reject) => {
-
                     testImage.onload = resolve;
                     testImage.onerror = reject;
-
                 });
-
             }
 
             return testImage.naturalWidth > 0;
 
         } catch (error) {
-
             return false;
-
         }
     }
 
     /* -----------------------------------------
-       DISPLAY CAMPAIGN POSTER
+       CREATE CAMPAIGN CARD
     ----------------------------------------- */
 
-    async function showCampaignImage(index = 0) {
+    function createCampaignCard(item, isClone = false) {
+        const link = document.createElement("a");
 
-        clearTimeout(rotationTimer);
-        rotationTimer = null;
+        link.className = "tk-hero-card";
 
-      if (!campaignImages.length) {
-    campaignBox.hidden = true;
-    return;
-}
+        link.target = "_blank";
+        link.rel = "noopener noreferrer";
 
-      if (index >= campaignImages.length) {
-    index = 0;
-}
+        if (item.imageLink) {
+            link.href = item.imageLink;
+        } else {
+            link.removeAttribute("href");
+            link.style.pointerEvents = "none";
+        }
 
-        const item = campaignImages[index];
+        if (isClone) {
+            link.setAttribute("aria-hidden", "true");
+            link.setAttribute("tabindex", "-1");
+        }
 
-        const imageUsable =
-            await isCampaignImageUsable(item);
+        const image = document.createElement("img");
 
-     if (!imageUsable) {
-
-    console.warn(
-        "Hero campaign image failed to load:",
-        item.imageUrl
-    );
-
-    campaignImages.splice(index, 1);
-
-    if (campaignImages.length) {
-
-        showCampaignImage(
-            Math.min(index, campaignImages.length - 1)
-        );
-
-    } else {
-
-        campaignBox.hidden = true;
-
-    }
-
-    return;
-}
-
-        const nextSlotIndex =
-            activeSlotIndex === 0 ? 1 : 0;
-
-        const nextSlot =
-            campaignSlots[nextSlotIndex];
-
-        const previousSlot =
-            activeSlotIndex >= 0
-                ? campaignSlots[activeSlotIndex]
-                : null;
-
-        nextSlot.link.hidden = false;
-
-        nextSlot.image.src = new URL(
+        image.src = new URL(
             item.imageUrl,
             document.baseURI
         ).href;
 
-        nextSlot.image.alt = item.imageAlt || "";
+        image.alt = item.imageAlt || "";
+        image.draggable = false;
+        image.loading = "eager";
 
-        if (item.imageLink) {
+        link.appendChild(image);
 
-            nextSlot.link.href = item.imageLink;
-            nextSlot.link.target = "_blank";
-            nextSlot.link.rel = "noopener noreferrer";
-            nextSlot.link.style.pointerEvents = "auto";
-
-        } else {
-
-            nextSlot.link.removeAttribute("href");
-            nextSlot.link.removeAttribute("target");
-            nextSlot.link.removeAttribute("rel");
-            nextSlot.link.style.pointerEvents = "none";
-
-        }
-
-               if (isAppMode) {
-
-            campaignSlots.forEach(slot => {
-                slot.link.classList.remove(
-                    "tk-campaign-active",
-                    "tk-campaign-exit"
-                );
-            });
-
-            nextSlot.link.hidden = false;
-
-            if (previousSlot) {
-                previousSlot.link.hidden = false;
-            }
-
-            requestAnimationFrame(() => {
-                requestAnimationFrame(() => {
-
-                    nextSlot.link.classList.add(
-                        "tk-campaign-active"
-                    );
-
-                    if (previousSlot) {
-                        previousSlot.link.classList.add(
-                            "tk-campaign-exit"
-                        );
-                    }
-
-                });
-            });
-
-            if (previousSlot) {
-
-                setTimeout(() => {
-
-                    previousSlot.link.hidden = true;
-
-                    previousSlot.link.classList.remove(
-                        "tk-campaign-active",
-                        "tk-campaign-exit"
-                    );
-
-                }, 550);
-
-            }
-
-        } else if (previousSlot && currentHeroView === "campaign") {
-
-            nextSlot.link.style.opacity = "0";
-
-            requestAnimationFrame(() => {
-                requestAnimationFrame(() => {
-
-                    previousSlot.link.style.opacity = "0";
-                    nextSlot.link.style.opacity = "1";
-
-                });
-            });
-
-            setTimeout(() => {
-
-                previousSlot.link.hidden = true;
-                previousSlot.link.style.opacity = "";
-
-                nextSlot.link.style.opacity = "";
-
-            }, 1000);
-
-        } else {
-
-            campaignSlots.forEach((slot, slotIndex) => {
-
-                slot.link.hidden =
-                    slotIndex !== nextSlotIndex;
-
-                slot.link.style.opacity = "";
-
-            });
-
-        }
-
-        activeSlotIndex = nextSlotIndex;
-
-        fadeToView();
-
-        rotationTimer = setTimeout(() => {
-
-            showCampaignImage(index + 1);
-
-        }, POSTER_DURATION);
+        return link;
     }
+
+    /* -----------------------------------------
+       BUILD CAROUSEL TRACK
+    ----------------------------------------- */
+
+    function buildHeroCarousel() {
+        track.innerHTML = "";
+
+        campaignImages.forEach(item => {
+            track.appendChild(
+                createCampaignCard(item)
+            );
+        });
+
+        /*
+         * Duplicate the first two cards.
+         * These provide a seamless loop on desktop
+         * and mobile.
+         */
+
+        campaignImages.slice(0, 2).forEach(item => {
+            track.appendChild(
+                createCampaignCard(item, true)
+            );
+        });
+
+        currentIndex = 0;
+
+        track.style.transition = "none";
+        track.style.transform = "translate3d(0, 0, 0)";
+
+        campaignBox.hidden = false;
+
+        requestAnimationFrame(() => {
+            requestAnimationFrame(() => {
+                track.style.transition = "";
+            });
+        });
+    }
+
+    /* -----------------------------------------
+       CALCULATE CARD MOVEMENT
+    ----------------------------------------- */
+
+    function getCardStep() {
+        const firstCard =
+            track.querySelector(".tk-hero-card");
+
+        if (!firstCard) {
+            return 0;
+        }
+
+        const cardWidth =
+            firstCard.getBoundingClientRect().width;
+
+        const trackStyle =
+            window.getComputedStyle(track);
+
+        const gap =
+            parseFloat(trackStyle.columnGap) ||
+            parseFloat(trackStyle.gap) ||
+            0;
+
+        return cardWidth + gap;
+    }
+
+    /* -----------------------------------------
+       MOVE CAROUSEL
+    ----------------------------------------- */
+
+    function moveHeroCarousel() {
+        if (isTransitioning || campaignImages.length <= 1) {
+            return;
+        }
+
+        isTransitioning = true;
+
+        currentIndex++;
+
+        const distance =
+            getCardStep() * currentIndex;
+
+        track.style.transform =
+            `translate3d(-${distance}px, 0, 0)`;
+    }
+
+    /* -----------------------------------------
+       HANDLE SEAMLESS LOOP
+    ----------------------------------------- */
+
+    track.addEventListener(
+        "transitionend",
+        event => {
+            if (event.target !== track) {
+                return;
+            }
+
+            if (currentIndex >= campaignImages.length) {
+                track.style.transition = "none";
+
+                currentIndex = 0;
+
+                track.style.transform =
+                    "translate3d(0, 0, 0)";
+
+                track.offsetHeight;
+
+                track.style.transition = "";
+            }
+
+            isTransitioning = false;
+        }
+    );
+
+    /* -----------------------------------------
+       START AUTOMATIC ROTATION
+    ----------------------------------------- */
+
+    function startRotation() {
+        clearInterval(rotationTimer);
+
+        if (campaignImages.length <= 1) {
+            return;
+        }
+
+        rotationTimer = setInterval(
+            moveHeroCarousel,
+            POSTER_DURATION
+        );
+    }
+
+    /* -----------------------------------------
+       HANDLE RESIZE
+    ----------------------------------------- */
+
+    window.addEventListener("resize", () => {
+        clearTimeout(resizeTimer);
+
+        resizeTimer = setTimeout(() => {
+            track.style.transition = "none";
+
+            const distance =
+                getCardStep() * currentIndex;
+
+            track.style.transform =
+                `translate3d(-${distance}px, 0, 0)`;
+
+            track.offsetHeight;
+
+            track.style.transition = "";
+        }, 150);
+    });
 
     /* -----------------------------------------
        INITIALISE HERO
     ----------------------------------------- */
 
-    campaignSlots.forEach(slot => {
+    async function initialiseHero() {
+        await loadHeroCampaign();
 
-        slot.link.hidden = true;
-        slot.link.style.opacity = "";
+        if (!campaignImages.length) {
+            campaignBox.hidden = true;
 
-    });
+            console.warn(
+                "TEXLearn hero: No active campaign images."
+            );
 
-    campaignBox.hidden = true;
-    campaignBox.classList.remove("tk-hero-fading");
+            return;
+        }
 
-    currentHeroView = null;
+        const verifiedImages = [];
 
-    loadHeroCampaign().then(() => {
+        for (const item of campaignImages) {
+            if (await isCampaignImageUsable(item)) {
+                verifiedImages.push(item);
+            } else {
+                console.warn(
+                    "Hero campaign image failed to load:",
+                    item.imageUrl
+                );
+            }
+        }
 
-    if (campaignImages.length) {
-        showCampaignImage(0);
-    } else {
-        campaignBox.hidden = true;
-        console.warn("TEXLearn hero: No active campaign images.");
+        campaignImages = verifiedImages;
+
+        if (!campaignImages.length) {
+            campaignBox.hidden = true;
+            return;
+        }
+
+        buildHeroCarousel();
+        startRotation();
     }
 
-});
+    initialiseHero();
 
 })();
