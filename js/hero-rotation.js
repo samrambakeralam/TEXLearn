@@ -25,9 +25,6 @@
     const campaignBox =
         document.getElementById("tkHeroCampaign");
 
-    const foundersPoster =
-        document.getElementById("tkHeroFounders");
-
     const campaignSlots = [
         {
             link: document.getElementById("tkCampaignMainLink"),
@@ -426,10 +423,6 @@
 
     campaignBox.hidden = true;
     campaignBox.classList.remove("tk-hero-fading");
-
-    if (foundersPoster) {
-        foundersPoster.hidden = true;
-    }
 
     if (bookStage) {
 
