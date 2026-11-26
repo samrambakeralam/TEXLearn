@@ -138,3 +138,13 @@ html.texlearn-app .app-quick-icon i {
     height: 26px;
     stroke-width: 1.8;
 }
+
+/* =====================================================
+   APP — COMPACT HERO
+===================================================== */
+
+html.texlearn-app .rc2-hero-intro,
+html.texlearn-app .rc2-hero-actions,
+html.texlearn-app #rc2UnboxingStage {
+    display: none !important;
+}
