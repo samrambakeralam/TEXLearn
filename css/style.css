@@ -1625,7 +1625,7 @@ a {
     flex: initial;
     width: 100%;
     min-width: 0;
-    min-height: 40px;
+    min-height: 36px;
     padding: 5px 3px;
     gap: 4px;
     border-radius: 14px;
