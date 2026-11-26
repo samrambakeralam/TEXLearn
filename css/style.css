@@ -1277,6 +1277,20 @@ a {
     transition: opacity 1s ease-in-out;
 }
 
+/* Android app — horizontal campaign poster transition */
+.texlearn-app #tkHeroCampaign a {
+    transform: translateX(100%);
+    transition: transform .55s ease;
+}
+
+.texlearn-app #tkHeroCampaign a.tk-campaign-active {
+    transform: translateX(0);
+}
+
+.texlearn-app #tkHeroCampaign a.tk-campaign-exit {
+    transform: translateX(-100%);
+}
+
 #tkHeroCampaign img {
     display: block;
     width: 100%;

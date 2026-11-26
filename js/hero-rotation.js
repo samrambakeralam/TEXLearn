@@ -364,7 +364,53 @@
 
         }
 
-        if (previousSlot && currentHeroView === "campaign") {
+               if (isAppMode) {
+
+            campaignSlots.forEach(slot => {
+                slot.link.classList.remove(
+                    "tk-campaign-active",
+                    "tk-campaign-exit"
+                );
+            });
+
+            nextSlot.link.hidden = false;
+
+            if (previousSlot) {
+                previousSlot.link.hidden = false;
+            }
+
+            requestAnimationFrame(() => {
+                requestAnimationFrame(() => {
+
+                    nextSlot.link.classList.add(
+                        "tk-campaign-active"
+                    );
+
+                    if (previousSlot) {
+                        previousSlot.link.classList.add(
+                            "tk-campaign-exit"
+                        );
+                    }
+
+                });
+            });
+
+            if (previousSlot) {
+
+                setTimeout(() => {
+
+                    previousSlot.link.hidden = true;
+
+                    previousSlot.link.classList.remove(
+                        "tk-campaign-active",
+                        "tk-campaign-exit"
+                    );
+
+                }, 550);
+
+            }
+
+        } else if (previousSlot && currentHeroView === "campaign") {
 
             nextSlot.link.style.opacity = "0";
 
