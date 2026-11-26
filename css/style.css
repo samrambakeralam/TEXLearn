@@ -2111,7 +2111,7 @@ a {
             none;
 
         position: relative;
-        aspect-ratio: 16 / 9;
+        aspect-ratio: 1.9 / 1;
         align-self: start;
         margin-left: 0;
         margin-right: 0;
@@ -2584,7 +2584,7 @@ a {
         product;
 
 
-        aspect-ratio: 16 / 9;
+        aspect-ratio: 1.9 / 1;
         align-self: start;
         width: 100%;
         margin-left: 0;
@@ -2609,8 +2609,6 @@ a {
     .rc2-hero-product > #rc2UnboxingStage {
         aspect-ratio: 16 / 9;
     }
-
-
 
     .rc2-unboxing-stage {
 
