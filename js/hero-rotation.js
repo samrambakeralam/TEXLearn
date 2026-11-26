@@ -15,7 +15,7 @@
     const HERO_CAMPAIGN_API =
         "https://script.google.com/macros/s/AKfycbxpv1gaF3-kNWsB6Zn5weUkaSPp92m1Yln3xkQ4f_wcKa7JahoaUyKid2BkkuvoEi_X/exec";
 
-    const POSTER_DURATION = 7000;
+    const POSTER_DURATION = 5000;
 
     const campaignBox =
         document.getElementById("tkHeroCampaign");

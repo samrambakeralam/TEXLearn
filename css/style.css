@@ -496,42 +496,21 @@ a {
    12. HERO INNER
 ========================================================= */
 
+
 .rc2-hero-inner {
+    position: relative;
+    z-index: 1;
 
-    position:
-        relative;
+    width: min(
+        calc(100% - 40px),
+        var(--rc2-container)
+    );
 
-    z-index:
-        1;
+    margin: 0 auto;
 
-    width:
-        min(
-            calc(100% - 40px),
-            var(--rc2-container)
-        );
-
-    margin:
-        0 auto;
-
-    display:
-        grid;
-
-    grid-template-columns:
-        1.05fr .95fr;
-
-    grid-template-rows:
-        auto;
-
-    align-items:
-        center;
-
-    column-gap:
-        60px;
-
-    row-gap:
-        0;
-
+    display: block;
 }
+
 
 
 /* =========================================================
@@ -804,157 +783,140 @@ a {
 
 
 
+
 /* =========================================================
-   20. HERO PRODUCT EXHIBITION
+   20. HERO CAMPAIGN CAROUSEL
 ========================================================= */
 
-
-/* ---------------------------------------------------------
-   PRODUCT CONTAINER
---------------------------------------------------------- */
-
+/* Campaign container */
 .rc2-hero-product {
-
-    grid-column:
-        2;
-
-    grid-row:
-        1;
-
-    min-height:
-        520px;
-
-    display:
-        flex;
-
-    align-items:
-        center;
-
-    justify-content:
-        center;
-
-    transform:
-        translateY(40px);
-
-    position:
-        relative;
-
-}
-
-
-/* =====================================================
-   TEXLEARN — SHARED HERO VIEW TRANSITIONS
-===================================================== */
-
-.tk-hero-view {
-    transition: opacity 1.5s cubic-bezier(0.4, 0, 0.2, 1);
-    will-change: opacity;
-}
-
-.tk-hero-view.tk-hero-fading {
-    opacity: 0;
-    pointer-events: none;
-}
-
-
-/* =====================================================
-   TEXLEARN — SHARED HERO VIEW POSITIONING
-===================================================== */
-
-.rc2-hero-product > #tkHeroCampaign {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    width: min(100%, 560px);
-    margin: 0;
-    box-sizing: border-box;
-    backface-visibility: hidden;
-    transform: translate(-50%, -50%);
-}
-
-/* Dynamic campaign view */
-.rc2-hero-product > #tkHeroCampaign {
-    height: 520px;
-    min-height: 520px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    overflow: hidden;
-    border-radius: 28px;
-    background: #07182D;
-}
-
-#tkHeroCampaign a {
-    position: absolute;
-    inset: 0;
-    opacity: 1;
     width: 100%;
-    height: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 12px;
-    box-sizing: border-box;
-    transition: opacity 1s ease-in-out;
-}
+    min-width: 0;
+    min-height: 0;
+    height: auto;
+    aspect-ratio: 5.4 / 1;
 
-/* Android app — horizontal campaign poster transition */
-.texlearn-app #tkHeroCampaign a {
-    transform: translateX(100%);
-    transition: transform .55s ease;
-}
-
-.texlearn-app #tkHeroCampaign a.tk-campaign-active {
-    transform: translateX(0);
-}
-
-.texlearn-app #tkHeroCampaign a.tk-campaign-exit {
-    transform: translateX(-100%);
-}
-
-#tkHeroCampaign img {
     display: block;
+    position: relative;
+
+    margin: 0;
+    padding: 0;
+
+    transform: none;
+}
+
+/* Campaign viewport */
+.rc2-hero-product > #tkHeroCampaign {
+    position: relative;
+    inset: auto;
+
     width: 100%;
     height: 100%;
-    object-fit: contain;
-    object-position: center;
+    min-height: 0;
+
+    display: block;
+    overflow: hidden;
+
+    margin: 0;
+    padding: 0;
+
+    aspect-ratio: 5 / 1;
+    box-sizing: border-box;
+
+    border-radius: 24px;
+    background: #FFFF;
+
+    transform: none;
 }
 
-/* Show only the active campaign image */
-/* Respect JavaScript image visibility */
-#tkHeroCampaign a[hidden] {
-    display: none !important;
-}
-
-
-/* Keep inactive views hidden */
+/* Keep inactive campaign views hidden */
 .tk-hero-view[hidden] {
     display: none !important;
 }
 
+/* Viewport */
+#tkHeroCampaign .tk-hero-viewport {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+}
+
+/* Sliding track */
+#tkHeroCampaign .tk-hero-track {
+    display: flex;
+    flex-direction: row;
+    align-items: stretch;
+
+    width: 100%;
+    height: 100%;
+
+    gap: 16px;
+
+    will-change: transform;
+    transition: transform 0.65s ease-in-out;
+}
+
+/* Desktop cards */
+#tkHeroCampaign .tk-hero-card {
+    display: block;
+    position: relative;
+
+    flex: 0 0 42.55%;
+    min-width: 0;
+    height: 100%;
+
+    overflow: hidden;
+    padding: 0;
+
+    box-sizing: border-box;
+    border-radius: 18px;
+    text-decoration: none;
+}
+
+/* Campaign artwork */
+#tkHeroCampaign .tk-hero-card img {
+    display: block;
+
+    width: 100%;
+    height: 100%;
+
+    object-fit: contain;
+    object-position: center;
+}
+
 /* =========================================================
-   22. TABLET
-   768px–900px
+   22. TABLET + PHONE CAROUSEL
+   Single banner up to 1100px
 ========================================================= */
 
-@media (min-width: 768px) and (max-width: 900px) {
+@media (max-width: 1100px) {
 
     .rc2-hero-product {
-
-        min-height: 480px;
-
+        width: 100%;
+        min-height: 0;
+        height: auto;
         aspect-ratio: 2.4 / 1;
-
     }
 
-
-    /* Shared hero views — tablet dimensions */
-    .rc2-hero-product > .tk-hero-view {
-        min-height: 480px;
-        height: 480px;
+    .rc2-hero-product > #tkHeroCampaign {
+        width: 100%;
+        height: 100%;
+        min-height: 0;
+        aspect-ratio: 2.4 / 1;
+        border-radius: 20px;
     }
 
+    #tkHeroCampaign .tk-hero-track {
+        gap: 0;
+    }
+
+    #tkHeroCampaign .tk-hero-card {
+        flex: 0 0 100%;
+        border-radius: 0;
+    }
 }
+
 
 
 /* =========================================================
@@ -1418,76 +1380,37 @@ a {
     }
 
 
+  
     .rc2-hero-inner {
-
-    width: calc(100% - 16px);
-    
-    display: grid;
-    border-radius: 24px;
-    overflow: hidden;
-        grid-template-columns: 1fr;
-
-     grid-template-areas:
-    "badge badge badge"
-    "heading heading heading"
-    "description description description"
-    "product product product";
-    
-
-        gap: 0px;    
-        text-align: center;      
-
+        width: calc(100% - 16px);
+        display: block;
+        border-radius: 24px;
+        overflow: hidden;
     }
 
     .rc2-hero-product {
-
-        grid-area:
-            product;
-
-        grid-column:
-            1;
-
-        grid-row:
-            auto;
-
+        display: block;
         width: 100%;
-        max-width: 100%;;
-
-        min-height:
-            0;
-
-        margin:
-            0 0 17px;
-
-        overflow:
-            hidden;
-
-        transform:
-            none;
-
+        max-width: 100%;
+        min-height: 0;
+        height: auto;
+        margin: 0 0 17px;
+        padding: 0;
+        overflow: hidden;
         position: relative;
         aspect-ratio: 2.4 / 1;
-        align-self: start;
-        margin-left: 0;
-        margin-right: 0;
+        transform: none;
         border-radius: 24px;
-}
+    }
 
-    /* Shared hero views — mobile dimensions and positioning */
     .rc2-hero-product > #tkHeroCampaign {
         position: absolute;
-        top: 0;
-        left: 0;
+        inset: 0;
         width: 100%;
         height: 100%;
         min-height: 0;
         transform: none;
         border-radius: inherit;
-    }
-
-    /* Book view keeps its own 16:9 content ratio */
-    .rc2-hero-product > #rc2UnboxingStage {
-        aspect-ratio: 16 / 9;
     }
 
    .rc2-hero-actions {
@@ -1699,83 +1622,37 @@ a {
     }
 
 
-   .rc2-hero-inner {
-
-    width:
-        calc(100% - 16px);
-
-    display: grid;
-     border-radius: 24px;
-    overflow: hidden;
-        
-
-    grid-template-columns:
-        1fr;
-
-  grid-template-areas:
-    "badge badge badge"
-    "heading heading heading"
-    "description description description"
-    "product product product";
    
+    .rc2-hero-inner {
+        width: calc(100% - 16px);
+        display: block;
+        border-radius: 24px;
+        overflow: hidden;
+    }
 
-    gap:
-        0px;
-
-    text-align:
-        center;
-
-}
-
-  .rc2-hero-product {
-
-    grid-column:
-        1;
-
-    grid-row:
-        auto;
-
-    width: 100%;
-
-    min-height:
-        0;
-
-    margin:
-        0 0 17px;
-
-    overflow:
-        hidden;
-
-    transform:
-        none;
-
-    grid-area:
-        product;
-
-
-        aspect-ratio: 2.3 / 1;
-        align-self: start;
+    .rc2-hero-product {
+        display: block;
         width: 100%;
-        margin-left: 0;
-        margin-right: 0;
-        border-radius: 22px;
-}
-
-    /* Shared hero views — mobile dimensions and positioning */
-    .rc2-hero-product > #tkHeroCampaign {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
+        max-width: 100%;
         min-height: 0;
+        height: auto;
+        margin: 0 0 17px;
+        padding: 0;
+        overflow: hidden;
+        position: relative;
+        aspect-ratio: 2.3 / 1;
         transform: none;
         border-radius: 22px;
     }
 
-    /* Book view keeps its own 16:9 content ratio */
-    .rc2-hero-product > #rc2UnboxingStage {
-        aspect-ratio: 16 / 9;
+    .rc2-hero-product > #tkHeroCampaign {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        min-height: 0;
+        transform: none;
+        border-radius: inherit;
     }
 
 /* Independent hero button section */
