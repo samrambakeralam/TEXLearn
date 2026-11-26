@@ -1393,97 +1393,61 @@ a {
         border-radius: inherit;
     }
 
-   .rc2-hero-actions {
+  /* Independent hero button section */
+
+.rc2-hero-actions {
     position: relative;
-    padding-top: 22px;
     display: grid;
     grid-template-columns: repeat(3, minmax(0, 1fr));
     align-items: stretch;
-    gap: 8px;
+    gap: 10px;
     width: calc(100% - 32px);
-    margin: 0 auto -4px;
+    padding: 14px;
+    margin: 0 auto 20px;
+    background: #ffffff;
+    border: 1px solid rgba(15, 23, 42, 0.06);
+    border-radius: 18px;
     box-sizing: border-box;
 }
 
-.rc2-icon-action {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: flex-start;
-    gap: 7px;
+/* Current quick-access buttons */
 
-    width: 100%;
-    padding: 0;
-
-    border: none;
-    background: transparent;
-    color: var(--rc2-navy);
-
-    font-family: "Inter", sans-serif;
-    text-decoration: none;
-    text-align: center;
-
-    cursor: pointer;
-    box-sizing: border-box;
-    -webkit-tap-highlight-color: transparent;
-
-    transition: transform .25s ease;
-}
-
-.rc2-icon-tile-label {
-    display: block;
-    width: 100%;
-
-    color: var(--rc2-navy);
-    font-size: 10px;
-    font-weight: 600;
-    line-height: .55;
-    text-align: center;
-}
-
-/* Subtle centred section divider */
-
-.rc2-hero-actions::before {
-    content: "";
-    position: absolute;
-
-    top: 0;
-    left: 50%;
-    transform: translateX(-50%);
-
-    width: 76%;
-    height: 1px;
-
-    background: linear-gradient(
-        90deg,
-        transparent 0%,
-        rgba(148, 163, 184, 0.12) 15%,
-        rgba(148, 163, 184, 0.38) 50%,
-        rgba(148, 163, 184, 0.12) 85%,
-        transparent 100%
-    );
-}
-
-.rc2-icon-tile-visual {
-    width: 64px;
-    height: 64px;
+.rc2-quick-action {
     display: flex;
     align-items: center;
     justify-content: center;
-
-    background: #102D50;
-    border: 1px solid rgba(34, 197, 94, 0.35);
-    border-radius: 17px;
-
-    box-shadow:
-        0 5px 14px rgba(0, 0, 0, 0.22),
-        inset 0 1px 2px rgba(255, 255, 255, 0.10);
+    flex: initial;
+    width: 100%;
+    min-width: 0;
+    min-height: 52px;
+    padding: 8px 6px;
+    gap: 6px;
+    border-radius: 8px;
+    font-size: 10px;
+    box-sizing: border-box;
 }
 
-.rc2-icon-tile-visual img {
-    width: 90%;
-    height: 90%;
+.rc2-quick-icon {
+    width: 22px;
+    height: 22px;
+    flex: 0 0 22px;
+}
+
+.rc2-quick-icon img {
+    width: 100%;
+    height: 100%;
     object-fit: contain;
+}
+
+.rc2-quick-label {
+    display: block;
+    font-size: 10px;
+    line-height: 1.1;
+    white-space: nowrap;
+}
+
+.rc2-hero-actions::before {
+    display: none;
 }
 
     /* Mobile menu */
