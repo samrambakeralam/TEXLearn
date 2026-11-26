@@ -1480,8 +1480,9 @@ a {
 
     .rc2-hero-product {
 
-        min-height:
-            480px;
+        min-height: 480px;
+
+        aspect-ratio: 2.4 / 1;
 
     }
 
@@ -2111,7 +2112,7 @@ a {
             none;
 
         position: relative;
-        aspect-ratio: 1.9 / 1;
+        aspect-ratio: 2.4 / 1;
         align-self: start;
         margin-left: 0;
         margin-right: 0;
@@ -2584,7 +2585,7 @@ a {
         product;
 
 
-        aspect-ratio: 1.9 / 1;
+        aspect-ratio: 2.3 / 1;
         align-self: start;
         width: 100%;
         margin-left: 0;
