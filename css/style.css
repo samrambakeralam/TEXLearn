@@ -1422,7 +1422,7 @@ a {
     min-height: 52px;
     padding: 8px 6px;
     gap: 6px;
-    border-radius: 8px;
+    border-radius: 14px;
     font-size: 10px;
     box-sizing: border-box;
 }
@@ -1628,7 +1628,7 @@ a {
     min-height: 48px;
     padding: 7px 4px;
     gap: 5px;
-    border-radius: 8px;
+    border-radius: 14px;
     font-size: 9px;
     box-sizing: border-box;
 }
