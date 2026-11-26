@@ -679,7 +679,7 @@ const hubItems = [
             "assets/texlearn-android-banner.webp",
 
         imageFit:
-            "cover"
+            "contain"
     }
 
 ];
