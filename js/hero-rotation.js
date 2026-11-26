@@ -12,15 +12,9 @@
         "https://script.google.com/macros/s/AKfycbxpv1gaF3-kNWsB6Zn5weUkaSPp92m1Yln3xkQ4f_wcKa7JahoaUyKid2BkkuvoEi_X/exec";
 
     const POSTER_DURATION = 7000;
-    const BOOK_DURATION = 15000;
-    const FIRST_BOOK_DURATION = 20000;
-    const FADE_DURATION = 1500;
 
     const isAppMode =
         document.documentElement.classList.contains("texlearn-app");
-
-    const bookStage =
-        document.getElementById("rc2UnboxingStage");
 
     const campaignBox =
         document.getElementById("tkHeroCampaign");
@@ -36,107 +30,28 @@
         }
     ];
 
-    if (
-        !campaignBox ||
-        campaignSlots.some(slot => !slot.link || !slot.image) ||
-        (!isAppMode && !bookStage)
-    ) {
-        console.warn(
-            "TEXLearn hero: Required hero elements not found."
-        );
-        return;
-    }
-
-    const views = {
-        book: bookStage,
-        campaign: campaignBox
-    };
+  if (
+    !campaignBox ||
+    campaignSlots.some(slot => !slot.link || !slot.image)
+) {
+    console.warn(
+        "TEXLearn hero: Required hero elements not found."
+    );
+    return;
+}
 
     let currentHeroView = null;
     let rotationTimer = null;
-    let transitionTimer = null;
-    let isTransitioning = false;
 
     let campaignImages = [];
     let campaignLoadPromise = null;
     let activeSlotIndex = -1;
 
-    /* -----------------------------------------
-       HERO VIEW TRANSITION
-    ----------------------------------------- */
-
-    function fadeToView(nextView) {
-
-        const incoming = views[nextView];
-
-        if (!incoming) return;
-
-        if (isTransitioning) return;
-
-        if (currentHeroView === nextView) {
-            incoming.hidden = false;
-            return;
-        }
-
-        const outgoing = views[currentHeroView];
-
-        if (!outgoing) {
-
-            incoming.hidden = false;
-            incoming.classList.remove("tk-hero-fading");
-
-            currentHeroView = nextView;
-
-            return;
-        }
-
-        isTransitioning = true;
-
-        incoming.hidden = false;
-        incoming.classList.add("tk-hero-fading");
-
-        requestAnimationFrame(() => {
-            requestAnimationFrame(() => {
-
-                outgoing.classList.add("tk-hero-fading");
-                incoming.classList.remove("tk-hero-fading");
-
-                transitionTimer = setTimeout(() => {
-
-                    outgoing.hidden = true;
-                    outgoing.classList.remove("tk-hero-fading");
-
-                    currentHeroView = nextView;
-                    isTransitioning = false;
-                    transitionTimer = null;
-
-                }, FADE_DURATION);
-
-            });
-        });
-    }
-
-    /* -----------------------------------------
-       BOOK VIEW — WEBSITE ONLY
-    ----------------------------------------- */
-
-    function showBook(duration = BOOK_DURATION) {
-
-        if (isAppMode || !bookStage) return;
-
-        clearTimeout(rotationTimer);
-        rotationTimer = null;
-
-        campaignSlots.forEach(slot => {
-            slot.link.hidden = true;
-        });
-
-        fadeToView("book");
-
-        rotationTimer = setTimeout(() => {
-            showCampaignImage(0);
-        }, duration);
-    }
+ function fadeToView() {
+    campaignBox.hidden = false;
+    campaignBox.classList.remove("tk-hero-fading");
+    currentHeroView = "campaign";
+}
 
     /* -----------------------------------------
        LOAD CAMPAIGN POSTERS
@@ -279,54 +194,43 @@
         clearTimeout(rotationTimer);
         rotationTimer = null;
 
-        if (!campaignImages.length) {
+      if (!campaignImages.length) {
+    campaignBox.hidden = true;
+    return;
+}
 
-            if (!isAppMode) {
-                showBook();
-            }
-
-            return;
-        }
-
-        if (index >= campaignImages.length) {
-
-            if (isAppMode) {
-                index = 0;
-            } else {
-                showBook();
-                return;
-            }
-
-        }
+      if (index >= campaignImages.length) {
+    index = 0;
+}
 
         const item = campaignImages[index];
 
         const imageUsable =
             await isCampaignImageUsable(item);
 
-        if (!imageUsable) {
+     if (!imageUsable) {
 
-            console.warn(
-                "Hero campaign image failed to load:",
-                item.imageUrl
-            );
+    console.warn(
+        "Hero campaign image failed to load:",
+        item.imageUrl
+    );
 
-            campaignImages.splice(index, 1);
+    campaignImages.splice(index, 1);
 
-            if (campaignImages.length) {
+    if (campaignImages.length) {
 
-                showCampaignImage(
-                    Math.min(index, campaignImages.length - 1)
-                );
+        showCampaignImage(
+            Math.min(index, campaignImages.length - 1)
+        );
 
-            } else if (!isAppMode) {
+    } else {
 
-                showBook();
+        campaignBox.hidden = true;
 
-            }
+    }
 
-            return;
-        }
+    return;
+}
 
         const nextSlotIndex =
             activeSlotIndex === 0 ? 1 : 0;
@@ -447,7 +351,7 @@
 
         activeSlotIndex = nextSlotIndex;
 
-        fadeToView("campaign");
+        fadeToView();
 
         rotationTimer = setTimeout(() => {
 
@@ -470,40 +374,17 @@
     campaignBox.hidden = true;
     campaignBox.classList.remove("tk-hero-fading");
 
-    if (bookStage) {
-
-        bookStage.classList.remove("tk-hero-fading");
-
-        if (isAppMode) {
-            bookStage.hidden = true;
-        } else {
-            bookStage.hidden = false;
-        }
-
-    }
-
     currentHeroView = null;
 
     loadHeroCampaign().then(() => {
 
-        if (campaignImages.length) {
+    if (campaignImages.length) {
+        showCampaignImage(0);
+    } else {
+        campaignBox.hidden = true;
+        console.warn("TEXLearn hero: No active campaign images.");
+    }
 
-            if (isAppMode) {
-
-                showCampaignImage(0);
-
-            } else {
-
-                showBook(FIRST_BOOK_DURATION);
-
-            }
-
-        } else if (!isAppMode) {
-
-            showBook(FIRST_BOOK_DURATION);
-
-        }
-
-    });
+});
 
 })();
