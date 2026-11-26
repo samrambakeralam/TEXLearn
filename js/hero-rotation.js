@@ -12,8 +12,8 @@
         "https://script.google.com/macros/s/AKfycbxpv1gaF3-kNWsB6Zn5weUkaSPp92m1Yln3xkQ4f_wcKa7JahoaUyKid2BkkuvoEi_X/exec";
 
     const POSTER_DURATION = 7000;
-    const BOOK_DURATION = 20000;
-    const FIRST_BOOK_DURATION = 30000;
+    const BOOK_DURATION = 15000;
+    const FIRST_BOOK_DURATION = 20000;
     const FADE_DURATION = 1500;
 
     const isAppMode =
