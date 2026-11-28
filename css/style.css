@@ -1495,7 +1495,7 @@ a {
     .rc2-global-search-box input {
         width: 100%;
         min-width: 0;
-        height: 40px;
+        height: 32px;
         padding: 0;
 
         border: none;
