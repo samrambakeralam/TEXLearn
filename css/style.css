@@ -10665,3 +10665,12 @@ body.about-page-exit {
 
 }
 
+/* =========================================================
+   TEXLEARN ANDROID APP — HIDE WEBSITE MOBILE MENU
+========================================================= */
+
+.texlearn-app .rc2-menu-button,
+.texlearn-app .rc2-mobile-menu {
+    display: none !important;
+}
+
