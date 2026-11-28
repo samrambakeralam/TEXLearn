@@ -1439,16 +1439,20 @@ a {
     margin-left: auto;
     }
 
+    .rc2-header.search-collapsed .rc2-notification-button {
+    margin-left: 0;
+    }
+
       .rc2-header.search-collapsed .rc2-menu-button {
         margin-left: 0;
     }
 
     .rc2-notification-button {
-        margin-left: 0;
+         margin-left: auto;
     }
 
     .rc2-menu-button {
-        margin-left: auto;
+        margin-left: 0;
         flex-shrink: 0;
     }
 
