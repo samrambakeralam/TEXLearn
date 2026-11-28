@@ -906,6 +906,16 @@ a {
 
 @media (max-width: 900px) {
 
+    /* MOBILE LOGO VISIBILITY */
+
+.rc2-logo-desktop {
+    display: none;
+}
+
+.rc2-logo-mobile {
+    display: inline-flex;
+}
+
     /* -----------------------------------------
        MOBILE HEADER
     ----------------------------------------- */
