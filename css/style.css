@@ -1474,8 +1474,8 @@ a {
 
     .rc2-global-search-box {
         width: 100%;
-        height: 34px;
-        min-height: 34px;
+        height: 36px;
+        min-height: 36px;
         display: flex;
         align-items: center;
         gap: 10px;
