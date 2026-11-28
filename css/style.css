@@ -16,6 +16,7 @@
     --rc2-navy-dark: #07182D;
     --rc2-green: #16A34A;
     --rc2-green-dark: #0A8754;
+    --rc2-mobile-header-bg: #FFFFFF;
 
     /* Backgrounds */
     --rc2-white: #FFFFFF;
@@ -909,17 +910,9 @@ a {
        MOBILE HEADER
     ----------------------------------------- */
 
-    .rc2-header {
-
-        background:
-            linear-gradient(
-                135deg,
-                #F4FBF6 0%,
-                #EAF7EE 50%,
-                #F8FCF9 100%
-            );
-
-    }
+   .rc2-header {
+    background: var(--rc2-mobile-header-bg);
+}
 
 
     .rc2-header-inner {
@@ -939,6 +932,32 @@ a {
             44px;
 
     }
+
+    /* MOBILE LOGO CONTAINER */
+
+.rc2-logo-box {
+    width: 50px;
+    height: 50px;
+    padding: 5px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background: #FFFFFF;
+    border: 1px solid rgba(15, 23, 42, 0.12);
+    border-radius: 13px;
+
+    box-shadow: 0 2px 7px rgba(15, 23, 42, 0.08);
+
+    flex-shrink: 0;
+}
+
+.rc2-logo-box .rc2-logo {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
 
 
     /* -----------------------------------------

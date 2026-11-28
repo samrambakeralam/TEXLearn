@@ -346,8 +346,6 @@ function initialiseDynamicHeader() {
        SCROLL BEHAVIOUR
     --------------------------------------- */
 
-    let lastScrollY = window.scrollY;
-
     let ticking = false;
 
 
@@ -368,54 +366,6 @@ function initialiseDynamicHeader() {
             header.classList.remove("is-scrolled");
 
         }
-
-
-        
-/* ---------------------------------------
-   HIDE / SHOW HEADER
---------------------------------------- */
-
-const scrollDifference =
-    currentScrollY - lastScrollY;
-
-const scrollThreshold = 5;
-
-
-/* Always show at top */
-
-if (currentScrollY <= 20) {
-
-    header.classList.remove("is-hidden");
-
-}
-
-
-/* Scrolling DOWN */
-
-else if (
-    scrollDifference > scrollThreshold &&
-    currentScrollY > 100
-) {
-
-    header.classList.add("is-hidden");
-
-
-}
-
-
-/* Scrolling UP */
-
-else if (
-    scrollDifference < -scrollThreshold
-) {
-
-    header.classList.remove("is-hidden");
-
-}
-
-
-lastScrollY =
-    Math.max(currentScrollY, 0);
 
 ticking = false;
 
