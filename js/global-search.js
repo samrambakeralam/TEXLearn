@@ -63,6 +63,12 @@ document.addEventListener("DOMContentLoaded", function () {
         passive: true
     });
 
+    if (/TEXLearnAndroid\/1\.0/i.test(navigator.userAgent)) {
+    document.addEventListener("scroll", function () {
+        console.log("ANDROID DOCUMENT SCROLL:", window.scrollY);
+    }, { passive: true, capture: true });
+}
+
     updateSearchHeader();
 
 });
