@@ -124,6 +124,28 @@
             Get Started
         </button>
 
+                <!-- Global Search Toggle -->
+        <button
+            class="rc2-global-search-toggle"
+            id="rc2GlobalSearchToggle"
+            type="button"
+            aria-label="Open global search"
+            aria-expanded="true"
+            aria-controls="rc2GlobalSearchRow"
+        >
+            <i data-lucide="search"></i>
+        </button>
+
+        <!-- Notification Bell -->
+        <button
+            class="rc2-notification-button"
+            id="rc2NotificationButton"
+            type="button"
+            aria-label="Notifications"
+        >
+            <i data-lucide="bell"></i>
+        </button>
+
         <!-- Mobile Menu -->
         <button
             class="rc2-menu-button"
@@ -135,6 +157,30 @@
             <i data-lucide="menu"></i>
         </button>
 
+    </div>
+
+        <!-- GLOBAL SEARCH ROW -->
+    <div
+        class="rc2-global-search-row"
+        id="rc2GlobalSearchRow"
+    >
+        <div class="rc2-global-search-box">
+            <i data-lucide="search"></i>
+
+            <input
+                type="search"
+                id="rc2GlobalSearchInput"
+                placeholder="Search books, topics, stories and more..."
+                autocomplete="off"
+                aria-label="Search TEXLearn"
+            >
+        </div>
+
+        <div
+            class="rc2-global-search-results"
+            id="rc2GlobalSearchResults"
+            hidden
+        ></div>
     </div>
 
 </header>

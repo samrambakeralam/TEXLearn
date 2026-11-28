@@ -121,6 +121,16 @@ a {
 
 }
 
+/* =========================================================
+   GLOBAL SEARCH — DESKTOP HIDDEN BY DEFAULT
+========================================================= */
+
+.rc2-global-search-toggle,
+.rc2-notification-button,
+.rc2-global-search-row {
+    display: none;
+}
+
 
 /* =========================================================
    3. HEADER INNER
@@ -1378,6 +1388,130 @@ a {
 
     }
 
+        /* -----------------------------------------
+       MOBILE HEADER ACTION BUTTONS
+    ----------------------------------------- */
+
+    .rc2-header-inner {
+        gap: 8px;
+    }
+
+    .rc2-global-search-toggle,
+    .rc2-notification-button {
+        width: 36px;
+        min-width: 36px;
+        height: 36px;
+        min-height: 36px;
+        padding: 0;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        border: 1px solid var(--rc2-border);
+        border-radius: 12px;
+
+        background: #FFFFFF;
+        color: var(--rc2-navy);
+
+        cursor: pointer;
+        flex-shrink: 0;
+    }
+
+    .rc2-global-search-toggle {
+        margin-left: auto;
+    }
+
+    .rc2-notification-button {
+        margin-left: 0;
+    }
+
+    .rc2-menu-button {
+        margin-left: 0;
+        flex-shrink: 0;
+    }
+
+    .rc2-global-search-toggle svg,
+    .rc2-notification-button svg {
+        width: 18px;
+        height: 18px;
+    }
+
+
+    /* -----------------------------------------
+       MOBILE GLOBAL SEARCH ROW
+    ----------------------------------------- */
+
+    .rc2-global-search-row {
+        display: block;
+        position: relative;
+        width: calc(100% - 28px);
+        margin: 0 auto;
+        padding: 0 0 10px;
+        box-sizing: border-box;
+    }
+
+    .rc2-global-search-box {
+        width: 100%;
+        min-height: 42px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+
+        padding: 0 13px;
+        box-sizing: border-box;
+
+        background: #F8FAFC;
+        border: 1px solid rgba(15, 23, 42, 0.12);
+        border-radius: 12px;
+    }
+
+    .rc2-global-search-box svg {
+        width: 18px;
+        height: 18px;
+        flex-shrink: 0;
+        color: var(--rc2-navy);
+    }
+
+    .rc2-global-search-box input {
+        width: 100%;
+        min-width: 0;
+        height: 40px;
+        padding: 0;
+
+        border: none;
+        outline: none;
+        background: transparent;
+
+        color: var(--rc2-navy);
+        font-family: inherit;
+        font-size: 13px;
+    }
+
+    .rc2-global-search-box input::placeholder {
+        color: #64748B;
+    }
+
+    .rc2-global-search-results {
+        position: absolute;
+        top: calc(100% - 5px);
+        left: 0;
+        right: 0;
+        z-index: 6100;
+
+        max-height: 60vh;
+        overflow-y: auto;
+
+        background: #FFFFFF;
+        border: 1px solid rgba(15, 23, 42, 0.12);
+        border-radius: 12px;
+        box-shadow: 0 12px 30px rgba(15, 23, 42, 0.14);
+    }
+
+    .rc2-global-search-results[hidden] {
+        display: none !important;
+    }
+
 }
 
 
@@ -1390,7 +1524,7 @@ a {
 
     .rc2-hero {
 
-    padding: 72px 0 22px;
+    padding: 116px 0 22px;
 
     }
 
@@ -1597,7 +1731,7 @@ a {
 
     .rc2-hero {
 
-    padding: 72px 0 22px;
+    padding: 116px 0 22px;
 
     }
 
